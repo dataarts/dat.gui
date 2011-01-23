@@ -77,7 +77,9 @@ var GUI = new function() {
 	};
 	
 	var error = function(str) {
-		console.error("[GUI ERROR] " + str);
+		if (typeof console.log == 'function') {
+			console.error("[GUI ERROR] " + str);
+		}
 	}
 	
 };
