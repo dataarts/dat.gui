@@ -1,23 +1,37 @@
 var GUI = new function() {
-
 	
 	// Contains list of properties we've add to the GUI in the following format:
-	// [object, propertyName, controllerDomElement]
+	// [object, propertyName, controllerObject]
 	var registeredProperties = [];
 	
 	var domElement;
+	var controllerContainer;
 	var started = false;
+	
 	this.start = function() {
 		
 		domElement = document.createElement('div');
 		domElement.setAttribute('id', 'guidat');
 		
+		controllerContainer = document.createElement('div');
+		controllerContainer.setAttribute('id', 'guidat-controllers');
+		
+		toggleButton = document.createElement('a');
+		toggleButton.setAttribute('id', 'guidat-toggle');
+		toggleButton.innerHTML = "Show Controls";
+		
+		
+		domElement.appendChild(controllerContainer);
+		
+		
+		document.body.appendChild(domElement);
 		
 		started = true;
 	}
 	
 	this.add = function() {
 	
+		// We need to call GUI.start() before .add()
 		if (!started) {
 			error("Make sure to call GUI.start() in the window.onload function");
 			return;
@@ -25,6 +39,12 @@ var GUI = new function() {
 	
 		var object = arguments[0];
 		var propertyName = arguments[1];
+	
+		// Have we already added this?
+		if (registeredPropertiesContains(object, propertyName)) {
+			error("Controller for \"" + propertyName+"\" already added.");
+			return;
+		}
 	
 		var value = object[propertyName];
 		
@@ -43,16 +63,17 @@ var GUI = new function() {
 			return;
 		}
 	
-		var controllerDomElement = handler.apply(this, arguments);
+		var controllerObject = handler.apply(this, arguments);
 		
 		// Were we able to make the controller?
-		if (!controllerDomElement) {		
+		if (!controllerObject) {		
 			error("Error creating controller for \""+propertyName+"\".");	
 			return;
 		}
 		
 		// Success.
-		registeredProperties.push([object, propertyName, controllerDomElement]);			
+		controllerContainer.appendChild(controllerObject.domElement);
+		registeredProperties.push([object, propertyName, controllerObject]);
 		
 	}
 	
@@ -76,10 +97,15 @@ var GUI = new function() {
 		
 	};
 	
+	var registeredPropertiesContains = function(object, property) {
+		// TODO:
+		return false;
+	};
+	
 	var error = function(str) {
 		if (typeof console.log == 'function') {
 			console.error("[GUI ERROR] " + str);
 		}
-	}
+	};
 	
 };
