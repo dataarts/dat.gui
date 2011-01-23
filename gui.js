@@ -1,34 +1,11 @@
 var GUI = new function() {
+
+	var _this = this;
 	
 	// Contains list of properties we've add to the GUI in the following format:
 	// [object, propertyName, controllerObject]
 	var registeredProperties = [];
-	
-	var domElement;
-	var controllerContainer;
-	var started = false;
-	
-	this.start = function() {
-		
-		domElement = document.createElement('div');
-		domElement.setAttribute('id', 'guidat');
-		
-		controllerContainer = document.createElement('div');
-		controllerContainer.setAttribute('id', 'guidat-controllers');
-		
-		toggleButton = document.createElement('a');
-		toggleButton.setAttribute('id', 'guidat-toggle');
-		toggleButton.innerHTML = "Show Controls";
-		
-		
-		domElement.appendChild(controllerContainer);
-		
-		
-		document.body.appendChild(domElement);
-		
-		started = true;
-	}
-	
+
 	this.add = function() {
 	
 		// We need to call GUI.start() before .add()
@@ -106,6 +83,57 @@ var GUI = new function() {
 		if (typeof console.log == 'function') {
 			console.error("[GUI ERROR] " + str);
 		}
+	};
+
+
+
+	// GUI ... GUI
+	
+	var domElement;
+	var controllerContainer;
+	var started = false;
+	var open = false;
+	
+	this.start = function() {
+		
+		domElement = document.createElement('div');
+		domElement.setAttribute('id', 'guidat');
+		
+		controllerContainer = document.createElement('div');
+		controllerContainer.setAttribute('id', 'guidat-controllers');
+		
+		toggleButton = document.createElement('a');
+		toggleButton.setAttribute('id', 'guidat-toggle');
+		toggleButton.setAttribute('href', '#');
+		toggleButton.innerHTML = "Show Controls";
+		toggleButton.addEventListener('click', function(e) {
+			_this.toggle();
+			e.preventDefault();
+		}, false);
+		
+		domElement.appendChild(controllerContainer);
+		domElement.appendChild(toggleButton);
+		
+		document.body.appendChild(domElement);
+		
+		started = true;
+		
+	};
+	
+	this.toggle = function() {
+		
+		if (open) {
+		
+			// Close the menu.
+			open = false;
+
+		} else { 
+		
+			// Open the menu.
+			open = true;
+			
+		}
+		
 	};
 	
 };

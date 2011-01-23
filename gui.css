@@ -1,0 +1,20 @@
+#guidat { 
+position: absolute;
+border: 1px solid red;
+width: 300px;
+z-index: 200;
+top: 0;
+left: 100%;
+margin-left: -320px;
+}
+
+#guidat-controllers { 
+height: 300px;
+overflow-y: scroll;
+}
+
+#guidat-toggle { 
+text-align: center;
+display: block;
+padding: 5px;
+}
