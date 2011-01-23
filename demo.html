@@ -8,17 +8,27 @@ var controllableObject =
 		"numberProperty": 20,
 		"anotherNumberProperty": 0,
 		"textProperty": "a string",
-		"booleanProperty": false
+		"booleanProperty": false,
+		"functionProperty": function() {
+			alert("hi");
+		},
 	};
-	
 
-	
-	/*
-GUI.number(controllableObject, "numberProperty");
-GUI.number(controllableObject, "anotherNumberProperty", -100, 100);
-GUI.text(controllableObject, "textProperty");
-GUI.boolean(controllableObject, "booleanProperty");
-*/
+// Creates a number box
+GUI.add(controllableObject, "numberProperty");
+
+// Creates a slider (min, max)
+GUI.add(controllableObject, "anotherNumberProperty", -100, 100);
+
+// Creates a text field
+GUI.add(controllableObject, "textProperty");
+
+// Creates a checkbox
+GUI.add(controllableObject, "booleanProperty");
+
+// Creates a button
+GUI.add(controllableObject, "functionProperty");
+
 </script>
 </head>
 <body>
