@@ -6,6 +6,9 @@ z-index: 200;
 top: 0;
 left: 100%;
 margin-left: -320px;
+-moz-transition: margin-top .2s ease-out;
+-webkit-transition: margin-top .2s ease-out;
+transition: margin-top .2s ease-out;
 }
 
 #guidat-controllers { 

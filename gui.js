@@ -94,6 +94,9 @@ var GUI = new function() {
 	var started = false;
 	var open = false;
 	
+	// TODO: obtain this dynamically?
+	var domElementMarginTop = 301;
+	
 	this.start = function() {
 		
 		domElement = document.createElement('div');
@@ -114,6 +117,8 @@ var GUI = new function() {
 		domElement.appendChild(controllerContainer);
 		domElement.appendChild(toggleButton);
 		
+		domElement.style.marginTop = -domElementMarginTop+"px";
+		
 		document.body.appendChild(domElement);
 		
 		started = true;
@@ -123,13 +128,14 @@ var GUI = new function() {
 	this.toggle = function() {
 		
 		if (open) {
-		
-			// Close the menu.
+			domElement.style.marginTop = -domElementMarginTop+"px";
+			toggleButton.innerHTML = "Show Controls";
 			open = false;
 
 		} else { 
 		
-			// Open the menu.
+			domElement.style.marginTop = 0+"px";
+			toggleButton.innerHTML = "Hide Controls";
 			open = true;
 			
 		}
