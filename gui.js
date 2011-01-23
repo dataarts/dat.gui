@@ -10,6 +10,7 @@ var GUI = new function() {
 		var type = typeof value;
 		var handler = addHandlers[type];
 		if (handler) {
+		    log(property.toString() + " is a " + type + " based GUI object");
 		} else { 
 			log("I don't know how to handle data type: " + type);
 		}
@@ -38,7 +39,6 @@ var GUI = new function() {
 	
 };
 
-// Now we don't need to worry about console.log
 var log = function(item) { 
     if(typeof console.log == 'function')
         console.log(item);
