@@ -11,7 +11,7 @@ var GUI = new function() {
 		var handler = addHandlers[type];
 		if (handler) {
 		} else { 
-			console.error("I don't know how to handle data type: " + type);
+			log("I don't know how to handle data type: " + type);
 		}
 		
 	}
@@ -36,4 +36,11 @@ var GUI = new function() {
 		
 	};
 	
+};
+
+// Now we don't need to worry about console.log
+var log = function(item) { 
+    if(window.console) 
+        if(trim(window.console.firebug) != '') 
+            console.info(item); 
 };
