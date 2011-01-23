@@ -40,7 +40,6 @@ var GUI = new function() {
 
 // Now we don't need to worry about console.log
 var log = function(item) { 
-    if(window.console) 
-        if(trim(window.console.firebug) != '') 
-            console.info(item); 
+    if(typeof console.log == 'function')
+        console.log(item);
 };
