@@ -1,16 +1,6 @@
 var GUI = new function() {
 
 
-	
-	var addHandlers = {
-		
-		"number": function() {
-			//
-		}
-		
-	}
-	
-
 	this.add = function() {
 	
 		var object = arguments[0];
@@ -18,13 +8,32 @@ var GUI = new function() {
 	
 		var value = object[property];
 		var type = typeof value;
-		
-		if (addHandlers[type]) {
-			
+		var handler = addHandlers[type];
+		if (handler) {
 		} else { 
-			// don't know how to handle this data type
+			console.error("I don't know how to handle data type: " + type);
 		}
 		
 	}
+	
+	var addHandlers = {
+		
+		"number": function() {
+			//
+		},
+		
+		"string": function() {
+			//
+		},
+		
+		"boolean": function() {
+			//
+		},
+		
+		"function": function() {
+			//
+		},
+		
+	};
 	
 };
