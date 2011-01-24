@@ -9,7 +9,7 @@ var NumberController = function() {
     var _this = this;
     
     this.isClicked = false;
-    this.py = this.y = 0;
+    this.py = this.y = this.initialValue = this.object[this.propertyName];
     this.inc = 0;
     
     // Get min and max
@@ -30,7 +30,7 @@ var NumberController = function() {
         
         var val = parseFloat(_this.button.value);
         if(isNaN(val)) {
-            _this.inc = 0;
+            _this.inc = _this.initialValue;
         } else {
             _this.inc = val;
         }
@@ -72,6 +72,9 @@ var NumberController = function() {
         _this.inc = val;
         _this.button.value = _this.inc;
         _this.setValue(_this.inc);
+        // possibly push to an array here so that
+        // we have a record of "defined" / "presets"
+        // ????
     });
 };
 

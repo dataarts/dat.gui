@@ -8,27 +8,26 @@ var StringController = function() {
     
     var input = document.createElement('input');
     
-    input.setAttribute('value', this.object[this.propertyName]);
+    var initialValue = this.getValue();
+    
+    input.setAttribute('value', initialValue);
     this.domElement.addEventListener('mouseup', function() {
     	input.focus();
     	input.select();
     }, false);
     
     input.addEventListener('keyup', function() {
-    	console.log(input.value);
-    	_this.setValue(input.value);
+        _this.setValue(input.value);
     }, false);
     
-    this.domElement.appendChild(input);
-    
-    input.onfocus = function(e) {
-        if(_this.contents == _this.object[_this.propertyName]) {
-            contents = "";
-            _this.input.setAttribute('value', contents);
+    input.onblur = function(e) {
+        if(_this.getValue() == '') {
+            _this.setValue(initialValue);
+            this.value = initialValue;
         }
     };
-    input.onblur = function(e) {
-    };
+    
+    this.domElement.appendChild(input);
 };
 StringController.prototype = new Controller();
 StringController.prototype.constructor = StringController;

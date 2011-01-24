@@ -8,6 +8,10 @@ var Controller = function() {
     	this.object[this.propertyName] = n;
     }
     
+    this.getValue = function() {
+        return this.object[this.propertyName];
+    }
+    
     this.domElement = document.createElement('div');
     this.domElement.setAttribute('class', 'guidat-controller ' + this.type);
 
