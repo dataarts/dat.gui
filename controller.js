@@ -1,8 +1,13 @@
 var Controller = function() {
 
-    this.name = function(n) {
+    this.setName = function(n) {
   	    this.propertyNameElement.innerHTML = n;
     }
+    
+    this.setValue = function(n) {
+    	this.object[this.propertyName] = n;
+    }
+    
     this.domElement = document.createElement('div');
     this.domElement.setAttribute('class', 'guidat-controller ' + this.type);
 
@@ -11,7 +16,7 @@ var Controller = function() {
     
     this.propertyNameElement = document.createElement('span');
     this.propertyNameElement.setAttribute('class', 'guidat-propertyname');
-    this.name(this.propertyName);
+    this.setName(this.propertyName);
     this.domElement.appendChild(this.propertyNameElement);
     
     

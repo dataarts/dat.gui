@@ -2,9 +2,7 @@ var GUI = new function() {
 
 	var _this = this;
 	
-	// Contains list of properties we've add to the GUI in the following format:
-	// [object, propertyName, controllerObject]
-	var registeredProperties = [];
+	var controllers = [];
 
 	this.add = function() {
 	
@@ -18,7 +16,7 @@ var GUI = new function() {
 		var propertyName = arguments[1];
 	
 		// Have we already added this?
-		if (registeredPropertiesContains(object, propertyName)) {
+		if (alreadyControlled(object, propertyName)) {
 			error("Controller for \"" + propertyName+"\" already added.");
 			return;
 		}
@@ -50,7 +48,7 @@ var GUI = new function() {
 		
 		// Success.
 		controllerContainer.appendChild(controllerObject.domElement);
-		registeredProperties.push([object, propertyName, controllerObject]);
+		controllers.push(controllerObject);
 		
 		return controllerObject;
 		
@@ -76,8 +74,13 @@ var GUI = new function() {
 		
 	};
 	
-	var registeredPropertiesContains = function(object, property) {
-		// TODO:
+	var alreadyControlled = function(object, propertyName) {
+		for (var i in controllers) {
+			if (controllers[i].object == object &&
+				controllers[i].propertyName == propertyName) {
+				return true;
+			}
+		}
 		return false;
 	};
 	
@@ -138,13 +141,9 @@ var GUI = new function() {
 	this.toggle = function() {
 		
 		if (open) {
-		
 			this.hide();
-			
 		} else { 
-		
 			this.show();
-			
 		}
 		
 	};
@@ -160,4 +159,5 @@ var GUI = new function() {
 		toggleButton.innerHTML = "Show Controls";
 		open = false;
 	}
+	
 };
