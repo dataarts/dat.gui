@@ -99,7 +99,7 @@ var GUI = new function() {
 	var open = false;
 	
 	// TODO: obtain this dynamically?
-	var domElementMarginTop = 301;
+	var domElementMarginTop = 300;
 	
 	this.start = function() {
 		
