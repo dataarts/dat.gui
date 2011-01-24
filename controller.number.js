@@ -9,6 +9,7 @@ var NumberController = function() {
     var _this = this;
     
     var isClicked = false;
+    var isDragged = false;
     var y, py, initialValue, inc;
     
     py = y = 0;
@@ -25,8 +26,19 @@ var NumberController = function() {
     var button = document.createElement('input');
     button.setAttribute('id', this.propertyName);
     button.setAttribute('type', this.type);
-    button.setAttribute('value', inc)
+    button.setAttribute('value', inc);
     this.domElement.appendChild(button);
+    
+    var slider = document.createElement('input');
+    slider.setAttribute('id', this.propertyName + "-slider");
+    slider.setAttribute('type', 'range');
+    slider.setAttribute('value', inc);
+    if(min != null && max != null) {
+        slider.setAttribute('min', min);
+        slider.setAttribute('max', max);
+    }
+    slider.setAttribute('step', amt);
+    this.domElement.appendChild(slider);
     
     button.addEventListener('mousedown', function(e) {
         isClicked = true;
@@ -38,11 +50,14 @@ var NumberController = function() {
         } else {
             inc = val;
         }
-        this.value = inc;
-        _this.setValue(inc);
+        updateValue(inc);
+    }, false);
+    slider.addEventListener('mousedown', function(e) {
+        isDragged = true;
     }, false);
     document.addEventListener('mouseup', function(e) {
         isClicked = false;
+        isDragged = false;
     }, false);
     document.addEventListener('mousemove', function(e) {
         if(isClicked) {
@@ -62,15 +77,22 @@ var NumberController = function() {
                 else
                     inc--;
             }
-            button.value = inc;
-            _this.setValue(inc);
+        } else if(isDragged) {
+            if(inc != slider.value) inc = slider.value;
         }
+        updateValue(inc);
     }, false);
+    
+    function updateValue(val) {
+        if(inc != val) inc = val;
+        button.value = val;
+        slider.value = val;
+        _this.setValue(val);
+    }
     
     this.__defineSetter__("position", function(val) {
         inc = val;
-        button.value = inc;
-        _this.setValue(inc);
+        updateValue(val);
         // possibly push to an array here so that
         // we have a record of "defined" / "presets"
         // ????
@@ -79,4 +101,3 @@ var NumberController = function() {
 
 NumberController.prototype = new Controller();
 NumberController.prototype.constructor = NumberController;
-
