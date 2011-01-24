@@ -13,7 +13,7 @@ var BooleanController = function() {
     }, false);
     
     input.addEventListener('mouseup', function(e) {
-    	input.checked = !input.checked;
+    	input.checked = !input.checked; // counteracts default.
     }, false);
     
     this.domElement.style.cursor = 'pointer';

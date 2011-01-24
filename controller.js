@@ -19,5 +19,12 @@ var Controller = function() {
     this.setName(this.propertyName);
     this.domElement.appendChild(this.propertyNameElement);
     
+    makeUnselectable(this.domElement);
     
+	function makeUnselectable(elem) {
+		elem.onselectstart = function() { return false; };
+		elem.style.MozUserSelect = "none";
+		elem.style.KhtmlUserSelect = "none";
+		elem.unselectable = "on";
+	}
 };

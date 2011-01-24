@@ -9,8 +9,9 @@ var StringController = function() {
     var input = document.createElement('input');
     
     input.setAttribute('value', this.object[this.propertyName]);
-    this.domElement.addEventListener('mouseover', function() {
+    this.domElement.addEventListener('mouseup', function() {
     	input.focus();
+    	input.select();
     }, false);
     
     input.addEventListener('keyup', function() {
