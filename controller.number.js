@@ -107,6 +107,7 @@ var NumberController = function() {
         }
     }, false);
     
+    
     function updateValue(val) {
         if(inc != val) inc = val;
         if(inc > max && max != null) {
