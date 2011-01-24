@@ -80,11 +80,7 @@ var NumberController = function() {
         } else if(isDragged) {
             if(inc != slider.value) inc = slider.value;
         }
-<<<<<<< HEAD
         updateValue(inc);
-=======
-        return false;
->>>>>>> b8323ce896a851bbe5a18e17bff36a5bdaa97db1
     }, false);
     
     function updateValue(val) {
