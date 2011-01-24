@@ -1,9 +1,14 @@
-var Controller = function() {
+var Controller = function(object, propertyName) {
     this.domElement = document.createElement('div');
     this.domElement.setAttribute('class', 'guidat-controller');
-    
+
     this.object = arguments[0];
     this.propertyName = arguments[1];
+    
+    this.propertyNameElement = document.createElement('span');
+    this.propertyNameElement.setAttribute('class', 'guidat-propertyname');
+    this.propertyNameElement.innerHTML = arguments[1];
+    this.domElement.appendChild(this.propertyNameElement);
 };
 
 var NumberController = function() {
