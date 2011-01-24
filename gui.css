@@ -78,7 +78,6 @@
 }
 .guidat-controller.number input[type=number] {
 	width: 45px;
-	cursor: ns-resize;
 }
 
 .guidat-controller.boolean input { 
@@ -88,7 +87,7 @@ margin-top: 6px;
 
 
 .guidat-controller:last-child {
-	
+	border-bottom: none;
 	-webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
 	-moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
 	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);

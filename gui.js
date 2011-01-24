@@ -17,8 +17,8 @@ var GUI = new function() {
 	
 		// Have we already added this?
 		if (alreadyControlled(object, propertyName)) {
-			error("Controller for \"" + propertyName+"\" already added.");
-			return;
+	//		error("Controller for \"" + propertyName+"\" already added.");
+	//		return;
 		}
 	
 		var value = object[propertyName];
@@ -102,7 +102,7 @@ var GUI = new function() {
 
 	// GUI ... GUI
 	
-	var domElement;
+	this.domElement = null;
 	var controllerContainer;
 	var started = false;
 	var open = false;
@@ -112,8 +112,8 @@ var GUI = new function() {
 	
 	this.start = function() {
 		
-		domElement = document.createElement('div');
-		domElement.setAttribute('id', 'guidat');
+		this.domElement = document.createElement('div');
+		this.domElement.setAttribute('id', 'guidat');
 		
 		controllerContainer = document.createElement('div');
 		controllerContainer.setAttribute('id', 'guidat-controllers');
@@ -127,12 +127,12 @@ var GUI = new function() {
 			e.preventDefault();
 		}, false);
 		
-		domElement.appendChild(controllerContainer);
-		domElement.appendChild(toggleButton);
+		this.domElement.appendChild(controllerContainer);
+		this.domElement.appendChild(toggleButton);
 		
-		domElement.style.marginTop = -domElementMarginTop+"px";
+		this.domElement.style.marginTop = -domElementMarginTop+"px";
 		
-		document.body.appendChild(domElement);
+		document.body.appendChild(this.domElement);
 		
 		started = true;
 		
@@ -149,13 +149,13 @@ var GUI = new function() {
 	};
 	
 	this.show = function() {
-		domElement.style.marginTop = 0+"px";
+		this.domElement.style.marginTop = 0+"px";
 		toggleButton.innerHTML = "Hide Controls";
 		open = true;
 	}
 	
 	this.hide = function() {
-		domElement.style.marginTop = -domElementMarginTop+"px";
+		this.domElement.style.marginTop = -domElementMarginTop+"px";
 		toggleButton.innerHTML = "Show Controls";
 		open = false;
 	}

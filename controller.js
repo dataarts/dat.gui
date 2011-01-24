@@ -19,6 +19,13 @@ var Controller = function() {
 		elem.unselectable = "on";
 	}
     
+	this.makeSelectable = function(elem) {
+		elem.onselectstart = function() { };
+		elem.style.MozUserSelect = "auto";
+		elem.style.KhtmlUserSelect = "auto";
+		elem.unselectable = "off";
+	}
+    
     this.domElement = document.createElement('div');
     this.domElement.setAttribute('class', 'guidat-controller ' + this.type);
 
