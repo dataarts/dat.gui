@@ -39,18 +39,22 @@
 
 .guidat-controller { 
 	padding: 5px;
-	clear: both;
-	border-left: 4px solid #333;
-	text-align: right;
+	height: 23px;
+	clear: left;
+	border-bottom: 1px solid #444;
 	background-color: #111;
 }
-
-.guidat-controller.number { 
-	border-left-color: #f03;
+.guidat-controller input { 
+float: right;
+clear: both;
+border: 0;
+padding: 2px;
 }
+
 
 .guidat-controller.number input[type=number] {
 	width: 55px;
+
 }
 
 
@@ -59,7 +63,7 @@
 }
 
 .guidat-controller:nth-child(even) {
-	background-color: #222;
+	background-color: #1a1a1a;
 }
 
 .guidat-controller:last-child {
@@ -70,6 +74,6 @@
 }
 
 .guidat-propertyname { 
-	float: left;
-	margin: 5px;
+	padding: 5px;
+	display: inline-block;
 }

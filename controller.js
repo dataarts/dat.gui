@@ -1,4 +1,4 @@
-var Controller = function(object, propertyName) {
+var Controller = function() {
 
     this.setName = function(n) {
   	    this.propertyNameElement.innerHTML = n;
@@ -23,7 +23,6 @@ var NumberController = function() {
 	this.type = "number";
     
     Controller.apply(this, arguments);
-    
     
     var _this = this;
     
@@ -86,7 +85,25 @@ NumberController.prototype.constructor = NumberController;
 var StringController = function() {
 	this.type = "string";
     Controller.apply(this, arguments);
-    
+    // TODO
 };
 StringController.prototype = new Controller();
 StringController.prototype.constructor = StringController;
+
+
+var BooleanController = function() {
+	this.type = "boolean";
+    Controller.apply(this, arguments);
+    // TODO
+};
+BooleanController.prototype = new Controller();
+BooleanController.prototype.constructor = BooleanController;
+
+
+var FunctionController = function() {
+	this.type = "function";
+    Controller.apply(this, arguments);
+    // TODO
+};
+FunctionController.prototype = new Controller();
+FunctionController.prototype.constructor = FunctionController;

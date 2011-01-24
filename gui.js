@@ -67,11 +67,11 @@ var GUI = new function() {
 		},
 		
 		"boolean": function() {
-			//
+			return construct(BooleanController, arguments);
 		},
 		
 		"function": function() {
-			//
+			return construct(FunctionController, arguments);
 		},
 		
 	};
