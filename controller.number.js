@@ -8,70 +8,65 @@ var NumberController = function() {
     
     var _this = this;
     
-    this.isClicked = false;
-    this.py = this.y = this.initialValue = this.object[this.propertyName];
-    this.inc = 0;
+    var isClicked = false;
+    var y, py, initialValue, inc;
     
-    // Get min and max
-    (arguments[2] != null) ? this.min = arguments[2] : this.min = null;
-    (arguments[3] != null) ? this.max = arguments[3] : this.max = null;
+    py = y = 0;
+    inc = initialValue = this.object[this.propertyName];
     
-    this.button = document.createElement('input');
-    this.button.setAttribute('id', this.propertyName);
+    var min, max;
+    (arguments[2] != null) ? min = arguments[2] : min = null;
+    (arguments[3] != null) ? max = arguments[3] : max = null;
     
-    this.button.setAttribute('type',  this.type);
-    this.button.setAttribute('value', this.inc);
-    this.domElement.appendChild(this.button);
+    var button = document.createElement('input');
+    button.setAttribute('id', this.propertyName);
+    button.setAttribute('type', this.type);
+    button.setAttribute('value', inc)
+    this.domElement.appendChild(button);
     
-    this.button.onmousedown = function(e) {
-        _this.isClicked = true;
+    button.onmousedown = function(e) {
+        isClicked = true;
     };
-    this.button.onkeyup = function(e) {
-        
-        var val = parseFloat(_this.button.value);
+    button.onkeyup = function(e) {
+        var val = parseFloat(this.value);
         if(isNaN(val)) {
-            _this.inc = _this.initialValue;
+            inc = initialValue;
         } else {
-            _this.inc = val;
+            inc = val;
         }
-        _this.button.value = _this.inc;
-        _this.setValue(_this.inc);
-    };
+        this.value = inc;
+        _this.setValue(inc);
+    }
     document.onmouseup = function(e) {
-        _this.isClicked = false;
+        isClicked = false;
     };
     document.onmousemove = function(e) {
-        
-        if(_this.isClicked) {
-            
+        if(isClicked) {
             e.preventDefault();
-            
-            _this.py = _this.y;
-            _this.y = e.offsetY;
-            var dy = _this.y - _this.py;
-            
-            if(dy > 0) {
-                if(_this.max != null)
-                    (_this.inc >= _this.max) ? _this.inc = _this.max : _this.inc++;
+            py = y;
+            y  = e.offsetY;
+            var dy = y - py;
+            if(dy < 0) {
+                if(max != null)
+                    (inc >= max) ? inc = max : inc++;
                 else
-                    _this.inc++;
-            } else if(dy < 0) {
-                
-                if(_this.min != null)
-                    (_this.inc <= _this.min) ? _this.inc = _this.min : _this.inc--;
+                    inc++;
+            } else if(dy > 0) {
+            
+                if(min != null)
+                    (inc <= min) ? inc = min : inc--;
                 else
-                    _this.inc--;
+                    inc--;
             }
-            
-            _this.button.value = _this.inc;
-            _this.setValue(_this.inc);
+            button.value = inc;
+            _this.setValue(inc);
         }
     };
     
     this.__defineSetter__("position", function(val) {
-        _this.inc = val;
-        _this.button.value = _this.inc;
-        _this.setValue(_this.inc);
+        inc = val;
+        button.value = inc;
+        _this.setValue(inc);
         // possibly push to an array here so that
         // we have a record of "defined" / "presets"
         // ????
