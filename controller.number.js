@@ -65,6 +65,7 @@ var NumberController = function() {
             button.value = inc;
             _this.setValue(inc);
         }
+        return false;
     }, false);
     
     this.__defineSetter__("position", function(val) {

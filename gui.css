@@ -78,6 +78,7 @@
 }
 .guidat-controller.number input[type=number] {
 	width: 45px;
+	cursor: ns-resize;
 }
 
 .guidat-controller.boolean input { 
