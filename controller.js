@@ -14,14 +14,13 @@ var NumberController = function() {
     
     this.isClicked = false;
     this.py = this.y = 0;
-    // TODO pass argument to inc
-    this.inc = 0;
+    this.inc = 0;   // TODO pass argument to inc
     this.button;
     
     this.button = document.createElement('input');
     this.button.setAttribute('id', this.propertyName);
     this.button.setAttribute('type', 'number');
-    this.button.setAttribute('value', this.y);
+    this.button.setAttribute('value', this.inc);
     this.domElement.appendChild(this.button);
     
     this.button.onmousedown = function(e) {
@@ -40,7 +39,7 @@ var NumberController = function() {
             
             if(dy > 0)
                 _this.button.setAttribute('value', _this.inc++);
-            else
+            else if(dy < 0)
                 _this.button.setAttribute('value', _this.inc--);
         }
     };
