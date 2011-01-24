@@ -57,11 +57,8 @@ var GUI = new function() {
 	var addHandlers = {
 		
 		"number": function() {
-		    
             var n = new NumberController(arguments);
-            n.addListeners();
-            return n.button;
-            // return n.button;
+            return n;
 		},
 		
 		"string": function() {
