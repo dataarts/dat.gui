@@ -17,6 +17,12 @@ var NumberController = function() {
     this.inc = 0;   // TODO pass argument to inc
     this.button;
     
+    console.log(arguments);
+    
+    // Get min and max
+    (arguments[2] != null) ? this.min = arguments[2] : this.min = null;
+    (arguments[3] != null) ? this.max = arguments[3] : this.max = null;
+    
     this.button = document.createElement('input');
     this.button.setAttribute('id', this.propertyName);
     this.button.setAttribute('type', 'number');
@@ -37,12 +43,27 @@ var NumberController = function() {
             _this.y = e.offsetY;
             var dy = _this.y - _this.py;
             
-            if(dy > 0)
-                _this.button.setAttribute('value', _this.inc++);
-            else if(dy < 0)
-                _this.button.setAttribute('value', _this.inc--);
+            if(dy > 0) {
+                if(_this.max != null)
+                    (_this.inc >= _this.max) ? _this.inc = _this.max : _this.inc++;
+                else
+                    _this.inc++;
+            } else if(dy < 0) {
+                
+                if(_this.min != null)
+                    (_this.inc <= _this.min) ? _this.inc = _this.min : _this.inc--;
+                else
+                    _this.inc--;
+            }
+            
+            _this.button.setAttribute('value', _this.inc);
         }
     };
+    
+    this.__defineSetter__("position", function(val) {
+        _this.inc = val;
+        _this.button.setAttribute('value', _this.inc);
+    });
 };
 
 NumberController.prototype = new Controller();

@@ -57,8 +57,7 @@ var GUI = new function() {
 	var addHandlers = {
 		
 		"number": function() {
-            var n = new NumberController(arguments);
-            return n;
+            return construct(NumberController, arguments);
 		},
 		
 		"string": function() {
@@ -85,6 +84,14 @@ var GUI = new function() {
 			console.error("[GUI ERROR] " + str);
 		}
 	};
+	
+	var construct = function(constructor, args) {
+        function F() {
+            return constructor.apply(this, args);
+        }
+        F.prototype = constructor.prototype;
+        return new F();
+    };
 
 
 
