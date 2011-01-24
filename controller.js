@@ -12,6 +12,13 @@ var Controller = function() {
         return this.object[this.propertyName];
     }
     
+	this.makeUnselectable = function(elem) {
+		elem.onselectstart = function() { return false; };
+		elem.style.MozUserSelect = "none";
+		elem.style.KhtmlUserSelect = "none";
+		elem.unselectable = "on";
+	}
+    
     this.domElement = document.createElement('div');
     this.domElement.setAttribute('class', 'guidat-controller ' + this.type);
 
@@ -23,12 +30,6 @@ var Controller = function() {
     this.setName(this.propertyName);
     this.domElement.appendChild(this.propertyNameElement);
     
-    makeUnselectable(this.domElement);
+    this.makeUnselectable(this.domElement);
     
-	function makeUnselectable(elem) {
-		elem.onselectstart = function() { return false; };
-		elem.style.MozUserSelect = "none";
-		elem.style.KhtmlUserSelect = "none";
-		elem.unselectable = "on";
-	}
 };
