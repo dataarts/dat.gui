@@ -18,6 +18,10 @@ var NumberController = function() {
     (arguments[2] != null) ? min = arguments[2] : min = null;
     (arguments[3] != null) ? max = arguments[3] : max = null;
     
+    var amt;
+    (arguments[4] != null) ? amt = arguments[4] : amt = (max - min) * .01;
+    if(amt == 0) amt = 1;
+    
     var button = document.createElement('input');
     button.setAttribute('id', this.propertyName);
     button.setAttribute('type', this.type);
@@ -48,13 +52,13 @@ var NumberController = function() {
             var dy = y - py;
             if(dy < 0) {
                 if(max != null)
-                    (inc >= max) ? inc = max : inc++;
+                    (inc >= max) ? inc = max : inc+=amt;
                 else
                     inc++;
             } else if(dy > 0) {
             
                 if(min != null)
-                    (inc <= min) ? inc = min : inc--;
+                    (inc <= min) ? inc = min : inc-=amt;
                 else
                     inc--;
             }
