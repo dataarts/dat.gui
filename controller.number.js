@@ -24,10 +24,10 @@ var NumberController = function() {
     button.setAttribute('value', inc)
     this.domElement.appendChild(button);
     
-    button.onmousedown = function(e) {
+    button.addEventListener('mousedown', function(e) {
         isClicked = true;
-    };
-    button.onkeyup = function(e) {
+    }, false);
+    button.addEventListener('keyup', function(e) {
         var val = parseFloat(this.value);
         if(isNaN(val)) {
             inc = initialValue;
@@ -36,11 +36,11 @@ var NumberController = function() {
         }
         this.value = inc;
         _this.setValue(inc);
-    }
-    document.onmouseup = function(e) {
+    }, false);
+    document.addEventListener('mouseup', function(e) {
         isClicked = false;
-    };
-    document.onmousemove = function(e) {
+    }, false);
+    document.addEventListener('mousemove', function(e) {
         if(isClicked) {
             e.preventDefault();
             py = y;
@@ -61,7 +61,7 @@ var NumberController = function() {
             button.value = inc;
             _this.setValue(inc);
         }
-    };
+    }, false);
     
     this.__defineSetter__("position", function(val) {
         inc = val;
