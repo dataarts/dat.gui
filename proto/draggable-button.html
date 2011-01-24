@@ -1,16 +1,29 @@
 <!doctype html>
     <head>
         <title>Draggable Button Prototype</title>
+        <script type = "text/javascript" src = "../controller.js"></script>
+        <script type = "text/javascript" src = "../gui.js"></script>
         <script type = "text/javascript">
-            
-            // 1. create a container div
-            // 2. stuff buttons in there via the constructor outlined by george
-            //    a. No Arguments Draggable Input
-            //       • Made up of html input button type of number
-            //    b. Arguments Draggable Input
-            //       • Made up of html input button type of number
-            // 3. 
-            
+        
+        
+            var controllableObject = {
+                numberProperty: 20,
+                anotherNumberProperty: 0,
+                textProperty: "a string",
+                booleanProperty: false,
+                functionProperty: function() {
+                    alert("I am a function!");
+                }
+            };
+
+
+            window.onload = function() {
+
+            GUI.start();
+
+            // Creates a number box
+            GUI.add(controllableObject, "numberProperty");
+            }
         </script>
     </head>
     <body>
