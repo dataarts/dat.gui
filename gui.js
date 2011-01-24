@@ -36,7 +36,7 @@ var GUI = new function() {
 		
 		// Do we know how to deal with this data type?
 		if (handler == undefined) {
-			error("Cannot create controller for data type \"" + object + "\"");
+			error("Cannot create controller for data type \""+type+"\"");
 			return;
 		}
 	
@@ -128,6 +128,7 @@ var GUI = new function() {
 	this.toggle = function() {
 		
 		if (open) {
+		
 			domElement.style.marginTop = -domElementMarginTop+"px";
 			toggleButton.innerHTML = "Show Controls";
 			open = false;
