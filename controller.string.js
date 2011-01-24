@@ -11,6 +11,7 @@ var StringController = function() {
     var initialValue = this.getValue();
     
     input.setAttribute('value', initialValue);
+    input.setAttribute('spellcheck', 'false');
     this.domElement.addEventListener('mouseup', function() {
     	input.focus();
     	input.select();
@@ -18,13 +19,6 @@ var StringController = function() {
     
     input.addEventListener('keyup', function() {
         _this.setValue(input.value);
-    }, false);
-    
-    input.addEventListener('blur', function(e) {
-        if(_this.getValue() == '') {
-            _this.setValue(initialValue);
-            this.value = initialValue;
-        }
     }, false);
     
     this.domElement.appendChild(input);

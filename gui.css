@@ -2,12 +2,12 @@
 	font: 9px Monaco, monospace;
 	color: #fff;
 	position: fixed;
-	width: 250px;
+	width: 320px;
 	z-index: 200;
 	opacity: 0.95;
 	top: 0;
 	left: 100%;
-	margin-left: -270px;
+	margin-left: -340px;
 	background-color: #fff;
 	-moz-transition: margin-top .2s ease-out;
 	-webkit-transition: margin-top .2s ease-out;
@@ -53,7 +53,6 @@
 .guidat-controller input { 
 	float: right;
 	outline: none;
-	clear: both;
 	border: 0;
 	padding: 2px;
 }
@@ -78,7 +77,11 @@
 }
 .guidat-controller.number input[type=number] {
 	width: 45px;
-	cursor: ns-resize;
+	margin-left: 10px;
+}
+.guidat-controller.number input[type=slider] {
+	width: 45px;
+
 }
 
 .guidat-controller.boolean input { 
@@ -88,7 +91,7 @@ margin-top: 6px;
 
 
 .guidat-controller:last-child {
-	
+	border-bottom: none;
 	-webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
 	-moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
 	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);

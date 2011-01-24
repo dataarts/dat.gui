@@ -58,13 +58,18 @@ var NumberController = function() {
     }, false);
     document.addEventListener('mouseup', function(e) {
         isClicked = false;
+      	_this.makeSelectable(GUI.domElement); 
+		_this.makeSelectable(button);
         isDragged = false;
     }, false);
     document.addEventListener('mousemove', function(e) {
         if(isClicked) {
             e.preventDefault();
+        	_this.makeUnselectable(GUI.domElement);
+        	_this.makeUnselectable(button);
+      
             py = y;
-            y  = e.offsetY;
+            y = e.offsetY;
             var dy = y - py;
             if(dy < 0) {
                 

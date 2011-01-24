@@ -3,12 +3,13 @@
 <link href="gui.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="demo.css" media="screen" rel="stylesheet" type="text/css" />
 <!--<script type="text/javascript" src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>-->
+
+<script type="text/javascript" src="gui.js"></script>
 <script type="text/javascript" src="controller.js"></script>
 <script type="text/javascript" src="controller.string.js"></script>
 <script type="text/javascript" src="controller.number.js"></script>
 <script type="text/javascript" src="controller.boolean.js"></script>
 <script type="text/javascript" src="controller.function.js"></script>
-<script type="text/javascript" src="gui.js"></script>
 <script id="demo" type="text/javascript">
 var controllableObject = 
    {   
@@ -41,8 +42,6 @@ window.onload = function() {
    
    // Creates a checkbox
    GUI.add(controllableObject, "booleanProperty");
-   // Creates a checkbox
-   GUI.add(controllableObject, "anotherBooleanProperty");
    
    // Creates a button
    GUI.add(controllableObject, "functionProperty");
