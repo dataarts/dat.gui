@@ -2,12 +2,12 @@
 	font: 9px Monaco, monospace;
 	color: #fff;
 	position: fixed;
-	width: 250px;
+	width: 320px;
 	z-index: 200;
 	opacity: 0.95;
 	top: 0;
 	left: 100%;
-	margin-left: -270px;
+	margin-left: -340px;
 	background-color: #fff;
 	-moz-transition: margin-top .2s ease-out;
 	-webkit-transition: margin-top .2s ease-out;
@@ -53,7 +53,6 @@
 .guidat-controller input { 
 	float: right;
 	outline: none;
-	clear: both;
 	border: 0;
 	padding: 2px;
 }
@@ -78,6 +77,11 @@
 }
 .guidat-controller.number input[type=number] {
 	width: 45px;
+	margin-left: 10px;
+}
+.guidat-controller.number input[type=slider] {
+	width: 45px;
+
 }
 
 .guidat-controller.boolean input { 

@@ -21,13 +21,6 @@ var StringController = function() {
         _this.setValue(input.value);
     }, false);
     
-    input.addEventListener('blur', function(e) {
-        if(_this.getValue() == '') {
-            _this.setValue(initialValue);
-            this.value = initialValue;
-        }
-    }, false);
-    
     this.domElement.appendChild(input);
 };
 StringController.prototype = new Controller();
