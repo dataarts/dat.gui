@@ -6,6 +6,7 @@ var Controller = function() {
     this.propertyName = arguments[1];
 };
 
+// Only works on the last one
 var NumberController = function() {
     
     Controller.apply(this, arguments);
