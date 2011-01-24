@@ -1,6 +1,6 @@
 <html>
 <head>
-<link href="gui.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="gui-bare.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="demo.css" media="screen" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>
 <script type="text/javascript" src="controller.js"></script>
@@ -19,7 +19,7 @@ var controllableObject =
 
 window.onload = function() {
 
-   //prettyPrint();
+   prettyPrint();
 
    GUI.start();
    
@@ -28,7 +28,7 @@ window.onload = function() {
    
    // Creates a slider (min, max)
    GUI.add(controllableObject, "constrainedNum", -100, 100)
-      .setName("customName");
+      .name("customName");
    
    // Creates a text field
    GUI.add(controllableObject, "textProperty");
@@ -64,7 +64,7 @@ window.onload = function() {
    
    // Creates a slider (min, max)
    GUI.add(controllableObject, "constrainedNum", -100, 100)
-      .setName("customName");
+      .name("customName");
    
    // Creates a text field
    GUI.add(controllableObject, "textProperty");
