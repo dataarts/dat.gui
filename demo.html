@@ -17,6 +17,7 @@ var controllableObject =
       textProperty: "a string",
       anotherTextProperty: "another string",
       booleanProperty: false,
+      anotherBooleanProperty: false,
       functionProperty: function() {
          alert("I am a function!");
       }
@@ -40,6 +41,8 @@ window.onload = function() {
    
    // Creates a checkbox
    GUI.add(controllableObject, "booleanProperty");
+   // Creates a checkbox
+   GUI.add(controllableObject, "anotherBooleanProperty");
    
    // Creates a button
    GUI.add(controllableObject, "functionProperty");
