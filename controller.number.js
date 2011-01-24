@@ -1,5 +1,3 @@
-
-// Only works on the last one
 var NumberController = function() {
 
 	this.type = "number";
@@ -27,23 +25,26 @@ var NumberController = function() {
     button.setAttribute('id', this.propertyName);
     button.setAttribute('type', this.type);
     button.setAttribute('value', inc);
+    button.setAttribute('step', amt);
     this.domElement.appendChild(button);
     
     var slider = document.createElement('input');
-    slider.setAttribute('id', this.propertyName + "-slider");
-    slider.setAttribute('type', 'range');
-    slider.setAttribute('value', inc);
     if(min != null && max != null) {
-        slider.setAttribute('min', min);
-        slider.setAttribute('max', max);
+        slider.setAttribute('id', this.propertyName + "-slider");
+        slider.setAttribute('type', 'range');
+        slider.setAttribute('value', inc);
+        if(min != null && max != null) {
+            slider.setAttribute('min', min);
+            slider.setAttribute('max', max);
+        }
+        slider.setAttribute('step', amt);
+        this.domElement.appendChild(slider);
     }
-    slider.setAttribute('step', amt);
-    this.domElement.appendChild(slider);
     
     button.addEventListener('mousedown', function(e) {
         isClicked = true;
     }, false);
-    button.addEventListener('keyup', function(e) {
+    button.addEventListener('blur', function(e) {
         var val = parseFloat(this.value);
         if(isNaN(val)) {
             inc = initialValue;
@@ -66,25 +67,48 @@ var NumberController = function() {
             y  = e.offsetY;
             var dy = y - py;
             if(dy < 0) {
-                if(max != null)
-                    (inc >= max) ? inc = max : inc+=amt;
-                else
+                
+                if(max != null) {
+                    if(inc >= max) {
+                        inc = max;
+                        return;
+                    } else {
+                        inc+=amt;
+                        updateValue(inc);
+                    }
+                } else {
                     inc++;
+                    updateValue(inc);
+                }
             } else if(dy > 0) {
             
-                if(min != null)
-                    (inc <= min) ? inc = min : inc-=amt;
-                else
+                if(min != null) {
+                    if(inc <= min) {
+                        inc = min;
+                        return;
+                    } else {
+                        inc-=amt;
+                        updateValue(inc);
+                    }
+                } else {
                     inc--;
+                    updateValue(inc);
+                }
             }
+            updateValue(inc);
         } else if(isDragged) {
             if(inc != slider.value) inc = slider.value;
+            updateValue(inc);
         }
-        updateValue(inc);
     }, false);
     
     function updateValue(val) {
         if(inc != val) inc = val;
+        if(inc > max && max != null) {
+            inc = max;
+        } else if(inc < min && min != null) {
+            inc = min;
+        }
         button.value = val;
         slider.value = val;
         _this.setValue(val);
