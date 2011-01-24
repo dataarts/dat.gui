@@ -20,6 +20,15 @@ var StringController = function() {
     }, false);
     
     this.domElement.appendChild(input);
+    
+    input.onfocus = function(e) {
+        if(_this.contents == _this.object[_this.propertyName]) {
+            contents = "";
+            _this.input.setAttribute('value', contents);
+        }
+    };
+    input.onblur = function(e) {
+    };
 };
 StringController.prototype = new Controller();
 StringController.prototype.constructor = StringController;
