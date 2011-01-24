@@ -1,5 +1,6 @@
 #guidat { 
-	font: 12px Helvetica, Arial, 'sans-serif';
+	font: 9px Monaco, monospace;
+	color: #fff;
 	position: fixed;
 	width: 250px;
 	z-index: 200;
@@ -25,7 +26,6 @@
 #guidat-toggle { 
 	text-decoration: none;
 	cursor: pointer;
-	font-weight: bold;
 	color: #fff;
 	background-color: #222;
 	text-align: center;
@@ -39,17 +39,31 @@
 
 .guidat-controller { 
 	padding: 5px;
-	border-bottom: 1px solid #ccc;
+	clear: both;
+	border-left: 4px solid #333;
 	text-align: right;
-	background-color: #fff;
+	background-color: #111;
+}
+
+.guidat-controller.number { 
+	border-left-color: #f03;
+}
+
+.guidat-controller.number input[type=number] {
+	width: 55px;
+}
+
+
+.guidat-controller.string { 
+	border-left-color: #0af;
 }
 
 .guidat-controller:nth-child(even) {
-	background-color: #E1F9FF;
+	background-color: #222;
 }
 
 .guidat-controller:last-child {
-	border-bottom: 1px solid #ccc;
+	
 	-webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
 	-moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
 	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
@@ -58,5 +72,4 @@
 .guidat-propertyname { 
 	float: left;
 	margin: 5px;
-	font-size: 11px;
 }

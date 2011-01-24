@@ -52,19 +52,18 @@ var GUI = new function() {
 		controllerContainer.appendChild(controllerObject.domElement);
 		registeredProperties.push([object, propertyName, controllerObject]);
 		
+		return controllerObject;
+		
 	}
 	
 	var addHandlers = {
 		
 		"number": function() {
-		    
-            return new NumberController(arguments);
-            
-            // return n.button;
+            return construct(NumberController, arguments);
 		},
 		
 		"string": function() {
-			//
+            return construct(StringController, arguments);
 		},
 		
 		"boolean": function() {
@@ -87,6 +86,14 @@ var GUI = new function() {
 			console.error("[GUI ERROR] " + str);
 		}
 	};
+	
+	var construct = function(constructor, args) {
+        function F() {
+            return constructor.apply(this, args);
+        }
+        F.prototype = constructor.prototype;
+        return new F();
+    };
 
 
 
@@ -132,18 +139,25 @@ var GUI = new function() {
 		
 		if (open) {
 		
-			domElement.style.marginTop = -domElementMarginTop+"px";
-			toggleButton.innerHTML = "Show Controls";
-			open = false;
-
+			this.hide();
+			
 		} else { 
 		
-			domElement.style.marginTop = 0+"px";
-			toggleButton.innerHTML = "Hide Controls";
-			open = true;
+			this.show();
 			
 		}
 		
 	};
 	
+	this.show = function() {
+		domElement.style.marginTop = 0+"px";
+		toggleButton.innerHTML = "Hide Controls";
+		open = true;
+	}
+	
+	this.hide = function() {
+		domElement.style.marginTop = -domElementMarginTop+"px";
+		toggleButton.innerHTML = "Show Controls";
+		open = false;
+	}
 };
