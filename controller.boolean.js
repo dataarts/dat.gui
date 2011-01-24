@@ -16,7 +16,8 @@ var BooleanController = function() {
     	input.checked = !input.checked; // counteracts default.
     }, false);
     
-    this.domElement.style.cursor = 'pointer';
+    this.domElement.style.cursor = "pointer";
+    this.propertyNameElement.style.cursor = "pointer";
     this.domElement.appendChild(input);
 
 };
