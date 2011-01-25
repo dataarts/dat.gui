@@ -25,7 +25,7 @@
 	height: 300px;
 	overflow-y: auto;
 	overflow-x: hidden;
-	background-color: #eee;
+	background-color: rgba(0,0,0,0.1);
 }
 
 #guidat-toggle { 
@@ -65,6 +65,17 @@
 	background-color: #222;
 }
 
+.guidat-controller input::selection { 
+background-color: #000;
+}
+
+.guidat-controller input:hover { 
+	background-color: #444;
+}
+.guidat-controller input:focus { 
+	background-color: #555;
+}
+
 .guidat-controller.number { 
 	border-left: 5px solid #00aeff ;
 }
@@ -96,7 +107,6 @@
 
 .guidat-controller.number input[type=slider] {
 	width: 50%;
-
 }
 
 #guidat .guidat-controller.boolean input { 
