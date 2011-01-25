@@ -9,16 +9,15 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: helvetica, arial, sans-serif;
+    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
     color: #222;
 }
 
 h1 { 
     font-size: 80px; 
-    font-weight: 900; 
+    font-weight: 800; 
     text-transform: lowercase;
     line-height: 80px;
-    text-shadow: 2px 2px 2px #ccc;
     margin: 20px 0 20px 0;
 }
 
@@ -50,8 +49,11 @@ a:link {
 a:visited {
     color: #0fa954;
 }
-a:hover, a:active {
+a:hover {
     color: #e61d5f;
+}
+a:active {
+    color: #54396e;
 }
 
 /* SPAN elements with the classes below are added by prettyprint. */

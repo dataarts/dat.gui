@@ -109,6 +109,7 @@ width: 170px;
 
 #guidat .guidat-controller.boolean input { 
 	margin-top: 6px;
+	margin-right: 2px;
 	font-size: 20px;
 }
 
