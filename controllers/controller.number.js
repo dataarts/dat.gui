@@ -100,8 +100,6 @@ var NumberController = function() {
 		var dy = py - y;
 		var newVal = _this.getValue() + dy*step;	
 		_this.updateValue(newVal);
-		
-		console.log(newVal);
 		return false;
     }
     
