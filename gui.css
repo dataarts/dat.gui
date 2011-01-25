@@ -1,0 +1,112 @@
+#guidat { 
+	font: 9px Monaco, monospace;
+	color: #fff;
+	position: fixed;
+	width: 320px;
+	z-index: 200;
+	opacity: 0.95;
+	top: 0;
+	left: 100%;
+	margin-left: -340px;
+	background-color: #fff;
+	-moz-transition: margin-top .2s ease-out;
+	-webkit-transition: margin-top .2s ease-out;
+	transition: margin-top .2s ease-out;
+	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+#guidat-controllers { 
+	height: 300px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	background-color: #eee;
+}
+
+#guidat-toggle { 
+	text-decoration: none;
+	cursor: pointer;
+	color: #fff;
+	background-color: #222;
+	text-align: center;
+	display: block;
+	padding: 5px;
+}
+
+#guidat-toggle:hover { 
+	background-color: #000;
+}
+
+.guidat-controller { 
+	padding: 5px;
+	height: 23px;
+	clear: left;
+	border-bottom: 1px solid #222;
+	background-color: #111;
+}
+
+.guidat-controller.boolean:hover,
+.guidat-controller.function:hover {
+	background-color: #000;
+}
+
+.guidat-controller input { 
+	float: right;
+	outline: none;
+	border: 0;
+	padding: 2px;
+}
+
+.guidat-controller.number { 
+	border-left: 5px solid #00aeff ;
+}
+
+.guidat-controller.string { 
+	border-left: 5px solid #1ed36f;
+}
+
+.guidat-controller.string input { 
+	border: 0;
+	text-align: right;
+	color: #1ed36f;
+	
+	background-color: rgba(0,0,0,0);
+}
+
+.guidat-controller.boolean { 
+	border-left: 5px solid #54396e;
+}
+
+.guidat-controller.function { 
+	border-left: 5px solid #e61d5f;
+}
+
+.guidat-controller.number input[type=text] {
+	width: 45px;
+	margin-left: 10px;
+}
+
+.guidat-controller.number input[type=slider] {
+	width: 50%;
+
+}
+
+.guidat-controller.boolean input { 
+margin-top: 6px;
+}
+
+
+
+.guidat-controller:last-child {
+	border-bottom: none;
+	-webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.guidat-propertyname { 
+	padding: 5px;
+	cursor: default;
+	display: inline-block;
+}
