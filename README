@@ -1,3 +1,9 @@
+GUI-DAT
+=======
+
+Usage:
+------
+
     var controllableObject = 
     	{	
     		numberProperty: 20,
