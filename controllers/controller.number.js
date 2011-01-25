@@ -8,8 +8,9 @@ var NumberController = function() {
     var _this = this;
     
     // If we simply click and release a number field, we want to highlight it.
-    // This variable keeps track of whether or not we've draggedNumberField.
+    // This variable keeps track of whether or not we've dragged
     var draggedNumberField = false;
+    
     var clickedNumberField = false;
     
     var y = py = 0;
@@ -99,6 +100,8 @@ var NumberController = function() {
 		var dy = py - y;
 		var newVal = _this.getValue() + dy*step;	
 		_this.updateValue(newVal);
+		
+		console.log(newVal);
 		return false;
     }
     
@@ -106,9 +109,9 @@ var NumberController = function() {
 
 		val = parseFloat(val);
 		
-    	if (min && val <= min) {
+    	if (min != undefined && val <= min) {
     		val = min;
-    	} else if (max && val >= max) { 
+    	} else if (max != undefined && val >= max) { 
     		val = max;
     	}
         _this.setValue(val);
