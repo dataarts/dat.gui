@@ -39,8 +39,8 @@
 }
 
 .guidat-controller { 
-	padding: 5px;
-	height: 23px;
+	padding: 3px;
+	height: 25px;
 	clear: left;
 	border-bottom: 1px solid #222;
 	background-color: #111;
@@ -55,7 +55,8 @@
 	float: right;
 	outline: none;
 	border: 0;
-	padding: 2px;
+	padding: 4px;
+	background-color: #222;
 }
 
 .guidat-controller.number { 
@@ -68,10 +69,7 @@
 
 .guidat-controller.string input { 
 	border: 0;
-	text-align: right;
 	color: #1ed36f;
-	
-	background-color: rgba(0,0,0,0);
 }
 
 .guidat-controller.boolean { 
@@ -83,8 +81,10 @@
 }
 
 .guidat-controller.number input[type=text] {
-	width: 45px;
+	width: 35px;
 	margin-left: 10px;
+	margin-right: 2px;
+	color: #00aeff;
 }
 
 .guidat-controller.number input[type=slider] {
@@ -93,10 +93,8 @@
 }
 
 .guidat-controller.boolean input { 
-margin-top: 6px;
+	margin-top: 6px;
 }
-
-
 
 .guidat-controller:last-child {
 	border-bottom: none;
@@ -107,6 +105,7 @@ margin-top: 6px;
 
 .guidat-propertyname { 
 	padding: 5px;
+	padding-top: 7px;
 	cursor: default;
 	display: inline-block;
 }
