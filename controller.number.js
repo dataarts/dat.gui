@@ -26,7 +26,8 @@ var NumberController = function() {
     
     var slider;
     
-    if (min && max) {
+    if (min && max && 
+       (navigator.appVersion.indexOf("chrome") != -1 || navigator.appVersion.indexOf("Safari") != -1)) {
     
 	    slider = document.createElement('input');
         slider.setAttribute('type', 'range');
@@ -58,24 +59,21 @@ var NumberController = function() {
     }, false);
     
     numberField.addEventListener('mousedown', function(e) {
-    	py = y = e.pageY;
-    	document.addEventListener('mousemove', dragNumberField, false);
-    }, false);
-    
-    
-    numberField.addEventListener('mouseup', function(e) {
-    	updateValue(this.value);
+        py = y = e.pageY;
+        document.addEventListener('mousemove', dragNumberField, false);
     }, false);
     
     document.addEventListener('mouseup', function(e) {
-    	document.removeEventListener('mousemove', dragNumberField, false);
-      	_this.makeSelectable(GUI.domElement); 
-		_this.makeSelectable(numberField);
+        document.removeEventListener('mousemove', dragNumberField, false);
+        _this.makeSelectable(GUI.domElement); 
+        _this.makeSelectable(numberField);
     }, false);
     
-    document.addEventListener('mouseout', function(e) {
-    	document.removeEventListener('mousemove', dragNumberField, false);
-    }, false);
+    if(navigator.appVersion.indexOf('chrome') != -1) {
+        document.addEventListener('mouseout', function(e) {
+            document.removeEventListener('mousemove', dragNumberField, false);
+        }, false);
+    }
     
     var dragNumberField = function(e) {
 		e.preventDefault();
