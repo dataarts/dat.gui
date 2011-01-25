@@ -9,15 +9,30 @@ var NumberController = function() {
     
     var _this = this;
     
+    // If we simply click and release a number field, we want to highlight it.
+    // This variable keeps track of whether or not we've draggedNumberField.
+    var draggedNumberField = false;
+    var clickedNumberField = false;
+    
     var y = py = 0;
     
     var min = arguments[2];
     var max = arguments[3];
-    var step = arguments[4] || (max - min) * 0.01;
+    var step = arguments[4];
+    
+    if (!step) {
+    	if (min && max) {
+    		step = (max-min)*0.01;
+    	} else {
+    		step = 1;
+    	}	
+    }
     
     var numberField = document.createElement('input');
     numberField.setAttribute('id', this.propertyName);
-    numberField.setAttribute('type', this.type);
+    
+    // Little up and down arrows are pissing me off.
+    numberField.setAttribute('type', 'text');
     numberField.setAttribute('value', this.getValue());
     
     if (step) numberField.setAttribute('step', step);
@@ -34,9 +49,6 @@ var NumberController = function() {
         slider.setAttribute('value', this.getValue());
 		slider.setAttribute('min', min);
 		slider.setAttribute('max', max);
-		
-		numberField.setAttribute('min', min);
-		numberField.setAttribute('max', max);
 		
         slider.setAttribute('step', step);
 		slider.addEventListener('change', function(e) {
@@ -60,6 +72,7 @@ var NumberController = function() {
     
     numberField.addEventListener('mousedown', function(e) {
         py = y = e.pageY;
+		clickedNumberField = true;
         document.addEventListener('mousemove', dragNumberField, false);
     }, false);
     
@@ -67,6 +80,12 @@ var NumberController = function() {
         document.removeEventListener('mousemove', dragNumberField, false);
         _this.makeSelectable(GUI.domElement); 
         _this.makeSelectable(numberField);
+        if (clickedNumberField && !draggedNumberField) { 
+	        numberField.focus();
+	        numberField.select();
+        }
+        draggedNumberField = false;
+        clickedNumberField = false;
     }, false);
     
     if(navigator.appVersion.indexOf('chrome') != -1) {
@@ -76,18 +95,27 @@ var NumberController = function() {
     }
     
     var dragNumberField = function(e) {
+    	draggedNumberField = true;
 		e.preventDefault();
+		
+		// We don't want to be highlighting this field as we scroll.
+		// Or any other fields in this gui for that matter ... 
+		// TODO: Make makeUselectable go through each element and child element.
 		_this.makeUnselectable(GUI.domElement);
 		_this.makeUnselectable(numberField);
+		
 		py = y;
 		y = e.pageY;
 		var dy = py - y;
-		var newVal = _this.getValue() + dy*step;
+		var newVal = _this.getValue() + dy*step;	
 		updateValue(newVal);
 		return false;
     }
     
     var updateValue = function(val) {
+
+		val = parseFloat(val);
+		
     	if (min && val <= min) {
     		val = min;
     	} else if (max && val >= max) { 
