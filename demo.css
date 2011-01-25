@@ -1,14 +1,58 @@
-body { 
+* {
+    padding: 0px;
+    margin:  0px;
+}
 
+body { 
+    padding: 0 20px 20px 20px;
+	font: 9.5px/13px Lucida Grande, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: helvetica, arial, sans-serif;
+    color: #222;
+}
+
+h1 { 
+    font-size: 80px; 
+    font-weight: 900; 
+    text-transform: lowercase;
+    line-height: 80px;
+    text-shadow: 2px 2px 2px #ccc;
+    margin: 20px 0 20px 0;
+}
+
+h1 a:link, h1 a:visited, h1 a:hover, h1 a:active {
+    text-decoration: none;
+    margin-right: 7px;
+}
+
+h1 img { 
+    width: 45px;
+    height: 45px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
 }
 
 pre { 
-padding: 15px;
-background-color: #222;
-max-width: 500px;
-font: 10px Monaco, monospace;
+    margin: 20px 0 20px 0;
+    padding: 15px;
+    background-color: #222;
+    max-width: 500px;
+    font: 10px Monaco, monospace;
 }
 
+p { font-size: 125%; max-width: 530px; }
+
+a:link {
+    color: #00aeff;
+}
+a:visited {
+    color: #0fa954;
+}
+a:hover, a:active {
+    color: #e61d5f;
+}
 
 /* SPAN elements with the classes below are added by prettyprint. */
 .str { color: #0fa954; }
