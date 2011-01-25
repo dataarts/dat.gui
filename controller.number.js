@@ -1,3 +1,6 @@
+// TODO: How do we intercept the press up/down event on number fields?
+// TODO: Provide alternate controllers for non-html5 browsers?
+// TODO: Firefox is retarded?
 var NumberController = function() {
 
 	this.type = "number";
@@ -6,127 +9,97 @@ var NumberController = function() {
     
     var _this = this;
     
-    var isClicked = false;
-    var isDragged = false;
-    var y, py, initialValue, inc;
+    var y = py = 0;
     
-    py = y = 0;
-    inc = initialValue = this.object[this.propertyName];
+    var min = arguments[2];
+    var max = arguments[3];
+    var step = arguments[4] || (max - min) * 0.01;
     
-    var min, max;
-    (arguments[2] != null) ? min = arguments[2] : min = null;
-    (arguments[3] != null) ? max = arguments[3] : max = null;
+    var numberField = document.createElement('input');
+    numberField.setAttribute('id', this.propertyName);
+    numberField.setAttribute('type', this.type);
+    numberField.setAttribute('value', this.getValue());
     
-    var amt;
-    (arguments[4] != null) ? amt = arguments[4] : amt = (max - min) * .01;
-    if(amt == 0) amt = 1;
+    if (step) numberField.setAttribute('step', step);
     
-    var button = document.createElement('input');
-    button.setAttribute('id', this.propertyName);
-    button.setAttribute('type', this.type);
-    button.setAttribute('value', inc);
-    button.setAttribute('step', amt);
-    this.domElement.appendChild(button);
+    this.domElement.appendChild(numberField);
     
-    var slider = document.createElement('input');
-    if(min != null && max != null) {
-        slider.setAttribute('id', this.propertyName + "-slider");
+    var slider;
+    
+    if (min && max) {
+    
+	    slider = document.createElement('input');
         slider.setAttribute('type', 'range');
-        slider.setAttribute('value', inc);
-        if(min != null && max != null) {
-            slider.setAttribute('min', min);
-            slider.setAttribute('max', max);
-        }
-        slider.setAttribute('step', amt);
+        slider.setAttribute('value', this.getValue());
+		slider.setAttribute('min', min);
+		slider.setAttribute('max', max);
+		
+		numberField.setAttribute('min', min);
+		numberField.setAttribute('max', max);
+		
+        slider.setAttribute('step', step);
+		slider.addEventListener('change', function(e) {
+			updateValue(this.value);
+		}, false);		
         this.domElement.appendChild(slider);
     }
     
-    button.addEventListener('mousedown', function(e) {
-        isClicked = true;
-    }, false);
-    button.addEventListener('blur', function(e) {
+    numberField.addEventListener('blur', function(e) {
         var val = parseFloat(this.value);
-        if(isNaN(val)) {
-            inc = initialValue;
-        } else {
-            inc = val;
+        if (!isNaN(val)) {
+	        updateValue(val);
         }
-        updateValue(inc);
     }, false);
-    slider.addEventListener('mousedown', function(e) {
-        isDragged = true;
+    
+    numberField.addEventListener('mousewheel', function(e) {
+    	e.preventDefault();
+    	updateValue(_this.getValue() + Math.abs(e.wheelDeltaY)/e.wheelDeltaY*step);
+    	return false;
     }, false);
+    
+    numberField.addEventListener('mousedown', function(e) {
+    	py = y = e.pageY;
+    	document.addEventListener('mousemove', dragNumberField, false);
+    }, false);
+    
+    
+    numberField.addEventListener('mouseup', function(e) {
+    	updateValue(this.value);
+    }, false);
+    
     document.addEventListener('mouseup', function(e) {
-        isClicked = false;
+    	document.removeEventListener('mousemove', dragNumberField, false);
       	_this.makeSelectable(GUI.domElement); 
-		_this.makeSelectable(button);
-        isDragged = false;
-    }, false);
-    document.addEventListener('mousemove', function(e) {
-        if(isClicked) {
-            e.preventDefault();
-        	_this.makeUnselectable(GUI.domElement);
-        	_this.makeUnselectable(button);
-      
-            py = y;
-            y = e.offsetY;
-            var dy = y - py;
-            if(dy < 0) {
-                
-                if(max != null) {
-                    if(inc >= max) {
-                        inc = max;
-                        return;
-                    } else {
-                        inc+=amt;
-                        updateValue(inc);
-                    }
-                } else {
-                    inc++;
-                    updateValue(inc);
-                }
-            } else if(dy > 0) {
-            
-                if(min != null) {
-                    if(inc <= min) {
-                        inc = min;
-                        return;
-                    } else {
-                        inc-=amt;
-                        updateValue(inc);
-                    }
-                } else {
-                    inc--;
-                    updateValue(inc);
-                }
-            }
-            updateValue(inc);
-        } else if(isDragged) {
-            if(inc != slider.value) inc = slider.value;
-            updateValue(inc);
-        }
+		_this.makeSelectable(numberField);
     }, false);
     
+    document.addEventListener('mouseout', function(e) {
+    	document.removeEventListener('mousemove', dragNumberField, false);
+    }, false);
     
-    function updateValue(val) {
-        if(inc != val) inc = val;
-        if(inc > max && max != null) {
-            inc = max;
-        } else if(inc < min && min != null) {
-            inc = min;
-        }
-        button.value = val;
-        slider.value = val;
-        _this.setValue(val);
+    var dragNumberField = function(e) {
+		e.preventDefault();
+		_this.makeUnselectable(GUI.domElement);
+		_this.makeUnselectable(numberField);
+		py = y;
+		y = e.pageY;
+		var dy = py - y;
+		var newVal = _this.getValue() + dy*step;
+		updateValue(newVal);
+		return false;
     }
     
-    this.__defineSetter__("position", function(val) {
-        inc = val;
-        updateValue(val);
-        // possibly push to an array here so that
-        // we have a record of "defined" / "presets"
-        // ????
-    });
+    var updateValue = function(val) {
+    	if (min && val <= min) {
+    		val = min;
+    	} else if (max && val >= max) { 
+    		val = max;
+    	}
+        _this.setValue(val);
+        numberField.value = _this.getValue();
+        if (slider) slider.value = _this.getValue();
+    }
+    
 };
 
 NumberController.prototype = new Controller();

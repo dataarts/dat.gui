@@ -35,7 +35,6 @@ window.onload = function() {
    
    // Creates a slider (min, max)
    GUI.add(controllableObject, "constrainedNum", -100, 100)
-      .setName("customName");
    
    // Creates a text field
    GUI.add(controllableObject, "textProperty");
@@ -44,7 +43,8 @@ window.onload = function() {
    GUI.add(controllableObject, "booleanProperty");
    
    // Creates a button
-   GUI.add(controllableObject, "functionProperty");
+   GUI.add(controllableObject, "functionProperty")
+      .setName("Fire a Function");
 
 };
 </script>
@@ -70,8 +70,7 @@ window.onload = function() {
    GUI.add(controllableObject, "numberProperty");
    
    // Creates a slider (min, max)
-   GUI.add(controllableObject, "constrainedNum", -100, 100)
-      .setName("customName");
+   GUI.add(controllableObject, "constrainedNum", -100, 100, 0);
    
    // Creates a text field
    GUI.add(controllableObject, "textProperty");
@@ -80,7 +79,8 @@ window.onload = function() {
    GUI.add(controllableObject, "booleanProperty");
    
    // Creates a button
-   GUI.add(controllableObject, "functionProperty");
+   GUI.add(controllableObject, "functionProperty")
+      .setName("Fire a Function");
 
 };
 </pre>
