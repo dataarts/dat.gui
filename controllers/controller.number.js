@@ -39,15 +39,15 @@ var NumberController = function() {
     
     var slider;
     
-    if (min && max) {
-    	slider = new Slider();
+    if (min != undefined && max != undefined) {
+    	slider = new Slider(this, min, max, step, this.getValue());
     	this.domElement.appendChild(slider.domElement);
     }
     
     numberField.addEventListener('blur', function(e) {
         var val = parseFloat(this.value);
         if (!isNaN(val)) {
-	        updateValue(val);
+	        _this.updateValue(val);
         } else { 
         	this.value = _this.getValue();
         }
@@ -55,7 +55,7 @@ var NumberController = function() {
     
     numberField.addEventListener('mousewheel', function(e) {
     	e.preventDefault();
-    	updateValue(_this.getValue() + Math.abs(e.wheelDeltaY)/e.wheelDeltaY*step);
+    	this.updateValue(_this.getValue() + Math.abs(e.wheelDeltaY)/e.wheelDeltaY*step);
     	return false;
     }, false);
     
@@ -77,7 +77,8 @@ var NumberController = function() {
         clickedNumberField = false;
     }, false);
     
-    if(navigator.appVersion.indexOf('chrome') != -1) {
+    // Kinda nast
+    if (navigator.appVersion.indexOf('chrome') != -1) {
         document.addEventListener('mouseout', function(e) {
             document.removeEventListener('mousemove', dragNumberField, false);
         }, false);
@@ -97,11 +98,11 @@ var NumberController = function() {
 		y = e.pageY;
 		var dy = py - y;
 		var newVal = _this.getValue() + dy*step;	
-		updateValue(newVal);
+		_this.updateValue(newVal);
 		return false;
     }
     
-    var updateValue = function(val) {
+    this.updateValue = function(val) {
 
 		val = parseFloat(val);
 		
