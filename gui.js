@@ -38,7 +38,7 @@ var GUI = new function() {
 			return;
 		}
 	
-		var controllerObject = handler.apply(this, arguments);
+		var controllerObject = construct(handler, arguments);
 		
 		// Were we able to make the controller?
 		if (!controllerObject) {		
@@ -55,23 +55,10 @@ var GUI = new function() {
 	}
 	
 	var addHandlers = {
-		
-		"number": function() {
-            return construct(NumberController, arguments);
-		},
-		
-		"string": function() {
-            return construct(StringController, arguments);
-		},
-		
-		"boolean": function() {
-			return construct(BooleanController, arguments);
-		},
-		
-		"function": function() {
-			return construct(FunctionController, arguments);
-		},
-		
+		"number": NumberController,
+		"string": StringController,
+		"boolean": BooleanController,
+		"function": FunctionController
 	};
 	
 	var alreadyControlled = function(object, propertyName) {

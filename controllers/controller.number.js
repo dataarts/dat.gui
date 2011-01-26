@@ -20,12 +20,14 @@ var NumberController = function() {
     var step = arguments[4];
     
     if (!step) {
-    	if (min && max) {
+    	if (min != undefined && max != undefined) {
     		step = (max-min)*0.01;
     	} else {
     		step = 1;
     	}	
     }
+    
+    console.log("step " + step);
     
     var numberField = document.createElement('input');
     numberField.setAttribute('id', this.propertyName);
@@ -114,8 +116,13 @@ var NumberController = function() {
     	}
         _this.setValue(val);
         
-        numberField.value = _this.getValue();
+        numberField.value = roundToDecimal(_this.getValue(), 4);
         if (slider) slider.value = _this.getValue();
+    }
+    
+    var roundToDecimal = function(n, decimals) {
+	    var t = Math.pow(10, decimals);
+    	return Math.round(n*t)/t;
     }
     
 };

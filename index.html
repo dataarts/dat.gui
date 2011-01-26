@@ -6,15 +6,16 @@
         
         <link href="gui.css" media="screen" rel="stylesheet" type="text/css" />
         <link href="demo/demo.css" media="screen" rel="stylesheet" type="text/css" />
-  <!--   <script type="text/javascript" src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>-->
+		<script type="text/javascript" src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>
 
-        <script type="text/javascript" src="gui.js"></script>
+
         <script type="text/javascript" src="controllers/slider.js"></script>
         <script type="text/javascript" src="controllers/controller.js"></script>
         <script type="text/javascript" src="controllers/controller.string.js"></script>
         <script type="text/javascript" src="controllers/controller.number.js"></script>
         <script type="text/javascript" src="controllers/controller.boolean.js"></script>
         <script type="text/javascript" src="controllers/controller.function.js"></script>
+		<script type="text/javascript" src="gui.js"></script>
         <script type="text/javascript" src="demo/demo.js"></script>
         <script type="text/javascript">
             var controllableObject = 
@@ -35,7 +36,7 @@
 
                 var testDisplay = new DynamicText("gui-dat", 600, 300, 160);
 
-        //       prettyPrint();
+            prettyPrint();
 
                GUI.start();
                
@@ -43,7 +44,7 @@
                GUI.add(testDisplay, "minSize", 0, 1);
                
                // Creates a number box
-               GUI.add(testDisplay, "maxSize", 1, 5);
+               GUI.add(testDisplay, "maxSize", 1, 20);
 
                // Creates a slider (min, max)
                GUI.add(testDisplay, "growthSpeed", 0.01, 0.5);
@@ -122,8 +123,7 @@ window.onload = function() {
    GUI.add(controllableObject, &quot;booleanProperty&quot;);
 
    // Creates a button
-   GUI.add(controllableObject, &quot;functionProperty&quot;)
-      .setName(&quot;Fire a Function&quot;);
+   GUI.add(controllableObject, &quot;functionProperty&quot;).setName(&quot;Fire a Function&quot;);
 
 };
 

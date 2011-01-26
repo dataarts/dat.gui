@@ -13,8 +13,9 @@ var Slider = function(numberController, min, max, step, initValue) {
 	var x, px;
 	
 	this.domElement = document.createElement('div');
-	this.fg = document.createElement('div');
 	this.domElement.setAttribute('class', 'guidat-slider-bg');
+	
+	this.fg = document.createElement('div');
 	this.fg.setAttribute('class', 'guidat-slider-fg');
 	
 	this.domElement.appendChild(this.fg);
@@ -38,10 +39,8 @@ var Slider = function(numberController, min, max, step, initValue) {
 	}
 	
 	this.__defineSetter__('value', function(e) {
-		
 		var pct = map(e, min, max, 0, 100);
 		this.fg.style.width = pct+"%";
-		
 	});
 
 	var onDrag = function(e) {
@@ -68,9 +67,6 @@ var Slider = function(numberController, min, max, step, initValue) {
 	}, false);
 	
 	document.addEventListener('mousemove', onDrag, false);
-
-
-	
 	
 	this.value = initValue;	
 		

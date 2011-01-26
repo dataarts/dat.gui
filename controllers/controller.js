@@ -4,6 +4,7 @@ var Controller = function() {
 
     this.setName = function(n) {
   	    this.propertyNameElement.innerHTML = n;
+  	    return this;
     }
     
     this.setValue = function(n) {
@@ -11,6 +12,7 @@ var Controller = function() {
       	if (onChange != null) {
       		onChange.call(this, n);
       	}
+      	return this;
     }
     
     this.getValue = function() {
@@ -19,6 +21,7 @@ var Controller = function() {
     
     this.onChange = function(fnc) {
     	onChange = fnc;
+    	return this;
     }
     
 	this.makeUnselectable = function(elem) {
