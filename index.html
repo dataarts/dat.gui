@@ -15,14 +15,14 @@
         <script type="text/javascript" src="controllers/controller.number.js"></script>
         <script type="text/javascript" src="controllers/controller.boolean.js"></script>
         <script type="text/javascript" src="controllers/controller.function.js"></script>
-        <script type="text/javascript" src="demo/demo.js"></script>
-        <script id="demo" type="text/javascript">
+        <!-- <script type="text/javascript" src="demo/demo.js"></script> -->
+        <script type="text/javascript">
             var controllableObject = 
                {   
                   numberProperty: 20,
                   constrainedNum: 0,
-                  notchedNum: 200,
-                  textProperty: "a string",
+                  notchedNum: 240,
+                  pageTitle: "gui-dat",
                   anotherTextProperty: "another string",
                   booleanProperty: false,
                   anotherBooleanProperty: false,
@@ -32,38 +32,41 @@
                };
 
             window.onload = function() {
-            
+
                prettyPrint();
 
                GUI.start();
-   
+               
                // Creates a number box
                GUI.add(controllableObject, "numberProperty");
-   
+
                // Creates a slider (min, max)
-               GUI.add(controllableObject, "constrainedNum", -100, 100)
-               
+               GUI.add(controllableObject, "constrainedNum", -100, 100);
+
                // Creates a slider with notches
-               GUI.add(controllableObject, "notchedNum", 0, 800, 100)
-   
+               GUI.add(controllableObject, "notchedNum", 0, 800, 100);
+
                // Creates a text field
-               GUI.add(controllableObject, "textProperty");
-   
+               GUI.add(document.getElementById('helvetica-demo'), "innerHTML");
+
                // Creates a checkbox
                GUI.add(controllableObject, "booleanProperty");
-   
+
                // Creates a button
                GUI.add(controllableObject, "functionProperty")
                   .setName("Fire a Function");
-
+               
             };
         </script>
     </head>
     <body>
-        <h1><a href = "http://twitter.com/guidat"><img src = "demo/assets/favicon.gif" border = "0" alt = "GUI-DAT flag" /></a>GUI-DAT</h1>
+        <h1><a href = "http://twitter.com/guidat"><img src = "demo/assets/favicon.gif" border = "0" alt = "GUI-DAT flag" /></a><span id = "helvetica-demo">gui-dat</span></h1>
         <p>
             <strong>gui-dat</strong> is a lightweight controller library for JavaScript. It allows you to easily manipulate variables and fire functions on the fly.
         </p>
+        
+        <p>&bull; <a href="#"><strong>Download the minified source</strong></a> <small>[2.3kb]</small><br/>
+        &bull; <a href="http://github.com/jonobr1/GUI-DAT">Contribute on GitHub!</a></p>
         
         <h2>Basic Usage</h2>
         
@@ -88,10 +91,7 @@ var controllableObject =
 window.onload = function() {
 
    GUI.start();
-   
-   // Closed by default.
-   GUI.open();
-
+  
    // Creates a number box
    GUI.add(controllableObject, &quot;numberProperty&quot;);
 
@@ -114,8 +114,8 @@ window.onload = function() {
 };
 
 &lt;/script&gt;</pre>
-        <footer>
-
-        </footer>
+		<footer> 
+            By <a href="http://georgemichaelbrower.com/">George Michael Brower</a>, <a href="http://jonobr1.com/">Jono Brandel</a>, and <a href="http://github.com/jonobr1/GUI-DAT">you</a>.
+        </footer> 
     </body>
 </html>
