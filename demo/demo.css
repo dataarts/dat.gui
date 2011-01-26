@@ -18,7 +18,7 @@ h1 {
     font-weight: 800; 
     text-transform: lowercase;
     line-height: 80px;
-    margin: 20px 0 0 0;
+    margin: 20px 0 20px 0;
 }
 
 h1 a:link, h1 a:visited, h1 a:hover, h1 a:active {
@@ -31,7 +31,6 @@ h1 img {
     height: 45px;
     -moz-border-radius: 9px;
     border-radius: 9px;
-    margin-bottom: 20px;
 }
 
 pre { 
@@ -55,6 +54,20 @@ a:hover {
 }
 a:active {
     color: #54396e;
+}
+
+#columns {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 10px;
+}
+
+#columns div {
+    float: left;
+    width : auto;
+    height: 10px;
 }
 
 /* SPAN elements with the classes below are added by prettyprint. */

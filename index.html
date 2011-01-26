@@ -15,8 +15,7 @@
         <script type="text/javascript" src="controllers/controller.number.js"></script>
         <script type="text/javascript" src="controllers/controller.boolean.js"></script>
         <script type="text/javascript" src="controllers/controller.function.js"></script>
-        <script type="text/javascript" src="demo/swell.js"></script>
-        <script type="text/javascript" src="demo/demo.js"></script>
+        <!-- <script type="text/javascript" src="demo/demo.js"></script> -->
         <script type="text/javascript">
             var controllableObject = 
                {   
@@ -37,18 +36,18 @@
                prettyPrint();
 
                GUI.start();
-
+               
                // Creates a number box
                GUI.add(controllableObject, "numberProperty");
 
                // Creates a slider (min, max)
-               GUI.add(controllableObject, "constrainedNum", -100, 100)
+               GUI.add(controllableObject, "constrainedNum", 0, 16);
 
                // Creates a slider with notches
-               GUI.add(controllableObject, "notchedNum", 0, 800, 100)
+               GUI.add(controllableObject, "notchedNum", 0, 800, 100);
 
                // Creates a text field
-               GUI.add(controllableObject, "pageTitle");
+               GUI.add(document.getElementById('helvetica-demo'), "innerHTML");
 
                // Creates a checkbox
                GUI.add(controllableObject, "booleanProperty");
@@ -57,12 +56,12 @@
                GUI.add(controllableObject, "functionProperty")
                   .setName("Fire a Function");
                
-               setup();
+
             };
         </script>
     </head>
     <body>
-        <h1><a href = "http://twitter.com/guidat"><img src = "demo/assets/favicon.gif" border = "0" alt = "GUI-DAT flag" /></a><canvas id = "helvetica-demo"  width = "500" height = "100">gui-dat</canvas></h1>
+        <h1><a href = "http://twitter.com/guidat"><img src = "demo/assets/favicon.gif" border = "0" alt = "GUI-DAT flag" /></a><span id = "helvetica-demo">gui-dat</span></h1>
         <p>
             is a super-light javascript library for making GUI elements. It is inspired by <a href = "http://www.sojamo.de/libraries/controlP5/">controlP5</a>.
         </p>
@@ -70,19 +69,21 @@
         <pre id="demo-pre" class="prettyprint">
 var controllableObject = 
    {   
-	  numberProperty: 20,
-	  constrainedNum: 0,
-	  notchedNum: 240,
-	  textProperty: "a string",
-	  anotherTextProperty: "another string",
-	  booleanProperty: false,
-	  anotherBooleanProperty: false,
-	  functionProperty: function() {
-		 alert("I am a function!");
-	  }
+      numberProperty: 20,
+      constrainedNum: 0,
+      notchedNum: 240,
+      pageTitle: "gui-dat",
+      anotherTextProperty: "another string",
+      booleanProperty: false,
+      anotherBooleanProperty: false,
+      functionProperty: function() {
+         alert("I am a function!");
+      }
    };
 
 window.onload = function() {
+
+   prettyPrint();
 
    GUI.start();
 
@@ -91,12 +92,12 @@ window.onload = function() {
 
    // Creates a slider (min, max)
    GUI.add(controllableObject, "constrainedNum", -100, 100)
-   
+
    // Creates a slider with notches
    GUI.add(controllableObject, "notchedNum", 0, 800, 100)
 
    // Creates a text field
-   GUI.add(controllableObject, "textProperty");
+   GUI.add(controllableObject, "pageTitle");
 
    // Creates a checkbox
    GUI.add(controllableObject, "booleanProperty");
@@ -104,11 +105,11 @@ window.onload = function() {
    // Creates a button
    GUI.add(controllableObject, "functionProperty")
       .setName("Fire a Function");
-
 };
         </pre>
         <footer>
             By <a href="http://georgemichaelbrower.com/">George Michael Brower</a>, <a href="http://jonobr1.com/">Jono Brandel</a>, and <a href="http://github.com/jonobr1/GUI-DAT">you</a>.
         </footer>
+        <div id = "columns"></div>
     </body>
 </html>
