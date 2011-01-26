@@ -1,15 +1,24 @@
 var Controller = function() {
 
+	var onChange = null;
+
     this.setName = function(n) {
   	    this.propertyNameElement.innerHTML = n;
     }
     
     this.setValue = function(n) {
     	this.object[this.propertyName] = n;
+      	if (onChange != null) {
+      		onChange.call(this, n);
+      	}
     }
     
     this.getValue = function() {
         return this.object[this.propertyName];
+    }
+    
+    this.onChange = function(fnc) {
+    	onChange = fnc;
     }
     
 	this.makeUnselectable = function(elem) {
