@@ -1,6 +1,6 @@
-function DynamicText(string, width, height, textAscent) {
+function DynamicText(message, width, height, textAscent) {
     
-    this.string = string;
+    var message = message;
     
     this.width  = width;
     this.height = height;
@@ -26,53 +26,73 @@ function DynamicText(string, width, height, textAscent) {
     
     s.font = "800 "+textAscent+"px helvetica, arial, sans-serif";
     
-    this.update = function() {
-        
-        // Create our reference bitmap
+    var createParticles = function(m) {
         s.fillStyle = "#fff";
-        s.fillRect(0, 0, this.width, this.height);
+        s.fillRect(0, 0, width, height);
         
-        s.fillStyle = "#000";
-        s.fillText(this.string, 0, this.textAscent);
+        s.fillStyle = "#222";
+        s.fillText(m, 0, textAscent);
         
         // Pull reference
         var imageData = s.getImageData(0, 0, width, height);
         pixels = imageData.data;
-        
+                
         // Set reference onto particles
         for(var i = 0; i < pixels.length; i+=4) {
             if(pixels[i] < 255) {
                 var p = getPosition(i);
-                if(particles[i])
-                    particles[i].position = p;
-                else
-                    particles.push( new Particle(p.x, p.y) );
+                var c = getPixel(p.x, p.y);
+                particles.push( new Particle(p.x, p.y, c) );
             }
         }
     };
     
-    this.render = function(c) {
-        g.fillStyle = c;
+    var render = function() {
+        
+        g.clearRect(0, 0, width, height);
+        
         for(var i = 0; i < particles.length; i++) {
+            particles[i].update();
+            
             var p = particles[i].position;
+            g.fillStyle = particles[i].color;
             g.fillRect(p.x, p.y, 1, 1);
         }
     };
     
     var getPosition = function(i) {
-        var p = { x: (i - (width * 4) * Math.floor(i/(width * 4))) / 4, y: Math.floor(i/(width * 4)) };
-        return p;
+        return { x: (i - (width * 4) * Math.floor(i/(width * 4))) / 4, y: Math.floor(i/(width * 4)) };
     };
     
     var getPixel = function(x, y) {
-        var p = { r: pixels[4 * x * y + 0], g: pixels[4 * x * y + 1], b: pixels[4 * x * y + 2], a:  pixels[4 * x * y + 3]};
-        return p;
+        var base = (y * width + x) * 4;
+        return { r: pixels[base + 0], g: pixels[base + 1], b: pixels[base + 2], a:  pixels[base + 3]};
     };
+    
+    this.__defineGetter__("message", function() {
+        return message;
+    });
+    
+    this.__defineSetter__("message", function(m) {
+        message = m;
+        particles = [];
+        createParticles(message);
+        render();
+    });
+    
+    createParticles(message);
+    setInterval(render, 30);
 }
 
-function Particle(x, y) {
+function Particle(x, y, c) {
     var x = x;
     var y = y;
+    
+    this.color = "rgb("+c.r+", "+c.g+", "+c.b+")";
+    
+    this.update = function() {
+        // x+=Math.random() - Math.random();
+    };
     
     this.__defineGetter__("x", function() {
         return x;

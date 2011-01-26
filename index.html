@@ -34,8 +34,6 @@
             window.onload = function() {
 
                 var testDisplay = new DynamicText("gui-dat", 500, 100, 80);
-                testDisplay.update();
-                testDisplay.render("#000");
 
                prettyPrint();
 
@@ -51,7 +49,7 @@
                GUI.add(controllableObject, "notchedNum", 0, 800, 100);
 
                // Creates a text field
-               GUI.add(document.getElementById('helvetica-demo'), "innerHTML");
+               GUI.add(testDisplay, "message");
 
                // Creates a checkbox
                GUI.add(controllableObject, "booleanProperty");
@@ -64,7 +62,7 @@
         </script>
     </head>
     <body>
-        <h1><a href = "http://twitter.com/guidat"><img src = "demo/assets/favicon.gif" border = "0" alt = "GUI-DAT flag" /></a><span id = "helvetica-demo">gui-dat</span></h1>
+        <h1><a href = "http://twitter.com/guidat"><img src = "demo/assets/favicon.gif" border = "0" alt = "GUI-DAT flag" /></a><span id = "helvetica-demo"></span></h1>
         
         <div id = "helvetica-test"></div>
         <p>
