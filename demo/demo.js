@@ -25,6 +25,6 @@ function draw() {
     g.fillRect(0, 0, width, height);
     
     g.fillStyle = "#222";
-    g.fillText(controllableObject.pageTitle, 0, height);
+    g.fillText(controllableObject.pageTitle, 0, 80);
     
 }
