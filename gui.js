@@ -17,8 +17,8 @@ var GUI = new function() {
 	
 		// Have we already added this?
 		if (alreadyControlled(object, propertyName)) {
-	//		error("Controller for \"" + propertyName+"\" already added.");
-	//		return;
+			error("Controller for \"" + propertyName+"\" already added.");
+			return;
 		}
 	
 		var value = object[propertyName];

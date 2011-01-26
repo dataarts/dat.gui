@@ -18,7 +18,7 @@ h1 {
     font-weight: 800; 
     text-transform: lowercase;
     line-height: 80px;
-    margin: 20px 0 20px 0;
+    margin: 20px 0 30px 0;
 }
 
 h1 a:link, h1 a:visited, h1 a:hover, h1 a:active {
@@ -33,6 +33,10 @@ h1 img {
     border-radius: 9px;
 }
 
+h2 { 
+font-size: 18px;
+}
+
 pre { 
     margin: 20px 0 20px 0;
     padding: 15px;
@@ -41,7 +45,7 @@ pre {
     font: 10px Monaco, monospace;
 }
 
-p { font-size: 125%; max-width: 530px; }
+p { font-size: 125%; max-width: 530px; line-height: 18px; margin-bottom: 36px; }
 
 a:link {
     color: #00aeff;
@@ -54,6 +58,12 @@ a:hover {
 }
 a:active {
     color: #54396e;
+}
+
+footer { 
+background-color: #eee;
+width: 510px;
+padding: 10px;
 }
 
 #columns {
@@ -78,7 +88,7 @@ a:active {
 .lit { color: #00aeff; }
 .pun, .opn, .clo { color: #777; }
 .pln { color: #ccc; }
-.tag { color: #008; }
-.atn { color: #606; }
-.atv { color: #080; }
+.tag { color: #555; }
+.atn { color: #555; }
+.atv { color: #777; }
 .dec { color: #606; }
