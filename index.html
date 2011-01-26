@@ -15,7 +15,7 @@
         <script type="text/javascript" src="controllers/controller.number.js"></script>
         <script type="text/javascript" src="controllers/controller.boolean.js"></script>
         <script type="text/javascript" src="controllers/controller.function.js"></script>
-        <!-- <script type="text/javascript" src="demo/demo.js"></script> -->
+        <script type="text/javascript" src="demo/demo.js"></script>
         <script type="text/javascript">
             var controllableObject = 
                {   
@@ -30,8 +30,12 @@
                      alert("I am a function!");
                   }
                };
-
+               
             window.onload = function() {
+
+                var testDisplay = new DynamicText("gui-dat", 500, 100, 80);
+                testDisplay.update();
+                testDisplay.render("#000");
 
                prettyPrint();
 
@@ -62,6 +66,8 @@
     </head>
     <body>
         <h1><a href = "http://twitter.com/guidat"><img src = "demo/assets/favicon.gif" border = "0" alt = "GUI-DAT flag" /></a><span id = "helvetica-demo">gui-dat</span></h1>
+        
+        <div id = "helvetica-test"></div>
         <p>
             is a super-light javascript library for making GUI elements. It is inspired by <a href = "http://www.sojamo.de/libraries/controlP5/">controlP5</a>.
         </p>
