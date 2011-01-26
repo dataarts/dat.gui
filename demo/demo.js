@@ -2,9 +2,15 @@ function DynamicText(message, width, height, textAscent) {
     
     var _this = this;
     
-    this.growthSpeed = 0.1;
+    this.growthSpeed = 0.5;
     this.minSize = 0;
     this.maxSize = 5;
+    
+    this.noiseScale = 300;
+    this.noiseStrength = 10;
+    this.stepSize = 1;
+    
+    this.displayOutline = false;
     
     var message = message;
     
@@ -12,6 +18,13 @@ function DynamicText(message, width, height, textAscent) {
     this.height = height;
     
     this.textAscent = textAscent;
+    
+    var colors = [
+        "#00aeff",
+        "#0fa954",
+        "#54396e",
+        "#e61d5f"
+        ]
     
     var r = document.createElement('canvas');
     var s = r.getContext('2d');
@@ -29,7 +42,7 @@ function DynamicText(message, width, height, textAscent) {
     var pixels    = [];
     var particles = [];
     
-    s.font = "800 "+textAscent+"px helvetica, arial, sans-serif";
+    s.font = g.font = "800 "+textAscent+"px helvetica, arial, sans-serif";
     
 	// Set reference onto particles
 	for (var i = 0; i < 1000; i++) {
@@ -53,10 +66,20 @@ function DynamicText(message, width, height, textAscent) {
         
         g.clearRect(0, 0, width, height);
         
-        for (var i = 0; i < particles.length; i++) {
-            particles[i].update();
-            particles[i].draw();
+        if(_this.displayOutline) {
+            g.globalCompositeOperation = "source-over";
+            g.strokeStyle = "#000";
+            g.lineWidth = .25;
+            g.strokeText(message, 0, textAscent);
         }
+        
+        g.globalCompositeOperation = "darker";
+        
+        for (var i = 0; i < particles.length; i++) {
+            g.fillStyle = colors[i%colors.length];
+            particles[i].render();
+        }
+
     };
     
     var getPosition = function(i) {
@@ -83,23 +106,28 @@ function DynamicText(message, width, height, textAscent) {
     setInterval(render, 30);
     
 	function Particle(x, y, c) {
-		this.x = x;
-		this.y = y;
-		this.r = 0;
-		this.update = function() {
-			this.x += Math.random() - Math.random();
-			this.y += Math.random() - Math.random();
-		}
-		this.draw = function() {
-			var c = getColor(this.x, this.y);
-			if (c == "rgb(255,255,255)") {
-				this.r -= _this.growthSpeed;
-			} else { 
-				this.r += _this.growthSpeed;
-			}
-			this.r = constrain(this.r, _this.minSize, _this.maxSize);
-			g.beginPath();
-			g.arc(this.x, this.y, this.r, 0, Math.PI*2, false);
+	    this.p  = { x: x, y: y };
+		this.r  = 0;
+		
+		this.render = function() {
+            var c = getColor(this.x, this.y);
+            
+                     var angle = noise(this.p.x/_this.noiseScale, this.p.y/_this.noiseScale) * _this.noiseStrength;
+                     var c = getColor(this.p.x, this.p.y);
+                        if (c == "rgb(255,255,255)") {
+                            this.r -= _this.growthSpeed;
+                        } else {
+                            this.r += _this.growthSpeed;
+                        }
+                        this.p.x += Math.cos(angle) * _this.stepSize;
+                        this.p.y += -Math.sin(angle) * _this.stepSize;
+                        this.r = constrain(this.r, _this.minSize, _this.maxSize);
+                        if(this.r <= _this.minSize) {
+                            this.p.x = Math.random() * width;
+                            this.p.y = Math.random() * height;
+                        }
+            g.beginPath();
+			g.arc(this.p.x, this.p.y, this.r, 0, Math.PI*2, false);
 			g.fill();
 		}
 	}

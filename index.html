@@ -6,7 +6,7 @@
         
         <link href="gui.css" media="screen" rel="stylesheet" type="text/css" />
         <link href="demo/demo.css" media="screen" rel="stylesheet" type="text/css" />
-  <!--   <script type="text/javascript" src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>-->
+    <script type="text/javascript" src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>
 
         <script type="text/javascript" src="gui.js"></script>
         <script type="text/javascript" src="controllers/slider.js"></script>
@@ -15,6 +15,7 @@
         <script type="text/javascript" src="controllers/controller.number.js"></script>
         <script type="text/javascript" src="controllers/controller.boolean.js"></script>
         <script type="text/javascript" src="controllers/controller.function.js"></script>
+        <script type="text/javascript" src="demo/improvedNoise.js"></script>
         <script type="text/javascript" src="demo/demo.js"></script>
         <script type="text/javascript">
             var controllableObject = 
@@ -35,24 +36,27 @@
 
                 var testDisplay = new DynamicText("gui-dat", 600, 300, 160);
 
-        //       prettyPrint();
+              prettyPrint();
 
                GUI.start();
-               
-               // Creates a number box
-               GUI.add(testDisplay, "minSize", 0, 1);
                
                // Creates a number box
                GUI.add(testDisplay, "maxSize", 1, 5);
 
                // Creates a slider (min, max)
-               GUI.add(testDisplay, "growthSpeed", 0.01, 0.5);
+               GUI.add(testDisplay, "growthSpeed", 0.01, 1);
+               
+               // Creates a slider (min, max)
+               GUI.add(testDisplay, "noiseStrength", 10, 100);
+               
+               // Creates a slider (min, max)
+               GUI.add(testDisplay, "stepSize", 1, 4);
 
                // Creates a text field
                GUI.add(testDisplay, "message");
 
                // Creates a checkbox
-               GUI.add(controllableObject, "booleanProperty");
+               GUI.add(testDisplay, "displayOutline");
 
                // Creates a button
                GUI.add(controllableObject, "functionProperty")
@@ -73,17 +77,15 @@
     </head>
     <body>
         <h1><a href = "http://twitter.com/guidat"><img src = "demo/assets/favicon.gif" border = "0" alt = "GUI-DAT flag" /></a><span id = "helvetica-demo"></span></h1>
-        
-        <div id = "helvetica-test"></div>
         <p>
             <strong>gui-dat</strong> is a lightweight controller library for JavaScript. It allows you to easily manipulate variables and fire functions on the fly.
         </p>
-        
+    
         <p>&bull; <a href="#"><strong>Download the minified source</strong></a> <small>[2.3kb]</small><br/>
         &bull; <a href="http://github.com/jonobr1/GUI-DAT">Contribute on GitHub!</a></p>
-        
+    
         <h2>Basic Usage</h2>
-        
+    
         <pre id="demo-pre" class="prettyprint">
 &lt;script type=&quot;text/javascript&quot; src=&quot;gui.min.js&quot;&gt;&lt;/script&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
@@ -105,13 +107,13 @@ var controllableObject =
 window.onload = function() {
 
    GUI.start();
-  
+
    // Creates a number box
    GUI.add(controllableObject, &quot;numberProperty&quot;);
 
    // Creates a slider (min, max)
    GUI.add(controllableObject, &quot;constrainedNum&quot;, -100, 100)
-   
+
    // Creates a slider with notches
    GUI.add(controllableObject, &quot;notchedNum&quot;, 0, 800, 100)
 
