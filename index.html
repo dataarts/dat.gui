@@ -6,7 +6,7 @@
         
         <link href="gui.css" media="screen" rel="stylesheet" type="text/css" />
         <link href="demo/demo.css" media="screen" rel="stylesheet" type="text/css" />
-        <script type="text/javascript" src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>
+  <!--   <script type="text/javascript" src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>-->
 
         <script type="text/javascript" src="gui.js"></script>
         <script type="text/javascript" src="controllers/slider.js"></script>
@@ -33,20 +33,20 @@
                
             window.onload = function() {
 
-                var testDisplay = new DynamicText("gui-dat", 500, 100, 80);
+                var testDisplay = new DynamicText("gui-dat", 600, 300, 160);
 
-               prettyPrint();
+        //       prettyPrint();
 
                GUI.start();
                
                // Creates a number box
-               GUI.add(controllableObject, "numberProperty");
+               GUI.add(testDisplay, "minSize", 0, 1);
+               
+               // Creates a number box
+               GUI.add(testDisplay, "maxSize", 1, 5);
 
                // Creates a slider (min, max)
-               GUI.add(controllableObject, "constrainedNum", -100, 100);
-
-               // Creates a slider with notches
-               GUI.add(controllableObject, "notchedNum", 0, 800, 100);
+               GUI.add(testDisplay, "growthSpeed", 0.01, 0.5);
 
                // Creates a text field
                GUI.add(testDisplay, "message");

@@ -1,8 +1,14 @@
 function DynamicText(message, width, height, textAscent) {
     
+    var _this = this;
+    
+    this.growthSpeed = 0.1;
+    this.minSize = 0;
+    this.maxSize = 5;
+    
     var message = message;
     
-    this.width  = width;
+    this.width = width;
     this.height = height;
     
     this.textAscent = textAscent;
@@ -18,7 +24,6 @@ function DynamicText(message, width, height, textAscent) {
     r.setAttribute('height', height);
     c.setAttribute('height', height);
     
-    // document.getElementById('helvetica-demo').appendChild(r);
     document.getElementById('helvetica-demo').appendChild(c);
     
     var pixels    = [];
@@ -26,7 +31,12 @@ function DynamicText(message, width, height, textAscent) {
     
     s.font = "800 "+textAscent+"px helvetica, arial, sans-serif";
     
-    var createParticles = function(m) {
+	// Set reference onto particles
+	for (var i = 0; i < 1000; i++) {
+		particles.push( new Particle(Math.random()*width, Math.random()*height));
+	}
+	
+    var createBitmap = function(m) {
         s.fillStyle = "#fff";
         s.fillRect(0, 0, width, height);
         
@@ -37,26 +47,15 @@ function DynamicText(message, width, height, textAscent) {
         var imageData = s.getImageData(0, 0, width, height);
         pixels = imageData.data;
                 
-        // Set reference onto particles
-        for(var i = 0; i < pixels.length; i+=4) {
-            if(pixels[i] < 255) {
-                var p = getPosition(i);
-                var c = getPixel(p.x, p.y);
-                particles.push( new Particle(p.x, p.y, c) );
-            }
-        }
     };
     
     var render = function() {
         
         g.clearRect(0, 0, width, height);
         
-        for(var i = 0; i < particles.length; i++) {
+        for (var i = 0; i < particles.length; i++) {
             particles[i].update();
-            
-            var p = particles[i].position;
-            g.fillStyle = particles[i].color;
-            g.fillRect(p.x, p.y, 1, 1);
+            particles[i].draw();
         }
     };
     
@@ -64,9 +63,11 @@ function DynamicText(message, width, height, textAscent) {
         return { x: (i - (width * 4) * Math.floor(i/(width * 4))) / 4, y: Math.floor(i/(width * 4)) };
     };
     
-    var getPixel = function(x, y) {
-        var base = (y * width + x) * 4;
-        return { r: pixels[base + 0], g: pixels[base + 1], b: pixels[base + 2], a:  pixels[base + 3]};
+    var getColor = function(x, y) {
+        var base = (Math.floor(y) * width + Math.floor(x)) * 4;
+        var c = { r: pixels[base + 0], g: pixels[base + 1], b: pixels[base + 2], a:  pixels[base + 3]};
+
+        return "rgb("+c.r+","+c.g+","+c.b+")";
     };
     
     this.__defineGetter__("message", function() {
@@ -75,50 +76,39 @@ function DynamicText(message, width, height, textAscent) {
     
     this.__defineSetter__("message", function(m) {
         message = m;
-        particles = [];
-        createParticles(message);
-        render();
+        createBitmap(message);
     });
     
-    createParticles(message);
+    createBitmap(message);
     setInterval(render, 30);
-}
-
-function Particle(x, y, c) {
-    var x = x;
-    var y = y;
     
-    this.color = "rgb("+c.r+", "+c.g+", "+c.b+")";
-    
-    this.update = function() {
-        // x+=Math.random() - Math.random();
-    };
-    
-    this.__defineGetter__("x", function() {
-        return x;
-    });
-    
-    this.__defineGetter__("y", function() {
-        return y;
-    });
-    
-    this.__defineGetter__("position", function() {
-        return { x: x, y: y };
-    });
-    
-    this.__defineSetter__("x", function(n) {
-        x = n;
-    });
-    
-    this.__defineSetter__("y", function(n) {
-        y = n;
-    });
-    
-    // Dependent on Vector format
-    this.__defineSetter__("position", function(p) {
-        if(p.x && p.y) {
-            x = p.x;
-            y = p.y;
-        }
-    });
+	function Particle(x, y, c) {
+		this.x = x;
+		this.y = y;
+		this.r = 0;
+		this.update = function() {
+			this.x += Math.random() - Math.random();
+			this.y += Math.random() - Math.random();
+		}
+		this.draw = function() {
+			var c = getColor(this.x, this.y);
+			if (c == "rgb(255,255,255)") {
+				this.r -= _this.growthSpeed;
+			} else { 
+				this.r += _this.growthSpeed;
+			}
+			this.r = constrain(this.r, _this.minSize, _this.maxSize);
+			g.beginPath();
+			g.arc(this.x, this.y, this.r, 0, Math.PI*2, false);
+			g.fill();
+		}
+	}
+	
+	
+	var constrain = function(v, o1, o2) {
+		if (v < o1) v = o1;
+		else if (v > o2) v = o2;
+		return v;
+	}
+	
 }
