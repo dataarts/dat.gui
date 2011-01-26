@@ -13,15 +13,17 @@ var Slider = function(numberController, min, max, step, initValue) {
 	var x, px;
 	
 	this.domElement = document.createElement('div');
-	this.domElement.setAttribute('class', 'guidat-slider-bg');
-	
 	this.fg = document.createElement('div');
+	this.domElement.setAttribute('class', 'guidat-slider-bg');
 	this.fg.setAttribute('class', 'guidat-slider-fg');
 	
 	this.domElement.appendChild(this.fg);
 	
 	var map = function(v, i1, i2, o1, o2) {
-		return o1 + (o2 - o1) * ((v - i1) / (i2 - i1));
+		var v = o1 + (o2 - o1) * ((v - i1) / (i2 - i1));
+		if (v < o1) v = o1;
+		else if (v > o2) v = o2;
+		return v;
 	}
 	
 	var findPos = function(obj) {
@@ -53,11 +55,15 @@ var Slider = function(numberController, min, max, step, initValue) {
 	this.domElement.addEventListener('mousedown', function(e) {
 		clicked = true;
 		x = px = e.pageX;
+		_this.domElement.setAttribute('class', 'guidat-slider-bg active');
+		_this.fg.setAttribute('class', 'guidat-slider-fg active');
 		onDrag(e);
 	}, false);
 	
 	
-	this.domElement.addEventListener('mouseup', function(e) {
+	document.addEventListener('mouseup', function(e) {
+		_this.domElement.setAttribute('class', 'guidat-slider-bg');
+		_this.fg.setAttribute('class', 'guidat-slider-fg');
 		clicked = false;
 	}, false);
 	
