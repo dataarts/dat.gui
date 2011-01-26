@@ -26,6 +26,10 @@ h1 a:link, h1 a:visited, h1 a:hover, h1 a:active {
     margin-right: 7px;
 }
 
+h1 span {
+    
+}
+
 h1 img { 
     width: 45px;
     height: 45px;
@@ -35,7 +39,7 @@ h1 img {
 }
 
 h2 { 
-font-size: 18px;
+    font-size: 18px;
 }
 
 pre { 
@@ -45,8 +49,6 @@ pre {
     max-width: 500px;
     font: 10px Monaco, monospace;
 }
-
-canvas { border: 1px solid #000; }
 
 p { font-size: 125%; max-width: 530px; line-height: 18px; margin-bottom: 36px; }
 

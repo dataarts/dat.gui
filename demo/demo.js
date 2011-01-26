@@ -4,7 +4,7 @@ function DynamicText(message, width, height, textAscent) {
     
     this.growthSpeed = 0.5;
     this.minSize = 0;
-    this.maxSize = 5;
+    this.maxSize = 3;
     
     this.noiseScale = 300;
     this.noiseStrength = 10;
