@@ -47,6 +47,16 @@ h2 {
 	z-index: -1;
 }
 
+#notifier {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 271px;
+    height: 112px;
+    background: url("assets/arrow.png") 0 0 no-repeat;
+    margin: 30px 22px 0 0;
+}
+
 pre { 
     margin: 20px 0 20px 0;
     padding: 15px;
