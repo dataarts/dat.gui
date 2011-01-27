@@ -48,12 +48,12 @@ h2 {
 }
 
 #notifier {
-    position: absolute;
+    position: fixed;
     right: 0;
     top: 0;
     width: 271px;
-    height: 112px;
-    background: url("assets/arrow.png") 0 0 no-repeat;
+    height: 142px;
+    background: url("assets/itgivesyouthis.jpg") 72px 0 no-repeat;
     margin: 30px 22px 0 0;
 }
 

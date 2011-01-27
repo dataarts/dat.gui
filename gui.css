@@ -135,18 +135,18 @@ width: 148px;
 
 .guidat-slider-bg:hover,
 .guidat-slider-bg.active {
-background-color: #444;
+	background-color: #444;
 }
 
 .guidat-slider-bg:hover .guidat-slider-fg, 
 .guidat-slider-bg.active .guidat-slider-fg { 
-background-color: #52c8ff;
+	background-color: #52c8ff;
 }
 
 .guidat-slider-bg { 
 	background-color: #222;
 	cursor: ew-resize;
-width: 40%;
+	width: 40%;
 	margin-top: 2px;
 	float: right;
 	height: 21px;
