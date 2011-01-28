@@ -49,6 +49,7 @@
         </script>
     </head>
     <body>
+    	<div id="container">
 	    <div id = "helvetica-demo"></div>
 	    <div id = "notifier"></div>
         <h1><a href = "http://twitter.com/guidat"><img src = "demo/assets/profile.png" border = "0" alt = "GUI-DAT flag" /></a></h1>
@@ -62,7 +63,7 @@
         </ul>
     
         <h2>Basic Usage</h2>
-        <pre id="demo-pre" class="prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;demo/demo.js&quot;&gt;&lt;/script&gt;
+        <pre class="prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;demo/demo.js&quot;&gt;&lt;/script&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
 
 window.onload = function() {
@@ -79,14 +80,14 @@ window.onload = function() {
    GUI.add(fizzyText, &quot;growthSpeed&quot;, 0.01, 1);
    GUI.add(fizzyText, &quot;speed&quot;, 0.1, 2);
    
-   // Sliders with min, max and increment.
+   // Sliders with min, max and increment
    GUI.add(fizzyText, &quot;noiseStrength&quot;, 10, 100, 5);
    
    // Boolean checkbox
    GUI.add(fizzyText, &quot;displayOutline&quot;);
 
    // Fires a function called &quot;explode&quot;
-   GUI.add(fizzyText, &quot;explode&quot;).setName(&#039;Explode!&#039;); // Specify a custom name.
+   GUI.add(fizzyText, &quot;explode&quot;).setName(&quot;Explode!&quot;); // Specify a custom name.
    
 };
 
@@ -96,8 +97,20 @@ window.onload = function() {
     		<li><strong>gui-dat</strong> will infer the type of the property you're trying to add<br/>(based on its initial value) and create the corresponding control.</li>
     		<li>The properties must be public, i.e. defined by <code><strong>this</strong>.prop = value</code>.</li>
     	</ul>
+    	<!--
+		<hr/>
+    	<h2>Monitor variable changes <em>outside</em> of the GUI</h2>
+    	<p>Let's say you have a variable that changes by itself from time to time. If you'd like the GUI to reflect those changes, use the <code>listen()</code> method.</p>
+    	<pre class="prettyprint">GUI.add(obj, "propName").listen();</pre>
+
+    	<h2>Fire a function when someone uses a control</h2>
+    	<pre class="prettyprint">GUI.add(obj, "propName").onChange(function(n) {
+	alert("You changed me to " + n);
+});</pre>
+-->
 		<footer> 
-            By <a href="http://georgemichaelbrower.com/">George Michael Brower</a>, <a href="http://jonobr1.com/">Jono Brandel</a>, and <a href="http://github.com/jonobr1/GUI-DAT">you</a>.
+            Initiated by <a href="http://georgemichaelbrower.com/">George Michael Brower</a> and <a href="http://jonobr1.com/">Jono Brandel</a> of the Data Arts Team, Google Creative Lab.
         </footer> 
+		</div>
     </body>
 </html>

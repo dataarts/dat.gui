@@ -8,9 +8,19 @@ body {
 	padding: 0 20px 20px 20px;
 }
 
+#container { 
+max-width: 530px;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family: "Helvetica Neue", helvetica, arial, sans-serif;
     color: #222;
+}
+
+hr { 
+border: 0;
+height: 0;
+border-top: 1px dotted #ccc;
 }
 
 h1 { 
@@ -68,7 +78,6 @@ pre {
 
 p, ul { 
 	font-size: 125%; 
-	max-width: 530px; 
 	line-height: 18px; 
 	margin-bottom: 24px; 
 }

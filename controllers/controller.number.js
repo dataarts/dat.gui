@@ -114,6 +114,7 @@ var NumberController = function() {
     	} else if (max != undefined && val >= max) { 
     		val = max;
     	}
+    	
         _this.setValue(val);
         
         numberField.value = roundToDecimal(_this.getValue(), 4);
