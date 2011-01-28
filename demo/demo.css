@@ -107,12 +107,9 @@ footer {
 
 pre a:link, 
 pre a:visited,
-pre a:active { 
-color: #ccc;
-}
-
+pre a:active,
 pre a:hover { 
-color: #e61d5f;
+	color: #ccc;
 }
 
 code {
@@ -128,7 +125,7 @@ code strong {
 .str { color: #0fa954; }
 .kwd { color: #e61d5f; }
 .com { color: #555; }
-.typ { color: #606; }
+.typ { color: #ccc; }
 .lit { color: #00aeff; }
 .pun, .opn, .clo { color: #777; }
 .pln { color: #ccc; }

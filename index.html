@@ -4,12 +4,14 @@
         
         <link rel="icon" type="image/png" href="demo/assets/favicon.png" />
         <link href="demo/demo.css" media="screen" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>
         <script type="text/javascript" src="gui.min.js"></script>
         <script type="text/javascript" src="demo/improvedNoise.js"></script>
         <script type="text/javascript" src="demo/demo.js"></script>
         <script type="text/javascript">
             window.onload = function() {
 
+			   prettyPrint();
 
                var fizzyText = new FizzyText("gui-dat");
 
@@ -31,7 +33,7 @@
 	
 			   // Fires a function called "explode"
                GUI.add(fizzyText, "explode")
-                    .setName('Explode!');    // And changes the name
+                    .setName('Explode!');    // Specify a custom name.
                
             };
             
@@ -60,7 +62,35 @@
         </ul>
     
         <h2>Basic Usage</h2>
-        <pre id="demo-pre" class="prettyprint"><span class="tag">&lt;script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"gui.min.js"</span><span class="tag">&gt;&lt;/script&gt;</span><span class="pln"><br></span><span class="tag">&lt;script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="tag">&gt;</span><span class="pln"><br><br>window</span><span class="pun">.</span><span class="pln">onload </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br><br>&nbsp; &nbsp;</span><span class="kwd">var</span><span class="pln"> fizzyText </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ"><a href="demo/demo.js">FizzyText</a></span><span class="pun">(</span><span class="str">"gui-dat"</span><span class="pun">);</span><span class="pln"><br><br>&nbsp; &nbsp;GUI</span><span class="pun">.</span><span class="pln">start</span><span class="pun">();</span><span class="pln"><br>&nbsp; &nbsp;<br>&nbsp; &nbsp;</span><span class="com">// Adds a text field</span><span class="pln"><br>&nbsp; &nbsp;GUI</span><span class="pun">.</span><span class="pln">add</span><span class="pun">(</span><span class="pln">fizzyText</span><span class="pun">,</span><span class="pln"> </span><span class="str">"message"</span><span class="pun">);</span><span class="pln"><br>&nbsp; &nbsp;<br>&nbsp; &nbsp;</span><span class="com">// Adds sliders with min and max</span><span class="pln"><br>&nbsp; &nbsp;GUI</span><span class="pun">.</span><span class="pln">add</span><span class="pun">(</span><span class="pln">fizzyText</span><span class="pun">,</span><span class="pln"> </span><span class="str">"maxSize"</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0.5</span><span class="pun">,</span><span class="pln"> </span><span class="lit">7</span><span class="pun">);</span><span class="pln"><br>&nbsp; &nbsp;GUI</span><span class="pun">.</span><span class="pln">add</span><span class="pun">(</span><span class="pln">fizzyText</span><span class="pun">,</span><span class="pln"> </span><span class="str">"growthSpeed"</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0.01</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">);</span><span class="pln"><br>&nbsp; &nbsp;GUI</span><span class="pun">.</span><span class="pln">add</span><span class="pun">(</span><span class="pln">fizzyText</span><span class="pun">,</span><span class="pln"> </span><span class="str">"speed"</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0.1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">2</span><span class="pun">);</span><span class="pln"><br>&nbsp; &nbsp;<br>&nbsp; &nbsp;</span><span class="com">// Adds sliders with min, max and increment.</span><span class="pln"><br>&nbsp; &nbsp;GUI</span><span class="pun">.</span><span class="pln">add</span><span class="pun">(</span><span class="pln">fizzyText</span><span class="pun">,</span><span class="pln"> </span><span class="str">"noiseStrength"</span><span class="pun">,</span><span class="pln"> </span><span class="lit">10</span><span class="pun">,</span><span class="pln"> </span><span class="lit">100</span><span class="pun">,</span><span class="pln"> </span><span class="lit">5</span><span class="pun">);</span><span class="pln"><br>&nbsp; &nbsp;<br>&nbsp; &nbsp;</span><span class="com">// Adds a boolean checkbox</span><span class="pln"><br>&nbsp; &nbsp;GUI</span><span class="pun">.</span><span class="pln">add</span><span class="pun">(</span><span class="pln">fizzyText</span><span class="pun">,</span><span class="pln"> </span><span class="str">"displayOutline"</span><span class="pun">);</span><span class="pln"><br><br>&nbsp; &nbsp;</span><span class="com">// Adds a function button</span><span class="pln"><br>&nbsp; &nbsp;GUI</span><span class="pun">.</span><span class="pln">add</span><span class="pun">(</span><span class="pln">fizzyText</span><span class="pun">,</span><span class="pln"> </span><span class="str">"explode"</span><span class="pun">)</span><span class="pln"><br>&nbsp; &nbsp;<br></span><span class="pun">};</span><span class="pln"><br><br></span><span class="tag">&lt;/script&gt;</span></pre>
+        <pre id="demo-pre" class="prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;demo/demo.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+
+window.onload = function() {
+
+   var fizzyText = new <a href="demo/demo.js">FizzyText</a>(&quot;gui-dat&quot;);
+
+   GUI.start();
+   
+   // Text field
+   GUI.add(fizzyText, &quot;message&quot;);
+
+   // Sliders with min and max
+   GUI.add(fizzyText, &quot;maxSize&quot;, 0.5, 7);
+   GUI.add(fizzyText, &quot;growthSpeed&quot;, 0.01, 1);
+   GUI.add(fizzyText, &quot;speed&quot;, 0.1, 2);
+   
+   // Sliders with min, max and increment.
+   GUI.add(fizzyText, &quot;noiseStrength&quot;, 10, 100, 5);
+   
+   // Boolean checkbox
+   GUI.add(fizzyText, &quot;displayOutline&quot;);
+
+   // Fires a function called &quot;explode&quot;
+   GUI.add(fizzyText, &quot;explode&quot;).setName(&#039;Explode!&#039;); // Specify a custom name.
+   
+};
+
+&lt;/script&gt;</pre>
         
     	<ul id="desc">
     		<li><strong>gui-dat</strong> will infer the type of the property you're trying to add<br/>(based on its initial value) and create the corresponding control.</li>
