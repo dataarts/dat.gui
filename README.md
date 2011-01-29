@@ -32,7 +32,6 @@
     </script>
 +   ui-dat will infer the type of the property you're trying to add (based on its initial value) and create the corresponding control.
 +   The properties must be public, i.e. defined by `this.prop = value`.
-
 Monitor variable changes <i>outside</i> of the GUI
 --------------------------------------------------
 Let's say you have a variable that changes by itself from time to time. If you'd like the GUI to reflect those changes, use the listen() method
