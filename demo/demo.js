@@ -101,7 +101,7 @@ function FizzyText(message) {
 	// Called once per frame, updates the animation.
     var render = function () {
 
-	that.framesRendered ++;
+	    that.framesRendered ++;
 
         g.clearRect(0, 0, width, height);
 
