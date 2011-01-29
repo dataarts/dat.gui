@@ -49,6 +49,7 @@ var Slider = function(numberController, min, max, step, initValue) {
 		var val = map(e.pageX, pos[0], pos[0] + _this.domElement.offsetWidth, min, max);
 		val = Math.round(val/step)*step;
 		numberController.updateValue(val);
+		numberController.setTargetValue(numberController.value);
 	}
 	
 	this.domElement.addEventListener('mousedown', function(e) {
