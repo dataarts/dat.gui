@@ -9,7 +9,7 @@ var Controller = function() {
 	    return this;
 	}
 
-	this.setWatched = function() {
+	this.listen = function() {
 		this.parent.watchController(this);
 		return this;
 	}
