@@ -2,8 +2,8 @@
     <head>
         <title>gui-dat</title>
 
-        <link rel="icon" type="image/png" href="demo/assets/favicon.png" />
-        <link href="demo/demo.css" media="screen" rel="stylesheet" type="text/css" />
+	<link rel="icon" type="image/png" href="demo/assets/favicon.png" />
+	<link href="demo/demo.css" media="screen" rel="stylesheet" type="text/css" />
 
 	<!-- <script type="text/javascript" src="gui.min.js"></script> -->
 
@@ -17,37 +17,42 @@
 	<script type="text/javascript" src="controllers/controller.string.js"></script>
 	<script type="text/javascript" src="gui.js"></script>
 
-        <script type="text/javascript" src="demo/improvedNoise.js"></script>
-        <script type="text/javascript" src="demo/prettify.js"></script>
-        <script type="text/javascript" src="demo/demo.js"></script>
-        <script type="text/javascript">
-            window.onload = function() {
+	<script type="text/javascript" src="demo/improvedNoise.js"></script>
+	<script type="text/javascript" src="demo/prettify.js"></script>
+	<script type="text/javascript" src="demo/demo.js"></script>
+	<script type="text/javascript">
 
-		prettyPrint();
+		window.onload = function() {
 
-		var fizzyText = new FizzyText("gui-dat");
+			prettyPrint();
 
-		var gui = new GUI();
-		document.body.appendChild( gui.domElement );
+			var fizzyText = new FizzyText("gui-dat");
 
-		// Text field
-		gui.add(fizzyText, "message");
+			var gui = new GUI();
+			document.body.appendChild( gui.domElement );
 
-		// Sliders with min and max
-		gui.add(fizzyText, "maxSize", 0.5, 7);
-		gui.add(fizzyText, "growthSpeed", 0.01, 1);
-		gui.add(fizzyText, "speed", 0.1, 2);
+			// Text field
+			gui.add(fizzyText, "message");
 
-		// Sliders with min, max and increment.
-		gui.add(fizzyText, "noiseStrength", 10, 100, 5);
+			// Sliders with min and max
+			gui.add(fizzyText, "maxSize", 0.5, 7);
+			gui.add(fizzyText, "growthSpeed", 0.01, 1);
+			gui.add(fizzyText, "speed", 0.1, 2);
 
-		// Boolean checkbox
-		gui.add(fizzyText, "displayOutline");
+			// Sliders with min, max and increment.
+			gui.add(fizzyText, "noiseStrength", 10, 100, 5);
 
-		// Fires a function called "explode"
-		gui.add(fizzyText, "explode").setName('Explode!');    // Specify a custom name.
+			// Boolean checkbox
+			gui.add(fizzyText, "displayOutline");
 
-            };
+			// Watches a property
+			gui.add(fizzyText, "framesRendered").setWatched();
+
+			// Fires a function called "explode"
+			gui.add(fizzyText, "explode").setName("Explode!");    // Specify a custom name.
+
+		};
+
         </script>
     </head>
     <body>
@@ -89,7 +94,7 @@ window.onload = function() {
    gui.add(fizzyText, &quot;displayOutline&quot;);
 
    // Fires a function called &quot;explode&quot;
-   gui.add(fizzyText, &quot;explode&quot;).setName(&#039;Explode!&#039;); // Specify a custom name.
+   gui.add(fizzyText, &quot;explode&quot;).setName(&quot;Explode!&quot;); // Specify a custom name.
 
 };
 

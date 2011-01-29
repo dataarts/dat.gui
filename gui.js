@@ -22,6 +22,13 @@ var GUI = function () {
 	this.domElement.appendChild(controllerContainer);
 	this.domElement.appendChild(toggleButton);
 
+	// Controllers Watcher
+	setInterval( function() {
+		for (var c in controllersWatched) {
+			controllersWatched[c].watchValue();
+		}
+	}, 1000 / 60 );
+
 	var handlerTypes = {
 		"number": NumberController,
 		"string": StringController,
@@ -96,16 +103,16 @@ var GUI = function () {
 
 		return controllerObject;
 
+	};
+
+	this.watchController = function(c) {
+
+		controllersWatched.push(c);
+
 	}
 
 	this.toggle = function() {
-
-		if (open) {
-			this.hide();
-		} else {
-			this.show();
-		}
-
+		open ? this.hide() : this.show();
 	};
 
 	this.show = function() {

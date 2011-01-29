@@ -9,6 +9,15 @@ var Controller = function() {
 	    return this;
 	}
 
+	this.setWatched = function() {
+		this.parent.watchController(this);
+		return this;
+	}
+
+	this.getValue = function() {
+		return this.object[this.propertyName];
+	}
+
 	this.setValue = function(n) {
 		this.object[this.propertyName] = n;
 		if (onChange != null) {
@@ -17,8 +26,8 @@ var Controller = function() {
 		return this;
 	}
 
-	this.getValue = function() {
-		return this.object[this.propertyName];
+	this.watchValue = function() {
+		this.updateValue(this.object[this.propertyName]);
 	}
 
 	this.onChange = function(fnc) {
