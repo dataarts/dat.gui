@@ -48,16 +48,6 @@
 		gui.add(fizzyText, "explode").setName('Explode!');    // Specify a custom name.
 
             };
-
-            var _gaq = _gaq || [];
-            _gaq.push(['_setAccount', 'UA-20996084-1']);
-            _gaq.push(['_trackPageview']);
-
-            (function() {
-                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-            })();
         </script>
     </head>
     <body>
@@ -81,24 +71,25 @@ window.onload = function() {
 
    var fizzyText = new <a href="demo/demo.js">FizzyText</a>(&quot;gui-dat&quot;);
 
-   GUI.start();
+   var gui = new GUI();
+   document.body.appendChild( gui.domElement );
 
    // Text field
-   GUI.add(fizzyText, &quot;message&quot;);
+   gui.add(fizzyText, &quot;message&quot;);
 
    // Sliders with min and max
-   GUI.add(fizzyText, &quot;maxSize&quot;, 0.5, 7);
-   GUI.add(fizzyText, &quot;growthSpeed&quot;, 0.01, 1);
-   GUI.add(fizzyText, &quot;speed&quot;, 0.1, 2);
+   gui.add(fizzyText, &quot;maxSize&quot;, 0.5, 7);
+   gui.add(fizzyText, &quot;growthSpeed&quot;, 0.01, 1);
+   gui.add(fizzyText, &quot;speed&quot;, 0.1, 2);
 
    // Sliders with min, max and increment.
-   GUI.add(fizzyText, &quot;noiseStrength&quot;, 10, 100, 5);
+   gui.add(fizzyText, &quot;noiseStrength&quot;, 10, 100, 5);
 
    // Boolean checkbox
-   GUI.add(fizzyText, &quot;displayOutline&quot;);
+   gui.add(fizzyText, &quot;displayOutline&quot;);
 
    // Fires a function called &quot;explode&quot;
-   GUI.add(fizzyText, &quot;explode&quot;).setName(&#039;Explode!&#039;); // Specify a custom name.
+   gui.add(fizzyText, &quot;explode&quot;).setName(&#039;Explode!&#039;); // Specify a custom name.
 
 };
 
