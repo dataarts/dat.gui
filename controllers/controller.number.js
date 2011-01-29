@@ -20,14 +20,8 @@ var NumberController = function() {
     var step = arguments[4];
     
     if (!step) {
-    	if (min != undefined && max != undefined) {
-    		step = (max-min)*0.01;
-    	} else {
-    		step = 1;
-    	}	
+	step = min != undefined && max != undefined ? (max-min)*0.01: 1;
     }
-    
-    console.log("step " + step);
     
     var numberField = document.createElement('input');
     numberField.setAttribute('id', this.propertyName);
@@ -94,7 +88,7 @@ var NumberController = function() {
 		// We don't want to be highlighting this field as we scroll.
 		// Or any other fields in this gui for that matter ... 
 		// TODO: Make makeUselectable go through each element and child element.
-		_this.makeUnselectable(GUI.domElement);
+		_this.makeUnselectable(_this.parent.domElement);
 		_this.makeUnselectable(numberField);
 		
 		py = y;
