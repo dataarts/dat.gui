@@ -70,7 +70,7 @@ var NumberController = function() {
     
     document.addEventListener('mouseup', function(e) {
         document.removeEventListener('mousemove', dragNumberField, false);
-        _this.makeSelectable(GUI.domElement); 
+        _this.makeSelectable(_this.parent.domElement); 
         _this.makeSelectable(numberField);
         if (clickedNumberField && !draggedNumberField) { 
 	        numberField.focus();
