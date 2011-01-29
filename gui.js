@@ -7,6 +7,35 @@ var GUI = function() {
 	
 	var autoListen = true;
 	var listenInterval;
+	
+	var _this = this, open = false,
+	controllers = [], controllersWatched = [];
+	
+	this.domElement = document.createElement('div');
+	this.domElement.setAttribute('id', 'guidat');
+
+	controllerContainer = document.createElement('div');
+	controllerContainer.setAttribute('id', 'guidat-controllers');
+	
+	// @doob 
+	// I think this is way more elegant than the negative margin.
+	// Only wish we didn't have to see the scrollbar on its way open.
+	// Any thoughts?
+	controllerContainer.style.height = '0px';
+
+	toggleButton = document.createElement('a');
+	toggleButton.setAttribute('id', 'guidat-toggle');
+	toggleButton.setAttribute('href', '#');
+	toggleButton.innerHTML = "Show Controls";
+	toggleButton.addEventListener('click', function(e) {
+		_this.toggle();
+		e.preventDefault();
+	}, false);
+
+	this.domElement.appendChild(controllerContainer);
+	this.domElement.appendChild(toggleButton);
+
+	
 	this.autoListenIntervalTime = 1000/60;
 
 	var createListenInterval = function() {
@@ -14,7 +43,6 @@ var GUI = function() {
 			_this.listen();
 		}, this.autoListenIntervalTime);
 	}
-
 	
 	this.__defineSetter__("autoListen", function(v) {
 		autoListen = v;
@@ -55,41 +83,66 @@ var GUI = function() {
 	
 	this.autoListen = true;
 
-	this.add = function() {
-	
-		// We need to call GUI.start() before .add()
-		if (!started) {
-			error("Make sure to call GUI.start() in the window.onload function");
-			return;
+	var handlerTypes = {
+		"number": NumberController,
+		"string": StringController,
+		"boolean": BooleanController,
+		"function": FunctionController
+	};
+
+	var alreadyControlled = function(object, propertyName) {
+		for (var i in controllers) {
+			if (controllers[i].object == object &&
+				controllers[i].propertyName == propertyName) {
+				return true;
+			}
 		}
-	
+		return false;
+	};
+
+	var error = function(str) {
+		if (typeof console.log == 'function') {
+			console.error("[GUI ERROR] " + str);
+		}
+	};
+
+	var construct = function(constructor, args) {
+		function F() {
+		    return constructor.apply(this, args);
+		}
+		F.prototype = constructor.prototype;
+		return new F();
+	};
+
+	this.add = function() {
+
 		var object = arguments[0];
 		var propertyName = arguments[1];
-	
+
 		// Have we already added this?
 		if (alreadyControlled(object, propertyName)) {
 			error("Controller for \"" + propertyName+"\" already added.");
 			return;
 		}
-	
+
 		var value = object[propertyName];
-		
+
 		// Does this value exist? Is it accessible?
 		if (value == undefined) {
 			error(object + " either has no property \""+propertyName+"\", or the property is inaccessible.");
 			return;
 		}
-		
+
 		var type = typeof value;
-		var handler = addHandlers[type];
-		
+		var handler = handlerTypes[type];
+
 		// Do we know how to deal with this data type?
 		if (handler == undefined) {
 			error("Cannot create controller for data type \""+type+"\"");
 			return;
 		}
 	
-		var args = [_this];
+		var args = [_this]; // Set first arg (parent) to this 
 		for (var j = 0; j < arguments.length; j++) {
 			args.push(arguments[j]);
 		}
@@ -97,15 +150,15 @@ var GUI = function() {
 		var controllerObject = construct(handler, args);
 		
 		// Were we able to make the controller?
-		if (!controllerObject) {		
-			error("Error creating controller for \""+propertyName+"\".");	
+		if (!controllerObject) {
+			error("Error creating controller for \""+propertyName+"\".");
 			return;
 		}
-		
+
 		// Success.
 		controllerContainer.appendChild(controllerObject.domElement);
 		controllers.push(controllerObject);
-		
+
 		return controllerObject;
 		
 	}
@@ -145,64 +198,22 @@ var GUI = function() {
 
 	// GUI ... GUI
 	
-	this.domElement = null;
-	var controllerContainer;
-	var started = false;
-	var open = false;
-	
-	// TODO: obtain this dynamically?
-	var domElementMarginTop = 300;
-	
-	this.start = function() {
-	
-		this.domElement = document.createElement('div');
-		this.domElement.setAttribute('id', 'guidat');
-		
-		controllerContainer = document.createElement('div');
-		controllerContainer.setAttribute('id', 'guidat-controllers');
-		
-		toggleButton = document.createElement('a');
-		toggleButton.setAttribute('id', 'guidat-toggle');
-		toggleButton.setAttribute('href', '#');
-		toggleButton.innerHTML = "Show Controls";
-		toggleButton.addEventListener('click', function(e) {
-			_this.toggle();
-			e.preventDefault();
-		}, false);
-		
-		this.domElement.appendChild(controllerContainer);
-		this.domElement.appendChild(toggleButton);
-		
-		this.domElement.style.marginTop = -domElementMarginTop+"px";
-		
-		document.body.appendChild(this.domElement);
-		
-		started = true;
-		
-	};
-	
 	this.toggle = function() {
-		
-		if (open) {
-			this.hide();
-		} else { 
-			this.show();
-		}
-		
+		open ? this.hide() : this.show();
 	};
-	
+
 	this.show = function() {
-		this.domElement.style.marginTop = 0+"px";
+		controllerContainer.style.height = '300px';
 		toggleButton.innerHTML = "Hide Controls";
 		open = true;
 	}
-	
+
 	this.hide = function() {
-		this.domElement.style.marginTop = -domElementMarginTop+"px";
+		controllerContainer.style.height = '0px';
 		toggleButton.innerHTML = "Show Controls";
 		open = false;
 	}
-	
+
 };
 
 // Util functions

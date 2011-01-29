@@ -1,6 +1,7 @@
 var BooleanController = function() {
+
 	this.type = "boolean";
-    Controller.apply(this, arguments);
+	Controller.apply(this, arguments);
 
 	var _this = this;
     var input = document.createElement('input');

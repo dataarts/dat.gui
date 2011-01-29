@@ -1,15 +1,18 @@
 function FizzyText(message) {
 
+	var that = this;
+
 	// These are the variables that we manipulate with gui-dat.
 	// Notice they're all defined with "this". That makes them public.
 	// Otherwise, gui-dat can't see them.
-	
+
     this.growthSpeed = 0.5;		  // how fast do particles change size?
     this.maxSize = 3.2;			  // how big can they get?
     this.noiseStrength = 10;	  // how turbulent is the flow?
     this.speed = 0.4;			  // how fast do particles move?
     this.displayOutline = false;  // should we draw the message as a stroke?
-    
+    this.framesRendered = 0;
+
     // __defineGetter__ and __defineSetter__ makes JavaScript believe that
     // we've defined a variable 'this.message'. This way, whenever we 
     // change the message variable, we can call some more functions.
@@ -97,6 +100,8 @@ function FizzyText(message) {
 
 	// Called once per frame, updates the animation.
     var render = function () {
+
+	    that.framesRendered ++;
 
         g.clearRect(0, 0, width, height);
 

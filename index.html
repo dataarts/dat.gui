@@ -1,82 +1,72 @@
 <!doctype html>
     <head>
         <title>gui-dat</title>
-        
-        <link rel="icon" type="image/png" href="demo/assets/favicon.png" />
-        <link href="demo/demo.css" media="screen" rel="stylesheet" type="text/css" />
-		<link href="gui.css" media="screen" rel="stylesheet" type="text/css" />
-<!--        <script type="text/javascript" src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>-->
-        <script type="text/javascript" src="gui.js"></script>
-        <script type="text/javascript" src="controllers/slider.js"></script>
-        <script type="text/javascript" src="controllers/controller.js"></script>
-        <script type="text/javascript" src="controllers/controller.number.js"></script>
-		<script type="text/javascript" src="controllers/controller.string.js"></script>
-		<script type="text/javascript" src="controllers/controller.boolean.js"></script>
-		<script type="text/javascript" src="controllers/controller.function.js"></script>
+	<link rel="icon" type="image/png" href="demo/assets/favicon.png" />
+	<link href="demo/demo.css" media="screen" rel="stylesheet" type="text/css" />
 
-        <script type="text/javascript" src="demo/improvedNoise.js"></script>
-        <script type="text/javascript" src="demo/demo.js"></script>
-        <script type="text/javascript">
-        var fizzyText;
-        var gui;
-            window.onload = function() {
+	<!-- <script type="text/javascript" src="gui.min.js"></script> -->
 
-//			   prettyPrint();
+	<link href="gui.css" media="screen" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="gui.js"></script>
+	<script type="text/javascript" src="controllers/slider.js"></script>
+	<script type="text/javascript" src="controllers/controller.js"></script>
+	<script type="text/javascript" src="controllers/controller.boolean.js"></script>
+	<script type="text/javascript" src="controllers/controller.function.js"></script>
+	<script type="text/javascript" src="controllers/controller.number.js"></script>
+	<script type="text/javascript" src="controllers/controller.string.js"></script>
 
-               fizzyText = new FizzyText("gui-dat");
 
-               gui = new GUI();
-               gui.start();
-               
-               // Text field
-               gui.add(fizzyText, "message").listen();
+	<script type="text/javascript" src="demo/improvedNoise.js"></script>
+	<script type="text/javascript" src="demo/prettify.js"></script>
+	<script type="text/javascript" src="demo/demo.js"></script>
+	<script type="text/javascript">
 
-               // Sliders with min and max
-               gui.add(fizzyText, "maxSize", 0.5, 7);
-               gui.add(fizzyText, "growthSpeed", 0.01, 1);
-               gui.add(fizzyText, "speed", 0.1, 2);
-               
-               // Sliders with min, max and increment.
-               gui.add(fizzyText, "noiseStrength", 10, 100, 5);
-               
-               // Boolean checkbox
-               gui.add(fizzyText, "displayOutline").onChange(function(v) {
-               	alert(v);
-               });
-	
-			   // Fires a function called "explode"
-               gui.add(fizzyText, "explode")
-                  .name('Explode!');    // Specify a custom name.
-               
-            };
-            
-            var _gaq = _gaq || [];
-            _gaq.push(['_setAccount', 'UA-20996084-1']);
-            _gaq.push(['_trackPageview']);
-            
-            (function() {
-                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-            })();
+		window.onload = function() {
+
+			prettyPrint();
+
+			var fizzyText = new FizzyText("gui-dat");
+
+			var gui = new GUI();
+			document.body.appendChild( gui.domElement );
+
+			// Text field
+			gui.add(fizzyText, "message");
+
+			// Sliders with min and max
+			gui.add(fizzyText, "maxSize", 0.5, 7);
+			gui.add(fizzyText, "growthSpeed", 0.01, 1);
+			gui.add(fizzyText, "speed", 0.1, 2);
+
+			// Sliders with min, max and increment.
+			gui.add(fizzyText, "noiseStrength", 10, 100, 5);
+
+			// Boolean checkbox
+			gui.add(fizzyText, "displayOutline");
+
+			// Fires a function called "explode"
+			gui.add(fizzyText, "explode").name("Explode!");    // Specify a custom name.
+
+		};
+
         </script>
     </head>
     <body>
-    	<div id="container">
+    <div id="container">
 	    <div id = "helvetica-demo"></div>
 	    <div id = "notifier"></div>
         <h1><a href = "http://twitter.com/guidat"><img src = "demo/assets/profile.png" border = "0" alt = "GUI-DAT flag" /></a></h1>
         <p>
             <strong>gui-dat</strong> is a lightweight controller library for JavaScript. It allows you to easily manipulate variables and fire functions on the fly.
         </p>
-    
+
 		<ul>
 			<li><a href="https://github.com/jonobr1/GUI-DAT/raw/master/gui.min.js"><strong>Download the minified source</strong></a> <small>[9.8kb]</small></li>
         	<li><a href="http://github.com/jonobr1/GUI-DAT">Contribute on GitHub!</a></li>
         </ul>
-    
+
         <h2>Basic Usage</h2>
-        <pre class="prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;demo/demo.js&quot;&gt;&lt;/script&gt;
+        <pre id="demo-pre" class="prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;demo/demo.js&quot;&gt;&lt;/script&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
 
 window.onload = function() {
@@ -84,8 +74,8 @@ window.onload = function() {
    var fizzyText = new <a href="demo/demo.js">FizzyText</a>(&quot;gui-dat&quot;);
 
    var gui = new GUI();
-   gui.start();
-   
+   document.body.appendChild( gui.domElement );
+
    // Text field
    gui.add(fizzyText, &quot;message&quot;);
 
@@ -93,20 +83,20 @@ window.onload = function() {
    gui.add(fizzyText, &quot;maxSize&quot;, 0.5, 7);
    gui.add(fizzyText, &quot;growthSpeed&quot;, 0.01, 1);
    gui.add(fizzyText, &quot;speed&quot;, 0.1, 2);
-   
-   // Sliders with min, max and increment
+
+   // Sliders with min, max and increment.
    gui.add(fizzyText, &quot;noiseStrength&quot;, 10, 100, 5);
-   
+
    // Boolean checkbox
    gui.add(fizzyText, &quot;displayOutline&quot;);
 
    // Fires a function called &quot;explode&quot;
    gui.add(fizzyText, &quot;explode&quot;).name(&quot;Explode!&quot;); // Specify a custom name.
-   
+
 };
 
 &lt;/script&gt;</pre>
-        
+
     	<ul id="desc">
     		<li><strong>gui-dat</strong> will infer the type of the property you're trying to add<br/>(based on its initial value) and create the corresponding control.</li>
     		<li>The properties must be public, i.e. defined by <code><strong>this</strong>.prop = value</code>.</li>
@@ -148,6 +138,7 @@ setInterval(function() {
 		<footer> 
             Initiated by <a href="http://georgemichaelbrower.com/">George Michael Brower</a> and <a href="http://jonobr1.com/">Jono Brandel</a> of the Data Arts Team, Google Creative Lab.
         </footer> 
+        </div>
 		</div>
     </body>
 </html>

@@ -81,10 +81,11 @@ var NumberController = function() {
     var dragNumberField = function(e) {
     	draggedNumberField = true;
 		e.preventDefault();
-		
+
 		// We don't want to be highlighting this field as we scroll.
-		// Or any other fields in this gui for that matter ... 
+		// Or any other fields in this gui for that matter ...
 		// TODO: Make makeUselectable go through each element and child element.
+
 		GUI.makeUnselectable(_this.parent.domElement);
 		GUI.makeUnselectable(numberField);
 		
@@ -120,7 +121,6 @@ var NumberController = function() {
         numberField.value = roundToDecimal(_this.getValue(), 4);
         if (slider) slider.value = _this.getValue();
 	}
-	
 };
 
 NumberController.prototype = new Controller();
