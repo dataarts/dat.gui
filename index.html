@@ -93,6 +93,9 @@ window.onload = function() {
    // Boolean checkbox
    gui.add(fizzyText, &quot;displayOutline&quot;);
 
+	// Watches a property
+	gui.add(fizzyText, "framesRendered").setWatched();
+
    // Fires a function called &quot;explode&quot;
    gui.add(fizzyText, &quot;explode&quot;).setName(&quot;Explode!&quot;); // Specify a custom name.
 
