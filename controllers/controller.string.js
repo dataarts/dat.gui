@@ -1,6 +1,7 @@
 var StringController = function() {
-	
+
 	this.type = "string";
+	
 	var _this = this;
     Controller.apply(this, arguments);
     
@@ -10,6 +11,7 @@ var StringController = function() {
     
     input.setAttribute('value', initialValue);
     input.setAttribute('spellcheck', 'false');
+    
     this.domElement.addEventListener('mouseup', function() {
     	input.focus();
     	input.select();
@@ -24,6 +26,8 @@ var StringController = function() {
     }
     
     this.domElement.appendChild(input);
+    
 };
+
 StringController.prototype = new Controller();
 StringController.prototype.constructor = StringController;
