@@ -1,54 +1,48 @@
 var Controller = function() {
 
-	var onChange = null;
+	this.parent = arguments[0];
+    this.object = arguments[1];
+    this.propertyName = arguments[2];
 
-    this.setName = function(n) {
-  	    this.propertyNameElement.innerHTML = n;
-  	    return this;
-    }
-    
-    this.setValue = function(n) {
-    	this.object[this.propertyName] = n;
-      	if (onChange != null) {
-      		onChange.call(this, n);
-      	}
-      	return this;
-    }
-    
-    this.getValue = function() {
-        return this.object[this.propertyName];
-    }
-    
-    this.onChange = function(fnc) {
-    	onChange = fnc;
-    	return this;
-    }
-    
-	this.makeUnselectable = function(elem) {
-		elem.onselectstart = function() { return false; };
-		elem.style.MozUserSelect = "none";
-		elem.style.KhtmlUserSelect = "none";
-		elem.unselectable = "on";
-	}
-    
-	this.makeSelectable = function(elem) {
-		elem.onselectstart = function() { };
-		elem.style.MozUserSelect = "auto";
-		elem.style.KhtmlUserSelect = "auto";
-		elem.unselectable = "off";
-	}
-    
     this.domElement = document.createElement('div');
     this.domElement.setAttribute('class', 'guidat-controller ' + this.type);
-
-    this.object = arguments[0];
-    this.propertyName = arguments[1];
     
     this.propertyNameElement = document.createElement('span');
     this.propertyNameElement.setAttribute('class', 'guidat-propertyname');
-    this.setName(this.propertyName);
+    this.name(this.propertyName);
     this.domElement.appendChild(this.propertyNameElement);
     
-    this.makeUnselectable(this.domElement);
+    GUI.makeUnselectable(this.domElement);
     
 };
+
+Controller.prototype.changeFunction = null;
+
+Controller.prototype.name = function(n) {
+	this.propertyNameElement.innerHTML = n;
+	return this;
+};
+
+Controller.prototype.listen = function() {
+	this.parent.listenTo(this);
+}
+    
+Controller.prototype.setValue = function(n) {
+	this.object[this.propertyName] = n;
+	if (this.changeFunction != null) {
+		this.changeFunction.call(this, n);
+	}
+	this.updateDisplay();
+	return this;
+}
+    
+Controller.prototype.getValue = function() {
+	return this.object[this.propertyName];
+}
+
+Controller.prototype.updateDisplay = function() {}
+    
+Controller.prototype.onChange = function(fnc) {
+	this.changeFunction = fnc;
+	return this;
+}

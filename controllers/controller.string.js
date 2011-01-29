@@ -1,9 +1,7 @@
 var StringController = function() {
 	
 	this.type = "string";
-	
 	var _this = this;
-	
     Controller.apply(this, arguments);
     
     var input = document.createElement('input');
@@ -20,6 +18,10 @@ var StringController = function() {
     input.addEventListener('keyup', function() {
         _this.setValue(input.value);
     }, false);
+    
+    this.updateDisplay = function() {
+    	input.value = _this.getValue();
+    }
     
     this.domElement.appendChild(input);
 };

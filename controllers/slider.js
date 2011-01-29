@@ -1,6 +1,3 @@
-// TODO: Leaving the window while dragging the slider and then removing the mouse
-// still leaves slider in focus.
-// TODO: Problem with multiple sliders.
 var Slider = function(numberController, min, max, step, initValue) {
 	
 	var min = min;
@@ -20,13 +17,6 @@ var Slider = function(numberController, min, max, step, initValue) {
 	
 	this.domElement.appendChild(this.fg);
 	
-	var map = function(v, i1, i2, o1, o2) {
-		var v = o1 + (o2 - o1) * ((v - i1) / (i2 - i1));
-		if (v < o1) v = o1;
-		else if (v > o2) v = o2;
-		return v;
-	}
-	
 	var findPos = function(obj) {
 		var curleft = curtop = 0;
 		if (obj.offsetParent) {
@@ -39,16 +29,16 @@ var Slider = function(numberController, min, max, step, initValue) {
 	}
 	
 	this.__defineSetter__('value', function(e) {
-		var pct = map(e, min, max, 0, 100);
+		var pct = GUI.map(e, min, max, 0, 100);
 		this.fg.style.width = pct+"%";
 	});
 
 	var onDrag = function(e) {
 		if (!clicked) return;
 		var pos = findPos(_this.domElement);
-		var val = map(e.pageX, pos[0], pos[0] + _this.domElement.offsetWidth, min, max);
+		var val = GUI.map(e.pageX, pos[0], pos[0] + _this.domElement.offsetWidth, min, max);
 		val = Math.round(val/step)*step;
-		numberController.updateValue(val);
+		numberController.setValue(val);
 	}
 	
 	this.domElement.addEventListener('mousedown', function(e) {

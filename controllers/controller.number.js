@@ -1,4 +1,3 @@
-// TODO: Provide alternate controllers for non-html5 browsers?
 var NumberController = function() {
 
 	this.type = "number";
@@ -15,9 +14,9 @@ var NumberController = function() {
     
     var y = py = 0;
     
-    var min = arguments[2];
-    var max = arguments[3];
-    var step = arguments[4];
+    var min = arguments[3];
+    var max = arguments[4];
+    var step = arguments[5];
     
     if (!step) {
     	if (min != undefined && max != undefined) {
@@ -26,8 +25,6 @@ var NumberController = function() {
     		step = 1;
     	}	
     }
-    
-    console.log("step " + step);
     
     var numberField = document.createElement('input');
     numberField.setAttribute('id', this.propertyName);
@@ -70,8 +67,8 @@ var NumberController = function() {
     
     document.addEventListener('mouseup', function(e) {
         document.removeEventListener('mousemove', dragNumberField, false);
-        _this.makeSelectable(GUI.domElement); 
-        _this.makeSelectable(numberField);
+        GUI.makeSelectable(_this.parent.domElement); 
+        GUI.makeSelectable(numberField);
         if (clickedNumberField && !draggedNumberField) { 
 	        numberField.focus();
 	        numberField.select();
@@ -80,12 +77,6 @@ var NumberController = function() {
         clickedNumberField = false;
     }, false);
     
-    // Kinda nast
-    if (navigator.appVersion.indexOf('chrome') != -1) {
-        document.addEventListener('mouseout', function(e) {
-            document.removeEventListener('mousemove', dragNumberField, false);
-        }, false);
-    }
     
     var dragNumberField = function(e) {
     	draggedNumberField = true;
@@ -94,19 +85,25 @@ var NumberController = function() {
 		// We don't want to be highlighting this field as we scroll.
 		// Or any other fields in this gui for that matter ... 
 		// TODO: Make makeUselectable go through each element and child element.
-		_this.makeUnselectable(GUI.domElement);
-		_this.makeUnselectable(numberField);
+		GUI.makeUnselectable(_this.parent.domElement);
+		GUI.makeUnselectable(numberField);
 		
 		py = y;
 		y = e.pageY;
 		var dy = py - y;
 		var newVal = _this.getValue() + dy*step;	
-		_this.updateValue(newVal);
+		_this.setValue(newVal);
 		return false;
     }
     
-    this.updateValue = function(val) {
-
+    var roundToDecimal = function(n, decimals) {
+	    var t = Math.pow(10, decimals);
+    	return Math.round(n*t)/t;
+    }
+    
+    
+    this.setValue = function(val) {
+    
 		val = parseFloat(val);
 		
     	if (min != undefined && val <= min) {
@@ -115,17 +112,15 @@ var NumberController = function() {
     		val = max;
     	}
     	
-        _this.setValue(val);
-        
+    	return Controller.prototype.setValue.call(this, val);
+    	
+    }
+    
+    this.updateDisplay = function() {
         numberField.value = roundToDecimal(_this.getValue(), 4);
         if (slider) slider.value = _this.getValue();
-    }
-    
-    var roundToDecimal = function(n, decimals) {
-	    var t = Math.pow(10, decimals);
-    	return Math.round(n*t)/t;
-    }
-    
+	}
+	
 };
 
 NumberController.prototype = new Controller();

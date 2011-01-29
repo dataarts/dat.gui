@@ -19,6 +19,10 @@ var BooleanController = function() {
     this.domElement.style.cursor = "pointer";
     this.propertyNameElement.style.cursor = "pointer";
     this.domElement.appendChild(input);
+    
+    this.updateDisplay = function() {
+    	input.checked = _this.getValue();
+    };
 
 };
 BooleanController.prototype = new Controller();

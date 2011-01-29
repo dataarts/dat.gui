@@ -1,8 +1,59 @@
-var GUI = new function() {
+var GUI = function() {
 
 	var _this = this;
 	
 	var controllers = [];
+	var listening = [];
+	
+	var autoListen = true;
+	var listenInterval;
+	this.autoListenIntervalTime = 1000/60;
+
+	var createListenInterval = function() {
+		listenInterval = setInterval(function() {
+			_this.listen();
+		}, this.autoListenIntervalTime);
+	}
+
+	
+	this.__defineSetter__("autoListen", function(v) {
+		autoListen = v;
+		if (!autoListen) {
+			clearInterval(listenInterval);
+		} else { 
+			if (listening.length > 0) createListenInterval();
+		}
+	});
+	
+	this.__defineGetter__("autoListen", function(v) {
+		return autoListen;
+	});
+	
+	this.listenTo = function(controller) {
+	 	// TODO: check for duplicates
+	 	if (listening.length == 0) {
+	 		createListenInterval();
+	 	}
+		listening.push(controller);
+	};
+	
+	this.unlistenTo = function(controller) {
+		// TODO 
+	};
+	
+	this.listen = function(whoToListenTo) {
+		
+		var arr = whoToListenTo || listening;
+		for (var i in arr) {
+			arr[i].updateDisplay();
+		}
+	};
+	
+	this.listenAll = function() {
+		this.listen(controllers);
+	}
+	
+	this.autoListen = true;
 
 	this.add = function() {
 	
@@ -38,7 +89,12 @@ var GUI = new function() {
 			return;
 		}
 	
-		var controllerObject = construct(handler, arguments);
+		var args = [_this];
+		for (var j = 0; j < arguments.length; j++) {
+			args.push(arguments[j]);
+		}
+	
+		var controllerObject = construct(handler, args);
 		
 		// Were we able to make the controller?
 		if (!controllerObject) {		
@@ -98,7 +154,7 @@ var GUI = new function() {
 	var domElementMarginTop = 300;
 	
 	this.start = function() {
-		
+	
 		this.domElement = document.createElement('div');
 		this.domElement.setAttribute('id', 'guidat');
 		
@@ -148,3 +204,26 @@ var GUI = new function() {
 	}
 	
 };
+
+// Util functions
+
+GUI.makeUnselectable = function(elem) {
+	elem.onselectstart = function() { return false; };
+	elem.style.MozUserSelect = "none";
+	elem.style.KhtmlUserSelect = "none";
+	elem.unselectable = "on";
+}
+    
+GUI.makeSelectable = function(elem) {
+	elem.onselectstart = function() { };
+	elem.style.MozUserSelect = "auto";
+	elem.style.KhtmlUserSelect = "auto";
+	elem.unselectable = "off";
+}
+
+GUI.map = function(v, i1, i2, o1, o2) {
+	var v = o1 + (o2 - o1) * ((v - i1) / (i2 - i1));
+	if (v < o1) v = o1;
+	else if (v > o2) v = o2;
+	return v;
+}

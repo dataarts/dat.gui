@@ -4,36 +4,49 @@
         
         <link rel="icon" type="image/png" href="demo/assets/favicon.png" />
         <link href="demo/demo.css" media="screen" rel="stylesheet" type="text/css" />
-        <script type="text/javascript" src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>
-        <script type="text/javascript" src="gui.min.js"></script>
+		<link href="gui.css" media="screen" rel="stylesheet" type="text/css" />
+<!--        <script type="text/javascript" src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>-->
+        <script type="text/javascript" src="gui.js"></script>
+        <script type="text/javascript" src="controllers/slider.js"></script>
+        <script type="text/javascript" src="controllers/controller.js"></script>
+        <script type="text/javascript" src="controllers/controller.number.js"></script>
+		<script type="text/javascript" src="controllers/controller.string.js"></script>
+		<script type="text/javascript" src="controllers/controller.boolean.js"></script>
+		<script type="text/javascript" src="controllers/controller.function.js"></script>
+
         <script type="text/javascript" src="demo/improvedNoise.js"></script>
         <script type="text/javascript" src="demo/demo.js"></script>
         <script type="text/javascript">
+        var fizzyText;
+        var gui;
             window.onload = function() {
 
-			   prettyPrint();
+//			   prettyPrint();
 
-               var fizzyText = new FizzyText("gui-dat");
+               fizzyText = new FizzyText("gui-dat");
 
-               GUI.start();
+               gui = new GUI();
+               gui.start();
                
                // Text field
-               GUI.add(fizzyText, "message");
+               gui.add(fizzyText, "message").listen();
 
                // Sliders with min and max
-               GUI.add(fizzyText, "maxSize", 0.5, 7);
-               GUI.add(fizzyText, "growthSpeed", 0.01, 1);
-               GUI.add(fizzyText, "speed", 0.1, 2);
+               gui.add(fizzyText, "maxSize", 0.5, 7);
+               gui.add(fizzyText, "growthSpeed", 0.01, 1);
+               gui.add(fizzyText, "speed", 0.1, 2);
                
                // Sliders with min, max and increment.
-               GUI.add(fizzyText, "noiseStrength", 10, 100, 5);
+               gui.add(fizzyText, "noiseStrength", 10, 100, 5);
                
                // Boolean checkbox
-               GUI.add(fizzyText, "displayOutline");
+               gui.add(fizzyText, "displayOutline").onChange(function(v) {
+               	alert(v);
+               });
 	
 			   // Fires a function called "explode"
-               GUI.add(fizzyText, "explode")
-                    .setName('Explode!');    // Specify a custom name.
+               gui.add(fizzyText, "explode")
+                  .name('Explode!');    // Specify a custom name.
                
             };
             
@@ -70,24 +83,25 @@ window.onload = function() {
 
    var fizzyText = new <a href="demo/demo.js">FizzyText</a>(&quot;gui-dat&quot;);
 
-   GUI.start();
+   var gui = new GUI();
+   gui.start();
    
    // Text field
-   GUI.add(fizzyText, &quot;message&quot;);
+   gui.add(fizzyText, &quot;message&quot;);
 
    // Sliders with min and max
-   GUI.add(fizzyText, &quot;maxSize&quot;, 0.5, 7);
-   GUI.add(fizzyText, &quot;growthSpeed&quot;, 0.01, 1);
-   GUI.add(fizzyText, &quot;speed&quot;, 0.1, 2);
+   gui.add(fizzyText, &quot;maxSize&quot;, 0.5, 7);
+   gui.add(fizzyText, &quot;growthSpeed&quot;, 0.01, 1);
+   gui.add(fizzyText, &quot;speed&quot;, 0.1, 2);
    
    // Sliders with min, max and increment
-   GUI.add(fizzyText, &quot;noiseStrength&quot;, 10, 100, 5);
+   gui.add(fizzyText, &quot;noiseStrength&quot;, 10, 100, 5);
    
    // Boolean checkbox
-   GUI.add(fizzyText, &quot;displayOutline&quot;);
+   gui.add(fizzyText, &quot;displayOutline&quot;);
 
    // Fires a function called &quot;explode&quot;
-   GUI.add(fizzyText, &quot;explode&quot;).setName(&quot;Explode!&quot;); // Specify a custom name.
+   gui.add(fizzyText, &quot;explode&quot;).name(&quot;Explode!&quot;); // Specify a custom name.
    
 };
 
@@ -97,17 +111,40 @@ window.onload = function() {
     		<li><strong>gui-dat</strong> will infer the type of the property you're trying to add<br/>(based on its initial value) and create the corresponding control.</li>
     		<li>The properties must be public, i.e. defined by <code><strong>this</strong>.prop = value</code>.</li>
     	</ul>
-    	<!--
 		<hr/>
-    	<h2>Monitor variable changes <em>outside</em> of the GUI</h2>
-    	<p>Let's say you have a variable that changes by itself from time to time. If you'd like the GUI to reflect those changes, use the <code>listen()</code> method.</p>
-    	<pre class="prettyprint">GUI.add(obj, "propName").listen();</pre>
-
+		
     	<h2>Fire a function when someone uses a control</h2>
-    	<pre class="prettyprint">GUI.add(obj, "propName").onChange(function(n) {
+    	<pre class="prettyprint">gui.add(obj, "propName").onChange(function(n) {
 	alert("You changed me to " + n);
 });</pre>
--->
+<hr/>
+    	<h2>Listen for variable changes <em>outside</em> of the GUI</h2>
+    	<p>Let's say you have a variable that changes by itself from time to time. If you'd like the GUI to reflect those changes, use the <code>listen()</code> method.</p>
+    	<pre class="prettyprint">gui.add(obj, "propName").listen();</pre>
+    	<hr/>
+    	<h2>Advanced listening</h2>
+		<p>By default, <strong>gui-dat</strong> will create an internal interval that checks for changes in the values you've marked with <code>listen()</code>. If you'd like to check for these changes in an interval of your own definition, use the following:
+<pre class="prettyprint">
+gui.autoListen = false; // disables internal interval
+gui.add(obj, "propName").listen();
+
+// Make your own loop
+setInterval(function() {
+	gui.listen(); // updates values you've marked with listen()
+}, 1000 / 60);
+</pre>
+<p>Alternatively, you can forego calling <code>listen()</code> on individual controllers, and instead choose to monitor changes in <em>all</em> values controlled by your gui.</p>
+<pre class="prettyprint">
+gui.autoListen = false; // disables internal interval
+gui.add(obj, "add");
+gui.add(obj, "lotsa");
+gui.add(obj, "properties");
+
+// Make your own loop
+setInterval(function() {
+	gui.listenAll(); // updates ALL values managed by this gui
+}, 1000 / 60);
+</pre>
 		<footer> 
             Initiated by <a href="http://georgemichaelbrower.com/">George Michael Brower</a> and <a href="http://jonobr1.com/">Jono Brandel</a> of the Data Arts Team, Google Creative Lab.
         </footer> 
