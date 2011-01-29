@@ -41,4 +41,4 @@ Let's say you have a variable that changes by itself from time to time. If you'd
     GUI.add(obj, "propName").onChange(function(n) {
         alert("You changed me to " + n);
     });
-Initiated by [George Michael Brower]:http://georgemichaelbrower.com/ and [Jono Brandel]:http://jonobr1.com/ of the Data Arts Team, Google Creative Lab.
+Initiated by [George Michael Brower](http://georgemichaelbrower.com/) and [Jono Brandel](http://jonobr1.com/) of the Data Arts Team, Google Creative Lab.
