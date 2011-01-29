@@ -25,7 +25,7 @@ var GUI = function () {
 	// Controllers Watcher
 	setInterval( function() {
 		for (var c in controllersWatched) {
-			controllersWatched[c].watchValue();
+			controllersWatched[c].watchTargetValue();
 		}
 	}, 1000 / 60 );
 

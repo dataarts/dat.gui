@@ -3,51 +3,52 @@ var Controller = function() {
 	var onChange = null;
 
 	this.parent = null;
+	this.value = null;
 
 	this.setName = function(n) {
 	    this.propertyNameElement.innerHTML = n;
 	    return this;
-	}
+	};
 
 	this.setWatched = function() {
 		this.parent.watchController(this);
 		return this;
-	}
+	};
 
-	this.getValue = function() {
+	this.getTargetValue = function() {
 		return this.object[this.propertyName];
-	}
+	};
 
-	this.setValue = function(n) {
+	this.setTargetValue = function(n) {
 		this.object[this.propertyName] = n;
 		if (onChange != null) {
 			onChange.call(this, n);
 		}
 		return this;
-	}
+	};
 
-	this.watchValue = function() {
+	this.watchTargetValue = function() {
 		this.updateValue(this.object[this.propertyName]);
-	}
+	};
 
 	this.onChange = function(fnc) {
 		onChange = fnc;
 		return this;
-	}
+	};
 
 	this.makeUnselectable = function(elem) {
 		elem.onselectstart = function() { return false; };
 		elem.style.MozUserSelect = "none";
 		elem.style.KhtmlUserSelect = "none";
 		elem.unselectable = "on";
-	}
+	};
 
 	this.makeSelectable = function(elem) {
 		elem.onselectstart = function() { };
 		elem.style.MozUserSelect = "auto";
 		elem.style.KhtmlUserSelect = "auto";
 		elem.unselectable = "off";
-	}
+	};
 
 	this.domElement = document.createElement('div');
 	this.domElement.setAttribute('class', 'guidat-controller ' + this.type);

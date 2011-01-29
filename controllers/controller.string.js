@@ -2,15 +2,14 @@ var StringController = function() {
 
 	this.type = "string";
 
-	var _this = this;
+	var that = this;
 
 	Controller.apply(this, arguments);
 
+	this.value = this.getTargetValue();
+
 	var input = document.createElement('input');
-
-	var initialValue = this.getValue();
-
-	input.setAttribute('value', initialValue);
+	input.setAttribute('value', this.value);
 	input.setAttribute('spellcheck', 'false');
 
 	this.domElement.addEventListener('mouseup', function() {
@@ -19,13 +18,15 @@ var StringController = function() {
 	}, false);
 
 	input.addEventListener('keyup', function() {
-		_this.setValue(input.value);
+		that.updateValue(input.value);
+		that.setTargetValue(that.value);
 	}, false);
 
 	this.domElement.appendChild(input);
 
 	this.updateValue = function(val) {
-		input.setAttribute('value', val);
+		that.value = val;
+		input.setAttribute('value', that.value);
 	}
 
 };
