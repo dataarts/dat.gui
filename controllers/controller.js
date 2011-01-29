@@ -5,12 +5,12 @@ var Controller = function() {
 	this.parent = null;
 	this.value = null;
 
-	this.setName = function(n) {
+	this.name = function(n) {
 	    this.propertyNameElement.innerHTML = n;
 	    return this;
 	};
 
-	this.setWatched = function() {
+	this.listen = function() {
 		this.parent.watchController(this);
 		return this;
 	};
@@ -58,7 +58,7 @@ var Controller = function() {
 
 	this.propertyNameElement = document.createElement('span');
 	this.propertyNameElement.setAttribute('class', 'guidat-propertyname');
-	this.setName(this.propertyName);
+	this.name(this.propertyName);
 	this.domElement.appendChild(this.propertyNameElement);
 
 	this.makeUnselectable(this.domElement);
