@@ -46,7 +46,7 @@
 			gui.add(fizzyText, "displayOutline");
 
 			// Watches a property
-			gui.add(fizzyText, "framesRendered").setWatched();
+			gui.add(fizzyText, "framesRendered").listen();
 
 			// Fires a function called "explode"
 			gui.add(fizzyText, "explode").setName("Explode!");    // Specify a custom name.
@@ -94,7 +94,7 @@ window.onload = function() {
    gui.add(fizzyText, &quot;displayOutline&quot;);
 
 	// Watches a property
-	gui.add(fizzyText, "framesRendered").setWatched();
+	gui.add(fizzyText, "framesRendered").listen();
 
    // Fires a function called &quot;explode&quot;
    gui.add(fizzyText, &quot;explode&quot;).setName(&quot;Explode!&quot;); // Specify a custom name.
@@ -108,7 +108,7 @@ window.onload = function() {
     		<li>The properties must be public, i.e. defined by <code><strong>this</strong>.prop = value</code>.</li>
     	</ul>
         
-        <!-- <hr/>
+        <hr/>
         <h2>Monitor variable changes <em>outside</em> of the GUI</h2>
         <p>Let's say you have a variable that changes by itself from time to time. If you'd like the GUI to reflect those changes, use the <code>listen()</code> method.</p>
         <pre class="prettyprint">GUI.add(obj, "propName").listen();</pre>
@@ -116,7 +116,7 @@ window.onload = function() {
         <h2>Fire a function when someone uses a control</h2>
         <pre class="prettyprint">GUI.add(obj, "propName").onChange(function(n) {
     alert("You changed me to " + n);
-});</pre> -->
+});</pre>
 
 		<footer> 
             Initiated by <a href="http://georgemichaelbrower.com/">George Michael Brower</a> and <a href="http://jonobr1.com/">Jono Brandel</a> of the Data Arts Team, Google Creative Lab.
