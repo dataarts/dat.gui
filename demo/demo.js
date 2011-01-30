@@ -47,6 +47,7 @@ function FizzyText(message) {
 	var textAscent = 82;
     var textOffsetLeft = 80;
 	var noiseScale = 300;
+	var frameTime = 30;
 	
     var colors = ["#00aeff", "#0fa954", "#54396e", "#e61d5f"];
 	
@@ -146,8 +147,16 @@ function FizzyText(message) {
 	// the createBitmap function.
 	this.message = message;
 	
+	var loop = function() {
+		// Don't render if we don't see it.
+		// Would be cleaner if I dynamically acquired the top of the canvas.
+		if (document.body.scrollTop < height + 20) {
+			render();
+		}
+	}
+	
 	// This calls the render function every 30 milliseconds.
-	setInterval(render, 30);
+	setInterval(loop, frameTime);
 
 	// This class is responsible for drawing and moving those little
 	// colored dots.
@@ -196,7 +205,7 @@ function FizzyText(message) {
             this.x += Math.cos(angle) * _this.speed + this.vx;
             this.y += -Math.sin(angle) * _this.speed + this.vy;
             
-            this.r = constrain(this.r, 0, _this.maxSize);
+            this.r = GUI.constrain(this.r, 0, _this.maxSize);
             
             // If we're tiny, keep moving around until we find a black
             // pixel.
@@ -215,10 +224,5 @@ function FizzyText(message) {
         
     }
 
-    var constrain = function (v, o1, o2) {
-        if (v < o1) v = o1;
-        else if (v > o2) v = o2;
-        return v;
-    }
 
 }

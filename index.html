@@ -26,7 +26,6 @@
 			var fizzyText = new FizzyText("gui-dat");
 
 			var gui = new GUI();
-			document.body.appendChild( gui.domElement );
 
 			// Text field
 			gui.add(fizzyText, "message");
@@ -72,7 +71,6 @@ window.onload = function() {
    var fizzyText = new <a href="demo/demo.js">FizzyText</a>(&quot;gui-dat&quot;);
 
    var gui = new GUI();
-   document.body.appendChild( gui.domElement );
 
    // Text field
    gui.add(fizzyText, &quot;message&quot;);
@@ -108,13 +106,13 @@ window.onload = function() {
 <hr/>
     	<h2>Listen for variable changes <em>outside</em> of the GUI</h2>
     	<p>Let's say you have a variable that changes by itself from time to time. If you'd like the GUI to reflect those changes, use the <code>listen()</code> method.</p>
-    	<pre class="prettyprint">gui.add(obj, "propName").listen();</pre>
+    	<pre class="prettyprint">gui.add(obj, "changingProperty").listen();</pre>
     	<hr/>
     	<h2>Advanced listening</h2>
 		<p>By default, <strong>gui-dat</strong> will create an internal interval that checks for changes in the values you've marked with <code>listen()</code>. If you'd like to check for these changes in an interval of your own definition, use the following:
 <pre class="prettyprint">
 gui.autoListen = false; // disables internal interval
-gui.add(obj, "propName").listen();
+gui.add(obj, "changingProperty").listen();
 
 // Make your own loop
 setInterval(function() {
@@ -133,6 +131,39 @@ setInterval(function() {
 	gui.listenAll(); // updates ALL values managed by this gui
 }, 1000 / 60);
 </pre>
+<hr/>
+<h2>Multiple panels and custom placement</h2>
+<p>You can instantiate multiple <code>GUI</code> objects and name them however you'd like.</p>
+<pre class="prettyprint">
+var gui1 = new GUI();
+var gui2 = new GUI();
+
+// The name function overwrites the "Show Controls" text.
+gui1.name("Utilities");
+gui2.name("Camera Placement");
+</pre>
+<p>By default, <strong>gui-dat</strong> panels will be automatically added to the HTML document and fixed to the top of the screen. You can disable this behavior / styling and append the gui DOM element to a container of your choosing.</p>
+<pre class="prettyprint">// Notice this belongs to the GUI class (uppercase) 
+// and not an instance thereof.
+GUI.autoPlace = false; 
+
+var gui = new GUI();
+
+// Do some custom styles ...
+gui.domElement.style.position = "absolute";
+gui.domElement.style.top = "20px";
+gui.domElement.style.left = "20px";
+
+document.getElementById("my-gui-container").appendChild( gui.domElement );
+</pre>
+<!--
+<hr/>
+<h2>Secrets</h2>
+<ol id="secrets">
+<strong>gui-dat</strong> panels are resizeable. <br/>
+Press H to make panels invisible.
+</ol>
+-->
 		<footer> 
             Initiated by <a href="http://georgemichaelbrower.com/">George Michael Brower</a> and <a href="http://jonobr1.com/">Jono Brandel</a> of the Data Arts Team, Google Creative Lab.
         </footer> 

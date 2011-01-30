@@ -18,6 +18,8 @@ var NumberController = function() {
     var max = arguments[4];
     var step = arguments[5];
     
+    console.log("NumberController", this.propertyName, arguments);
+    
     if (!step) {
     	if (min != undefined && max != undefined) {
     		step = (max-min)*0.01;
@@ -28,8 +30,6 @@ var NumberController = function() {
     
     var numberField = document.createElement('input');
     numberField.setAttribute('id', this.propertyName);
-    
-    // Little up and down arrows are pissing me off.
     numberField.setAttribute('type', 'text');
     numberField.setAttribute('value', this.getValue());
     
@@ -47,7 +47,7 @@ var NumberController = function() {
     numberField.addEventListener('blur', function(e) {
         var val = parseFloat(this.value);
         if (!isNaN(val)) {
-	        _this.updateValue(val);
+	        _this.updateDisplay();
         } else { 
         	this.value = _this.getValue();
         }
