@@ -1,34 +1,43 @@
 #guidat { 
+position: fixed;
+top: 0; 
+left: 0;
+width: 100%;
+z-index: 1001;
+text-align: right;
+}
+
+.guidat { 
 	color: #fff;
-	position: fixed;
-	width: 280px;
-	z-index: 200;
 	opacity: 0.97;
-	top: 0;
-	left: 100%;
-	margin-left: -300px;
+	text-align: left;
+	float: right;
+	margin-right: 20px;
+	margin-bottom: 20px;
 	background-color: #fff;
 	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 	-moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 }
 
-#guidat,
-#guidat input { 
+.guidat,
+.guidat input { 
 	font: 9.5px Lucida Grande, sans-serif;
 }
 
-#guidat-controllers { 
+.guidat-controllers { 
 	height: 300px;
 	overflow-y: auto;
 	overflow-x: hidden;
 	background-color: rgba(0,0,0,0.1);
+	/*
 	-moz-transition: height .2s ease-out;
 	-webkit-transition: height .2s ease-out;
 	transition: height .2s ease-out;
+	*/
 }
 
-#guidat-toggle { 
+a.guidat-toggle { 
 	text-decoration: none;
 	cursor: pointer;
 	color: #fff;
@@ -39,7 +48,7 @@
 
 }
 
-#guidat-toggle:hover { 
+a.guidat-toggle:hover { 
 	background-color: #000;
 }
 
@@ -112,7 +121,7 @@ width: 148px;
 	color: #00aeff;
 }
 
-#guidat .guidat-controller.boolean input { 
+.guidat .guidat-controller.boolean input { 
 	margin-top: 6px;
 	margin-right: 2px;
 	font-size: 20px;
