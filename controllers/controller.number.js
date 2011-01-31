@@ -64,7 +64,7 @@ var NumberController = function() {
     }, false);
 
 	// Handle up arrow and down arrow
-	numberField.addEventListener('keyup', function(e) {
+	numberField.addEventListener('keydown', function(e) {
 		switch(e.keyCode) {
 			case 38: 	// up
 				var newVal = _this.getValue() + step;
