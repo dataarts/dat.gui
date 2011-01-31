@@ -28,7 +28,7 @@ h1 {
     font-weight: 800; 
     text-transform: lowercase;
     line-height: 80px;
-    margin: 20px 0 20px 0;
+    margin: 39px 0 20px 0;
 }
 
 h1 a:link, h1 a:visited, h1 a:hover, h1 a:active {
@@ -46,6 +46,37 @@ h2 {
 	margin-top: 30px;
     font-size: 18px;
     margin-bottom: 24px;
+}
+
+
+h2.collapsed { 
+
+    float: left;
+    clear: both;
+    padding-top:24px;
+    margin-top: 0;
+    border-top: 1px solid #ccc;
+    width: 100%;
+cursor: pointer;
+}
+h2.collapsed:before { 
+content: '+';
+font-weight: normal;
+line-height: 2px;
+float: left;
+margin-top: 6px;
+margin-right: 6px;
+font-size: 9px;
+font-family: Monaco, monospace;
+}
+h2.collapsed:hover:before { 
+color: red;
+}
+
+.collapsable {
+clear: both;
+
+display: none;
 }
 
 #helvetica-demo {
@@ -74,16 +105,18 @@ pre {
     background-color: #222;
     max-width: 500px;
     font: 10px Monaco, monospace;
+    clear: both;
 }
 
-p, ul { 
+p, ul, ol { 
 	font-size: 125%; 
+	clear: both;
 	line-height: 18px; 
 	margin-bottom: 24px; 
 }
 
 li { 
-	margin-left: 18px;
+	margin-left: 22px;
 }
 
 ul#desc { 
@@ -112,6 +145,8 @@ footer {
 	background-color: #eee;
 	width: 510px;
 	padding: 10px;
+	clear: both;
+	
 }
 
 pre a:link, 
