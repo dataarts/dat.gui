@@ -26,6 +26,9 @@ var GUI = function() {
 	
 	var open = false;
 	var width = 280;
+	
+	// Prevents checkForOverflow bug in which loaded gui appearance
+	// settings are not respected by presence of scrollbar.
 	var explicitOpenHeight = false;
 	var openHeight;
 	
@@ -315,7 +318,11 @@ var GUI = function() {
 		// Compute sum height of controllers.
 		checkForOverflow();
 		
-		openHeight = controllerHeight;
+		// Prevents checkForOverflow bug in which loaded gui appearance
+		// settings are not respected by presence of scrollbar.
+		if (!explicitOpenHeight) {
+			openHeight = controllerHeight;
+		}
 		
 		return controllerObject;
 		
@@ -406,6 +413,8 @@ var GUI = function() {
 		controllerContainer.style.height = Math.round(curControllerContainerHeight)+'px';
 		checkForOverflow();
 	}
+	
+	// Load saved appearance:
 
 	if (GUI.guiIndex < GUI.savedAppearanceVars.length) {
 
@@ -413,9 +422,8 @@ var GUI = function() {
 		_this.domElement.style.width = width+"px";
 		
 		openHeight = parseInt(GUI.savedAppearanceVars[GUI.guiIndex][2]);
-		
+		explicitOpenHeight = true;
 		if (eval(GUI.savedAppearanceVars[GUI.guiIndex][0]) == true) {
-		// TODO: weirdness on open ... 
 			this.show();
 		}
 

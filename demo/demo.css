@@ -48,14 +48,18 @@ h2 {
     margin-bottom: 24px;
 }
 
+h2.collapsed { 
 
+    padding-top:24px;
+    border-top: 1px solid #ccc;
+    margin-top: 0;
+    }
+
+/*
 h2.collapsed { 
 
     float: left;
     clear: both;
-    padding-top:24px;
-    margin-top: 0;
-    border-top: 1px solid #ccc;
     width: 100%;
 cursor: pointer;
 }
@@ -77,7 +81,7 @@ color: red;
 clear: both;
 
 display: none;
-}
+}*/
 
 #helvetica-demo {
 	position: absolute;
