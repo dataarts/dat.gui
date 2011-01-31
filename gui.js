@@ -331,7 +331,7 @@ var GUI = function() {
 		} else {
 			controllerContainer.style.overflowY = "hidden";
 		}	
-		console.log(controllerHeight, openHeight);
+		// console.log(controllerHeight, openHeight);
 	}
 	
 	var addHandlers = {
@@ -446,7 +446,7 @@ GUI.load = function(saveString) {
 	var numGuis = parseInt(vals[0]);
 	var vv = vals.splice(1, vals.length-1);
 	var numGuis = vals[0];
-	console.log(numGuis);
+	// console.log(numGuis);
 	for (var i = 0; i < numGuis; i++) {
 		var appr = vv.splice(0, 3);
 		GUI.savedAppearanceVars.push(appr);
