@@ -18,8 +18,6 @@ var NumberController = function() {
     var max = arguments[4];
     var step = arguments[5];
     
-    console.log("NumberController", this.propertyName, arguments);
-    
     if (!step) {
     	if (min != undefined && max != undefined) {
     		step = (max-min)*0.01;

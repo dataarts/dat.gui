@@ -1,126 +1,201 @@
-<!doctype html>
-    <head>
-        <title>gui-dat</title>
-	<link rel="icon" type="image/png" href="demo/assets/favicon.png" />
-	<link href="demo/demo.css" media="screen" rel="stylesheet" type="text/css" />
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-	<link href="gui.css" media="screen" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="gui.js"></script>
-	<script type="text/javascript" src="controllers/slider.js"></script>
-	<script type="text/javascript" src="controllers/controller.js"></script>
-	<script type="text/javascript" src="controllers/controller.boolean.js"></script>
-	<script type="text/javascript" src="controllers/controller.function.js"></script>
-	<script type="text/javascript" src="controllers/controller.number.js"></script>
-	<script type="text/javascript" src="controllers/controller.string.js"></script>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="generator" content="HTML Tidy for Linux/x86 (vers 11 February 2007), see www.w3.org" />
+
+  <title>gui-dat</title>
+  <link rel="icon" type="image/png" href="demo/assets/favicon.png" />
+  <link href="demo/demo.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="gui.css" media="screen" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="gui.js">
+</script>
+  <script type="text/javascript" src="controllers/slider.js">
+</script>
+  <script type="text/javascript" src="controllers/controller.js">
+</script>
+  <script type="text/javascript" src="controllers/controller.boolean.js">
+</script>
+  <script type="text/javascript" src="controllers/controller.function.js">
+</script>
+  <script type="text/javascript" src="controllers/controller.number.js">
+</script>
+  <script type="text/javascript" src="controllers/controller.string.js">
+</script>
+  <script type="text/javascript" src="demo/improvedNoise.js">
+</script>
+  <script type="text/javascript" src="demo/prettify.js">
+</script>
+  <script type="text/javascript" src="demo/demo.js">
+</script>
+  <script type="text/javascript">
+//<![CDATA[
+
+                window.onload = function() {
+
+                        prettyPrint();
 
 
-	<script type="text/javascript" src="demo/improvedNoise.js"></script>
-	<script type="text/javascript" src="demo/prettify.js"></script>
-	<script type="text/javascript" src="demo/demo.js"></script>
-	<script type="text/javascript">
+                        var fizzyText = new FizzyText("gui-dat");
 
-		window.onload = function() {
+                        //GUI.load("changed,3.2,0.10890000000000001,1.121,45,true");
+                        var gui = new GUI();
 
-			prettyPrint();
+                        // Text field
+                        gui.add(fizzyText, "message");
 
-			var fizzyText = new FizzyText("gui-dat");
+                        // Sliders with min and max
+                        gui.add(fizzyText, "maxSize", 0.5, 7);
+                        gui.add(fizzyText, "growthSpeed", 0.01, 1);
+                        gui.add(fizzyText, "speed", 0.1, 2);
 
-			var gui = new GUI();
+                        // Sliders with min, max and increment.
+                        gui.add(fizzyText, "noiseStrength", 10, 100, 5);
 
-			// Text field
-			gui.add(fizzyText, "message");
+                        // Boolean checkbox
+                        gui.add(fizzyText, "displayOutline");
+                        
+                        // Fires a function called "explode"
+                        gui.add(fizzyText, "explode").name("Explode!");    // Specify a custom name.
+                        
+                        gui.add(GUI, "showSaveString");
+                        gui.add(GUI, "saveURL");
+                        
 
-			// Sliders with min and max
-			gui.add(fizzyText, "maxSize", 0.5, 7);
-			gui.add(fizzyText, "growthSpeed", 0.01, 1);
-			gui.add(fizzyText, "speed", 0.1, 2);
+                };
 
-			// Sliders with min, max and increment.
-			gui.add(fizzyText, "noiseStrength", 10, 100, 5);
+  //]]>
+  </script>
+</head>
 
-			// Boolean checkbox
-			gui.add(fizzyText, "displayOutline");
-			
-			// Fires a function called "explode"
-			gui.add(fizzyText, "explode").name("Explode!");    // Specify a custom name.
+<body>
+  <div id="container">
+  
+    <div id="helvetica-demo"></div>
 
-		};
+    <div id="notifier"></div>
 
-        </script>
-    </head>
-    <body>
-    <div id="container">
-	    <div id = "helvetica-demo"></div>
-	    <div id = "notifier"></div>
-        <h1><a href = "http://twitter.com/guidat"><img src = "demo/assets/profile.png" border = "0" alt = "GUI-DAT flag" /></a></h1>
-        <p>
-            <strong>gui-dat</strong> is a lightweight controller library for JavaScript. It allows you to easily manipulate variables and fire functions on the fly.
-        </p>
+    <h1><a href="http://twitter.com/guidat"><img src="demo/assets/profile.png" border="0" alt="GUI-DAT flag" /></a></h1>
 
-		<ul>
-			<li><a href="https://github.com/jonobr1/gui-dat/raw/versions/gui.min.js"><strong>Download the minified source</strong></a> <small>[11kb]</small></li>
-        	<li><a href="http://github.com/jonobr1/gui-dat">Contribute on GitHub!</a></li>
-        </ul>
+    <p><strong>gui-dat</strong> is a lightweight controller library for JavaScript. It allows you to easily manipulate variables and fire functions on the fly.</p>
 
-        <h2>Basic Usage</h2>
-        <pre id="demo-pre" class="prettyprint">&lt;script type=&quot;text/javascript&quot; src=&quot;demo/demo.js&quot;&gt;&lt;/script&gt;
-&lt;script type=&quot;text/javascript&quot;&gt;
+    <ul>
+      <li><a href="https://github.com/jonobr1/gui-dat/raw/versions/gui.min.js"><strong>Download the minified source</strong></a> <small>[11kb]</small></li>
+
+      <li><a href="http://github.com/jonobr1/gui-dat">Contribute on GitHub!</a></li>
+    </ul>
+
+    <h2>Basic Usage</h2>
+    <pre id="demo-pre" class="prettyprint">
+&lt;script type="text/javascript" src="demo/demo.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
 
 window.onload = function() {
 
-   var fizzyText = new <a href="demo/demo.js">FizzyText</a>(&quot;gui-dat&quot;);
+   var fizzyText = new <a href="demo/demo.js">FizzyText</a>("gui-dat");
 
    var gui = new GUI();
 
    // Text field
-   gui.add(fizzyText, &quot;message&quot;);
+   gui.add(fizzyText, "message");
 
    // Sliders with min and max
-   gui.add(fizzyText, &quot;maxSize&quot;, 0.5, 7);
-   gui.add(fizzyText, &quot;growthSpeed&quot;, 0.01, 1);
-   gui.add(fizzyText, &quot;speed&quot;, 0.1, 2);
+   gui.add(fizzyText, "maxSize", 0.5, 7);
+   gui.add(fizzyText, "growthSpeed", 0.01, 1);
+   gui.add(fizzyText, "speed", 0.1, 2);
 
    // Sliders with min, max and increment.
-   gui.add(fizzyText, &quot;noiseStrength&quot;, 10, 100, 5);
+   gui.add(fizzyText, "noiseStrength", 10, 100, 5);
 
    // Boolean checkbox
-   gui.add(fizzyText, &quot;displayOutline&quot;);
+   gui.add(fizzyText, "displayOutline");
 
-   // Fires a function called &quot;explode&quot;
-   gui.add(fizzyText, &quot;explode&quot;).name(&quot;Explode!&quot;); // Specify a custom name.
+   // Fires a function called "explode"
+   gui.add(fizzyText, "explode").name("Explode!"); // Specify a custom name.
 
 };
 
-&lt;/script&gt;</pre>
+&lt;/script&gt;
+</pre>
 
-    	<ul id="desc">
-    		<li><strong>gui-dat</strong> will infer the type of the property you're trying to add<br/>(based on its initial value) and create the corresponding control.</li>
-    		<li>The properties must be public, i.e. defined by <code><strong>this</strong>.prop = value</code>.</li>
-    	</ul>
-		<hr/>
-		
-    	<h2>Fire a function when someone uses a control</h2>
-    	<pre class="prettyprint">gui.add(obj, "propName").onChange(function(n) {
-	alert("You changed me to " + n);
-});</pre>
-<hr/>
-    	<h2>Listen for variable changes <em>outside</em> of the GUI</h2>
-    	<p>Let's say you have a variable that changes by itself from time to time. If you'd like the GUI to reflect those changes, use the <code>listen()</code> method.</p>
-    	<pre class="prettyprint">gui.add(obj, "changingProperty").listen();</pre>
-    	<hr/>
-    	<h2>Advanced listening</h2>
-		<p>By default, <strong>gui-dat</strong> will create an internal interval that checks for changes in the values you've marked with <code>listen()</code>. If you'd like to check for these changes in an interval of your own definition, use the following:
-<pre class="prettyprint">
+    <ul id="desc">
+      <li><strong>gui-dat</strong> will infer the type of the property you're trying to add<br />
+      (based on its initial value) and create the corresponding control.</li>
+
+      <li>The properties must be public, i.e. defined by <code><strong>this</strong>.prop = value</code>.</li>
+    </ul>
+    
+    <!--
+        <h2 class="collapsed">Fire a function when someone uses a control</h2>
+        <pre class="prettyprint">gui.add(obj, "propName").onChange(function(n) {
+        alert("You changed me to " + n);
+});</pre>-->
+
+    <h2 class="collapsed">Saving your parameters</h2>
+	<div class="collapsable">
+    <p>The simplest way to save your parameters is via <code>GUI.saveURL()</code>. This method directs your browser to a URL containing the current GUI settings.</p>
+    <pre class="prettyprint">
+// Make a button for the url function
+gui.add(GUI, "saveURL");
+</pre>
+    
+</div>
+    <h2 class="collapsed">Advanced saving</h2>
+	<div class="collapsable">
+    <p>Let's say you'd like to share your settings with someone. Instead of sending a long link with lots of parameters stored in it, you can make your saved settings the defaults.</p>
+
+    <p>First, add the method <code>GUI.showSaveString()</code> to a gui object:</p>
+    <pre class="prettyprint">
+var gui = new GUI();
+
+// Add some stuff (and pretend I change their values);
+gui.add(someObject, "someProperty");
+gui.add(someObject, "someOtherProperty");
+
+// Make a save button.
+gui.add(GUI, "showSaveString");
+</pre>
+
+    <p>Clicking the "showSaveString" button bring up an alert with a string. Copy and paste that string into the method <code>GUI.load()</code> before you instantiate any gui objects.</p>
+    <pre class="prettyprint">
+// Replace COPIED STRING with the value you got from 
+GUI.load("COPIED STRING");
+
+var gui = new GUI();
+
+// Now these properties will be set to the values you just saved.
+gui.add(someObject, "someProperty");
+gui.add(someObject, "someOtherProperty");
+</pre>
+
+    <p><strong>Save strings won't work if you change the order in which you've added properties to your gui objects</strong>. If you want to add more parameters to your gui and use an old save string, make sure they're added after the properties whose values you've saved.</p>
+    </div>
+    
+
+    <h2 class="collapsed">Listen for variable changes <em>outside</em> of the GUI</h2>
+	<div class="collapsable">
+    <p>Let's say you have a variable that changes by itself from time to time. If you'd like the GUI to reflect those changes, use the <code>listen()</code> method.</p>
+    <pre class="prettyprint">
+gui.add(obj, "changingProperty").listen();
+</pre>
+    
+</div>
+    <h2 class="collapsed">Advanced listening</h2>
+	<div class="collapsable">
+    <p>By default, <strong>gui-dat</strong> will create an internal interval that checks for changes in the values you've marked with <code>listen()</code>. If you'd like to check for these changes in an interval of your own definition, use the following:</p>
+    <pre class="prettyprint">
 gui.autoListen = false; // disables internal interval
 gui.add(obj, "changingProperty").listen();
 
 // Make your own loop
 setInterval(function() {
-	gui.listen(); // updates values you've marked with listen()
+        gui.listen(); // updates values you've marked with listen()
 }, 1000 / 60);
 </pre>
-<p>Alternatively, you can forego calling <code>listen()</code> on individual controllers, and instead choose to monitor changes in <em>all</em> values controlled by your gui.</p>
-<pre class="prettyprint">
+
+    <p>Alternatively, you can forego calling <code>listen()</code> on individual controllers, and instead choose to monitor changes in <em>all</em> values controlled by your gui.</p>
+    <pre class="prettyprint">
 gui.autoListen = false; // disables internal interval
 gui.add(obj, "add");
 gui.add(obj, "lotsa");
@@ -128,13 +203,16 @@ gui.add(obj, "properties");
 
 // Make your own loop
 setInterval(function() {
-	gui.listenAll(); // updates ALL values managed by this gui
+        gui.listenAll(); // updates ALL values managed by this gui
 }, 1000 / 60);
 </pre>
-<hr/>
-<h2>Multiple panels and custom placement</h2>
-<p>You can instantiate multiple <code>GUI</code> objects and name them however you'd like.</p>
-<pre class="prettyprint">
+</div>
+    
+
+    <h2 class="collapsed">Multiple panels and custom placement</h2>
+	<div class="collapsable">
+    <p>You can instantiate multiple <code>GUI</code> objects and name them however you'd like.</p>
+    <pre class="prettyprint">
 var gui1 = new GUI();
 var gui2 = new GUI();
 
@@ -142,8 +220,10 @@ var gui2 = new GUI();
 gui1.name("Utilities");
 gui2.name("Camera Placement");
 </pre>
-<p>By default, <strong>gui-dat</strong> panels will be automatically added to the HTML document and fixed to the top of the screen. You can disable this behavior / styling and append the gui DOM element to a container of your choosing.</p>
-<pre class="prettyprint">// Notice this belongs to the GUI class (uppercase) 
+
+    <p>By default, <strong>gui-dat</strong> panels will be automatically added to the HTML document and fixed to the top of the screen. You can disable this behavior / styling and append the gui DOM element to a container of your choosing.</p>
+    <pre class="prettyprint">
+// Notice this belongs to the GUI class (uppercase) 
 // and not an instance thereof.
 GUI.autoPlace = false; 
 
@@ -156,17 +236,19 @@ gui.domElement.style.left = "20px";
 
 document.getElementById("my-gui-container").appendChild( gui.domElement );
 </pre>
-<!--
-<hr/>
-<h2>Secrets</h2>
-<ol id="secrets">
-<strong>gui-dat</strong> panels are resizeable. <br/>
-Press H to make panels invisible.
-</ol>
--->
-		<footer> 
-            Initiated by <a href="http://georgemichaelbrower.com/">George Michael Brower</a> and <a href="http://jonobr1.com/">Jono Brandel</a> of the Data Arts Team, Google Creative Lab.
-        </footer> 
-        </div>
-    </body>
+</div>
+    
+
+    <h2 class="collapsed">Pro tips.</h2>
+	<div class="collapsable">
+    <ol id="secrets">
+      <li><strong>gui-dat</strong> panels are resizeable. Drag the toggle button.</li>
+
+      <li>Press <strong>H</strong> to make panels invisible. Then press <strong>H</strong> to show them again.</li>
+    </ol>
+    
+    <footer>Initiated by <a href="http://georgemichaelbrower.com/">George Michael Brower</a> and <a href="http://jonobr1.com/">Jono Brandel</a> of the Data Arts Team, Google Creative Lab.</footer>
+    </div>
+  </div>
+</body>
 </html>

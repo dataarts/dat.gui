@@ -1,3 +1,6 @@
+
+
+
 var GUI = function() {
 
 	var _this = this;
@@ -60,15 +63,16 @@ var GUI = function() {
 		mx = e.pageX;
 		
 		var dmy = my - pmy;
+		
 		// TODO: Flip this if you want to resize to the left.
 		var dmx = pmx - mx;
 		
 		if (dmy > 0 && 
 			curControllerContainerHeight > controllerHeight) {
 			var d = GUI.map(curControllerContainerHeight, controllerHeight, controllerHeight + 100, 1, 0);
-			dmy *= Math.pow(d, 1.5);
-
+			dmy *= d;
 		}
+		
 		toggleDragged = true;
 		dragDisplacementY += dmy;
 		dragDisplacementX += dmx;
@@ -290,7 +294,16 @@ var GUI = function() {
 		// Success.
 		controllerContainer.appendChild(controllerObject.domElement);
 		controllers.push(controllerObject);
+		GUI.allControllers.push(controllerObject);
 
+		// Do we have a saved value for this controller?
+		if (type != "function" && 
+			GUI.saveIndex < GUI.savedValues.length) {
+			controllerObject.setValue(GUI.savedValues[GUI.saveIndex]);
+			GUI.saveIndex++;
+		}
+		
+		
 		// Compute sum height of controllers.
 		controllerHeight = 0;
 		for (var i in controllers) {
@@ -300,9 +313,6 @@ var GUI = function() {
 		openHeight = controllerHeight;
 		
 		checkForOverflow();
-
-
-
 		return controllerObject;
 		
 	}
@@ -383,8 +393,83 @@ var GUI = function() {
 
 };
 
+// Static members
+
 GUI.autoPlace = true;
 GUI.autoPlaceContainer = null;
+GUI.allControllers = [];
+
+GUI.saveURL = function() { 
+	title = window.location;
+	url = GUI.replaceGetVar("saveString", GUI.getSaveString());
+	window.location = url;
+};
+
+GUI.load = function(saveString) {
+	GUI.savedValues = saveString.split(",");
+};
+
+GUI.savedValues = [];
+
+GUI.getSaveString = function() {
+	var s = "";
+	var vals = [];
+	for (var i in GUI.allControllers) {
+		if (GUI.allControllers[i].type == "function") {
+			continue;
+		}
+		var v = GUI.allControllers[i].getValue();
+		vals.push(v);
+	}
+	vals.join(',');
+	return vals;
+}
+
+GUI.getSaveStringFromURL = function() {
+
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+
+    for (var i = 0; i < hashes.length; i++) {
+ 		hash = hashes[i].split("=")
+        if (hash == undefined) continue;
+		if (hash[0] == "saveString") {
+			return hash[1];
+		}
+    }
+	
+	return null;
+
+};
+
+GUI.replaceGetVar = function(varName, val) {
+
+    var vars = [], hash;
+    var loc = window.location.href;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+
+	
+    for (var i = 0; i < hashes.length; i++) {
+ 		hash = hashes[i].split("=")
+        if (hash == undefined) continue;
+		if (hash[0] == varName) {
+			return loc.replace(hash[1], val);
+		}
+    }
+	
+	if (window.location.href.indexOf('?') != -1) {
+		return loc + "&"+varName+"="+val;
+	}
+	
+	return loc+"?"+varName+"="+val;
+	
+};
+
+GUI.saveIndex = 0;
+
+GUI.showSaveString = function() {
+	alert(GUI.getSaveString());
+}
 
 // Util functions
 
@@ -419,3 +504,4 @@ GUI.error = function(str) {
 	}
 };
 
+if (GUI.getSaveStringFromURL() != null) GUI.load(GUI.getSaveStringFromURL());
