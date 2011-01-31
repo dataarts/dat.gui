@@ -4,6 +4,8 @@ var Controller = function() {
     this.object = arguments[1];
     this.propertyName = arguments[2];
 
+	if (arguments.length > 0) this.initialValue = this.propertyName[this.object];
+
     this.domElement = document.createElement('div');
     this.domElement.setAttribute('class', 'guidat-controller ' + this.type);
     
@@ -23,12 +25,19 @@ Controller.prototype.name = function(n) {
 	return this;
 };
 
+Controller.prototype.reset = function() {
+	this.setValue(this.initialValue);
+	return this;
+};
+
 Controller.prototype.listen = function() {
 	this.parent.listenTo(this);
+	return this;
 }
 
 Controller.prototype.unlisten = function() {
 	this.parent.unlistenTo(this); // <--- hasn't been implemented yet
+	return this;
 }
     
 Controller.prototype.setValue = function(n) {

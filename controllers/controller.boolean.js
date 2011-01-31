@@ -24,6 +24,16 @@ var BooleanController = function() {
     this.updateDisplay = function() {
     	input.checked = _this.getValue();
     };
+    
+    
+    this.setValue = function(val) {
+		if (typeof val != "boolean") {
+			try { 
+				val = eval(val);
+			} catch (e) {}
+		}
+		return Controller.prototype.setValue.call(this, val);
+    }
 
 };
 BooleanController.prototype = new Controller();

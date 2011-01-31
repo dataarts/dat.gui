@@ -53,7 +53,7 @@ var NumberController = function() {
     
     numberField.addEventListener('mousewheel', function(e) {
     	e.preventDefault();
-    	this.updateValue(_this.getValue() + Math.abs(e.wheelDeltaY)/e.wheelDeltaY*step);
+    	_this.setValue(_this.getValue() + Math.abs(e.wheelDeltaY)/e.wheelDeltaY*step);
     	return false;
     }, false);
     
@@ -95,10 +95,6 @@ var NumberController = function() {
 		return false;
     }
     
-    var roundToDecimal = function(n, decimals) {
-	    var t = Math.pow(10, decimals);
-    	return Math.round(n*t)/t;
-    }
     
     
     this.setValue = function(val) {
@@ -116,7 +112,7 @@ var NumberController = function() {
     }
     
     this.updateDisplay = function() {
-        numberField.value = roundToDecimal(_this.getValue(), 4);
+        numberField.value = GUI.roundToDecimal(_this.getValue(), 4);
         if (slider) slider.value = _this.getValue();
 	}
 };
