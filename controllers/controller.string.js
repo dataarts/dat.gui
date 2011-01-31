@@ -17,6 +17,7 @@ var StringController = function() {
     	input.select();
     }, false);
     
+    // TODO: getting messed up on ctrl a
     input.addEventListener('keyup', function() {
         _this.setValue(input.value);
     }, false);
