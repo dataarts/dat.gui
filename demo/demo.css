@@ -48,8 +48,7 @@ h2 {
     margin-bottom: 24px;
 }
 
-
-h2.collapsed { 
+div.collapsed h2, div.expanded h2 { 
 
     float: left;
     clear: both;
@@ -57,27 +56,39 @@ h2.collapsed {
     margin-top: 0;
     border-top: 1px solid #ccc;
     width: 100%;
-cursor: pointer;
+	cursor: pointer;
 }
-h2.collapsed:before { 
-content: '+';
-font-weight: normal;
-line-height: 2px;
-float: left;
-margin-top: 6px;
-margin-right: 6px;
-font-size: 9px;
-font-family: Monaco, monospace;
+div.expanded h2:before {
+	content: '-';
 }
-h2.collapsed:hover:before { 
-color: red;
+div.collapsed h2:before { 
+	content: '+';
+}
+div.expanded h2:before, div.collapsed h2:before {
+	font-weight: normal;
+	line-height: 2px;
+	float: left;
+	margin-top: 6px;
+	margin-right: 6px;
+	font-size: 9px;
+	font-family: Monaco, monospace;
+}
+div.collapsed:hover h2:before, div.expanded:hover h2:before { 
+	color: red;
 }
 
-.collapsable {
-clear: both;
-
-display: none;
+div.collapsed .collapsable {
+	overflow: hidden;
+	clear: both;
+	height: 0;
 }
+div.expanded .collapsable {
+	overflow: hidden;
+	clear: both;
+	height: auto;
+}
+
+div.expanded { cursor: pointer; }
 
 #helvetica-demo {
 	position: absolute;

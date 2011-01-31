@@ -224,5 +224,4 @@ function FizzyText(message) {
         
     }
 
-
 }
