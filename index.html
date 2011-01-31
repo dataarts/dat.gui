@@ -39,11 +39,13 @@
 
                         var fizzyText = new FizzyText("gui-dat");
 
-                        //GUI.load("changed,3.2,0.10890000000000001,1.121,45,true");
                         var gui = new GUI();
+                        var gui2 = new GUI();
 
+						
                         // Text field
                         gui.add(fizzyText, "message");
+						gui2.add(window, "onload");
 
                         // Sliders with min and max
                         gui.add(fizzyText, "maxSize", 0.5, 7);
