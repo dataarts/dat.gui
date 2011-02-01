@@ -139,7 +139,7 @@
 
     <h2>Basic Usage</h2>
     <pre id="demo-pre" class="prettyprint">
-&lt;script type="text/javascript" src="demo/demo.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="gui.min.js"&gt;&lt;/script&gt;
 &lt;script type="text/javascript"&gt;
 
 window.onload = function() {
@@ -210,7 +210,7 @@ gui.add(GUI, "showSaveString");</pre>
 
 		<p>Clicking the "showSaveString" button bring up an alert with a string. Copy and paste that string into the method <code>GUI.load()</code> before you instantiate any gui objects.</p>
 		<pre class="prettyprint">
-// Replace COPIED STRING with the value you got from 
+// Replace COPIED STRING with the value you got from showSaveString()
 GUI.load("COPIED STRING");
 
 var gui = new GUI();
@@ -219,7 +219,7 @@ var gui = new GUI();
 gui.add(someObject, "someProperty");
 gui.add(someObject, "someOtherProperty");</pre>
 
-	    	<p><strong>Save strings won't work if you change the order in which you've added properties to your gui objects</strong>. If you want to add more parameters to your gui and use an old save string, make sure they're added after the properties whose values you've saved.</p>
+	    	<p><strong>Save strings won't work if you change the order in which you've added properties to your gui objects, or the order of the gui objects themselves.</strong>. If you want to add more parameters to your gui and use an old save string, make sure they're added after the properties whose values you've saved.</p>
 	    </div>
     </div>
 
@@ -290,9 +290,9 @@ document.getElementById("my-gui-container").appendChild( gui.domElement );</pre>
 	    <h2 class="section last">Pro tips.</h2>
 		<div class="collapsable">
 		    <ol id="secrets">
-	          <li><strong>gui-dat</strong> panels are resizeable. Drag the toggle button.</li>
+	          <li><strong>gui-dat</strong> panels are resizeable. Drag the show/hide button.</li>
 
-	          <li>Press <strong>H</strong> to make panels invisible. Then press <strong>H</strong> to show them again.</li>
+	          <li>Pro tip #2 forthcoming.</li>
 		    </ol>
 	    </div>
 	</div>

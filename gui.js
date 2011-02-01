@@ -458,7 +458,6 @@ var GUI = function() {
 			}, 0);
 			
 			if (GUI.scrollTop > -1) {
-			console.log("hey");
 				document.body.scrollTop = GUI.scrollTop;
 			}
 			resizeTo = openHeight;
@@ -490,11 +489,9 @@ GUI.scrollTop = -1;
 // TODO: Not working in FF.
 GUI.load = function(saveString) {
 
-	console.log(saveString);
 
 	//GUI.savedAppearanceVars = [];
 	var vals = saveString.split(",");
-	console.log(vals);
 	var numGuis = parseInt(vals[0]);
 	GUI.scrollTop = parseInt(vals[1]);
 	for (var i = 0; i < numGuis; i++) {
