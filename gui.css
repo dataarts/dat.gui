@@ -1,10 +1,10 @@
 #guidat { 
 	position: fixed;
-	top: 0; 
-	right: 0;
-	width: auto;
+	bottom: 0;
+	width: 100%;
+	left: 0;
+
 	z-index: 1001;
-	text-align: right;
 }
 
 .guidat * {
@@ -12,13 +12,21 @@
 	margin:  0px;
 }
 
+.guidat-time {
+width: 75%;
+float: right;
+margin-top: -3px;
+margin-right: -2px;
+margin-left: 3px;
+background-color: #555;
+border-bottom: 1px solid #666;
+height: 31px;
+}
+
 .guidat { 
 	color: #fff;
 	opacity: 0.97;
 	text-align: left;
-	float: right;
-	margin-right: 20px;
-	margin-bottom: 20px;
 	background-color: #fff;
 }
 
@@ -105,7 +113,7 @@ a.guidat-toggle:hover {
 	border: 0;
 	color: #1ed36f;
 	margin-right: 2px;
-width: 148px;
+	width: 10.5%;
 }
 
 .guidat-controller.boolean { 
@@ -117,7 +125,7 @@ width: 148px;
 }
 
 .guidat-controller.number input[type=text] {
-	width: 35px;
+	width: 3%;
 	margin-left: 5px;
 	margin-right: 2px;
 	color: #00aeff;
@@ -157,7 +165,7 @@ width: 148px;
 .guidat-slider-bg { 
 	background-color: #222;
 	cursor: ew-resize;
-	width: 40%;
+	width: 7%;
 	margin-top: 2px;
 	float: right;
 	height: 21px;

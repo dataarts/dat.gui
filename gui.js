@@ -23,7 +23,6 @@ var GUI = function() {
 	var _this = this;
 	
 	var open = false;
-	var width = 280;
 	
 	// Prevents checkForOverflow bug in which loaded gui appearance
 	// settings are not respected by presence of scrollbar.
@@ -37,7 +36,7 @@ var GUI = function() {
 	
 	this.domElement = document.createElement('div');
 	this.domElement.setAttribute('class', 'guidat');
-	this.domElement.style.width = width+'px';
+	this.domElement.style.width = "100%";//width+'px';
 
 	var controllerContainer = document.createElement('div');
 	controllerContainer.setAttribute('class', 'guidat-controllers');
@@ -112,7 +111,7 @@ var GUI = function() {
 		curControllerContainerHeight += dmy;
 		controllerContainer.style.height = openHeight+'px';
 		width = GUI.constrain(width, MIN_WIDTH, MAX_WIDTH);
-		_this.domElement.style.width = width+'px';
+		//_this.domElement.style.width = width+'px';
 		checkForOverflow();
 	};
 	
@@ -444,7 +443,7 @@ var GUI = function() {
 
 	
 		width = parseInt(GUI.savedAppearanceVars[GUI.guiIndex][1]);
-		_this.domElement.style.width = width+"px";
+		//_this.domElement.style.width = width+"px";
 		
 		openHeight = parseInt(GUI.savedAppearanceVars[GUI.guiIndex][2]);
 		explicitOpenHeight = true;

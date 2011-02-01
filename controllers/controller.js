@@ -14,6 +14,11 @@ var Controller = function() {
     this.name(this.propertyName);
     this.domElement.appendChild(this.propertyNameElement);
     
+    this.timeElement = document.createElement('div');
+    this.timeElement.setAttribute('class', 'guidat-time');
+    this.domElement.appendChild(this.timeElement);
+
+    
     GUI.makeUnselectable(this.domElement);
     
 };
