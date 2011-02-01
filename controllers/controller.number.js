@@ -1,8 +1,8 @@
-var NumberController = function() {
+GUI.NumberController = function() {
 
 	this.type = "number";
     
-    Controller.apply(this, arguments);
+    GUI.Controller.apply(this, arguments);
     
     var _this = this;
     
@@ -121,7 +121,7 @@ var NumberController = function() {
     		val = max;
     	}
     	
-    	return Controller.prototype.setValue.call(this, val);
+    	return GUI.Controller.prototype.setValue.call(this, val);
     	
     }
     
@@ -131,5 +131,4 @@ var NumberController = function() {
 	}
 };
 
-NumberController.prototype = new Controller();
-NumberController.prototype.constructor = NumberController;
+GUI.extendController(GUI.NumberController);

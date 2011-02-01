@@ -1,9 +1,9 @@
-var StringController = function() {
+GUI.StringController = function() {
 
 	this.type = "string";
 	
 	var _this = this;
-    Controller.apply(this, arguments);
+    GUI.Controller.apply(this, arguments);
     
     var input = document.createElement('input');
     
@@ -30,5 +30,4 @@ var StringController = function() {
     
 };
 
-StringController.prototype = new Controller();
-StringController.prototype.constructor = StringController;
+GUI.extendController(GUI.StringController);
