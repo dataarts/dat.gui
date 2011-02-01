@@ -22,8 +22,6 @@ var GUI = function() {
 	
 	var _this = this;
 	
-	
-	
 	var open = false;
 	var width = 280;
 	
@@ -338,7 +336,7 @@ var GUI = function() {
 		} else {
 			controllerContainer.style.overflowY = "hidden";
 		}	
-		console.log(controllerHeight, openHeight);
+		// console.log(controllerHeight, openHeight);
 	}
 	
 	var addHandlers = {
@@ -399,7 +397,7 @@ var GUI = function() {
 	
 	// used in saveURL
 	this.appearanceVars = function() {
-		return [open, width, openHeight];
+		return [open, width, openHeight, controllerContainer.scrollTop]
 	}
 	
 	var beginResize = function() {
@@ -418,12 +416,26 @@ var GUI = function() {
 
 	if (GUI.guiIndex < GUI.savedAppearanceVars.length) {
 
+	
 		width = parseInt(GUI.savedAppearanceVars[GUI.guiIndex][1]);
 		_this.domElement.style.width = width+"px";
 		
 		openHeight = parseInt(GUI.savedAppearanceVars[GUI.guiIndex][2]);
 		explicitOpenHeight = true;
 		if (eval(GUI.savedAppearanceVars[GUI.guiIndex][0]) == true) {
+			curControllerContainerHeight = openHeight;
+			var t = GUI.savedAppearanceVars[GUI.guiIndex][3]
+			
+			// Hack.
+			setTimeout(function() {
+				controllerContainer.scrollTop = t;
+			}, 0);
+			
+			if (GUI.scrollTop > -1) {
+			console.log("hey");
+				document.body.scrollTop = GUI.scrollTop;
+			}
+			resizeTo = openHeight;
 			this.show();
 		}
 
@@ -447,19 +459,24 @@ GUI.saveURL = function() {
 	window.location = url;
 };
 
+GUI.scrollTop = -1;
+
 // TODO: Not working in FF.
 GUI.load = function(saveString) {
-	GUI.savedAppearanceVars = [];
-	var vals = saveString.split(',');
+
+	console.log(saveString);
+
+	//GUI.savedAppearanceVars = [];
+	var vals = saveString.split(",");
+	console.log(vals);
 	var numGuis = parseInt(vals[0]);
-	var vv = vals.splice(1, vals.length-1);
-	var numGuis = vals[0];
-	console.log(numGuis);
+	GUI.scrollTop = parseInt(vals[1]);
 	for (var i = 0; i < numGuis; i++) {
-		var appr = vv.splice(0, 3);
+		var appr = vals.splice(2, 4);
 		GUI.savedAppearanceVars.push(appr);
 	}
-	GUI.savedValues = vv;
+	
+	GUI.savedValues = vals.splice(2, vals.length);
 };
 
 GUI.savedValues = [];
@@ -470,10 +487,12 @@ GUI.getSaveString = function() {
 	var vals = [];
 	
 	vals.push(GUI.allGuis.length);
+	vals.push(document.body.scrollTop);
+	
 	
 	for (var i in GUI.allGuis) {
 		var av = GUI.allGuis[i].appearanceVars();
-		for (var j = 0; j <= GUI.allGuis.length; j++) {
+		for (var j = 0; j < av.length; j++) {
 			vals.push(av[j]);
 		}
 	}	
