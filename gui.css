@@ -1,10 +1,15 @@
 #guidat { 
-position: fixed;
-top: 0; 
-right: 0;
-width: auto;
-z-index: 1001;
-text-align: right;
+	position: fixed;
+	top: 0; 
+	right: 0;
+	width: auto;
+	z-index: 1001;
+	text-align: right;
+}
+
+.guidat * {
+	padding: 0px;
+	margin:  0px;
 }
 
 .guidat { 
