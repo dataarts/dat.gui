@@ -66,10 +66,6 @@ div.collapsed h2, div.expanded h2 {
     width: 100%;
 	cursor: pointer;
 }
-h2.last {
-border-bottom: 1px dotted #ccc;
-margin-bottom: 20px;
-}
 
 div.expanded h2:before {
 	content: '-';
@@ -162,10 +158,12 @@ a:active {
 }
 
 footer { 
+margin-top: 20px;
 	background-color: #eee;
 	width: 510px;
 	padding: 10px;
 	clear: both;
+	color: #444;
 	
 }
 
