@@ -218,7 +218,13 @@ var GUI = function() {
 	};
 	
 	this.unlistenTo = function(controller) {
-		// TODO 
+		// TODO: test this
+		for(var i = 0; i < listening.length; i++) {
+			if(listening[i] == controller) listening.splice(i, 1);
+		}
+		if(listening.length <= 0) {
+			clearInterval(listenInterval);
+		}
 	};
 	
 	this.listen = function(whoToListenTo) {
