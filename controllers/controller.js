@@ -36,7 +36,7 @@ Controller.prototype.listen = function() {
 }
 
 Controller.prototype.unlisten = function() {
-	this.parent.unlistenTo(this); // <--- hasn't been implemented yet
+	this.parent.unlistenTo(this); // <--- hasn't been tested yet
 	return this;
 }
     

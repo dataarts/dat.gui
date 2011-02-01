@@ -37,10 +37,30 @@ var GUI = function() {
 	
 	this.domElement = document.createElement('div');
 	this.domElement.setAttribute('class', 'guidat');
-	this.domElement.style.width = width+'px'
+	this.domElement.style.width = width+'px';
 
 	var controllerContainer = document.createElement('div');
 	controllerContainer.setAttribute('class', 'guidat-controllers');
+	
+	// Firefox hack for horizontal scrolling
+	controllerContainer.addEventListener('DOMMouseScroll', function(e) {
+		
+		var scrollAmount = this.scrollTop;
+		
+		if (e.wheelDelta) {
+			scrollAmount+=e.wheelDelta; 
+		} else if (e.detail) {
+			scrollAmount+=e.detail;
+		}
+			
+		if (e.preventDefault) {
+			e.preventDefault();
+		}
+		e.returnValue = false;
+		
+		controllerContainer.scrollTop = scrollAmount;
+		
+	}, false);
 	
 	controllerContainer.style.height = '0px';
 
@@ -117,7 +137,6 @@ var GUI = function() {
 	
 	document.addEventListener('mouseup', function(e) {
 		
-		
 		if (togglePressed && !toggleDragged) {
 			
 			_this.toggle();
@@ -183,6 +202,7 @@ var GUI = function() {
 		if(GUI.autoPlaceContainer == null) {
 			GUI.autoPlaceContainer = document.createElement('div');
 			GUI.autoPlaceContainer.setAttribute("id", "guidat");
+			
 			document.body.appendChild(GUI.autoPlaceContainer);
 		}
 		GUI.autoPlaceContainer.appendChild(this.domElement);
