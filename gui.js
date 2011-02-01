@@ -605,7 +605,7 @@ GUI.constrain = function (v, o1, o2) {
 
 GUI.error = function(str) {
 	if (typeof console.error == 'function') {
-		console.GUI.error("[GUI ERROR] " + str);
+		console.error("[GUI ERROR] " + str);
 	}
 };
 
