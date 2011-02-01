@@ -62,6 +62,20 @@ var NumberController = function() {
 		clickedNumberField = true;
         document.addEventListener('mousemove', dragNumberField, false);
     }, false);
+
+	// Handle up arrow and down arrow
+	numberField.addEventListener('keydown', function(e) {
+		switch(e.keyCode) {
+			case 38: 	// up
+				var newVal = _this.getValue() + step;
+				_this.setValue(newVal);
+				break;
+			case 40: 	// down
+				var newVal = _this.getValue() - step;
+				_this.setValue(newVal);
+				break;
+		}
+	}, false);
     
     document.addEventListener('mouseup', function(e) {
         document.removeEventListener('mousemove', dragNumberField, false);
