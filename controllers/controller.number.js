@@ -38,7 +38,7 @@ GUI.NumberController = function() {
     var slider;
     
     if (min != undefined && max != undefined) {
-    	slider = new Slider(this, min, max, step, this.getValue());
+    	slider = new GUI.Slider(this, min, max, step, this.getValue());
     	this.domElement.appendChild(slider.domElement);
     }
     
