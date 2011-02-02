@@ -23,6 +23,8 @@
 </script>
   <script type="text/javascript" src="controllers/scrubber.js">
 </script>
+  <script type="text/javascript" src="controllers/timer.js">
+</script>
   <script type="text/javascript" src="demo/improvedNoise.js">
 </script>
   <script type="text/javascript" src="demo/prettify.js">
@@ -47,25 +49,29 @@
                            .at(3000, "shit");
                         
                         // Sliders with min and max
-                        gui.add(fizzyText, "maxSize", 0.5, 7);
-                        gui.add(fizzyText, "growthSpeed", 0.01, 1);
-                        gui.add(fizzyText, "speed", 0.1, 2);
+                       // gui.add(fizzyText, "maxSize", 0.5, 7);
+                        //gui.add(fizzyText, "growthSpeed", 0.01, 1);
+                        //gui.add(fizzyText, "speed", 0.1, 2);
 
                         // Sliders with min, max and increment.
-                        gui.add(fizzyText, "noiseStrength", 10, 100, 5);
+                        gui.add(fizzyText, "noiseStrength", 10, 100, 5).
+                        	at(1000, 30).
+                        	at(4500, 20);
 
                         // Boolean checkbox
-                        gui.add(fizzyText, "displayOutline");
+                        gui.add(fizzyText, "displayOutline")
+                           .at(50, true)
+                           .at(250, false);
                         
                         // Fires a function called "explode"
                         gui.add(fizzyText, "explode")
                         	.at(1000)
                         	.at(2000)
-                        	.at(3000);    // Specify a custom name.
+                        	.at(3000);   
                         
 						gui.divider();
                         
-                      //  gui.add(timer, "playhead").step(100).listen();
+                     // 	gui.add(timer, "playhead").step(100).listen();
                         gui.add(timer, "playPause");
                        /* 
                         gui.add(timer, "windowMin").listen();

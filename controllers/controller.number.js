@@ -23,15 +23,12 @@ GUI.NumberController = function() {
     	return this;
     }
     
-    this.min = function(s) {
-    	min = s;
-    	return this;
-    }
-    
-    this.max = function(s) {
-    	max = s;
-    	return this;
-    }
+    this.__defineGetter__("min", function() {
+    return min;
+    });
+    this.__defineGetter__("max", function() {
+    return max;
+    });
     
     if (!step) {
     	if (min != undefined && max != undefined) {
