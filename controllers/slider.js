@@ -1,4 +1,4 @@
-var Slider = function(numberController, min, max, step, initValue) {
+GUI.Slider = function(numberController, min, max, step, initValue) {
 	
 	var min = min;
 	var max = max;
