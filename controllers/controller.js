@@ -1,4 +1,4 @@
-var Controller = function() {
+GUI.Controller = function() {
 
 	this.parent = arguments[0];
     this.object = arguments[1];
@@ -14,38 +14,35 @@ var Controller = function() {
     this.name(this.propertyName);
     this.domElement.appendChild(this.propertyNameElement);
     
-    this.timeElement = document.createElement('div');
-    this.timeElement.setAttribute('class', 'guidat-time');
-    this.domElement.appendChild(this.timeElement);
 
     
     GUI.makeUnselectable(this.domElement);
     
 };
 
-Controller.prototype.changeFunction = null;
+GUI.Controller.prototype.changeFunction = null;
 
-Controller.prototype.name = function(n) {
+GUI.Controller.prototype.name = function(n) {
 	this.propertyNameElement.innerHTML = n;
 	return this;
 };
 
-Controller.prototype.reset = function() {
+GUI.Controller.prototype.reset = function() {
 	this.setValue(this.initialValue);
 	return this;
 };
 
-Controller.prototype.listen = function() {
+GUI.Controller.prototype.listen = function() {
 	this.parent.listenTo(this);
 	return this;
 }
 
-Controller.prototype.unlisten = function() {
+GUI.Controller.prototype.unlisten = function() {
 	this.parent.unlistenTo(this); // <--- hasn't been tested yet
 	return this;
 }
     
-Controller.prototype.setValue = function(n) {
+GUI.Controller.prototype.setValue = function(n) {
 	this.object[this.propertyName] = n;
 	if (this.changeFunction != null) {
 		this.changeFunction.call(this, n);
@@ -56,13 +53,13 @@ Controller.prototype.setValue = function(n) {
 	return this;
 }
     
-Controller.prototype.getValue = function() {
+GUI.Controller.prototype.getValue = function() {
 	return this.object[this.propertyName];
 }
 
-Controller.prototype.updateDisplay = function() {}
+GUI.Controller.prototype.updateDisplay = function() {}
     
-Controller.prototype.onChange = function(fnc) {
+GUI.Controller.prototype.onChange = function(fnc) {
 	this.changeFunction = fnc;
 	return this;
 }

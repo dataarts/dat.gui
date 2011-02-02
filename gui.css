@@ -13,14 +13,14 @@
 }
 
 .guidat-time {
-width: 75%;
-float: right;
-margin-top: -3px;
-margin-right: -2px;
-margin-left: 3px;
-background-color: #333;
-border-bottom: 1px solid #444;
-height: 31px;
+	width: 75%;
+	float: right;
+	margin-top: -3px;
+	margin-right: -2px;
+	margin-left: 3px;
+	background-color: #333;
+	border-bottom: 1px solid #444;
+	height: 31px;
 }
 
 .guidat { 
@@ -45,6 +45,11 @@ height: 31px;
 	-webkit-transition: height .2s ease-out;
 	transition: height .2s ease-out;
 	*/
+}
+
+.guidat-controllers hr { 
+height: 0;
+border-top: 1px solid #000;
 }
 
 a.guidat-toggle { 

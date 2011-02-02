@@ -1,8 +1,8 @@
-var NumberController = function() {
+GUI.NumberController = function() {
 
 	this.type = "number";
     
-    Controller.apply(this, arguments);
+    GUI.Controller.apply(this, arguments);
     
     var _this = this;
     
@@ -16,7 +16,22 @@ var NumberController = function() {
     
     var min = arguments[3];
     var max = arguments[4];
-    var step = arguments[5];
+	var step = arguments[5];
+    
+    this.step = function(s) {
+    	step = s;
+    	return this;
+    }
+    
+    this.min = function(s) {
+    	min = s;
+    	return this;
+    }
+    
+    this.max = function(s) {
+    	max = s;
+    	return this;
+    }
     
     if (!step) {
     	if (min != undefined && max != undefined) {
@@ -38,7 +53,7 @@ var NumberController = function() {
     var slider;
     
     if (min != undefined && max != undefined) {
-    	slider = new Slider(this, min, max, step, this.getValue());
+    	slider = new GUI.Slider(this, min, max, step, this.getValue());
     	this.domElement.appendChild(slider.domElement);
     }
     
@@ -121,7 +136,7 @@ var NumberController = function() {
     		val = max;
     	}
     	
-    	return Controller.prototype.setValue.call(this, val);
+    	return GUI.Controller.prototype.setValue.call(this, val);
     	
     }
     
@@ -131,5 +146,4 @@ var NumberController = function() {
 	}
 };
 
-NumberController.prototype = new Controller();
-NumberController.prototype.constructor = NumberController;
+GUI.extendController(GUI.NumberController);

@@ -17,9 +17,6 @@ var GUI = function() {
 	
 	var curControllerContainerHeight = 0;
 	
-	// How big we get when we open
-
-	
 	var _this = this;
 	
 	var open = false;
@@ -27,6 +24,8 @@ var GUI = function() {
 	// Prevents checkForOverflow bug in which loaded gui appearance
 	// settings are not respected by presence of scrollbar.
 	var explicitOpenHeight = false;
+	
+	// How big we get when we open
 	var openHeight;
 	
 	var name;
@@ -41,7 +40,10 @@ var GUI = function() {
 	var controllerContainer = document.createElement('div');
 	controllerContainer.setAttribute('class', 'guidat-controllers');
 	
-	// Firefox hack for horizontal scrolling
+	// For use with GUIScrubber
+	this.timer = null;
+	
+	// Firefox hack to prevent horizontal scrolling
 	controllerContainer.addEventListener('DOMMouseScroll', function(e) {
 		
 		var scrollAmount = this.scrollTop;
@@ -80,19 +82,17 @@ var GUI = function() {
 		my = e.pageY;
 		mx = e.pageX;
 		
-		var dmy = my - pmy;
-		
-		
-	if (!open) { 
-		if (dmy > 0) {
-			open = true;
-			curControllerContainerHeight = openHeight = 1;
-			toggleButton.innerHTML = name || "Hide Controls";
-		} else {
-			return;
+		var dmy = pmy-my;
+				
+		if (!open) { 
+			if (dmy < 0) {
+				open = true;
+				curControllerContainerHeight = openHeight = 1;
+				toggleButton.innerHTML = name || "Hide Controls";
+			} else {
+				return;
+			}
 		}
-	}
-
 		
 		// TODO: Flip this if you want to resize to the left.
 		var dmx = pmx - mx;
@@ -107,7 +107,7 @@ var GUI = function() {
 		dragDisplacementY += dmy;
 		dragDisplacementX += dmx;
 		openHeight += dmy;
-		width += dmx;
+		//width += dmx;
 		curControllerContainerHeight += dmy;
 		controllerContainer.style.height = openHeight+'px';
 		width = GUI.constrain(width, MIN_WIDTH, MAX_WIDTH);
@@ -141,9 +141,9 @@ var GUI = function() {
 			_this.toggle();
 
 			// Clears lingering slider column
-			_this.domElement.style.width = (width+1)+'px';
+		//	_this.domElement.style.width = (width+1)+'px';
 			setTimeout(function() {
-				_this.domElement.style.width = width+'px';
+		//		_this.domElement.style.width = width+'px';
 			}, 1);
 		}
 		
@@ -194,8 +194,8 @@ var GUI = function() {
 
 	}, false);
 	
-	this.domElement.appendChild(controllerContainer);
 	this.domElement.appendChild(toggleButton);
+	this.domElement.appendChild(controllerContainer);
 
 	if (GUI.autoPlace) {
 		if(GUI.autoPlaceContainer == null) {
@@ -259,13 +259,6 @@ var GUI = function() {
 	
 	this.autoListen = true;
 
-	var handlerTypes = {
-		"number": NumberController,
-		"string": StringController,
-		"boolean": BooleanController,
-		"function": FunctionController
-	};
-
 	var alreadyControlled = function(object, propertyName) {
 		for (var i in controllers) {
 			if (controllers[i].object == object &&
@@ -284,10 +277,22 @@ var GUI = function() {
 		F.prototype = constructor.prototype;
 		return new F();
 	};
+	
+	this.divider = function() {
+		controllerContainer.appendChild(document.createElement('hr'));
+	}
 
 	this.add = function() {
-
+	
 		var object = arguments[0];
+		
+		if (arguments.length == 1) {
+			for (var i in object) {
+				this.add(object, i);
+			}
+			return;
+		}
+		
 		var propertyName = arguments[1];
 
 		// Have we already added this?
@@ -347,6 +352,10 @@ var GUI = function() {
 			openHeight = controllerHeight;
 		}
 		
+		if (this.timer != null) {
+			new GUI.Scrubber(controllerObject, this.timer);
+		}
+		
 		return controllerObject;
 		
 	}
@@ -361,14 +370,13 @@ var GUI = function() {
 		} else {
 			controllerContainer.style.overflowY = "hidden";
 		}	
-		// console.log(controllerHeight, openHeight);
 	}
 	
-	var addHandlers = {
-		"number": NumberController,
-		"string": StringController,
-		"boolean": BooleanController,
-		"function": FunctionController
+	var handlerTypes = {
+		"number": GUI.NumberController,
+		"string": GUI.StringController,
+		"boolean": GUI.BooleanController,
+		"function": GUI.FunctionController
 	};
 	
 	var alreadyControlled = function(object, propertyName) {
@@ -390,7 +398,7 @@ var GUI = function() {
     };
 
 	this.reset = function() {
-		//
+		// TODO
 	}
 
 	// GUI ... GUI
@@ -485,9 +493,7 @@ GUI.saveURL = function() {
 
 GUI.scrollTop = -1;
 
-// TODO: Not working in FF.
 GUI.load = function(saveString) {
-
 
 	//GUI.savedAppearanceVars = [];
 	var vals = saveString.split(",");
@@ -499,6 +505,7 @@ GUI.load = function(saveString) {
 	}
 	
 	GUI.savedValues = vals.splice(2, vals.length);
+	
 };
 
 GUI.savedValues = [];
@@ -616,13 +623,18 @@ GUI.constrain = function (v, o1, o2) {
 
 GUI.error = function(str) {
 	if (typeof console.error == 'function') {
-		console.GUI.error("[GUI ERROR] " + str);
+		console.error("[GUI ERROR] " + str);
 	}
 };
 
 GUI.roundToDecimal = function(n, decimals) {
 	var t = Math.pow(10, decimals);
 	return Math.round(n*t)/t;
+}
+
+GUI.extendController = function(clazz) {
+	clazz.prototype = new GUI.Controller();
+	clazz.prototype.constructor = clazz;
 }
 
 if (GUI.getVarFromURL('saveString') != null) GUI.load(GUI.getVarFromURL('saveString'));
