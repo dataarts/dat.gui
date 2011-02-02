@@ -2,6 +2,9 @@ GUI.Timer = function(gui) {
 	
 	var _this = this;
 	
+	this.hoverPoint = null;
+	this.activePoint = null;
+	
 	this.gui = gui;
 	this.gui.timer = this;
 	

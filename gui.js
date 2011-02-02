@@ -627,6 +627,17 @@ GUI.error = function(str) {
 	}
 };
 
+GUI.getOffset = function(obj) {
+	var curleft = curtop = 0;
+	if (obj.offsetParent) {
+		do {
+			curleft += obj.offsetLeft;
+			curtop += obj.offsetTop;
+		} while (obj = obj.offsetParent);
+		return {left: curleft,top: curtop};
+	}
+}
+
 GUI.roundToDecimal = function(n, decimals) {
 	var t = Math.pow(10, decimals);
 	return Math.round(n*t)/t;

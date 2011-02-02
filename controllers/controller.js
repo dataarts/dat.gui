@@ -3,6 +3,7 @@ GUI.Controller = function() {
 	this.parent = arguments[0];
     this.object = arguments[1];
     this.propertyName = arguments[2];
+    this.changeListeners = [];
 
 	if (arguments.length > 0) this.initialValue = this.propertyName[this.object];
 
@@ -20,7 +21,7 @@ GUI.Controller = function() {
     
 };
 
-GUI.Controller.prototype.changeFunction = null;
+
 
 GUI.Controller.prototype.name = function(n) {
 	this.propertyNameElement.innerHTML = n;
@@ -44,8 +45,8 @@ GUI.Controller.prototype.unlisten = function() {
     
 GUI.Controller.prototype.setValue = function(n) {
 	this.object[this.propertyName] = n;
-	if (this.changeFunction != null) {
-		this.changeFunction.call(this, n);
+	for (var i in this.changeListeners) {
+		this.changeListeners[i].call(this, n);
 	}
 	// Whenever you call setValue, the display will be updated automatically.
 	// This reduces some clutter in subclasses. We can also use this method for listen().
@@ -59,7 +60,7 @@ GUI.Controller.prototype.getValue = function() {
 
 GUI.Controller.prototype.updateDisplay = function() {}
     
-GUI.Controller.prototype.onChange = function(fnc) {
-	this.changeFunction = fnc;
+GUI.Controller.prototype.addChangeListener = function(fnc) {
+	this.changeListeners.push(fnc);
 	return this;
 }

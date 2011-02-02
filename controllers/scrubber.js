@@ -1,7 +1,7 @@
 // Would really love to make it so that as FEW changes as possible are required to gui.js in order to make this work. Would love to make it so you simply include gui.scrubber.min.js in addition to gui.min.js. 
 
 GUI.Controller.prototype.at = function(when, what, tween) {
-	new GUI.ScrubberPoint(this.scrubber, when, what);
+	this.scrubber.add(new GUI.ScrubberPoint(this.scrubber, when, what));
 	this.scrubber.render();
 	return this;
 }
@@ -14,7 +14,30 @@ GUI.Scrubber = function(controller, timer) {
 	this.timer = timer;
 	this.controller = controller;
 	this.controller.scrubber = this;
-		
+	this.playing = false;
+	
+	this.sort = function() {
+		this.points.sort(function(a,b) {
+			return a.time - b.time;
+		});
+	}
+	
+	this.add = function(p) {
+		this.points.push(p);
+		this.sort();
+	}
+	
+	this.controller.addChangeListener(function(newVal) {
+	if (!_this.playing) {
+		if (_this.timer.activePoint == null) {
+			console.log(_this, _this.timer.playhead, newVal);
+			_this.timer.activePoint = new GUI.ScrubberPoint(_this, _this.timer.playhead, newVal);
+			_this.render();
+		} else { 
+			_this.timer.activePoint.value = newVal;
+		}
+	}
+	});
 
 	this.domElement = document.createElement('div');
 	this.domElement.setAttribute('class', 'guidat-time');
@@ -25,6 +48,7 @@ GUI.Scrubber = function(controller, timer) {
 	this.g = canvas.getContext('2d');
 	
 	var width;
+	var position;
 	var height;
 	
 	this.__defineGetter__("width", function() {
@@ -61,9 +85,12 @@ GUI.Scrubber = function(controller, timer) {
 	
 	this.render();
 	
+
+	
 	var onResize = function() {
 		canvas.width = width = _this.domElement.offsetWidth;
 		canvas.height = height = _this.domElement.offsetHeight;
+		position = GUI.getOffset(canvas);
 		_this.render();
 	};
 	
@@ -71,11 +98,54 @@ GUI.Scrubber = function(controller, timer) {
 		onResize();
 	}, false);
 	
+	var scrub = function(e) {
+		var t = GUI.map(e.pageX, position.left, position.left+width, _this.timer.windowMin, _this.timer.windowMin+_this.timer.windowWidth);
+		_this.timer.playhead = t;
+	}
+	
+	canvas.addEventListener('mousedown', function(e) {
+		if (_this.timer.hoverPoint != null) {
+
+			_this.timer.activePoint = _this.timer.hoverPoint;
+			_this.timer.playhead = _this.timer.activePoint.time;
+
+		} else { 
+		
+			_this.timer.activePoint = null;
+			scrub(e);
+			document.body.style.cursor = "text";
+			document.addEventListener('mousemove', scrub, false);
+			_this.render();
+			
+		}
+		
+	}, false);
+	
+	canvas.addEventListener('mousemove', function(e) {
+		_this.timer.hoverPoint = null;
+		for (var i in _this.points) {
+			var cur = _this.points[i];
+			if (cur.isHovering(e.pageX-position.left)) {
+				_this.timer.hoverPoint = cur;
+			}
+		}
+		_this.render();
+	});
+	
+	document.addEventListener('mouseup', function() {
+		document.body.style.cursor = "auto";
+		document.removeEventListener('mousemove', scrub, false);
+	}, false);
+	
+
+	
 	onResize();
 
 	this.timer.addPlayListener(this.render);
 	
 	var onPlayChange = function(curTime, prevTime) {
+		
+		_this.playing = true;
 		
 		// This assumes a SORTED point array
 		// And a PROGRESSING/INCREASING/GROWING playhead
@@ -87,9 +157,9 @@ GUI.Scrubber = function(controller, timer) {
 				var cur = _this.points[i];
 				if (cur.time >= curTime && i > 0) {
 					closestToLeft = _this.points[i-1];
+					break;
 				}
 			}
-			
 			
 			if (closestToLeft == null || closestToLeft.time > curTime) return;
 			
@@ -122,6 +192,8 @@ GUI.Scrubber = function(controller, timer) {
 		
 		}
 		
+		_this.playing = false;
+		
 	};
 	
 	var pointHandlers = {
@@ -151,20 +223,29 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 	
 	var _this = this;
 	
-	scrubber.points.push(this);
-	scrubber.points.sort(function(a,b) {
-		return a.time - b.time;
-	});
 		
 	var g = scrubber.g;
 	var timer = scrubber.timer;
 	var type = scrubber.controller.type;
+	var x, y;
+	
+	this.hold = false;
+	
+	this.value = value;
+
+	var barSize = 4;
+	var rectSize = 7;
+	
+	var c1 = "#ffd800";
+	var c2 = "#ff9000";
 	
 	this.tween = function(t) {
 		return t;
 	};
 	
-	this.hold = false;
+	this.isHovering = function(xx) {
+		return xx >= x-rectSize/2 && xx <= x+rectSize/2;
+	};
 	
 	this.__defineGetter__("next", function() {	
 		if (scrubber.points.length <= 1) {
@@ -177,16 +258,8 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 		}
 		
 		return scrubber.points[i+1];
+		
 	});
-	
-	
-	
-	this.value = value;
-	var barSize = 4;
-	var rectSize = 7;
-	
-	var c1 = "#ffd800";
-	var c2 = "#ff9000";
 	
 	this.__defineGetter__("time", function() {
 		return time;
@@ -194,21 +267,19 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 	
 	this.render = function() {
 	
-
-	
-		var x = GUI.map(time, timer.windowMin, timer.windowMin+timer.windowWidth, 0, 1);
+		x = GUI.map(time, timer.windowMin, timer.windowMin+timer.windowWidth, 0, 1);
 
 		if (x >= 0 && x <= 1) {
 			x = Math.round(GUI.map(x, 0, 1, 0, scrubber.width));
 		}
 		
+		y = scrubber.height/2;
+
 		switch (type) {
 		
 			case "number":
 			
 				g.save();
-				var y = scrubber.height/2;
-
 				var n = this.next;
 				
 				if (n != null) {
@@ -240,9 +311,16 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 			default:	
 				g.save();
 				g.translate(x-barSize/2, 0);
-				g.fillStyle = c1;
+				if (scrubber.timer.activePoint == this) {
+					g.fillStyle = "red"; //
+				} else if (scrubber.timer.hoverPoint == this) {
+					g.fillStyle = "green";
+				} else { 
+					g.fillStyle = "blue";
+				}
+				//g.fillStyle = c1;
 				g.fillRect(0, 0, barSize/2, scrubber.height-1);
-				g.fillStyle = c2;
+				//g.fillStyle = c2;
 				g.fillRect(barSize/2, 0, barSize/2, scrubber.height-1);
 				g.restore();
 		

@@ -17,16 +17,6 @@ GUI.Slider = function(numberController, min, max, step, initValue) {
 	
 	this.domElement.appendChild(this.fg);
 	
-	var findPos = function(obj) {
-		var curleft = curtop = 0;
-		if (obj.offsetParent) {
-			do {
-				curleft += obj.offsetLeft;
-				curtop += obj.offsetTop;
-			} while (obj = obj.offsetParent);
-			return [curleft,curtop];
-		}
-	}
 	
 	this.__defineSetter__('value', function(e) {
 		var pct = GUI.map(e, min, max, 0, 100);
@@ -35,8 +25,8 @@ GUI.Slider = function(numberController, min, max, step, initValue) {
 
 	var onDrag = function(e) {
 		if (!clicked) return;
-		var pos = findPos(_this.domElement);
-		var val = GUI.map(e.pageX, pos[0], pos[0] + _this.domElement.offsetWidth, min, max);
+		var pos = GUI.getOffset(_this.domElement);
+		var val = GUI.map(e.pageX, pos.left, pos.top + _this.domElement.offsetWidth, min, max);
 		val = Math.round(val/step)*step;
 		numberController.setValue(val);
 	}
