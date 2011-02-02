@@ -74,8 +74,11 @@
 					
 					if(this.className == 'collapsed') {
 						this.className = 'expanded';
+						var children = this.childNodes;
+						this.childNodes[3].style.height = 'auto';
 					} else {
 						this.className = 'collapsed';
+						this.childNodes[3].style.height = '0px';
 					}
 				}
 				
@@ -241,7 +244,7 @@ gui.add(obj, "changingProperty").listen();
 
 // Make your own loop
 setInterval(function() {
-		gui.listen(); // updates values you've marked with listen()
+	gui.listen(); // updates values you've marked with listen()
 }, 1000 / 60);</pre>
 
 	    	<p>Alternatively, you can forego calling <code>listen()</code> on individual controllers, and instead choose to monitor changes in <em>all</em> values controlled by your gui.</p>
@@ -253,7 +256,7 @@ gui.add(obj, "properties");
 
 // Make your own loop
 setInterval(function() {
-		gui.listenAll(); // updates ALL values managed by this gui
+	gui.listenAll(); // updates ALL values managed by this gui
 }, 1000 / 60);</pre>
 		</div>
 	</div>
