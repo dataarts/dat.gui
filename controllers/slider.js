@@ -17,7 +17,6 @@ GUI.Slider = function(numberController, min, max, step, initValue) {
 	
 	this.domElement.appendChild(this.fg);
 	
-	
 	this.__defineSetter__('value', function(e) {
 		var pct = GUI.map(e, min, max, 0, 100);
 		this.fg.style.width = pct+"%";
@@ -38,7 +37,6 @@ GUI.Slider = function(numberController, min, max, step, initValue) {
 		_this.fg.setAttribute('class', 'guidat-slider-fg active');
 		onDrag(e);
 	}, false);
-	
 	
 	document.addEventListener('mouseup', function(e) {
 		_this.domElement.setAttribute('class', 'guidat-slider-bg');

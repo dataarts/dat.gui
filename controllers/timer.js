@@ -29,6 +29,24 @@ GUI.Timer = function(gui) {
 		return d.getTime();
 	}
 	
+	window.addEventListener("keyup", function(e) {
+		switch (e.keyCode) {
+			case 32:
+				_this.playPause();
+				break;
+			case 13: 
+				_this.stop();
+				break;
+			case 8: 
+				if (_this.activePoint != null) {
+					_this.activePoint.remove();
+					_this.activePoint = null;
+				}
+				break;
+		}
+		console.log(e.keyCode);
+	}, false);
+	
 	this.__defineGetter__("windowMin", function() {
 		return windowMin;
 	});
@@ -59,6 +77,9 @@ GUI.Timer = function(gui) {
 	this.__defineSetter__("playhead", function(t) {
 		lastPlayhead = playhead;
 		playhead = t;
+		if (playing) {
+			windowMin += ((playhead-windowWidth/2)-windowMin)*0.3;
+		}
 		for (var i = 0; i < playListeners.length; i++) {
 			playListeners[i].call(this, playhead, lastPlayhead);
 		}
@@ -96,10 +117,10 @@ GUI.Timer = function(gui) {
 		}
 	}
 	
-	
 	this.stop = function() {
 		this.pause();
 		this.playhead = 0;
+		this.windowMin = 0;	
 	};
 	
 	this.addPlayListener = function(fnc) {

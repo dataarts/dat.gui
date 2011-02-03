@@ -28,10 +28,12 @@ GUI.Scrubber = function(controller, timer) {
 	}
 	
 	this.controller.addChangeListener(function(newVal) {
+
+
 	if (!_this.playing) {
 		if (_this.timer.activePoint == null) {
-			console.log(_this, _this.timer.playhead, newVal);
 			_this.timer.activePoint = new GUI.ScrubberPoint(_this, _this.timer.playhead, newVal);
+			_this.add(_this.timer.activePoint);
 			_this.render();
 		} else { 
 			_this.timer.activePoint.value = newVal;
@@ -51,6 +53,8 @@ GUI.Scrubber = function(controller, timer) {
 	var position;
 	var height;
 	
+	var mx, pmx;
+	
 	this.__defineGetter__("width", function() {
 		return width;
 	});
@@ -60,7 +64,6 @@ GUI.Scrubber = function(controller, timer) {
 	});
 	
 	controller.domElement.insertBefore(this.domElement, controller.propertyNameElement.nextSibling);
-	
 	
 	this.render = function() {
 	
@@ -100,7 +103,30 @@ GUI.Scrubber = function(controller, timer) {
 	
 	var scrub = function(e) {
 		var t = GUI.map(e.pageX, position.left, position.left+width, _this.timer.windowMin, _this.timer.windowMin+_this.timer.windowWidth);
+
+		
 		_this.timer.playhead = t;
+		
+		/*
+		if (t < _this.timer.windowMin + _this.timer.windowWidth/5) {
+			_this.timer.windowMin = _this.timer.playhead -_this.timer.windowWidth/5;
+		}
+		
+		if (t > _this.timer.windowMin + _this.timer.windowWidth - _this.timer.windowWidth/5) {
+			_this.timer.windowMin = _this.timer.playhead +_this.timer.windowWidth/5-_this.timer.windowWidth;
+		}*/
+		
+	}
+	
+	var dragActive = function(e) {
+	
+		mx = e.pageX;
+		var t = GUI.map(mx - pmx, 0, width, 0, _this.timer.windowWidth);		
+		_this.timer.activePoint.time += t;		
+		pmx = mx;
+		_this.sort();
+		_this.timer.playhead += t;
+		
 	}
 	
 	canvas.addEventListener('mousedown', function(e) {
@@ -108,10 +134,13 @@ GUI.Scrubber = function(controller, timer) {
 
 			_this.timer.activePoint = _this.timer.hoverPoint;
 			_this.timer.playhead = _this.timer.activePoint.time;
-
+			pmx = mx = e.pageX;
+			document.addEventListener("mousemove", dragActive, false);
+			
 		} else { 
 		
 			_this.timer.activePoint = null;
+			_this.timer.hoverPoint = null;
 			scrub(e);
 			document.body.style.cursor = "text";
 			document.addEventListener('mousemove', scrub, false);
@@ -134,6 +163,7 @@ GUI.Scrubber = function(controller, timer) {
 	
 	document.addEventListener('mouseup', function() {
 		document.body.style.cursor = "auto";
+		document.removeEventListener("mousemove", dragActive, false);
 		document.removeEventListener('mousemove', scrub, false);
 	}, false);
 	
@@ -161,19 +191,20 @@ GUI.Scrubber = function(controller, timer) {
 				}
 			}
 			
-			if (closestToLeft == null || closestToLeft.time > curTime) return;
-			
-			var n = closestToLeft.next;
-			if (n != null) {
+			if (closestToLeft != null && closestToLeft.time <= curTime) {
 				
-				// Interpolate.
-				var t = GUI.map(curTime, closestToLeft.time, n.time, 0, 1);
-				t = closestToLeft.tween(t);
-				var val = GUI.map(t, 0, 1, closestToLeft.value, n.value);
-				_this.controller.setValue(val);
+				var n = closestToLeft.next;
+				if (n != null) {
+					
+					// Interpolate.
+					var t = GUI.map(curTime, closestToLeft.time, n.time, 0, 1);
+					t = closestToLeft.tween(t);
+					var val = GUI.map(t, 0, 1, closestToLeft.value, n.value);
+					_this.controller.setValue(val);
+					
+				}
 				
 			}
-			
 			
 		} else { 
 			
@@ -221,8 +252,9 @@ GUI.Scrubber = function(controller, timer) {
 
 GUI.ScrubberPoint = function(scrubber, time, value) {
 	
-	var _this = this;
 	
+	
+	var _this = this;
 		
 	var g = scrubber.g;
 	var timer = scrubber.timer;
@@ -241,6 +273,11 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 	
 	this.tween = function(t) {
 		return t;
+	};
+	
+	this.remove = function() {
+		scrubber.points.splice(scrubber.points.indexOf(this), 1);
+		scrubber.render();
 	};
 	
 	this.isHovering = function(xx) {
@@ -264,6 +301,9 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 	this.__defineGetter__("time", function() {
 		return time;
 	});
+	this.__defineSetter__("time", function(s) {
+		time = s;
+	});
 	
 	this.render = function() {
 	
@@ -271,10 +311,20 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 
 		if (x >= 0 && x <= 1) {
 			x = Math.round(GUI.map(x, 0, 1, 0, scrubber.width));
+		} else { 
+			return;
 		}
 		
 		y = scrubber.height/2;
 
+		if (scrubber.timer.activePoint == this) {
+			g.fillStyle = "#fff"; //
+		} else if (scrubber.timer.hoverPoint == this) {
+			g.fillStyle = "#ddd";
+		} else { 
+			g.fillStyle = "#ccc";
+		}
+		
 		switch (type) {
 		
 			case "number":
@@ -297,12 +347,11 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 					g.lineTo(x, y);
 					g.stroke();
 					
-					
 				}		
 				
 				g.translate(x, y);
 				g.rotate(Math.PI/4);
-				g.fillStyle = c1;
+			//	g.fillStyle = c1;
 				g.fillRect(-rectSize/2, -rectSize/2, rectSize, rectSize);
 				g.restore();
 						
@@ -311,13 +360,6 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 			default:	
 				g.save();
 				g.translate(x-barSize/2, 0);
-				if (scrubber.timer.activePoint == this) {
-					g.fillStyle = "red"; //
-				} else if (scrubber.timer.hoverPoint == this) {
-					g.fillStyle = "green";
-				} else { 
-					g.fillStyle = "blue";
-				}
 				//g.fillStyle = c1;
 				g.fillRect(0, 0, barSize/2, scrubber.height-1);
 				//g.fillStyle = c2;
