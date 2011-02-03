@@ -72,10 +72,15 @@
 
 				function toggle(e) {
 					
-					if(this.className == 'collapsed') {
+					var collapsable = this.childNodes[3],
+						wrapper = collapsable.childNodes[1];
+					
+					if (this.className === 'collapsed') {
 						this.className = 'expanded';
+						collapsable.style.height = wrapper.clientHeight + 'px';
 					} else {
 						this.className = 'collapsed';
+						collapsable.style.height = '0px';
 					}
 				}
 				
@@ -186,20 +191,22 @@ window.onload = function() {
 	<div class="collapsed">
 	    <h2 class="section">Saving your parameters</h2>
 		<div class="collapsable">
-	    	<p>The simplest way to save your parameters is via <code>GUI.saveURL()</code>. This method directs your browser to a URL containing the current GUI settings.</p>
-	    	<pre class="prettyprint">
+			<div>
+		    	<p>The simplest way to save your parameters is via <code>GUI.saveURL()</code>. This method directs your browser to a URL containing the current GUI settings.</p>
+		    	<pre class="prettyprint">
 // Make a button for the url function
 gui.add(GUI, "saveURL");</pre>
-    
+			</div>
 		</div>
 	</div>
 	<div class="collapsed">
 	    <h2 class="section">Advanced saving</h2>
 		<div class="collapsable">
-	    	<p>Let's say you'd like to share your settings with someone. Instead of sending a long link with lots of parameters stored in it, you can make your saved settings the defaults.</p>
+			<div>
+		    	<p>Let's say you'd like to share your settings with someone. Instead of sending a long link with lots of parameters stored in it, you can make your saved settings the defaults.</p>
 
-	    	<p>First, add the method <code>GUI.showSaveString()</code> to a gui object:</p>
-	    	<pre class="prettyprint">var gui = new GUI();
+		    	<p>First, add the method <code>GUI.showSaveString()</code> to a gui object:</p>
+		    	<pre class="prettyprint">var gui = new GUI();
 
 // Add some stuff (and pretend I change their values);
 gui.add(someObject, "someProperty");
@@ -208,8 +215,8 @@ gui.add(someObject, "someOtherProperty");
 // Make a save button.
 gui.add(GUI, "showSaveString");</pre>
 
-		<p>Clicking the "showSaveString" button bring up an alert with a string. Copy and paste that string into the method <code>GUI.load()</code> before you instantiate any gui objects.</p>
-		<pre class="prettyprint">
+			<p>Clicking the "showSaveString" button bring up an alert with a string. Copy and paste that string into the method <code>GUI.load()</code> before you instantiate any gui objects.</p>
+			<pre class="prettyprint">
 // Replace COPIED STRING with the value you got from showSaveString()
 GUI.load("COPIED STRING");
 
@@ -219,23 +226,27 @@ var gui = new GUI();
 gui.add(someObject, "someProperty");
 gui.add(someObject, "someOtherProperty");</pre>
 
-	    	<p><strong>Save strings won't work if you change the order in which you've added properties to your gui objects, or the order of the gui objects themselves.</strong>. If you want to add more parameters to your gui and use an old save string, make sure they're added after the properties whose values you've saved.</p>
-	    </div>
+		    	<p><strong>Save strings won't work if you change the order in which you've added properties to your gui objects, or the order of the gui objects themselves.</strong>. If you want to add more parameters to your gui and use an old save string, make sure they're added after the properties whose values you've saved.</p>
+	    	</div>
+		</div>
     </div>
 
 	<div class="collapsed">
 	    <h2 class="section">Listen for variable changes outside of the GUI</h2>
 		<div class="collapsable">
-	    	<p>Let's say you have a variable that changes by itself from time to time. If you'd like the GUI to reflect those changes, use the <code>listen()</code> method.</p>
-	    	<pre class="prettyprint">gui.add(obj, "changingProperty").listen();</pre>
-    	</div>
+			<div>
+		    	<p>Let's say you have a variable that changes by itself from time to time. If you'd like the GUI to reflect those changes, use the <code>listen()</code> method.</p>
+		    	<pre class="prettyprint">gui.add(obj, "changingProperty").listen();</pre>
+	    	</div>
+		</div>
 	</div>
     
 	<div class="collapsed">
 		<h2 class="section">Advanced listening</h2>
 		<div class="collapsable">
-	    	<p>By default, <strong>gui-dat</strong> will create an internal interval that checks for changes in the values you've marked with <code>listen()</code>. If you'd like to check for these changes in an interval of your own definition, use the following:</p>
-	    	<pre class="prettyprint">
+			<div>
+		    	<p>By default, <strong>gui-dat</strong> will create an internal interval that checks for changes in the values you've marked with <code>listen()</code>. If you'd like to check for these changes in an interval of your own definition, use the following:</p>
+		    	<pre class="prettyprint">
 gui.autoListen = false; // disables internal interval
 gui.add(obj, "changingProperty").listen();
 
@@ -244,8 +255,8 @@ setInterval(function() {
 		gui.listen(); // updates values you've marked with listen()
 }, 1000 / 60);</pre>
 
-	    	<p>Alternatively, you can forego calling <code>listen()</code> on individual controllers, and instead choose to monitor changes in <em>all</em> values controlled by your gui.</p>
-	    	<pre class="prettyprint">
+		    	<p>Alternatively, you can forego calling <code>listen()</code> on individual controllers, and instead choose to monitor changes in <em>all</em> values controlled by your gui.</p>
+		    	<pre class="prettyprint">
 gui.autoListen = false; // disables internal interval
 gui.add(obj, "add");
 gui.add(obj, "lotsa");
@@ -255,22 +266,24 @@ gui.add(obj, "properties");
 setInterval(function() {
 		gui.listenAll(); // updates ALL values managed by this gui
 }, 1000 / 60);</pre>
+			</div>
 		</div>
 	</div>
     
 	<div class="collapsed">
 	    <h2 class="section">Multiple panels and custom placement</h2>
 		<div class="collapsable">
-	    	<p>You can instantiate multiple <code>GUI</code> objects and name them however you'd like.</p>
-	    	<pre class="prettyprint">var gui1 = new GUI();
+			<div>
+		    	<p>You can instantiate multiple <code>GUI</code> objects and name them however you'd like.</p>
+		    	<pre class="prettyprint">var gui1 = new GUI();
 var gui2 = new GUI();
 
 // The name function overwrites the "Show Controls" text.
 gui1.name("Utilities");
 gui2.name("Camera Placement");</pre>
 
-	    	<p>By default, <strong>gui-dat</strong> panels will be automatically added to the HTML document and fixed to the top of the screen. You can disable this behavior / styling and append the gui DOM element to a container of your choosing.</p>
-	    	<pre class="prettyprint">
+		    	<p>By default, <strong>gui-dat</strong> panels will be automatically added to the HTML document and fixed to the top of the screen. You can disable this behavior / styling and append the gui DOM element to a container of your choosing.</p>
+		    	<pre class="prettyprint">
 // Notice this belongs to the GUI class (uppercase) 
 // and not an instance thereof.
 GUI.autoPlace = false; 
@@ -283,21 +296,26 @@ gui.domElement.style.top = "20px";
 gui.domElement.style.left = "20px";
 
 document.getElementById("my-gui-container").appendChild( gui.domElement );</pre>
+			</div>
 		</div>
     </div>
 
 	<div class="collapsed">
-	    <h2 class="section last">Pro tips.</h2>
+	    <h2 class="section">Pro tips.</h2>
 		<div class="collapsable">
-		    <ol id="secrets">
-	          <li><strong>gui-dat</strong> panels are resizeable. Drag the show/hide button.</li>
+			<div>
+			    <ol id="secrets">
+		          <li><strong>gui-dat</strong> panels are resizeable. Drag the show/hide button.</li>
 
-	          <li>Pro tip #2 forthcoming.</li>
-		    </ol>
+		          <li>Pro tip #2 forthcoming.</li>
+			    </ol>
+			</div>
 	    </div>
 	</div>
 	
-    <footer>Initiated by <a href="http://georgemichaelbrower.com/">George Michael Brower</a> and <a href="http://jonobr1.com/">Jono Brandel</a> of the Data Arts Team, Google Creative Lab.
+	<div class = "trans">&nbsp;</div>
+	
+    <footer class = "trans">Initiated by <a href="http://georgemichaelbrower.com/">George Michael Brower</a> and <a href="http://jonobr1.com/">Jono Brandel</a> of the Data Arts Team, Google Creative Lab.
 	</footer>
 </body>
 </html>
