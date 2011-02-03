@@ -25,6 +25,7 @@ GUI.Slider = function(numberController, min, max, step, initValue) {
 	var onDrag = function(e) {
 		if (!clicked) return;
 		var pos = GUI.getOffset(_this.domElement);
+		console.log(pos.left + " " + pos.top);
 		var val = GUI.map(e.pageX, pos.left, pos.top + _this.domElement.offsetWidth, min, max);
 		val = Math.round(val/step)*step;
 		numberController.setValue(val);

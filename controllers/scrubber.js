@@ -158,6 +158,11 @@ GUI.Scrubber = function(controller, timer) {
 				_this.timer.hoverPoint = cur;
 			}
 		}
+		if (_this.timer.hoverPoint == null) {
+			document.body.style.cursor = "pointer";
+		} else { 
+			document.body.style.cursor = "auto";
+		}
 		_this.render();
 	});
 	

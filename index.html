@@ -44,25 +44,23 @@
 
                         // Text field
                         gui.add(fizzyText, "message")
+                           .at(-1000, "gui-dat")
                            .at(1000, "is")
-                           .at(2000, "the")
-                           .at(3000, "shit");
+                           .at(2000, "getting")
+                           .at(3000, "pretty")
+                           .at(4000, "tight");
                         
                         // Sliders with min and max
                        	gui.add(fizzyText, "maxSize", 0.5, 7);
                         gui.add(fizzyText, "growthSpeed", 0.01, 1);
+                           
                         gui.add(fizzyText, "speed", 0.1, 2);
 
                         // Sliders with min, max and increment.
-                        gui.add(fizzyText, "noiseStrength", 10, 100, 5).
-                        	at(1000, 30).
-                        	at(4500, 20).
-                        	at(7000, 100);
-
+                        gui.add(fizzyText, "noiseStrength", 10, 100, 5);
+                        	
                         // Boolean checkbox
-                        gui.add(fizzyText, "displayOutline")
-                           .at(250, true)
-                           .at(450, false);
+                        gui.add(fizzyText, "displayOutline");
                         
                         // Fires a function called "explode"
                         gui.add(fizzyText, "explode")
