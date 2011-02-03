@@ -78,7 +78,7 @@ GUI.Scrubber = function(controller, timer) {
 		
 		// Draw playhead
 		
-		_this.g.strokeStyle = "red";
+		_this.g.strokeStyle = "#ff0024";
 		_this.g.lineWidth = 1;
 		var t = Math.round(GUI.map(_this.timer.playhead, _this.timer.windowMin, _this.timer.windowMin+_this.timer.windowWidth, 0, width))+0.5;
 		_this.g.beginPath();
@@ -359,14 +359,39 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 		y = scrubber.height/2;
 
 		if (scrubber.timer.activePoint == this) {
-			g.fillStyle = "#fff"; //
+			g.fillStyle = "#ffd800"; //
 		} else if (scrubber.timer.hoverPoint == this) {
-			g.fillStyle = "#ddd";
+			g.fillStyle = "#999";
 		} else { 
 			g.fillStyle = "#ccc";
 		}
 		
 		switch (type) {
+		
+			case "boolean":
+			
+				g.save();
+				
+					g.translate(x, y-0.5);
+				
+				if (this.value) {
+					
+					g.strokeStyle = g.fillStyle;
+					g.lineWidth = barSize;
+					g.beginPath();
+					g.arc(0, 0, barSize, 0, Math.PI*2, false);
+					g.stroke();
+				} else { 
+				
+					g.rotate(Math.PI/4);
+					g.fillRect(-barSize/2, -barSize*3.5/2, barSize, barSize*3.5);
+					g.rotate(Math.PI/2);
+					g.fillRect(-barSize/2, -barSize*3.5/2, barSize, barSize*3.5);
+				}
+				
+				g.restore();
+				
+				break;
 		
 			case "number":
 			
@@ -377,9 +402,8 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 							
 					var nx = GUI.constrain(GUI.map(n.time, timer.windowMin, timer.windowMin+timer.windowWidth, 0, 1));
 	
-					if (nx >= 0 && nx <= 1) {
-						nx = Math.round(GUI.map(nx, 0, 1, 0, scrubber.width));
-					}
+						nx = GUI.constrain(GUI.map(nx, 0, 1, 0, scrubber.width));
+
 					
 					g.lineWidth = rectSize/2
 					g.strokeStyle="#222";
