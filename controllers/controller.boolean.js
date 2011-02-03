@@ -1,7 +1,7 @@
-var BooleanController = function() {
+GUI.BooleanController = function() {
 
 	this.type = "boolean";
-	Controller.apply(this, arguments);
+	GUI.Controller.apply(this, arguments);
 
 	var _this = this;
     var input = document.createElement('input');
@@ -32,9 +32,8 @@ var BooleanController = function() {
 				val = eval(val);
 			} catch (e) {}
 		}
-		return Controller.prototype.setValue.call(this, val);
+		return GUI.Controller.prototype.setValue.call(this, val);
     }
 
 };
-BooleanController.prototype = new Controller();
-BooleanController.prototype.constructor = BooleanController;
+GUI.extendController(GUI.BooleanController);
