@@ -63,14 +63,14 @@
                 };
 
 				function toggle(e) {
-					
-					if(this.className == 'collapsed') {
+					var collapsable = this.childNodes[3];
+					if(this.className === 'collapsed') {
 						this.className = 'expanded';
-						var children = this.childNodes;
-						this.childNodes[3].style.height = 'auto';
+						collapsable.style.height = 'auto';
+						collapsable.style.height = collapsable.clientHeight + 'px';
 					} else {
 						this.className = 'collapsed';
-						this.childNodes[3].style.height = '0px';
+						collapsable.style.height = '0px';
 					}
 				}
 				
