@@ -36,17 +36,12 @@
 
                         prettyPrint();
 
-
                         var fizzyText = new FizzyText("gui-dat");
 
                         var gui = new GUI();
-                        var gui2 = new GUI();
-
 						
                         // Text field
                         gui.add(fizzyText, "message");
-						gui2.add(window, "onload");
-
                         // Sliders with min and max
                         gui.add(fizzyText, "maxSize", 0.5, 7);
                         gui.add(fizzyText, "growthSpeed", 0.01, 1);
@@ -61,9 +56,6 @@
                         // Fires a function called "explode"
                         gui.add(fizzyText, "explode").name("Explode!");    // Specify a custom name.
                         
-                        gui.add(GUI, "showSaveString");
-                        gui.add(GUI, "saveURL");
-                        
 
 						// Javascript for documentation
 						getCollapsables();
@@ -77,10 +69,18 @@
 					
 					if (this.className === 'collapsed') {
 						this.className = 'expanded';
+<<<<<<< HEAD
 						collapsable.style.height = wrapper.clientHeight + 'px';
 					} else {
 						this.className = 'collapsed';
 						collapsable.style.height = '0px';
+=======
+						var children = this.childNodes;
+						this.childNodes[3].style.height = 'auto';
+					} else {
+						this.className = 'collapsed';
+						this.childNodes[3].style.height = '0px';
+>>>>>>> 11325bbf42fee0d080678ae5a55a8a0eeab70925
 					}
 				}
 				
@@ -252,7 +252,7 @@ gui.add(obj, "changingProperty").listen();
 
 // Make your own loop
 setInterval(function() {
-		gui.listen(); // updates values you've marked with listen()
+	gui.listen(); // updates values you've marked with listen()
 }, 1000 / 60);</pre>
 
 		    	<p>Alternatively, you can forego calling <code>listen()</code> on individual controllers, and instead choose to monitor changes in <em>all</em> values controlled by your gui.</p>
@@ -264,7 +264,7 @@ gui.add(obj, "properties");
 
 // Make your own loop
 setInterval(function() {
-		gui.listenAll(); // updates ALL values managed by this gui
+	gui.listenAll(); // updates ALL values managed by this gui
 }, 1000 / 60);</pre>
 			</div>
 		</div>
@@ -300,7 +300,11 @@ document.getElementById("my-gui-container").appendChild( gui.domElement );</pre>
 		</div>
     </div>
 
+<<<<<<< HEAD
 	<div class="collapsed">
+=======
+	<div class="collapsed last">
+>>>>>>> 11325bbf42fee0d080678ae5a55a8a0eeab70925
 	    <h2 class="section">Pro tips.</h2>
 		<div class="collapsable">
 			<div>

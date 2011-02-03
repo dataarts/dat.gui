@@ -89,6 +89,7 @@ div.expanded h2:before, div.collapsed h2:before {
 	font-size: 9px;
 	font-family: Monaco, monospace;
 }
+<<<<<<< HEAD
 
 div.collapsable {
 	overflow: hidden;
@@ -108,9 +109,16 @@ div.collapsed .collapsable {
 	height: 0;
 }
 div.expanded .collapsable {
+=======
+/* Can't seem to get this transition to work :( */
+div.collapsable {
+>>>>>>> 11325bbf42fee0d080678ae5a55a8a0eeab70925
 	overflow: hidden;
 	clear: both;
-	height: auto;
+	height: 0px;
+	-moz-transition: height .2s linear;
+	-webkit-transition: height .2s linear;
+	transition: height .2s linear;
 }
 
 div.expanded { cursor: pointer; }
@@ -178,10 +186,12 @@ a:active {
 }
 
 footer { 
+margin-top: 20px;
 	background-color: #eee;
 	width: 510px;
 	padding: 10px;
 	clear: both;
+	color: #444;
 	
 }
 
