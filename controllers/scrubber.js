@@ -27,18 +27,20 @@ GUI.Scrubber = function(controller, timer) {
 		this.sort();
 	}
 	
+	var lastDown = 0;
+	
 	this.controller.addChangeListener(function(newVal) {
-
-
-	if (!_this.playing) {
-		if (_this.timer.activePoint == null) {
-			_this.timer.activePoint = new GUI.ScrubberPoint(_this, _this.timer.playhead, newVal);
-			_this.add(_this.timer.activePoint);
-			_this.render();
-		} else { 
-			_this.timer.activePoint.value = newVal;
+	
+		if (!_this.playing) {
+			if (_this.timer.activePoint == null) {
+				_this.timer.activePoint = new GUI.ScrubberPoint(_this, _this.timer.playhead, newVal);
+				_this.add(_this.timer.activePoint);
+				_this.render();
+			} else { 
+				_this.timer.activePoint.value = newVal;
+			}
 		}
-	}
+		
 	});
 
 	this.domElement = document.createElement('div');
@@ -101,20 +103,30 @@ GUI.Scrubber = function(controller, timer) {
 		onResize();
 	}, false);
 	
+	
+	var scrubPan = function() {
+		var t = _this.timer.playhead;
+		var tmin = _this.timer.windowMin + _this.timer.windowWidth/5;
+		var tmax = _this.timer.windowMin + _this.timer.windowWidth - _this.timer.windowWidth/5;
+		
+		if (t < tmin) {
+			_this.timer.windowMin += GUI.map(t, _this.timer.windowMin, tmin, -_this.timer.windowWidth/50, 0);
+		}
+		
+		if (t > tmax) {
+			_this.timer.windowMin += 0;
+			
+			_this.timer.windowMin += GUI.map(t, tmax, _this.timer.windowMin+_this.timer.windowWidth, 0,_this.timer.windowWidth/50);
+		}
+		
+	}
 	var scrub = function(e) {
 		var t = GUI.map(e.pageX, position.left, position.left+width, _this.timer.windowMin, _this.timer.windowMin+_this.timer.windowWidth);
 
 		
 		_this.timer.playhead = t;
 		
-		/*
-		if (t < _this.timer.windowMin + _this.timer.windowWidth/5) {
-			_this.timer.windowMin = _this.timer.playhead -_this.timer.windowWidth/5;
-		}
-		
-		if (t > _this.timer.windowMin + _this.timer.windowWidth - _this.timer.windowWidth/5) {
-			_this.timer.windowMin = _this.timer.playhead +_this.timer.windowWidth/5-_this.timer.windowWidth;
-		}*/
+		scrubPan();
 		
 	}
 	
@@ -130,7 +142,16 @@ GUI.Scrubber = function(controller, timer) {
 	}
 	
 	canvas.addEventListener('mousedown', function(e) {
-		if (_this.timer.hoverPoint != null) {
+	
+		var thisDown = GUI.millis();
+	
+		if (thisDown - lastDown < 300) {
+
+			_this.timer.activePoint = new GUI.ScrubberPoint(_this, _this.timer.playhead, _this.controller.getValue());
+			_this.add(_this.timer.activePoint);
+			_this.render();
+				
+		} else if (_this.timer.hoverPoint != null ) {
 
 			_this.timer.activePoint = _this.timer.hoverPoint;
 			_this.timer.playhead = _this.timer.activePoint.time;
@@ -143,10 +164,13 @@ GUI.Scrubber = function(controller, timer) {
 			_this.timer.hoverPoint = null;
 			scrub(e);
 			document.body.style.cursor = "text";
+			_this.timer.pause();
 			document.addEventListener('mousemove', scrub, false);
 			_this.render();
 			
 		}
+		
+		lastDown = thisDown;
 		
 	}, false);
 	
@@ -185,7 +209,8 @@ GUI.Scrubber = function(controller, timer) {
 		// This assumes a SORTED point array
 		// And a PROGRESSING/INCREASING/GROWING playhead
 		
-		if (_this.controller.type == "number") {
+		if (_this.controller.type == "number" || 
+			_this.controller.type == "string") {
 		
 			var closestToLeft = null;
 			for (var i = 0; i < _this.points.length; i++) {
@@ -196,7 +221,8 @@ GUI.Scrubber = function(controller, timer) {
 				}
 			}
 			
-			if (closestToLeft != null && closestToLeft.time <= curTime) {
+			if (closestToLeft != null && closestToLeft.time <= curTime &&
+			    _this.controller.type == "number") {
 				
 				var n = closestToLeft.next;
 				if (n != null) {
@@ -209,19 +235,29 @@ GUI.Scrubber = function(controller, timer) {
 					
 				}
 				
+			} else if (closestToLeft != null) { 
+				_this.controller.setValue(closestToLeft.value);
+			
 			}
+				
 			
 		} else { 
 			
 			for (var i = 0; i < _this.points.length; i++) {
-				var cur = _this.points[i];
 				
-				if (cur.time < prevTime) {
-					continue;
-				}
-							
-				if (cur.time >= prevTime && cur.time <= curTime) {
-					pointHandlers[_this.controller.type].call(_this, cur);
+				
+					var cur = _this.points[i];
+				if (prevTime < curTime) {
+				
+					
+					if (cur.time < prevTime) {
+						continue;
+					}
+								
+					if (cur.time >= prevTime && cur.time <= curTime) {
+						pointHandlers[_this.controller.type].call(_this, cur);
+					}
+					
 				}
 						
 			}	

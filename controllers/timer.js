@@ -1,3 +1,8 @@
+GUI.millis = function() {
+	var d = new Date();
+	return d.getTime();
+}
+	
 GUI.Timer = function(gui) {
 	
 	var _this = this;
@@ -13,8 +18,8 @@ GUI.Timer = function(gui) {
 	var playListeners = [];
 	var windowListeners = [];
 	
-	var windowMin = 0;
 	var windowWidth = 10000;
+	var windowMin = -windowWidth/4;
 	
 	var thisTime;
 	var lastTime;
@@ -23,11 +28,6 @@ GUI.Timer = function(gui) {
 	var playResolution = 1000/60;
 	
 	var playing = false;
-	
-	var millis = function() {
-		var d = new Date();
-		return d.getTime();
-	}
 	
 	window.addEventListener("keyup", function(e) {
 		switch (e.keyCode) {
@@ -91,14 +91,14 @@ GUI.Timer = function(gui) {
 	
 	this.play = function() {
 		playing = true;
-		lastTime = millis();
+		lastTime = GUI.millis();
 		if (playInterval == -1) {
 			playInterval = setInterval(this.update, playResolution);
 		}
 	};
 	
 	this.update = function() {
-		thisTime = millis();
+		thisTime = GUI.millis();
 		_this.playhead = _this.playhead + (thisTime - lastTime);
 		lastTime = thisTime;
 	};
@@ -120,7 +120,7 @@ GUI.Timer = function(gui) {
 	this.stop = function() {
 		this.pause();
 		this.playhead = 0;
-		this.windowMin = 0;	
+		this.windowMin = -windowWidth/4;
 	};
 	
 	this.addPlayListener = function(fnc) {
