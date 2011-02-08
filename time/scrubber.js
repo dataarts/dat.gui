@@ -1,5 +1,8 @@
 GUI.Controller.prototype.at = function(when, what, tween) {
-	// TODO: tween
+	if (!this.scrubber) {
+		GUI.error("You must create a new Timer for this GUI in order to define events.");
+		return this;
+	}
 	this.scrubber.add(new GUI.ScrubberPoint(this.scrubber, when, what));
 	this.scrubber.render();
 	return this;
@@ -65,7 +68,7 @@ GUI.Scrubber = function(controller, timer) {
 	});
 
 	this.domElement = document.createElement('div');
-	this.domElement.setAttribute('class', 'guidat-time');
+	this.domElement.setAttribute('class', 'guidat-scrubber');
 
 	var canvas = document.createElement('canvas');
 	this.domElement.appendChild(canvas);
@@ -152,6 +155,7 @@ GUI.Scrubber = function(controller, timer) {
 	
 	
 	var scrubPan = function() {
+	
 		var t = _this.timer.playhead;
 		var tmin = _this.timer.windowMin + _this.timer.windowWidth/5;
 		var tmax = _this.timer.windowMin + _this.timer.windowWidth - _this.timer.windowWidth/5;
@@ -162,7 +166,6 @@ GUI.Scrubber = function(controller, timer) {
 		
 		if (t > tmax) {
 			_this.timer.windowMin += 0;
-			
 			_this.timer.windowMin += GUI.map(t, tmax, _this.timer.windowMin+_this.timer.windowWidth, 0,_this.timer.windowWidth/50);
 		}
 		
@@ -182,7 +185,6 @@ GUI.Scrubber = function(controller, timer) {
 	}
 	
 	var dragActive = function(e) {
-	
 		var t = GUI.map(e.pageX, position.left, position.left+width, _this.timer.windowMin, _this.timer.windowMin+_this.timer.windowWidth);
 		_this.timer.activePoint.time = _this.timer.snap(t);		
 		_this.timer.playhead = _this.timer.snap(t);
@@ -241,7 +243,7 @@ GUI.Scrubber = function(controller, timer) {
 		
 		var dy = e.wheelDeltaY*4;
 		_this.timer.windowWidth -= dy;
-		_this.timer.windowMin += dy/2 + dx;
+		_this.timer.windowMin += dy/2 - dx;
 		
 		
 		return false;
@@ -331,7 +333,6 @@ GUI.Scrubber = function(controller, timer) {
 				next = null;
 			}
 			
-			console.log(next, prev);
 			
 			if (next != null & prev != null) {
 				
@@ -392,6 +393,14 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 	this.__defineGetter__("value", function() {
 		return val;
 	});
+	
+	this.__defineGetter__("x", function() {
+		return x;
+	});
+	
+	this.__defineGetter__("y", function() {
+		return y;
+	});
 
 	var barSize = 4;
 	var rectSize = 7;
@@ -401,10 +410,6 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 	
 	this.getSaveObject = function() {
 		var obj = { 'value': _this.value, 'time': time };
-		
-		if (this.hold) {
-			obj.hold = true;
-		}
 		
 		// TODO: save tweens
 		
@@ -457,6 +462,10 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 		}
 		
 		y = scrubber.height/2;
+		
+		if (scrubber.controller.type == 'number') {
+			y = GUI.map(_this.value, scrubber.controller.min, scrubber.controller.max, scrubber.height, 0);
+		}
 
 		if (scrubber.timer.activePoint == this) {
 			g.fillStyle = '#ffd800'; //
@@ -499,15 +508,13 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 				var n = this.next;
 				
 				if (n != null) {
-							
-					var nx = GUI.constrain(GUI.map(n.time, timer.windowMin, timer.windowMin+timer.windowWidth, 0, 1));
-	
-					nx = GUI.constrain(GUI.map(nx, 0, 1, 0, scrubber.width));
 					
-					g.lineWidth = rectSize/2
+					console.log(n.x, n.y);
+					
+					g.lineWidth = rectSize/2;
 					g.strokeStyle='#222';
 					g.beginPath();
-					g.moveTo(nx, y);
+					g.moveTo(n.x, n.y);
 					g.lineTo(x, y);
 					g.stroke();
 					
@@ -535,3 +542,233 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 	}
 	
 }
+
+GUI.Easing = {}
+GUI.Easing.Linear = function ( k ) {
+	return k;
+};
+
+GUI.Easing.QuadraticEaseIn = function ( k ) {
+
+	return k * k;
+
+};
+
+GUI.Easing.QuadraticEaseOut = function ( k ) {
+
+	return - k * ( k - 2 );
+
+};
+
+GUI.Easing.QuadraticEaseInOut = function ( k ) {
+
+	if ( ( k *= 2 ) < 1 ) return 0.5 * k * k;
+	return - 0.5 * ( --k * ( k - 2 ) - 1 );
+
+};
+
+GUI.Easing.CubicEaseIn = function ( k ) {
+
+	return k * k * k;
+
+};
+
+GUI.Easing.CubicEaseOut = function ( k ) {
+
+	return --k * k * k + 1;
+
+};
+
+GUI.Easing.CubicEaseInOut = function ( k ) {
+
+	if ( ( k *= 2 ) < 1 ) return 0.5 * k * k * k;
+	return 0.5 * ( ( k -= 2 ) * k * k + 2 );
+
+};
+
+GUI.Easing.QuarticEaseIn = function ( k ) {
+
+	return k * k * k * k;
+
+};
+
+GUI.Easing.QuarticEaseOut = function ( k ) {
+
+	 return - ( --k * k * k * k - 1 );
+
+}
+
+GUI.Easing.QuarticEaseInOut = function ( k ) {
+
+	if ( ( k *= 2 ) < 1) return 0.5 * k * k * k * k;
+	return - 0.5 * ( ( k -= 2 ) * k * k * k - 2 );
+
+};
+
+//
+
+GUI.Easing.QuinticEaseIn = function ( k ) {
+
+	return k * k * k * k * k;
+
+};
+
+GUI.Easing.QuinticEaseOut = function ( k ) {
+
+	return ( k = k - 1 ) * k * k * k * k + 1;
+
+};
+
+GUI.Easing.QuinticEaseInOut = function ( k ) {
+
+	if ( ( k *= 2 ) < 1 ) return 0.5 * k * k * k * k * k;
+	return 0.5 * ( ( k -= 2 ) * k * k * k * k + 2 );
+
+};
+
+GUI.Easing.SinusoidalEaseIn = function ( k ) {
+
+	return - Math.cos( k * Math.PI / 2 ) + 1;
+
+};
+
+GUI.Easing.SinusoidalEaseOut = function ( k ) {
+
+	return Math.sin( k * Math.PI / 2 );
+
+};
+
+GUI.Easing.SinusoidalEaseInOut = function ( k ) {
+
+	return - 0.5 * ( Math.cos( Math.PI * k ) - 1 );
+
+};
+
+GUI.Easing.ExponentialEaseIn = function ( k ) {
+
+	return k == 0 ? 0 : Math.pow( 2, 10 * ( k - 1 ) );
+
+};
+
+GUI.Easing.ExponentialEaseOut = function ( k ) {
+
+	return k == 1 ? 1 : - Math.pow( 2, - 10 * k ) + 1;
+
+};
+
+GUI.Easing.ExponentialEaseInOut = function ( k ) {
+
+	if ( k == 0 ) return 0;
+        if ( k == 1 ) return 1;
+        if ( ( k *= 2 ) < 1 ) return 0.5 * Math.pow( 2, 10 * ( k - 1 ) );
+        return 0.5 * ( - Math.pow( 2, - 10 * ( k - 1 ) ) + 2 );
+
+};
+
+GUI.Easing.CircularEaseIn = function ( k ) {
+
+	return - ( Math.sqrt( 1 - k * k ) - 1);
+
+};
+
+GUI.Easing.CircularEaseOut = function ( k ) {
+
+	return Math.sqrt( 1 - --k * k );
+
+};
+
+GUI.Easing.CircularEaseInOut = function ( k ) {
+
+	if ( ( k /= 0.5 ) < 1) return - 0.5 * ( Math.sqrt( 1 - k * k) - 1);
+	return 0.5 * ( Math.sqrt( 1 - ( k -= 2) * k) + 1);
+
+};
+
+GUI.Easing.ElasticEaseIn = function( k ) {
+
+	var s, a = 0.1, p = 0.4;
+	if ( k == 0 ) return 0; if ( k == 1 ) return 1; if ( !p ) p = 0.3;
+	if ( !a || a < 1 ) { a = 1; s = p / 4; }
+	else s = p / ( 2 * Math.PI ) * Math.asin( 1 / a );
+	return - ( a * Math.pow( 2, 10 * ( k -= 1 ) ) * Math.sin( ( k - s ) * ( 2 * Math.PI ) / p ) );
+
+};
+
+GUI.Easing.ElasticEaseOut = function( k ) {
+
+	var s, a = 0.1, p = 0.4;
+	if ( k == 0 ) return 0; if ( k == 1 ) return 1; if ( !p ) p = 0.3;
+	if ( !a || a < 1 ) { a = 1; s = p / 4; }
+	else s = p / ( 2 * Math.PI ) * Math.asin( 1 / a );
+	return ( a * Math.pow( 2, - 10 * k) * Math.sin( ( k - s ) * ( 2 * Math.PI ) / p ) + 1 );
+
+};
+
+GUI.Easing.ElasticEaseInOut = function( k ) {
+
+	var s, a = 0.1, p = 0.4;
+	if ( k == 0 ) return 0; if ( k == 1 ) return 1; if ( !p ) p = 0.3;
+        if ( !a || a < 1 ) { a = 1; s = p / 4; }
+        else s = p / ( 2 * Math.PI ) * Math.asin( 1 / a );
+        if ( ( k *= 2 ) < 1 ) return - 0.5 * ( a * Math.pow( 2, 10 * ( k -= 1 ) ) * Math.sin( ( k - s ) * ( 2 * Math.PI ) / p ) );
+        return a * Math.pow( 2, -10 * ( k -= 1 ) ) * Math.sin( ( k - s ) * ( 2 * Math.PI ) / p ) * 0.5 + 1;
+
+};
+
+GUI.Easing.BackEaseIn = function( k ) {
+
+	var s = 1.70158;
+	return k * k * ( ( s + 1 ) * k - s );
+
+};
+
+GUI.Easing.BackEaseOut = function( k ) {
+
+	var s = 1.70158;
+	return ( k = k - 1 ) * k * ( ( s + 1 ) * k + s ) + 1;
+
+};
+
+GUI.Easing.BackEaseInOut = function( k ) {
+
+	var s = 1.70158 * 1.525;
+	if ( ( k *= 2 ) < 1 ) return 0.5 * ( k * k * ( ( s + 1 ) * k - s ) );
+	return 0.5 * ( ( k -= 2 ) * k * ( ( s + 1 ) * k + s ) + 2 );
+
+};
+
+GUI.Easing.BounceEaseIn = function( k ) {
+
+	return 1 - GUI.Easing.Bounce.EaseOut( 1 - k );
+
+};
+
+GUI.Easing.BounceEaseOut = function( k ) {
+
+	if ( ( k /= 1 ) < ( 1 / 2.75 ) ) {
+
+		return 7.5625 * k * k;
+
+	} else if ( k < ( 2 / 2.75 ) ) {
+
+		return 7.5625 * ( k -= ( 1.5 / 2.75 ) ) * k + 0.75;
+
+	} else if ( k < ( 2.5 / 2.75 ) ) {
+
+		return 7.5625 * ( k -= ( 2.25 / 2.75 ) ) * k + 0.9375;
+
+	} else {
+
+		return 7.5625 * ( k -= ( 2.625 / 2.75 ) ) * k + 0.984375;
+
+	}
+
+};
+
+GUI.Easing.BounceEaseInOut = function( k ) {
+
+	if ( k < 0.5 ) return GUI.Easing.Bounce.EaseIn( k * 2 ) * 0.5;
+	return GUI.Easing.Bounce.EaseOut( k * 2 - 1 ) * 0.5 + 0.5;
+
+};
+

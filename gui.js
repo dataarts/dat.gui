@@ -1,6 +1,8 @@
 var GUI = function() {
 
 	var _this = this;
+	// For use with GUIScrubber
+	this.timer = null;
 	
 	var MIN_WIDTH = 240;
 	var MAX_WIDTH = 500;
@@ -33,15 +35,15 @@ var GUI = function() {
 	var resizeTo = 0;
 	var resizeTimeout;
 	
+	var width = 280;
+	
 	this.domElement = document.createElement('div');
 	this.domElement.setAttribute('class', 'guidat');
-	this.domElement.style.width = "100%";//width+'px';
+	this.domElement.style.width = width+'px';
 
 	var controllerContainer = document.createElement('div');
 	controllerContainer.setAttribute('class', 'guidat-controllers');
 	
-	// For use with GUIScrubber
-	this.timer = null;
 	
 	// Firefox hack to prevent horizontal scrolling
 	controllerContainer.addEventListener('DOMMouseScroll', function(e) {
@@ -82,7 +84,7 @@ var GUI = function() {
 		my = e.pageY;
 		mx = e.pageX;
 		
-		var dmy = pmy-my;
+		var dmy = _this.timer ? pmy - my : my - pmy;
 				
 		if (!open) { 
 			if (dmy < 0) {
@@ -94,7 +96,7 @@ var GUI = function() {
 			}
 		}
 		
-		// TODO: Flip this if you want to resize to the left.
+		// TODO: Flip this if you want to resize to the right.
 		var dmx = pmx - mx;
 		
 		if (dmy > 0 && 
@@ -107,11 +109,16 @@ var GUI = function() {
 		dragDisplacementY += dmy;
 		dragDisplacementX += dmx;
 		openHeight += dmy;
-		//width += dmx;
+		
 		curControllerContainerHeight += dmy;
 		controllerContainer.style.height = openHeight+'px';
-		width = GUI.constrain(width, MIN_WIDTH, MAX_WIDTH);
-		//_this.domElement.style.width = width+'px';
+		
+		if (!_this.timer) {
+			width += dmx;
+			width = GUI.constrain(width, MIN_WIDTH, MAX_WIDTH);
+			_this.domElement.style.width = width+'px';
+		}
+		
 		checkForOverflow();
 	};
 	
@@ -134,29 +141,31 @@ var GUI = function() {
 	}, false);
 	
 	
+	var correctWidth = function() {
+		// Clears lingering slider column
+		_this.domElement.style.width = (width+1)+'px';
+		setTimeout(function() {
+			_this.domElement.style.width = width+'px';
+		}, 1);
+	};
+	
 	document.addEventListener('mouseup', function(e) {
 		
 		if (togglePressed && !toggleDragged) {
 			
 			_this.toggle();
 
-			// Clears lingering slider column
-		//	_this.domElement.style.width = (width+1)+'px';
-			setTimeout(function() {
-		//		_this.domElement.style.width = width+'px';
-			}, 1);
+			if (!_this.timer) {
+				correctWidth();
+			}
 		}
 		
 		if (togglePressed && toggleDragged) {
 		
-			if (dragDisplacementX == 0) {
+			if (dragDisplacementX == 0 && !_this.timer) {
 			
-				// Clears lingering slider column
-				_this.domElement.style.width = (width+1)+'px';
-				setTimeout(function() {
-					_this.domElement.style.width = width+'px';
-				}, 1);
-	
+				correctWidth();
+				
 			}
 		
 			if (openHeight > controllerHeight) {
@@ -178,12 +187,9 @@ var GUI = function() {
 					openHeight = resizeTo;		
 					beginResize();			
 				}
-			}
-			
-			
+			}	
 			
 		}
-		
 		
 		document.removeEventListener('mousemove', resize, false);
 		e.preventDefault();
@@ -194,8 +200,8 @@ var GUI = function() {
 
 	}, false);
 	
-	this.domElement.appendChild(toggleButton);
 	this.domElement.appendChild(controllerContainer);
+	this.domElement.appendChild(toggleButton);
 
 	if (GUI.autoPlace) {
 		if(GUI.autoPlaceContainer == null) {
@@ -297,8 +303,8 @@ var GUI = function() {
 
 		// Have we already added this?
 		if (alreadyControlled(object, propertyName)) {
-		//	GUI.error("Controller for \"" + propertyName+"\" already added.");
-		//	return;
+			GUI.error("Controller for \"" + propertyName+"\" already added.");
+			return;
 		}
 
 		var value = object[propertyName];
@@ -449,7 +455,6 @@ var GUI = function() {
 	// Load saved appearance:
 
 	if (GUI.guiIndex < GUI.savedAppearanceVars.length) {
-
 	
 		width = parseInt(GUI.savedAppearanceVars[GUI.guiIndex][1]);
 		//_this.domElement.style.width = width+"px";

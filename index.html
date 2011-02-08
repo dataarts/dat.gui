@@ -21,9 +21,11 @@
 </script>
   <script type="text/javascript" src="controllers/controller.string.js">
 </script>
-  <script type="text/javascript" src="controllers/scrubber.js">
+  <script type="text/javascript" src="time/scrubber.js">
 </script>
-  <script type="text/javascript" src="controllers/timer.js">
+  <script type="text/javascript" src="time/timer.js">
+</script>
+  <script type="text/javascript" src="time/easing.js">
 </script>
   <script type="text/javascript" src="demo/improvedNoise.js">
 </script>
@@ -34,11 +36,16 @@
   <script type="text/javascript">
 	//<![CDATA[
 				var timer;
+				this.blabla = "ldkjflkdjf";
                 window.onload = function() {
 
                         var fizzyText = new FizzyText("gui-dat");
 
                         var gui = new GUI();
+                        
+                        var gui2 = new GUI();
+                        
+                        var gui3 = new GUI();
 						timer = new GUI.Timer(gui);
 
 
@@ -68,17 +75,19 @@
                         	.at(2000)
                         	.at(3000);   
                         
-						gui.divider();
+
                         
-                     // 	gui.add(timer, "playhead").step(100).listen();
-//                        gui.add(timer, "playPause");
-                        gui.add(timer, "snapIncrement");
-                        gui.add(timer, "useSnap");
-                       /* 
-                        gui.add(timer, "windowMin").listen();
-                        gui.add(timer, "windowWidth").listen();
-                        */
+                     	gui2.add(timer, "playhead").step(125).listen();
+                        gui2.add(timer, "playPause");
+                        gui2.add(timer, "snapIncrement");
+                        gui2.add(timer, "useSnap");
+                       
+                        gui3.add(timer, "windowMin").listen();
+                        gui3.add(timer, "windowWidth",0, 20000).listen();
+                        
+
 						
+						gui3.add(this, "blabla");
                         
                         //gui.add(timer, "pause");
                         

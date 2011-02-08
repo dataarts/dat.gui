@@ -13,6 +13,14 @@ GUI.Timer = function(gui) {
 	this.gui = gui;
 	this.gui.timer = this;
 	
+	this.gui.domElement.setAttribute('class', 'guidat time');
+	this.gui.domElement.style.width = "100%";
+	
+	// Put toggle button on top.
+	var toggleButton = this.gui.domElement.lastChild;
+	this.gui.domElement.removeChild(toggleButton);
+	this.gui.domElement.insertBefore(toggleButton, this.gui.domElement.firstChild);
+	
 	var playhead = 0;
 	var lastPlayhead = 0;
 
