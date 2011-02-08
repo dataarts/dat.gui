@@ -44,8 +44,8 @@ function FizzyText(message) {
 
 	var width = 550;
 	var height = 200;
-	var textAscent = 82;
-    var textOffsetLeft = 80;
+	var textAscent = 140;
+    var textOffsetLeft = 20;
 	var noiseScale = 300;
 	var frameTime = 30;
 	

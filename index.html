@@ -33,13 +33,13 @@
 </script>
   <script type="text/javascript">
 	//<![CDATA[
-
+				var timer;
                 window.onload = function() {
 
                         var fizzyText = new FizzyText("gui-dat");
 
                         var gui = new GUI();
-						var timer = new GUI.Timer(gui);
+						timer = new GUI.Timer(gui);
 
 
                         // Text field
@@ -71,7 +71,9 @@
 						gui.divider();
                         
                      // 	gui.add(timer, "playhead").step(100).listen();
-                        gui.add(timer, "playPause");
+//                        gui.add(timer, "playPause");
+                        gui.add(timer, "snapIncrement");
+                        gui.add(timer, "useSnap");
                        /* 
                         gui.add(timer, "windowMin").listen();
                         gui.add(timer, "windowWidth").listen();

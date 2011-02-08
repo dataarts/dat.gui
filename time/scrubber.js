@@ -1,6 +1,5 @@
-// Would really love to make it so that as FEW changes as possible are required to gui.js in order to make this work. Would love to make it so you simply include gui.scrubber.min.js in addition to gui.min.js. 
-
 GUI.Controller.prototype.at = function(when, what, tween) {
+	// TODO: tween
 	this.scrubber.add(new GUI.ScrubberPoint(this.scrubber, when, what));
 	this.scrubber.render();
 	return this;
@@ -12,32 +11,54 @@ GUI.Scrubber = function(controller, timer) {
 
 	this.points = [];
 	this.timer = timer;
+	this.timer.scrubbers.push(this);
 	this.controller = controller;
 	this.controller.scrubber = this;
 	this.playing = false;
+	
+	var previouslyHandled;
+	
+	this.getSaveObject = function() {	
+		
+		var pointArray = [];
+		for (var i in this.points) {
+			pointArray.push(this.points[i].getSaveObject());
+		}
+		var obj = {'points': pointArray};
+		
+		return obj;
+		
+	};
 	
 	this.sort = function() {
 		this.points.sort(function(a,b) {
 			return a.time - b.time;
 		});
-	}
+	};
 	
 	this.add = function(p) {
 		this.points.push(p);
+		this.getSaveObject();
 		this.sort();
-	}
+	};
 	
 	var lastDown = 0;
 	
 	this.controller.addChangeListener(function(newVal) {
 	
+	
 		if (!_this.playing) {
+			var v = newVal;
+			if (_this.controller.type == "boolean") {
+			  v = !v; // Couldn't tell you why I have to do this.
+			}
 			if (_this.timer.activePoint == null) {
-				_this.timer.activePoint = new GUI.ScrubberPoint(_this, _this.timer.playhead, newVal);
+
+				_this.timer.activePoint = new GUI.ScrubberPoint(_this, _this.timer.playhead, v);
 				_this.add(_this.timer.activePoint);
 				_this.render();
 			} else { 
-				_this.timer.activePoint.value = newVal;
+				_this.timer.activePoint.value = v;
 			}
 		}
 		
@@ -57,11 +78,11 @@ GUI.Scrubber = function(controller, timer) {
 	
 	var mx, pmx;
 	
-	this.__defineGetter__("width", function() {
+	this.__defineGetter__('width', function() {
 		return width;
 	});
 	
-	this.__defineGetter__("height", function() {
+	this.__defineGetter__('height', function() {
 		return height;
 	});
 	
@@ -70,7 +91,35 @@ GUI.Scrubber = function(controller, timer) {
 	this.render = function() {
 	
 		// TODO: if visible ...
+		
 		_this.g.clearRect(0, 0, width, height);
+		
+		// Draw 0
+		if (_this.timer.windowMin < 0) {
+			var x = GUI.map(0, _this.timer.windowMin, _this.timer.windowMin+_this.timer.windowWidth, 0, width);
+			_this.g.fillStyle = '#000';
+			_this.g.fillRect(0, 0, x, height-1);
+		}
+		
+		// Draw ticks
+		if (_this.timer.useSnap) {
+			_this.g.lineWidth = 1;
+			for (var i = _this.timer.snap(_this.timer.windowMin); i < _this.timer.windowMin+_this.timer.windowWidth; i+= _this.timer.snapIncrement) {
+				if (i == 0) continue;
+				var x = Math.round(GUI.map(i, _this.timer.windowMin, _this.timer.windowMin+_this.timer.windowWidth, 0, width))+0.5;
+				if (i < 0) {
+					_this.g.strokeStyle = '#111111';
+				} else { 
+					_this.g.strokeStyle = '#282828';
+				}
+				_this.g.beginPath();
+				_this.g.moveTo(x, 0);
+				_this.g.lineTo(x, height-1);
+				_this.g.stroke();
+			}
+		}
+		
+		// Draw points
 		
 		for (var i in _this.points) {
 			_this.points[i].render();
@@ -78,7 +127,7 @@ GUI.Scrubber = function(controller, timer) {
 		
 		// Draw playhead
 		
-		_this.g.strokeStyle = "#ff0024";
+		_this.g.strokeStyle = '#ff0024';
 		_this.g.lineWidth = 1;
 		var t = Math.round(GUI.map(_this.timer.playhead, _this.timer.windowMin, _this.timer.windowMin+_this.timer.windowWidth, 0, width))+0.5;
 		_this.g.beginPath();
@@ -89,8 +138,6 @@ GUI.Scrubber = function(controller, timer) {
 	}
 	
 	this.render();
-	
-
 	
 	var onResize = function() {
 		canvas.width = width = _this.domElement.offsetWidth;
@@ -120,51 +167,64 @@ GUI.Scrubber = function(controller, timer) {
 		}
 		
 	}
+	
 	var scrub = function(e) {
 		var t = GUI.map(e.pageX, position.left, position.left+width, _this.timer.windowMin, _this.timer.windowMin+_this.timer.windowWidth);
-
-		
-		_this.timer.playhead = t;
-		
+		_this.timer.playhead = _this.timer.snap(t);
 		scrubPan();
-		
+	}
+	
+	var pan = function(e) {
+		mx = e.pageX;
+		var t = GUI.map(mx - pmx, 0, width, 0, _this.timer.windowWidth);	
+		_this.timer.windowMin -= t;
+		pmx = mx;
 	}
 	
 	var dragActive = function(e) {
 	
-		mx = e.pageX;
-		var t = GUI.map(mx - pmx, 0, width, 0, _this.timer.windowWidth);		
-		_this.timer.activePoint.time += t;		
-		pmx = mx;
+		var t = GUI.map(e.pageX, position.left, position.left+width, _this.timer.windowMin, _this.timer.windowMin+_this.timer.windowWidth);
+		_this.timer.activePoint.time = _this.timer.snap(t);		
+		_this.timer.playhead = _this.timer.snap(t);
+		pmx = mx;		
 		_this.sort();
-		_this.timer.playhead += t;
-		
 	}
 	
 	canvas.addEventListener('mousedown', function(e) {
 	
-		var thisDown = GUI.millis();
+		if (false) {
+			e.preventDefault();
+			document.addEventListener('mousemove', pan, false);
+			return false;
+		}
 	
+		var thisDown = GUI.millis();
+		
+		// Double click creates a keyframe
 		if (thisDown - lastDown < 300) {
 
 			_this.timer.activePoint = new GUI.ScrubberPoint(_this, _this.timer.playhead, _this.controller.getValue());
 			_this.add(_this.timer.activePoint);
 			_this.render();
-				
-		} else if (_this.timer.hoverPoint != null ) {
+		
+		// A regular click COULD select a point ...
+		} else if (_this.timer.hoverPoint != null) {
 
 			_this.timer.activePoint = _this.timer.hoverPoint;
-			_this.timer.playhead = _this.timer.activePoint.time;
-			pmx = mx = e.pageX;
-			document.addEventListener("mousemove", dragActive, false);
+			_this.timer.playhead = _this.timer.snap(_this.timer.activePoint.time);
 			
+			pmx = mx = e.pageX;
+			document.addEventListener('mousemove', dragActive, false);
+			
+		// Or we could just be trying to place the playhead/scrub.
 		} else { 
 		
 			_this.timer.activePoint = null;
 			_this.timer.hoverPoint = null;
 			scrub(e);
-			document.body.style.cursor = "text";
+			document.body.style.cursor = 'text';
 			_this.timer.pause();
+			pmx = mx = e.pageX;
 			document.addEventListener('mousemove', scrub, false);
 			_this.render();
 			
@@ -172,6 +232,19 @@ GUI.Scrubber = function(controller, timer) {
 		
 		lastDown = thisDown;
 		
+	}, false);
+	
+	canvas.addEventListener('mousewheel', function(e) {
+		e.preventDefault();
+		
+		var dx = e.wheelDeltaX*4;
+		
+		var dy = e.wheelDeltaY*4;
+		_this.timer.windowWidth -= dy;
+		_this.timer.windowMin += dy/2 + dx;
+		
+		
+		return false;
 	}, false);
 	
 	canvas.addEventListener('mousemove', function(e) {
@@ -183,106 +256,111 @@ GUI.Scrubber = function(controller, timer) {
 			}
 		}
 		if (_this.timer.hoverPoint == null) {
-			document.body.style.cursor = "pointer";
+			document.body.style.cursor = 'pointer';
 		} else { 
-			document.body.style.cursor = "auto";
+			document.body.style.cursor = 'auto';
 		}
 		_this.render();
 	});
 	
 	document.addEventListener('mouseup', function() {
-		document.body.style.cursor = "auto";
-		document.removeEventListener("mousemove", dragActive, false);
+		document.body.style.cursor = 'auto';
+		document.removeEventListener('mousemove', dragActive, false);
 		document.removeEventListener('mousemove', scrub, false);
+		document.removeEventListener('mousemove', pan, false);
 	}, false);
-	
-
 	
 	onResize();
 
 	this.timer.addPlayListener(this.render);
 	
+	var handlePoint = function(point) {
+		if (point != previouslyHandled) {
+			previouslyHandled = point;
+			_this.controller.setValue(point.value);
+		}
+	};
+	
 	var onPlayChange = function(curTime, prevTime) {
+		
+		if (_this.points.length == 0) return;
 		
 		_this.playing = true;
 		
-		// This assumes a SORTED point array
-		// And a PROGRESSING/INCREASING/GROWING playhead
-		
-		if (_this.controller.type == "number" || 
-			_this.controller.type == "string") {
-		
-			var closestToLeft = null;
-			for (var i = 0; i < _this.points.length; i++) {
-				var cur = _this.points[i];
-				if (cur.time >= curTime && i > 0) {
-					closestToLeft = _this.points[i-1];
-					break;
-				}
-			}
+		if (_this.controller.type == 'function') {
 			
-			if (closestToLeft != null && closestToLeft.time <= curTime &&
-			    _this.controller.type == "number") {
-				
-				var n = closestToLeft.next;
-				if (n != null) {
-					
-					// Interpolate.
-					var t = GUI.map(curTime, closestToLeft.time, n.time, 0, 1);
-					t = closestToLeft.tween(t);
-					var val = GUI.map(t, 0, 1, closestToLeft.value, n.value);
-					_this.controller.setValue(val);
-					
+				for (var i = 0; i < _this.points.length; i++) {	
+					var t = _this.points[i].time;
+					if ((curTime > prevTime && prevTime < t && t < curTime) || 
+					    (curTime < prevTime && prevTime > t && t > curTime)) {
+						_this.controller.getValue().call(this);
+					}
 				}
-				
-			} else if (closestToLeft != null) { 
-				_this.controller.setValue(closestToLeft.value);
-			
-			}
-				
 			
 		} else { 
 			
+			var prev = undefined, next = undefined;
+			
+			// Find "surrounding" points.
+			
 			for (var i = 0; i < _this.points.length; i++) {
+				var t = _this.points[i].time;
 				
-				
-					var cur = _this.points[i];
-				if (prevTime < curTime) {
-				
+				if (t > curTime) {
 					
-					if (cur.time < prevTime) {
-						continue;
-					}
-								
-					if (cur.time >= prevTime && cur.time <= curTime) {
-						pointHandlers[_this.controller.type].call(_this, cur);
+					if (i == 0) {
+						
+						prev = null;
+						next = _this.points[i];
+						break;
+						
+					} else { 
+					
+						prev = _this.points[i-1];
+						next = _this.points[i];
+						break;
+						
 					}
 					
 				}
-						
-			}	
-		
+				
+			}
+			
+			if (next == undefined) {
+				prev = _this.points[_this.points.length-1];
+				next = null;
+			}
+			
+			console.log(next, prev);
+			
+			if (next != null & prev != null) {
+				
+				if (_this.controller.type == 'number') {
+					
+					var t = prev.tween(GUI.map(curTime, prev.time, next.time, 0, 1));
+					
+					_this.controller.setValue(GUI.map(t, 0, 1, prev.value, next.value));
+					
+					
+				} else { 
+					handlePoint(prev);
+				}
+				
+			} else if (next != null) {
+			
+				handlePoint(next);
+				
+			} else if (prev != null) { 
+				
+				handlePoint(prev);
+				
+			}
+			
 		}
 		
 		_this.playing = false;
 		
 	};
-	
-	var pointHandlers = {
-	
-		'function': function(point) {	
-			this.controller.getValue().call(this);
-		}, 
-		
-		'boolean': function(point) {
-			this.controller.setValue(point.value);
-		},
-		
-		'string': function(point) {
-			this.controller.setValue(point.value);
-		},
-		
-	}
 	
 	this.timer.addPlayListener(onPlayChange);
 	
@@ -293,8 +371,6 @@ GUI.Scrubber = function(controller, timer) {
 
 GUI.ScrubberPoint = function(scrubber, time, value) {
 	
-	
-	
 	var _this = this;
 		
 	var g = scrubber.g;
@@ -303,14 +379,38 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 	var x, y;
 	
 	this.hold = false;
+
+	var val;
+	
+	this.__defineSetter__("value", function(v) {
+		val = v;
+		scrubber.render();
+	});
 	
 	this.value = value;
+	
+	this.__defineGetter__("value", function() {
+		return val;
+	});
 
 	var barSize = 4;
 	var rectSize = 7;
 	
-	var c1 = "#ffd800";
-	var c2 = "#ff9000";
+	var c1 = '#ffd800';
+	var c2 = '#ff9000';
+	
+	this.getSaveObject = function() {
+		var obj = { 'value': _this.value, 'time': time };
+		
+		if (this.hold) {
+			obj.hold = true;
+		}
+		
+		// TODO: save tweens
+		
+		return obj;
+
+	};
 	
 	this.tween = function(t) {
 		return t;
@@ -325,7 +425,7 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 		return xx >= x-rectSize/2 && xx <= x+rectSize/2;
 	};
 	
-	this.__defineGetter__("next", function() {	
+	this.__defineGetter__('next', function() {	
 		if (scrubber.points.length <= 1) {
 			return null;
 		}
@@ -339,10 +439,10 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 		
 	});
 	
-	this.__defineGetter__("time", function() {
+	this.__defineGetter__('time', function() {
 		return time;
 	});
-	this.__defineSetter__("time", function(s) {
+	this.__defineSetter__('time', function(s) {
 		time = s;
 	});
 	
@@ -359,16 +459,16 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 		y = scrubber.height/2;
 
 		if (scrubber.timer.activePoint == this) {
-			g.fillStyle = "#ffd800"; //
+			g.fillStyle = '#ffd800'; //
 		} else if (scrubber.timer.hoverPoint == this) {
-			g.fillStyle = "#999";
+			g.fillStyle = '#999';
 		} else { 
-			g.fillStyle = "#ccc";
+			g.fillStyle = '#ccc';
 		}
 		
 		switch (type) {
 		
-			case "boolean":
+			case 'boolean':
 			
 				g.save();
 				
@@ -393,7 +493,7 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 				
 				break;
 		
-			case "number":
+			case 'number':
 			
 				g.save();
 				var n = this.next;
@@ -402,11 +502,10 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 							
 					var nx = GUI.constrain(GUI.map(n.time, timer.windowMin, timer.windowMin+timer.windowWidth, 0, 1));
 	
-						nx = GUI.constrain(GUI.map(nx, 0, 1, 0, scrubber.width));
-
+					nx = GUI.constrain(GUI.map(nx, 0, 1, 0, scrubber.width));
 					
 					g.lineWidth = rectSize/2
-					g.strokeStyle="#222";
+					g.strokeStyle='#222';
 					g.beginPath();
 					g.moveTo(nx, y);
 					g.lineTo(x, y);

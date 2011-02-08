@@ -15,6 +15,7 @@ GUI.Timer = function(gui) {
 	
 	var playhead = 0;
 	var lastPlayhead = 0;
+
 	var playListeners = [];
 	var windowListeners = [];
 	
@@ -28,6 +29,46 @@ GUI.Timer = function(gui) {
 	var playResolution = 1000/60;
 	
 	var playing = false;
+	
+	var snapIncrement = 250;
+	var useSnap = false;
+	
+	this.__defineGetter__("useSnap", function() {
+		return useSnap;
+	});
+
+	this.__defineSetter__("useSnap", function(v) {
+		useSnap = v;
+		for (var i in _this.scrubbers) {
+			_this.scrubbers[i].render();
+		};
+	});
+	
+	this.__defineGetter__("snapIncrement", function() {
+		return snapIncrement;
+	});
+
+	this.__defineSetter__("snapIncrement", function(v) {
+		if (snapIncrement > 0) {
+			snapIncrement = v;			
+			for (var i in _this.scrubbers) {
+				_this.scrubbers[i].render();
+			};
+		}
+	});
+	
+	this.snap = function(t) {
+		
+		if (!this.useSnap) {
+			return t;
+		}
+		
+		var r = Math.round(t/this.snapIncrement)*this.snapIncrement;
+		return r;
+		
+	}
+	
+	this.scrubbers = [];
 	
 	window.addEventListener("keyup", function(e) {
 		switch (e.keyCode) {
@@ -44,8 +85,25 @@ GUI.Timer = function(gui) {
 				}
 				break;
 		}
-		console.log(e.keyCode);
 	}, false);
+	
+	this.getSaveObject = function() {
+		
+		var scrubberArr = [];
+		
+		for (var i in _this.scrubbers) {
+			scrubberArr.push(_this.scrubbers[i].getSaveObject());
+		}
+	
+		var obj = {'windowMin':_this.windowMin,
+				   'windowWidth':_this.windowWidth,
+				   'playhead':_this.playhead,
+				   'snapIncrement': _this.snapIncrement,
+				   'scrubbers': scrubberArr};
+				   
+		return obj;
+		
+	};
 	
 	this.__defineGetter__("windowMin", function() {
 		return windowMin;

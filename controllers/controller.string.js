@@ -13,8 +13,8 @@ GUI.StringController = function() {
     input.setAttribute('spellcheck', 'false');
     
     this.domElement.addEventListener('mouseup', function() {
-    	input.focus();
-    	input.select();
+    	//input.focus();
+    	//input.select();
     }, false);
     
     // TODO: getting messed up on ctrl a

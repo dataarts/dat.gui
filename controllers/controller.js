@@ -44,8 +44,10 @@ GUI.Controller.prototype.unlisten = function() {
 }
     
 GUI.Controller.prototype.setValue = function(n) {
+
 	this.object[this.propertyName] = n;
 	for (var i in this.changeListeners) {
+		console.log("Telling you I changed to " + n);
 		this.changeListeners[i].call(this, n);
 	}
 	// Whenever you call setValue, the display will be updated automatically.
