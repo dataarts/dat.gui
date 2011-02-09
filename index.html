@@ -36,24 +36,24 @@
 
                         var fizzyText = new FizzyText("gui-dat");
 
-                        var gui = new GUI();
-						
-                        // Text field
-                        gui.add(fizzyText, "message");
-                        // Sliders with min and max
-                        gui.add(fizzyText, "maxSize", 0.5, 7);
-                        gui.add(fizzyText, "growthSpeed", 0.01, 1);
-                        gui.add(fizzyText, "speed", 0.1, 2);
+   var gui = new GUI();
 
-                        // Sliders with min, max and increment.
-                        gui.add(fizzyText, "noiseStrength", 10, 100, 5);
+   // Text field
+   gui.add(fizzyText, "message");
 
-                        // Boolean checkbox
-                        gui.add(fizzyText, "displayOutline");
-                        
-                        // Fires a function called "explode"
-                        gui.add(fizzyText, "explode").name("Explode!");    // Specify a custom name.
-                        
+   // Sliders with min + max
+   gui.add(fizzyText, "maxSize", 0.5, 7);
+   gui.add(fizzyText, "growthSpeed", 0.01, 1);
+   gui.add(fizzyText, "speed", 0.1, 2);
+
+   // Sliders with min, max and increment.
+   gui.add(fizzyText, "noiseStrength", 10, 100, 5);
+
+   // Boolean checkbox
+   gui.add(fizzyText, "displayOutline");
+
+   // Fires a function called "explode"
+   gui.add(fizzyText, "explode").name("Explode!"); // Specify a custom name.
 
 						// Javascript for documentation
 						getCollapsables();
@@ -146,7 +146,7 @@ window.onload = function() {
    // Text field
    gui.add(fizzyText, "message");
 
-   // Sliders with min and max
+   // Sliders with min + max
    gui.add(fizzyText, "maxSize", 0.5, 7);
    gui.add(fizzyText, "growthSpeed", 0.01, 1);
    gui.add(fizzyText, "speed", 0.1, 2);
@@ -221,6 +221,24 @@ gui.add(someObject, "someOtherProperty");</pre>
 		</div>
     </div>
 
+	<div class="collapsed">
+	    <h2 class="section">Listen for variable changes inside the GUI</h2>
+		<div class="collapsable">
+			<div>
+				<p>To fire a function whenever a user changes a variable via the GUI, use the following syntax:</p>
+		    	<pre class="prettyprint">gui.add(obj, "propertyName").onChange(function(newValue) {
+   alert("You changed me to " + newValue);
+});</pre>		<p>This can be slightly annoying for types like number or string. You may not want to fire a function while the user is sliding, or while they're typing. To fire a function when the user has <em>finished</em> making changes, use the following:</p>
+		    	<pre class="prettyprint">gui.add(obj, "propertyName").onFinishChange(function(newValue) {
+   alert("You just finished changing me to " + newValue);
+});</pre>
+				<p>Finally, if you'd like to do a little something extra when a function is called, use the following:</p>
+		    	<pre class="prettyprint">gui.add(obj, "functionName").onFire(function() {
+   alert("You called a function with gui-dat");
+});</pre>
+	    	</div>
+		</div>
+	</div>
 	<div class="collapsed">
 	    <h2 class="section">Listen for variable changes outside of the GUI</h2>
 		<div class="collapsable">

@@ -19,6 +19,7 @@ GUI.Controller = function() {
 };
 
 GUI.Controller.prototype.changeFunction = null;
+GUI.Controller.prototype.finishChangeFunction = null;
 
 GUI.Controller.prototype.name = function(n) {
 	this.propertyNameElement.innerHTML = n;
@@ -45,8 +46,6 @@ GUI.Controller.prototype.setValue = function(n) {
 	if (this.changeFunction != null) {
 		this.changeFunction.call(this, n);
 	}
-	// Whenever you call setValue, the display will be updated automatically.
-	// This reduces some clutter in subclasses. We can also use this method for listen().
 	this.updateDisplay();
 	return this;
 }
@@ -59,5 +58,9 @@ GUI.Controller.prototype.updateDisplay = function() {}
     
 GUI.Controller.prototype.onChange = function(fnc) {
 	this.changeFunction = fnc;
+	return this;
+}
+GUI.Controller.prototype.onFinishChange = function(fnc) {
+	this.finishChangeFunction = fnc;
 	return this;
 }

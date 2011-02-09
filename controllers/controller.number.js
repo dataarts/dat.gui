@@ -44,10 +44,9 @@ GUI.NumberController = function() {
     
     numberField.addEventListener('blur', function(e) {
         var val = parseFloat(this.value);
+        console.log(val);
         if (!isNaN(val)) {
-	        _this.updateDisplay();
-        } else { 
-        	this.value = _this.getValue();
+	        _this.setValue(val);
         }
     }, false);
     
@@ -61,6 +60,7 @@ GUI.NumberController = function() {
         py = y = e.pageY;
 		clickedNumberField = true;
         document.addEventListener('mousemove', dragNumberField, false);
+		document.addEventListener('mouseup', mouseup, false);
     }, false);
 
 	// Handle up arrow and down arrow
@@ -77,7 +77,7 @@ GUI.NumberController = function() {
 		}
 	}, false);
     
-    document.addEventListener('mouseup', function(e) {
+    var mouseup = function(e) {
         document.removeEventListener('mousemove', dragNumberField, false);
         GUI.makeSelectable(_this.parent.domElement); 
         GUI.makeSelectable(numberField);
@@ -87,7 +87,12 @@ GUI.NumberController = function() {
         }
         draggedNumberField = false;
         clickedNumberField = false;
-    }, false);
+		if (_this.finishChangeFunction != null) {
+			_this.finishChangeFunction.call(this, _this.getValue());
+		}
+		document.removeEventListener('mouseup', mouseup, false);
+	}
+
     
     
     var dragNumberField = function(e) {
@@ -109,7 +114,9 @@ GUI.NumberController = function() {
 		return false;
     }
     
-    
+    this.noSlider = function() {
+    	_this.domElement.removeChild(slider.domElement);
+    };
     
     this.setValue = function(val) {
     
