@@ -47,14 +47,20 @@ GUI.Slider = function(numberController, min, max, step, initValue) {
 		_this.domElement.setAttribute('class', 'guidat-slider-bg active');
 		_this.fg.setAttribute('class', 'guidat-slider-fg active');
 		onDrag(e);
+		document.addEventListener('mouseup', mouseup, false);
 	}, false);
 	
 	
-	document.addEventListener('mouseup', function(e) {
+	var mouseup = function(e) { 
 		_this.domElement.setAttribute('class', 'guidat-slider-bg');
 		_this.fg.setAttribute('class', 'guidat-slider-fg');
-		clicked = false;
-	}, false);
+		clicked = false;			
+		if (numberController.finishChangeFunction != null) {
+			numberController.finishChangeFunction.call(this, numberController.getValue());
+		}
+		document.removeEventListener('mouseup', mouseup, false);
+	};
+
 	
 	document.addEventListener('mousemove', onDrag, false);
 	

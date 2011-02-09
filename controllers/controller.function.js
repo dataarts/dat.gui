@@ -1,11 +1,30 @@
 GUI.FunctionController = function() {
+	
 	this.type = "function";
-	var that = this;
+	
+	var _this = this;
+	
 	GUI.Controller.apply(this, arguments);
+	
 	this.domElement.addEventListener('click', function() {
-		that.object[that.propertyName].call(that.object);
+		_this.fire();
 	}, false);
+	
 	this.domElement.style.cursor = "pointer";
 	this.propertyNameElement.style.cursor = "pointer";
+	
+	var fireFunction = null;
+	this.onFire = function(fnc) {
+		fireFunction = fnc;
+		return this;
+	}
+	
+	this.fire = function() {
+		if (fireFunction != null) {
+			fireFunction.call(this);
+		}
+		_this.object[_this.propertyName].call(_this.object);
+	};
+	
 };
 GUI.extendController(GUI.FunctionController);

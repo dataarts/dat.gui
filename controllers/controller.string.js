@@ -18,8 +18,17 @@ GUI.StringController = function() {
     }, false);
     
     // TODO: getting messed up on ctrl a
-    input.addEventListener('keyup', function() {
+    input.addEventListener('keyup', function(e) {
+    	if (e.keyCode == 13 && _this.finishChangeFunction != null) {
+			_this.finishChangeFunction.call(this, _this.getValue());
+		}
         _this.setValue(input.value);
+    }, false);
+    
+    input.addEventListener('blur', function() {
+		if (_this.finishChangeFunction != null) {
+			_this.finishChangeFunction.call(this, _this.getValue());
+		}
     }, false);
     
     this.updateDisplay = function() {
