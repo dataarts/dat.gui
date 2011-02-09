@@ -221,6 +221,20 @@ gui.add(someObject, "someOtherProperty");</pre>
 		</div>
     </div>
 
+
+	<div class="collapsed">
+	    <h2 class="section">Choosing from a list of values</h2>
+		<div class="collapsable">
+			<div>
+<pre class="prettyprint">gui.add(obj, "propertyName").options(1, 2, 3, 5, 8);
+
+// Alternatively, you can specify custom labels using object syntax
+gui.add(obj, "propertyName").options({'Small': 1, 'Medium': 2, 'Large': 3});
+</pre>
+	    	</div>
+		</div>
+	</div>
+
 	<div class="collapsed">
 	    <h2 class="section">Listen for variable changes inside the GUI</h2>
 		<div class="collapsable">

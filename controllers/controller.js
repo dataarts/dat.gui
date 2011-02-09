@@ -64,3 +64,33 @@ GUI.Controller.prototype.onFinishChange = function(fnc) {
 	this.finishChangeFunction = fnc;
 	return this;
 }
+
+GUI.Controller.prototype.options = function() {
+	var _this = this;
+	var select = document.createElement('select');
+	if (arguments.length == 1) {
+		var arr = arguments[0];
+		for (var i in arr) {
+			var opt = document.createElement('option');
+			opt.innerHTML = i;
+			opt.setAttribute('value', arr[i]);
+			select.appendChild(opt);
+		}
+	} else { 
+		for (var i = 0; i < arguments.length; i++) {
+			var opt = document.createElement('option');
+			opt.innerHTML = arguments[i];
+			opt.setAttribute('value', arguments[i]);
+			select.appendChild(opt);
+		}
+	}
+	
+	select.addEventListener('change', function() {
+		_this.setValue(this.value);
+		if (_this.finishChangeFunction != null) {
+			_this.finishChangeFunction.call(this, _this.getValue());
+		}
+	});
+	_this.domElement.appendChild(select);
+	return this;
+}
