@@ -35,6 +35,11 @@ GUI.StringController = function() {
     	input.value = _this.getValue();
     }
     
+    this.options = function() {
+    	_this.domElement.removeChild(input);
+    	return GUI.Controller.prototype.options.apply(this, arguments);
+    };
+    
     this.domElement.appendChild(input);
     
 };
