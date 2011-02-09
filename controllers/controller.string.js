@@ -22,6 +22,14 @@ GUI.StringController = function() {
         _this.setValue(input.value);
     }, false);
     
+    input.addEventListener('focus', function() {
+    	GUI.disableKeyListeners = true;
+    }, false);
+    
+    input.addEventListener('blur', function() {
+    	GUI.disableKeyListeners = false;
+    }, false);
+    
     this.updateDisplay = function() {
     	input.value = _this.getValue();
     }

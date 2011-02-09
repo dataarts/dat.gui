@@ -7,6 +7,14 @@
 	z-index: 1001;
 }
 
+.guidat-tween-selector { 
+	z-index: 1001;
+	position: absolute;
+	top: 0; 
+	left: 0;
+
+}
+
 .guidat {
 	float: right;
 	padding: 0px;

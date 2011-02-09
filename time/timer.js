@@ -14,12 +14,32 @@ GUI.Timer = function(gui) {
 	this.gui.timer = this;
 	
 	this.gui.domElement.setAttribute('class', 'guidat time');
-	this.gui.domElement.style.width = "100%";
+	this.gui.domElement.style.width = '100%';
+	
 	
 	// Put toggle button on top.
 	var toggleButton = this.gui.domElement.lastChild;
+	
 	this.gui.domElement.removeChild(toggleButton);
 	this.gui.domElement.insertBefore(toggleButton, this.gui.domElement.firstChild);
+	
+	
+	// Create tween dropdown.
+	this.tweenSelector = document.createElement('select');
+	this.tweenSelector.setAttribute('class', 'guidat-tween-selector');
+	for (var i in GUI.Easing) {
+		var opt = document.createElement('option');
+		opt.innerHTML = i;
+		this.tweenSelector.appendChild(opt);
+	}
+	this.tweenSelector.addEventListener('change', function(e) {
+		alert("CHANGE");
+		if (_this.activePoint != null) {
+			_this.activePoint.tween = GUI.Easing[this.value];
+		}
+	}, false);
+	this.gui.domElement.appendChild(this.tweenSelector);
+	
 	
 	var playhead = 0;
 	var lastPlayhead = 0;
@@ -41,22 +61,22 @@ GUI.Timer = function(gui) {
 	var snapIncrement = 250;
 	var useSnap = false;
 	
-	this.__defineGetter__("useSnap", function() {
+	this.__defineGetter__('useSnap', function() {
 		return useSnap;
 	});
 
-	this.__defineSetter__("useSnap", function(v) {
+	this.__defineSetter__('useSnap', function(v) {
 		useSnap = v;
 		for (var i in _this.scrubbers) {
 			_this.scrubbers[i].render();
 		};
 	});
 	
-	this.__defineGetter__("snapIncrement", function() {
+	this.__defineGetter__('snapIncrement', function() {
 		return snapIncrement;
 	});
 
-	this.__defineSetter__("snapIncrement", function(v) {
+	this.__defineSetter__('snapIncrement', function(v) {
 		if (snapIncrement > 0) {
 			snapIncrement = v;			
 			for (var i in _this.scrubbers) {
@@ -78,7 +98,8 @@ GUI.Timer = function(gui) {
 	
 	this.scrubbers = [];
 	
-	window.addEventListener("keyup", function(e) {
+	window.addEventListener('keyup', function(e) {
+		if (GUI.disableKeyListeners) return;
 		switch (e.keyCode) {
 			case 32:
 				_this.playPause();
@@ -113,34 +134,35 @@ GUI.Timer = function(gui) {
 		
 	};
 	
-	this.__defineGetter__("windowMin", function() {
+	this.__defineGetter__('windowMin', function() {
 		return windowMin;
 	});
 	
-	this.__defineSetter__("windowMin", function(v) {
+	this.__defineSetter__('windowMin', function(v) {
 		windowMin = v;
 		for (var i in windowListeners) {
 			windowListeners[i].call(windowListeners[i]);
 		}
 	});
 	
-	this.__defineGetter__("windowWidth", function() {
+	this.__defineGetter__('windowWidth', function() {
 		return windowWidth;
 	});
 	
 	
-	this.__defineSetter__("windowWidth", function(v) {
-		windowWidth = v;
+	this.__defineSetter__('windowWidth', function(v) {
+		// TODO: Make these constants.
+		windowWidth = GUI.constrain(v, 1000, 60000);
 		for (var i in windowListeners) {
 			windowListeners[i].call(windowListeners[i]);
 		}
 	});
 	
-	this.__defineGetter__("playhead", function() {
+	this.__defineGetter__('playhead', function() {
 		return playhead;
 	});
 	
-	this.__defineSetter__("playhead", function(t) {
+	this.__defineSetter__('playhead', function(t) {
 		lastPlayhead = playhead;
 		playhead = t;
 		if (playing) {
@@ -151,7 +173,7 @@ GUI.Timer = function(gui) {
 		}
 	});
 	
-	this.__defineGetter__("playing", function() {
+	this.__defineGetter__('playing', function() {
 		return playing;
 	});
 	

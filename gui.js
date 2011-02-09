@@ -44,7 +44,6 @@ var GUI = function() {
 	var controllerContainer = document.createElement('div');
 	controllerContainer.setAttribute('class', 'guidat-controllers');
 	
-	
 	// Firefox hack to prevent horizontal scrolling
 	controllerContainer.addEventListener('DOMMouseScroll', function(e) {
 		
@@ -141,8 +140,8 @@ var GUI = function() {
 	}, false);
 	
 	
+	// Clears lingering slider column
 	var correctWidth = function() {
-		// Clears lingering slider column
 		_this.domElement.style.width = (width+1)+'px';
 		setTimeout(function() {
 			_this.domElement.style.width = width+'px';
@@ -470,21 +469,57 @@ var GUI = function() {
 				controllerContainer.scrollTop = t;
 			}, 0);
 			
+			// TODO: Check this -- don't really remember writing it. 
+			// Wouldn't it suggest I'm only saving one scrollTop position? 
 			if (GUI.scrollTop > -1) {
 				document.body.scrollTop = GUI.scrollTop;
 			}
 			resizeTo = openHeight;
 			this.show();
 		}
-
+		
 		GUI.guiIndex++;
-	}
 
+	}
+	
+	if (GUI.allGuis.length == 0) {
+		window.addEventListener('keyup', function(e) {
+			// Hide on "H"
+			if (e.keyCode == 72) {
+				GUI.toggleHide();
+			}
+		}, false);
+	}
+	
 	GUI.allGuis.push(this);
 
 };
 
 // Static members
+
+// Do not set this directly.
+GUI.hidden = false;
+
+GUI.toggleHide = function() {
+	if (GUI.hidden) {
+		GUI.show();
+	} else { 
+		GUI.hide();
+	}
+}
+
+GUI.show = function() {
+	GUI.hidden = false;
+	for (var i in GUI.allGuis) {
+		GUI.allGuis[i].domElement.style.display = "block";
+	}
+}
+GUI.hide = function() {
+	GUI.hidden = true;
+	for (var i in GUI.allGuis) {
+		GUI.allGuis[i].domElement.style.display = "none";
+	}
+}
 
 GUI.autoPlace = true;
 GUI.autoPlaceContainer = null;
@@ -633,13 +668,19 @@ GUI.error = function(str) {
 	}
 };
 
-GUI.getOffset = function(obj) {
+GUI.getOffset = function(obj, relativeTo) {
 	var curleft = curtop = 0;
 	if (obj.offsetParent) {
 		do {
 			curleft += obj.offsetLeft;
 			curtop += obj.offsetTop;
-		} while (obj = obj.offsetParent);
+			
+			var c = obj = obj.offsetParent;
+			if (relativeTo) {
+				c = c && obj != relativeTo;
+			}
+			
+		} while (c);
 		return {left: curleft,top: curtop};
 	}
 }
@@ -653,5 +694,7 @@ GUI.extendController = function(clazz) {
 	clazz.prototype = new GUI.Controller();
 	clazz.prototype.constructor = clazz;
 }
+
+GUI.disableKeyListeners = false;
 
 if (GUI.getVarFromURL('saveString') != null) GUI.load(GUI.getVarFromURL('saveString'));
