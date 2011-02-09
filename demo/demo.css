@@ -49,14 +49,14 @@ h2 {
 }
 
 h2.section { 
-margin: 0;
-padding: 20px 0 20px;
-cursor: pointer;
-border-top: 1px dotted #ccc;
--webkit-transition: color 0.15s linear;
+	margin: 0;
+	padding: 20px 0px 0px 0px;
+	cursor: pointer;
+	border-top: 1px dotted #ccc;
+	-webkit-transition: color 0.15s linear;
 }
 h2.section:hover { 
-color: #00aeff;
+	color: #00aeff;
 }
 
 div.collapsed h2, div.expanded h2 { 
@@ -67,6 +67,13 @@ div.collapsed h2, div.expanded h2 {
 	cursor: pointer;
 }
 
+div.trans {
+	border-top: 1px dotted #ccc;
+	margin: 0px 0px 20px 0px;
+}
+ol#secrets {
+	padding: 0px 0px 20px 0px;
+}
 div.expanded h2:before {
 	content: '-';
 }
@@ -83,16 +90,25 @@ div.expanded h2:before, div.collapsed h2:before {
 	font-family: Monaco, monospace;
 }
 
+div.collapsable {
+	overflow: hidden;
+	clear: both;
+	margin-bottom: 20px;
+	-moz-transition: height .2s ease-out;
+	-webkit-transition: height .2s ease-out;
+	transition: height .2s ease-out;
+}
+
+div.collapsable div {
+	height: auto;
+}
+
 div.collapsed .collapsable {
 	overflow: hidden;
 	clear: both;
 	height: 0;
 }
-div.expanded .collapsable {
-	overflow: hidden;
-	clear: both;
-	height: auto;
-}
+
 div.expanded { cursor: pointer; }
 
 #helvetica-demo {
