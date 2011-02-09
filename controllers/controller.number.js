@@ -114,8 +114,17 @@ GUI.NumberController = function() {
 		return false;
     }
     
+    this.options = function() {
+    	_this.noSlider();
+    	_this.domElement.removeChild(numberField);
+    	return GUI.Controller.prototype.options.apply(this, arguments);
+    };
+    
     this.noSlider = function() {
-    	_this.domElement.removeChild(slider.domElement);
+    	if (slider) {
+    		_this.domElement.removeChild(slider.domElement);
+    	}
+    	return this;
     };
     
     this.setValue = function(val) {

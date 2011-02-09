@@ -80,6 +80,12 @@ a.guidat-toggle:hover {
 	background-color: #222;
 }
 
+
+.guidat-controller select {
+	margin-top: 4px;
+	float: right;
+}
+
 .guidat-controller input:hover { 
 	background-color: #444;
 }
