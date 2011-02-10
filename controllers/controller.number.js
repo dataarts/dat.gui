@@ -85,6 +85,7 @@ GUI.NumberController = function() {
 	        numberField.focus();
 	        numberField.select();
         }
+		if(slider) slider.domElement.className = slider.domElement.className.replace(' active', '');
         draggedNumberField = false;
         clickedNumberField = false;
 		if (_this.finishChangeFunction != null) {
@@ -105,6 +106,8 @@ GUI.NumberController = function() {
 
 		GUI.makeUnselectable(_this.parent.domElement);
 		GUI.makeUnselectable(numberField);
+		
+		if(slider) slider.domElement.className += ' active';
 		
 		py = y;
 		y = e.pageY;
