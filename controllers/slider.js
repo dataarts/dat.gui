@@ -46,6 +46,7 @@ GUI.Slider = function(numberController, min, max, step, initValue) {
 		x = px = e.pageX;
 		_this.domElement.setAttribute('class', 'guidat-slider-bg active');
 		_this.fg.setAttribute('class', 'guidat-slider-fg active');
+		numberController.domElement.className += ' active';
 		onDrag(e);
 		document.addEventListener('mouseup', mouseup, false);
 	}, false);
@@ -54,6 +55,7 @@ GUI.Slider = function(numberController, min, max, step, initValue) {
 	var mouseup = function(e) { 
 		_this.domElement.setAttribute('class', 'guidat-slider-bg');
 		_this.fg.setAttribute('class', 'guidat-slider-fg');
+		numberController.domElement.className = numberController.domElement.className.replace(' active', '');
 		clicked = false;			
 		if (numberController.finishChangeFunction != null) {
 			numberController.finishChangeFunction.call(this, numberController.getValue());

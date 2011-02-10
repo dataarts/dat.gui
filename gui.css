@@ -86,7 +86,8 @@ a.guidat-toggle:hover {
 	float: right;
 }
 
-.guidat-controller input:hover { 
+.guidat-controller input:hover.
+.guidat-controller.number.active { 
 	background-color: #444;
 }
 
