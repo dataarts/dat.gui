@@ -34,12 +34,12 @@ GUI.Controller.prototype.reset = function() {
 GUI.Controller.prototype.listen = function() {
     this.parent.listenTo(this);
     return this;
-}
+};
 
 GUI.Controller.prototype.unlisten = function() {
     this.parent.unlistenTo(this); // <--- hasn't been tested yet
     return this;
-}
+};
 
 GUI.Controller.prototype.setValue = function(n) {
     this.object[this.propertyName] = n;
@@ -48,22 +48,23 @@ GUI.Controller.prototype.setValue = function(n) {
     }
     this.updateDisplay();
     return this;
-}
+};
 
 GUI.Controller.prototype.getValue = function() {
     return this.object[this.propertyName];
-}
+};
 
-GUI.Controller.prototype.updateDisplay = function() {}
+GUI.Controller.prototype.updateDisplay = function() {};
 
 GUI.Controller.prototype.onChange = function(fnc) {
     this.changeFunction = fnc;
     return this;
-}
+};
+
 GUI.Controller.prototype.onFinishChange = function(fnc) {
     this.finishChangeFunction = fnc;
     return this;
-}
+};
 
 GUI.Controller.prototype.options = function() {
     var _this = this;
@@ -90,7 +91,7 @@ GUI.Controller.prototype.options = function() {
         if (_this.finishChangeFunction != null) {
             _this.finishChangeFunction.call(this, _this.getValue());
         }
-    });
+    }, false);
     _this.domElement.appendChild(select);
     return this;
-}
+};

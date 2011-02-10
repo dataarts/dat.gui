@@ -17,7 +17,7 @@ GUI.FunctionController = function() {
     this.onFire = function(fnc) {
         fireFunction = fnc;
         return this;
-    }
+    };
 
     this.fire = function() {
         if (fireFunction != null) {

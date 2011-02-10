@@ -33,7 +33,7 @@ GUI.StringController = function() {
 
     this.updateDisplay = function() {
         input.value = _this.getValue();
-    }
+    };
 
     this.options = function() {
         _this.domElement.removeChild(input);

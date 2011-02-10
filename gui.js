@@ -17,8 +17,6 @@ var GUI = function() {
 
     var curControllerContainerHeight = 0;
 
-    var _this = this;
-
     var open = false;
     var width = 280;
 
@@ -68,9 +66,10 @@ var GUI = function() {
     toggleButton.setAttribute('href', '#');
     toggleButton.innerHTML = "Show Controls";
 
-    var toggleDragged = false;
-    var dragDisplacementY = 0;
-    var togglePressed = false;
+    var toggleDragged = false,
+        dragDisplacementX = 0,
+        dragDisplacementY = 0,
+        togglePressed = false;
 
     var my, pmy, mx, pmx;
 
@@ -177,11 +176,7 @@ var GUI = function() {
                     beginResize();
                 }
             }
-
-
-
         }
-
 
         document.removeEventListener('mousemove', resize, false);
         e.preventDefault();
@@ -211,7 +206,7 @@ var GUI = function() {
         listenInterval = setInterval(function() {
             _this.listen();
         }, this.autoListenIntervalTime);
-    }
+    };
 
     this.__defineSetter__("autoListen", function(v) {
         autoListen = v;
@@ -253,7 +248,7 @@ var GUI = function() {
 
     this.listenAll = function() {
         this.listen(controllers);
-    }
+    };
 
     this.autoListen = true;
 
@@ -340,7 +335,7 @@ var GUI = function() {
 
         return controllerObject;
 
-    }
+    };
 
     var checkForOverflow = function() {
         controllerHeight = 0;
@@ -352,7 +347,7 @@ var GUI = function() {
         } else {
             controllerContainer.style.overflowY = "hidden";
         }
-    }
+    };
 
     var handlerTypes = {
         "number": GUI.NumberController,
@@ -361,27 +356,9 @@ var GUI = function() {
         "function": GUI.FunctionController
     };
 
-    var alreadyControlled = function(object, propertyName) {
-        for (var i in controllers) {
-            if (controllers[i].object == object &&
-                controllers[i].propertyName == propertyName) {
-                return true;
-            }
-        }
-        return false;
-    };
-
-    var construct = function(constructor, args) {
-        function F() {
-            return constructor.apply(this, args);
-        }
-        F.prototype = constructor.prototype;
-        return new F();
-    };
-
     this.reset = function() {
         // TODO
-    }
+    };
 
     // GUI ... GUI
 
@@ -395,7 +372,7 @@ var GUI = function() {
         clearTimeout(resizeTimeout);
         beginResize();
         open = true;
-    }
+    };
 
     this.hide = function() {
         toggleButton.innerHTML = name || "Show Controls";
@@ -403,17 +380,17 @@ var GUI = function() {
         clearTimeout(resizeTimeout);
         beginResize();
         open = false;
-    }
+    };
 
     this.name = function(n) {
         name = n;
         toggleButton.innerHTML = n;
-    }
+    };
 
     // used in saveURL
     this.appearanceVars = function() {
-        return [open, width, openHeight, controllerContainer.scrollTop]
-    }
+        return [open, width, openHeight, controllerContainer.scrollTop];
+    };
 
     var beginResize = function() {
         //console.log("Resizing from " + curControllerContainerHeight + " to " + resizeTo);
@@ -425,7 +402,7 @@ var GUI = function() {
         }
         controllerContainer.style.height = Math.round(curControllerContainerHeight)+'px';
         checkForOverflow();
-    }
+    };
 
     // Load saved appearance:
 
@@ -439,7 +416,7 @@ var GUI = function() {
         explicitOpenHeight = true;
         if (eval(GUI.savedAppearanceVars[GUI.guiIndex][0]) == true) {
             curControllerContainerHeight = openHeight;
-            var t = GUI.savedAppearanceVars[GUI.guiIndex][3]
+            var t = GUI.savedAppearanceVars[GUI.guiIndex][3];
 
             // Hack.
             setTimeout(function() {
@@ -468,8 +445,7 @@ GUI.allControllers = [];
 GUI.allGuis = [];
 
 GUI.saveURL = function() {
-    title = window.location;
-    url = GUI.replaceGetVar("saveString", GUI.getSaveString());
+    var url = GUI.replaceGetVar("saveString", GUI.getSaveString());
     window.location = url;
 };
 
@@ -495,20 +471,21 @@ GUI.savedAppearanceVars = [];
 
 GUI.getSaveString = function() {
 
-    var vals = [];
+    var vals = [],
+        i;
 
     vals.push(GUI.allGuis.length);
     vals.push(document.body.scrollTop);
 
 
-    for (var i in GUI.allGuis) {
+    for (i in GUI.allGuis) {
         var av = GUI.allGuis[i].appearanceVars();
         for (var j = 0; j < av.length; j++) {
             vals.push(av[j]);
         }
     }
 
-    for (var i in GUI.allControllers) {
+    for (i in GUI.allControllers) {
 
         // We don't save values for functions.
         if (GUI.allControllers[i].type == "function") {
@@ -528,7 +505,7 @@ GUI.getSaveString = function() {
 
     return vals.join(',');
 
-}
+};
 
 GUI.getVarFromURL = function(v) {
 
@@ -536,7 +513,7 @@ GUI.getVarFromURL = function(v) {
     var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
 
     for (var i = 0; i < hashes.length; i++) {
-        hash = hashes[i].split("=")
+        hash = hashes[i].split("=");
         if (hash == undefined) continue;
         if (hash[0] == v) {
             return hash[1];
@@ -554,7 +531,7 @@ GUI.replaceGetVar = function(varName, val) {
     var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
 
     for (var i = 0; i < hashes.length; i++) {
-        hash = hashes[i].split("=")
+        hash = hashes[i].split("=");
         if (hash == undefined) continue;
         if (hash[0] == varName) {
             return loc.replace(hash[1], val);
@@ -574,7 +551,7 @@ GUI.guiIndex = 0;
 
 GUI.showSaveString = function() {
     alert(GUI.getSaveString());
-}
+};
 
 // Util functions
 
@@ -583,25 +560,24 @@ GUI.makeUnselectable = function(elem) {
     elem.style.MozUserSelect = "none";
     elem.style.KhtmlUserSelect = "none";
     elem.unselectable = "on";
-}
+};
 
 GUI.makeSelectable = function(elem) {
     elem.onselectstart = function() { };
     elem.style.MozUserSelect = "auto";
     elem.style.KhtmlUserSelect = "auto";
     elem.unselectable = "off";
-}
+};
 
 GUI.map = function(v, i1, i2, o1, o2) {
-    var v = o1 + (o2 - o1) * ((v - i1) / (i2 - i1));
-    return v;
-}
+    return o1 + (o2 - o1) * ((v - i1) / (i2 - i1));
+};
 
 GUI.constrain = function (v, o1, o2) {
     if (v < o1) v = o1;
     else if (v > o2) v = o2;
     return v;
-}
+};
 
 GUI.error = function(str) {
     if (typeof console.error == 'function') {
@@ -612,11 +588,11 @@ GUI.error = function(str) {
 GUI.roundToDecimal = function(n, decimals) {
     var t = Math.pow(10, decimals);
     return Math.round(n*t)/t;
-}
+};
 
 GUI.extendController = function(clazz) {
     clazz.prototype = new GUI.Controller();
     clazz.prototype.constructor = clazz;
-}
+};
 
 if (GUI.getVarFromURL('saveString') != null) GUI.load(GUI.getVarFromURL('saveString'));

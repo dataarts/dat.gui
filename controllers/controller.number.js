@@ -12,7 +12,7 @@ GUI.NumberController = function() {
 
     var clickedNumberField = false;
 
-    var y = py = 0;
+    var y = 0, py = 0;
 
     var min = arguments[3];
     var max = arguments[4];
@@ -65,13 +65,14 @@ GUI.NumberController = function() {
 
     // Handle up arrow and down arrow
     numberField.addEventListener('keydown', function(e) {
+        var newVal;
         switch(e.keyCode) {
             case 38:    // up
-                var newVal = _this.getValue() + step;
+                newVal = _this.getValue() + step;
                 _this.setValue(newVal);
                 break;
             case 40:    // down
-                var newVal = _this.getValue() - step;
+                newVal = _this.getValue() - step;
                 _this.setValue(newVal);
                 break;
         }
@@ -91,9 +92,7 @@ GUI.NumberController = function() {
             _this.finishChangeFunction.call(this, _this.getValue());
         }
         document.removeEventListener('mouseup', mouseup, false);
-    }
-
-
+    };
 
     var dragNumberField = function(e) {
         draggedNumberField = true;
@@ -112,7 +111,7 @@ GUI.NumberController = function() {
         var newVal = _this.getValue() + dy*step;
         _this.setValue(newVal);
         return false;
-    }
+    };
 
     this.options = function() {
         _this.noSlider();
@@ -139,12 +138,12 @@ GUI.NumberController = function() {
 
         return GUI.Controller.prototype.setValue.call(this, val);
 
-    }
+    };
 
     this.updateDisplay = function() {
         numberField.value = GUI.roundToDecimal(_this.getValue(), 4);
         if (slider) slider.value = _this.getValue();
-    }
+    };
 };
 
 GUI.extendController(GUI.NumberController);

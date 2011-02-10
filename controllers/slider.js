@@ -1,9 +1,5 @@
 GUI.Slider = function(numberController, min, max, step, initValue) {
 
-    var min = min;
-    var max = max;
-    var step = step;
-
     var clicked = false;
     var _this = this;
 
@@ -18,15 +14,15 @@ GUI.Slider = function(numberController, min, max, step, initValue) {
     this.domElement.appendChild(this.fg);
 
     var findPos = function(obj) {
-        var curleft = curtop = 0;
+        var curleft = 0, curtop = 0;
         if (obj.offsetParent) {
             do {
                 curleft += obj.offsetLeft;
                 curtop += obj.offsetTop;
-            } while (obj = obj.offsetParent);
+            } while ((obj = obj.offsetParent));
             return [curleft,curtop];
         }
-    }
+    };
 
     this.__defineSetter__('value', function(e) {
         var pct = GUI.map(e, min, max, 0, 100);
@@ -39,7 +35,7 @@ GUI.Slider = function(numberController, min, max, step, initValue) {
         var val = GUI.map(e.pageX, pos[0], pos[0] + _this.domElement.offsetWidth, min, max);
         val = Math.round(val/step)*step;
         numberController.setValue(val);
-    }
+    };
 
     this.domElement.addEventListener('mousedown', function(e) {
         clicked = true;
@@ -66,4 +62,4 @@ GUI.Slider = function(numberController, min, max, step, initValue) {
 
     this.value = initValue;
 
-}
+};
