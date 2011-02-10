@@ -138,22 +138,14 @@ var GUI = function() {
 			
 			_this.toggle();
 
-			// Clears lingering slider column
-			_this.domElement.style.width = (width+1)+'px';
-			setTimeout(function() {
-				_this.domElement.style.width = width+'px';
-			}, 1);
+			
 		}
 		
 		if (togglePressed && toggleDragged) {
 		
 			if (dragDisplacementX == 0) {
 			
-				// Clears lingering slider column
-				_this.domElement.style.width = (width+1)+'px';
-				setTimeout(function() {
-					_this.domElement.style.width = width+'px';
-				}, 1);
+				adaptToScrollbar()
 	
 			}
 		
@@ -420,12 +412,22 @@ var GUI = function() {
 		curControllerContainerHeight += (resizeTo - curControllerContainerHeight)*0.6;
 		if (Math.abs(curControllerContainerHeight-resizeTo) < 1) {
 			curControllerContainerHeight = resizeTo;
+			adaptToScrollbar();
+			
 		} else { 
 			resizeTimeout = setTimeout(beginResize, 1000/30);
 		}
 		controllerContainer.style.height = Math.round(curControllerContainerHeight)+'px';
 		checkForOverflow();
 	}
+	
+	var adaptToScrollbar = function() {
+		// Clears lingering slider column
+		_this.domElement.style.width = (width+1)+'px';
+		setTimeout(function() {
+			_this.domElement.style.width = width+'px';
+		}, 1);
+	};
 	
 	// Load saved appearance:
 
