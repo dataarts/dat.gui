@@ -33,7 +33,7 @@ GUI.BooleanController = function() {
             } catch (e) {}
         }
         return GUI.Controller.prototype.setValue.call(this, val);
-    }
+    };
 
 };
 GUI.extendController(GUI.BooleanController);
