@@ -66,24 +66,33 @@ GUI.Controller.prototype.onFinishChange = function(fnc) {
     return this;
 };
 
-GUI.Controller.prototype.options = function() {
-    var _this = this;
-    var select = document.createElement('select');
-    if (arguments.length == 1) {
-        var arr = arguments[0];
-        for (var i in arr) {
-            var opt = document.createElement('option');
-            opt.innerHTML = i;
-            opt.setAttribute('value', arr[i]);
-            select.appendChild(opt);
+GUI.Controller.prototype.options = function () {
+    var _this = this,
+        currentValue = this.object[this.propertyName],
+        select = document.createElement('select'),
+        args = arguments[0],
+        options = {};
+
+    function addOption(select, label, value) {
+        var opt = document.createElement('option');
+        opt.innerHTML = label;
+        opt.setAttribute('value', value);
+        if (currentValue === value) {
+            opt.setAttribute('selected', true);
+        }
+        select.appendChild(opt);
+    }
+
+    if (Array.isArray(args)) {
+        for (var i = 0; i < args.length; i++) {
+            options[args[i]] = args[i];
         }
     } else {
-        for (var i = 0; i < arguments.length; i++) {
-            var opt = document.createElement('option');
-            opt.innerHTML = arguments[i];
-            opt.setAttribute('value', arguments[i]);
-            select.appendChild(opt);
-        }
+        options = args;
+    }
+
+    for (option in options) {
+        addOption(select, option, options[option]);
     }
 
     select.addEventListener('change', function() {
@@ -92,6 +101,8 @@ GUI.Controller.prototype.options = function() {
             _this.finishChangeFunction.call(this, _this.getValue());
         }
     }, false);
+
     _this.domElement.appendChild(select);
+
     return this;
 };
