@@ -20,10 +20,10 @@ GUI.FunctionController = function() {
 	}
 	
 	this.fire = function() {
+		_this.object[_this.propertyName].call(_this.object);
 		if (fireFunction != null) {
 			fireFunction.call(this);
 		}
-		_this.object[_this.propertyName].call(_this.object);
 	};
 	
 };
