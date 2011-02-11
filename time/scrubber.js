@@ -8,6 +8,12 @@ GUI.Controller.prototype.at = function(when, what, tween) {
 	return this;
 }
 
+GUI.downloadText = function(text) {
+	var url = 'data:application/plain;charset=utf-8,' + escape( text );
+	console.log(url);
+    window.open( url, '_blank' );
+}
+
 GUI.Scrubber = function(controller, timer) {	
 
 	var _this = this;
@@ -20,6 +26,7 @@ GUI.Scrubber = function(controller, timer) {
 	this.playing = false;
 	
 	var previouslyHandled;
+	this.position = null;
 	
 	this.getSaveObject = function() {	
 		
@@ -72,13 +79,12 @@ GUI.Scrubber = function(controller, timer) {
 	this.domElement = document.createElement('div');
 	this.domElement.setAttribute('class', 'guidat-scrubber');
 
-	var canvas = document.createElement('canvas');
-	this.domElement.appendChild(canvas);
+	this.canvas = document.createElement('canvas');
+	this.domElement.appendChild(this.canvas);
 	
-	this.g = canvas.getContext('2d');
+	this.g = this.canvas.getContext('2d');
 	
 	var width;
-	var position;
 	var height;
 	
 	var mx, pmx;
@@ -109,6 +115,7 @@ GUI.Scrubber = function(controller, timer) {
 		// Draw ticks
 		if (_this.timer.useSnap) {
 			_this.g.lineWidth = 1;
+			// TODO: That's just a damned nasty for loop.
 			for (var i = _this.timer.snap(_this.timer.windowMin); i < _this.timer.windowMin+_this.timer.windowWidth; i+= _this.timer.snapIncrement) {
 				if (i == 0) continue;
 				var x = Math.round(GUI.map(i, _this.timer.windowMin, _this.timer.windowMin+_this.timer.windowWidth, 0, width))+0.5;
@@ -147,9 +154,9 @@ GUI.Scrubber = function(controller, timer) {
 	this.render();
 	
 	var onResize = function() {
-		canvas.width = width = _this.domElement.offsetWidth;
-		canvas.height = height = _this.domElement.offsetHeight;
-		position = GUI.getOffset(canvas);
+		_this.canvas.width = width = _this.domElement.offsetWidth;
+		_this.canvas.height = height = _this.domElement.offsetHeight;
+		_this.position = GUI.getOffset(_this.canvas);
 		_this.render();
 	};
 	
@@ -176,7 +183,7 @@ GUI.Scrubber = function(controller, timer) {
 	}
 	
 	var scrub = function(e) {
-		var t = GUI.map(e.pageX, position.left, position.left+width, _this.timer.windowMin, _this.timer.windowMin+_this.timer.windowWidth);
+		var t = GUI.map(e.pageX, _this.position.left, _this.position.left+width, _this.timer.windowMin, _this.timer.windowMin+_this.timer.windowWidth);
 		_this.timer.playhead = _this.timer.snap(t);
 		scrubPan();
 	}
@@ -188,16 +195,9 @@ GUI.Scrubber = function(controller, timer) {
 		pmx = mx;
 	}
 	
-	var dragActive = function(e) {
-		var t = GUI.map(e.pageX, position.left, position.left+width, _this.timer.windowMin, _this.timer.windowMin+_this.timer.windowWidth);
-		_this.timer.activePoint.time = _this.timer.snap(t);		
-		_this.timer.playhead = _this.timer.snap(t);
-		pmx = mx;		
-		_this.sort();
-	}
+	this.canvas.addEventListener('mousedown', function(e) {
 	
-	canvas.addEventListener('mousedown', function(e) {
-	
+		// TODO: Detect right click and prevent that menu?
 		if (false) {
 			e.preventDefault();
 			document.addEventListener('mousemove', pan, false);
@@ -207,37 +207,43 @@ GUI.Scrubber = function(controller, timer) {
 		var thisDown = GUI.millis();
 		
 		// Double click creates a keyframe
+		// TODO: You can double click to create a keyframe right on top of an existing keyframe.
+		// TODO: Make 300 a constant of some sort.
 		if (thisDown - lastDown < 300) {
 
 			var val = _this.controller.getValue();
+			
 			if (_this.controller.type == 'boolean') {
 				val = !val;
 			}
+			
 			_this.timer.activePoint = new GUI.ScrubberPoint(_this, _this.timer.playhead, val);
+			_this.timer.activePoint.update(); // Grab x and y
+			_this.timer.activePoint.onSelect();
 			_this.add(_this.timer.activePoint);
 			_this.render();
 		
 		// A regular click COULD select a point ...
 		} else if (_this.timer.hoverPoint != null) {
 
-			_this.timer.activePoint = _this.timer.hoverPoint;
+			if (_this.timer.activePoint != _this.timer.hoverPoint) {
+				if (_this.timer.activePoint != null) _this.timer.activePoint.onBlur();
+				_this.timer.activePoint = _this.timer.hoverPoint;
+				_this.timer.activePoint.onSelect();
+			}
 			_this.timer.playhead = _this.timer.snap(_this.timer.activePoint.time);
 			
-			if (_this.controller.type == 'number') {
-				var tweenSelectorLeft = (position.left + _this.timer.activePoint.x) - _this.timer.tweenSelector.offsetWidth/2;
-				var tweenSelectorTop = GUI.getOffset(canvas, _this.timer.gui.domElement).top + _this.timer.activePoint.y - 25;
-				console.log(position.top, GUI.getOffset(_this.timer.gui.domElement).top, tweenSelectorTop);
-				_this.timer.tweenSelector.style.left = tweenSelectorLeft+'px';
-				_this.timer.tweenSelector.style.top = tweenSelectorTop+'px';
-			}
-			
 			pmx = mx = e.pageX;
-			document.addEventListener('mousemove', dragActive, false);
+			document.addEventListener('mousemove', _this.timer.activePoint.onDrag, false);
 			
 			
 			
 		// Or we could just be trying to place the playhead/scrub.
 		} else { 
+		
+			if (_this.timer.activePoint != null) {
+				_this.timer.activePoint.onBlur();
+			}
 		
 			_this.timer.activePoint = null;
 			_this.timer.hoverPoint = null;
@@ -254,7 +260,7 @@ GUI.Scrubber = function(controller, timer) {
 		
 	}, false);
 	
-	canvas.addEventListener('mousewheel', function(e) {
+	this.canvas.addEventListener('mousewheel', function(e) {
 		e.preventDefault();
 		
 		var dx = e.wheelDeltaX*4;
@@ -267,11 +273,11 @@ GUI.Scrubber = function(controller, timer) {
 		return false;
 	}, false);
 	
-	canvas.addEventListener('mousemove', function(e) {
+	this.canvas.addEventListener('mousemove', function(e) {
 		_this.timer.hoverPoint = null;
 		for (var i in _this.points) {
 			var cur = _this.points[i];
-			if (cur.isHovering(e.pageX-position.left)) {
+			if (cur.isHovering(e.pageX-_this.position.left)) {
 				_this.timer.hoverPoint = cur;
 			}
 		}
@@ -285,7 +291,9 @@ GUI.Scrubber = function(controller, timer) {
 	
 	document.addEventListener('mouseup', function() {
 		document.body.style.cursor = 'auto';
-		document.removeEventListener('mousemove', dragActive, false);
+		if (_this.timer.activePoint != null) {
+			document.removeEventListener('mousemove', _this.timer.activePoint.onDrag, false);
+		}
 		document.removeEventListener('mousemove', scrub, false);
 		document.removeEventListener('mousemove', pan, false);
 	}, false);
@@ -426,6 +434,39 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 	var c1 = '#ffd800';
 	var c2 = '#ff9000';
 	
+	var positionTweenSelector = function() {
+		var tweenSelectorLeft = (scrubber.position.left + timer.activePoint.x) - timer.tweenSelector.offsetWidth/2;
+		var tweenSelectorTop = GUI.getOffset(scrubber.canvas, timer.gui.domElement).top + timer.activePoint.y - 25;
+		timer.tweenSelector.style.left = tweenSelectorLeft+'px';
+		timer.tweenSelector.style.top = tweenSelectorTop+'px';
+	}
+	
+	this.onSelect = function() {
+	
+		if (type == 'number') {
+			timer.showTweenSelector();
+			positionTweenSelector();
+		}
+		
+	}
+	
+	this.onBlur = function() {
+		if (type == 'number') {
+			timer.hideTweenSelector();
+		}
+	}
+	
+	this.onDrag = function(e) {
+		var t = GUI.map(e.pageX, scrubber.position.left, scrubber.position.left+scrubber.canvas.width, timer.windowMin, timer.windowMin+timer.windowWidth);
+		_this.time = timer.snap(t);		
+		timer.playhead = timer.snap(t);
+		scrubber.sort();
+		_this.update();
+		if (type == 'number') { 
+			positionTweenSelector();
+		}
+	}
+	
 	this.getSaveObject = function() {
 		var obj = { 'value': _this.value, 'time': time };
 		
@@ -435,9 +476,7 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 
 	};
 	
-	this.tween = function(t) {
-		return t;
-	};
+	this.tween = GUI.Easing.Linear;
 	
 	this.remove = function() {
 		scrubber.points.splice(scrubber.points.indexOf(this), 1);
@@ -495,7 +534,6 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 		
 		// TODO: if hidden because of scroll top.
 		
-
 		if (scrubber.timer.activePoint == this) {
 			g.fillStyle = '#ffd800'; //
 		} else if (scrubber.timer.hoverPoint == this) {
@@ -509,8 +547,7 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 			case 'boolean':
 			
 				g.save();
-				
-					g.translate(x, y-0.5);
+				g.translate(x, y-0.5);
 				
 				if (this.value) {
 					
@@ -519,6 +556,7 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 					g.beginPath();
 					g.arc(0, 0, barSize, 0, Math.PI*2, false);
 					g.stroke();
+					
 				} else { 
 				
 					g.rotate(Math.PI/4);
@@ -538,12 +576,26 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 				
 				if (n != null) {
 					
-					
 					g.lineWidth = rectSize/2;
 					g.strokeStyle='#222';
 					g.beginPath();
-					g.moveTo(n.x, n.y);
-					g.lineTo(x, y);
+					
+					g.moveTo(x, y);
+						
+					// TODO: Lines from points that may be outside of the window's scope.
+					if (_this.tween == GUI.Easing.Linear) {
+						g.lineTo(n.x, n.y);
+					} else { 
+						
+						for (var i = 0; i < 1; i+=0.01) {
+							var tx = GUI.map(i, 0, 1, x, n.x);
+							var ty = _this.tween(i);
+							ty = GUI.map(ty, 0, 1, y, n.y);
+							g.lineTo(tx, ty);
+						}
+						
+					}
+					
 					g.stroke();
 					
 				}		
@@ -557,6 +609,7 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 				break;
 		
 			default:	
+			
 				g.save();
 				g.translate(x-barSize/2, 0);
 				//g.fillStyle = c1;
@@ -772,7 +825,7 @@ GUI.Easing.BackEaseInOut = function( k ) {
 
 GUI.Easing.BounceEaseIn = function( k ) {
 
-	return 1 - GUI.Easing.Bounce.EaseOut( 1 - k );
+	return 1 - GUI.Easing.BounceEaseOut( 1 - k );
 
 };
 
@@ -800,8 +853,8 @@ GUI.Easing.BounceEaseOut = function( k ) {
 
 GUI.Easing.BounceEaseInOut = function( k ) {
 
-	if ( k < 0.5 ) return GUI.Easing.Bounce.EaseIn( k * 2 ) * 0.5;
-	return GUI.Easing.Bounce.EaseOut( k * 2 - 1 ) * 0.5 + 0.5;
+	if ( k < 0.5 ) return GUI.Easing.BounceEaseIn( k * 2 ) * 0.5;
+	return GUI.Easing.BounceEaseOut( k * 2 - 1 ) * 0.5 + 0.5;
 
 };
 

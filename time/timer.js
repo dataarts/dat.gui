@@ -16,13 +16,11 @@ GUI.Timer = function(gui) {
 	this.gui.domElement.setAttribute('class', 'guidat time');
 	this.gui.domElement.style.width = '100%';
 	
-	
 	// Put toggle button on top.
 	var toggleButton = this.gui.domElement.lastChild;
 	
 	this.gui.domElement.removeChild(toggleButton);
 	this.gui.domElement.insertBefore(toggleButton, this.gui.domElement.firstChild);
-	
 	
 	// Create tween dropdown.
 	this.tweenSelector = document.createElement('select');
@@ -33,13 +31,21 @@ GUI.Timer = function(gui) {
 		this.tweenSelector.appendChild(opt);
 	}
 	this.tweenSelector.addEventListener('change', function(e) {
-		alert("CHANGE");
 		if (_this.activePoint != null) {
 			_this.activePoint.tween = GUI.Easing[this.value];
 		}
 	}, false);
 	this.gui.domElement.appendChild(this.tweenSelector);
+
 	
+	this.showTweenSelector = function() {
+		_this.tweenSelector.style.display = 'block';
+	}
+	this.hideTweenSelector = function() {
+		_this.tweenSelector.style.display = 'none';
+	}
+	
+	this.hideTweenSelector();
 	
 	var playhead = 0;
 	var lastPlayhead = 0;

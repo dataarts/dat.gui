@@ -25,8 +25,6 @@
 </script>
   <script type="text/javascript" src="time/timer.js">
 </script>
-  <script type="text/javascript" src="time/easing.js">
-</script>
   <script type="text/javascript" src="demo/improvedNoise.js">
 </script>
   <script type="text/javascript" src="demo/prettify.js">
@@ -36,10 +34,11 @@
   <script type="text/javascript">
 	//<![CDATA[
 				var timer;
-				this.blabla = "ldkjflkdjf";
                 window.onload = function() {
 
                         var fizzyText = new FizzyText("gui-dat");
+					
+						GUI.load('{"windowMin":-2500,"windowWidth":10000,"playhead":0,"snapIncrement":250,"scrubbers":[{"points":[{"value":"gui-dat","time":1},{"value":"is","time":1000},{"value":"getting","time":2000},{"value":"pretty","time":3000},{"value":"tight","time":4000}]},{"points":[]},{"points":[]},{"points":[]},{"points":[]},{"points":[]},{"points":[{"time":1000},{"time":2000},{"time":3000},{"time":4000}]}]}');
 
                         var gui = new GUI();
                         
@@ -47,7 +46,6 @@
                         
                         var gui3 = new GUI();
 						timer = new GUI.Timer(gui);
-
 
                         // Text field
                         gui.add(fizzyText, "message")
@@ -82,13 +80,9 @@
                         gui2.add(timer, "useSnap");
                        
                         gui3.add(timer, "windowMin").listen();
-                        gui3.add(timer, "windowWidth",0, 20000).listen();
+                        gui3.add(timer, "windowWidth", 0, 20000).listen();
                         
-
-						
-						gui3.add(this, "blabla");
-                        
-                        //gui.add(timer, "pause");
+                        console.log(JSON.stringify(timer.getSaveObject()));
                         
                 };
 
