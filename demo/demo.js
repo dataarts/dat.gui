@@ -1,15 +1,15 @@
 function FizzyText(message) {
 
-	var that = this;
+    var that = this;
 
-	// These are the variables that we manipulate with gui-dat.
-	// Notice they're all defined with "this". That makes them public.
-	// Otherwise, gui-dat can't see them.
+    // These are the variables that we manipulate with gui-dat.
+    // Notice they're all defined with "this". That makes them public.
+    // Otherwise, gui-dat can't see them.
 
-    this.growthSpeed = 0.5;		  // how fast do particles change size?
-    this.maxSize = 3.2;			  // how big can they get?
-    this.noiseStrength = 10;	  // how turbulent is the flow?
-    this.speed = 0.4;			  // how fast do particles move?
+    this.growthSpeed = 0.5;       // how fast do particles change size?
+    this.maxSize = 3.2;           // how big can they get?
+    this.noiseStrength = 10;      // how turbulent is the flow?
+    this.speed = 0.4;             // how fast do particles move?
     this.displayOutline = false;  // should we draw the message as a stroke?
     this.framesRendered = 0;
 
@@ -26,37 +26,37 @@ function FizzyText(message) {
         createBitmap(message);
     });
 
-	// We can even add functions to the GUI! As long as they have 
-	// 0 arguments, we can call them from the dat-gui panel.
-	
-	this.explode = function() {
-		var mag = Math.random()*30+30;
-		for (var i in particles) {
-			var angle= Math.random()*Math.PI*2;
-			particles[i].vx = Math.cos(angle)*mag;
-			particles[i].vy = Math.sin(angle)*mag;
-		}
-	};
+    // We can even add functions to the GUI! As long as they have 
+    // 0 arguments, we can call them from the dat-gui panel.
+    
+    this.explode = function() {
+        var mag = Math.random()*30+30;
+        for (var i in particles) {
+            var angle= Math.random()*Math.PI*2;
+            particles[i].vx = Math.cos(angle)*mag;
+            particles[i].vy = Math.sin(angle)*mag;
+        }
+    };
 
-	////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////
 
     var _this = this;
 
-	var width = 550;
-	var height = 200;
-	var textAscent = 82;
+    var width = 550;
+    var height = 200;
+    var textAscent = 82;
     var textOffsetLeft = 80;
-	var noiseScale = 300;
-	var frameTime = 30;
-	
+    var noiseScale = 300;
+    var frameTime = 30;
+    
     var colors = ["#00aeff", "#0fa954", "#54396e", "#e61d5f"];
-	
-	// This is the context we use to get a bitmap of text using
-	// the getImageData function.
+    
+    // This is the context we use to get a bitmap of text using
+    // the getImageData function.
     var r = document.createElement('canvas');
     var s = r.getContext('2d');
 
-	// This is the context we actually use to draw.
+    // This is the context we actually use to draw.
     var c = document.createElement('canvas');
     var g = c.getContext('2d');
 
@@ -65,17 +65,17 @@ function FizzyText(message) {
     r.setAttribute('height', height);
     c.setAttribute('height', height);
 
-	// Add our demo to the HTML
+    // Add our demo to the HTML
     document.getElementById('helvetica-demo').appendChild(c);
 
-	// Stores bitmap image
+    // Stores bitmap image
     var pixels = [];
     
     // Stores a list of particles
     var particles = [];
 
-	// Set g.font to the same font as the bitmap canvas, incase we
-	// want to draw some outlines.
+    // Set g.font to the same font as the bitmap canvas, incase we
+    // want to draw some outlines.
     s.font = g.font = "800 " + textAscent + "px helvetica, arial, sans-serif";
 
     // Instantiate some particles
@@ -83,8 +83,8 @@ function FizzyText(message) {
         particles.push(new Particle(Math.random() * width, Math.random() * height));
     }
 
-	// This function creates a bitmap of pixels based on your message
-	// It's called every time we change the message property.
+    // This function creates a bitmap of pixels based on your message
+    // It's called every time we change the message property.
     var createBitmap = function (msg) {
     
         s.fillStyle = "#fff";
@@ -99,10 +99,10 @@ function FizzyText(message) {
 
     };
 
-	// Called once per frame, updates the animation.
+    // Called once per frame, updates the animation.
     var render = function () {
 
-	    that.framesRendered ++;
+        that.framesRendered ++;
 
         g.clearRect(0, 0, width, height);
 
@@ -122,7 +122,7 @@ function FizzyText(message) {
 
     };
 
-	// Returns x, y coordinates for a given index in the pixel array.
+    // Returns x, y coordinates for a given index in the pixel array.
     var getPosition = function (i) {
         return {
             x: (i - (width * 4) * Math.floor(i / (width * 4))) / 4,
@@ -130,7 +130,7 @@ function FizzyText(message) {
         };
     };
 
-	// Returns a color for a given pixel in the pixel array.
+    // Returns a color for a given pixel in the pixel array.
     var getColor = function (x, y) {
         var base = (Math.floor(y) * width + Math.floor(x)) * 4;
         var c = {
@@ -142,33 +142,33 @@ function FizzyText(message) {
 
         return "rgb(" + c.r + "," + c.g + "," + c.b + ")";
     };
-	
-	// This calls the setter we've defined above, so it also calls
-	// the createBitmap function.
-	this.message = message;
-	
-	var loop = function() {
-		// Don't render if we don't see it.
-		// Would be cleaner if I dynamically acquired the top of the canvas.
-		if (document.body.scrollTop < height + 20) {
-			render();
-		}
-	}
-	
-	// This calls the render function every 30 milliseconds.
-	setInterval(loop, frameTime);
+    
+    // This calls the setter we've defined above, so it also calls
+    // the createBitmap function.
+    this.message = message;
+    
+    var loop = function() {
+        // Don't render if we don't see it.
+        // Would be cleaner if I dynamically acquired the top of the canvas.
+        if (document.body.scrollTop < height + 20) {
+            render();
+        }
+    }
+    
+    // This calls the render function every 30 milliseconds.
+    setInterval(loop, frameTime);
 
-	// This class is responsible for drawing and moving those little
-	// colored dots.
+    // This class is responsible for drawing and moving those little
+    // colored dots.
     function Particle(x, y, c) {
     
-    	// Position
+        // Position
         this.x = x;
         this.y = y;
-	
+    
         // Size of particle
         this.r = 0;
-	
+    
         // This velocity is used by the explode function.
         this.vx = 0;
         this.vy = 0;
@@ -184,12 +184,12 @@ function FizzyText(message) {
             
             // Are we within the boundaries of the image?
             var onScreen = this.x > 0 && this.x < width &&
-            			   this.y > 0 && this.y < height;
-            			   
+                           this.y > 0 && this.y < height;
+                           
             var isBlack = c != "rgb(255,255,255)" && onScreen;
-            			  
-           	// If we're on top of a black pixel, grow.
-           	// If not, shrink.
+                          
+            // If we're on top of a black pixel, grow.
+            // If not, shrink.
             if (isBlack) {
                 this.r += _this.growthSpeed;
             } else {
