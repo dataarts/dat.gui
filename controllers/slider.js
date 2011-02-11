@@ -1,8 +1,18 @@
 GUI.Slider = function(numberController, min, max, step, initValue) {
-    
+
     var clicked = false;
     var _this = this;
 
+    var x, px;
+
+    this.domElement = document.createElement('div');
+    this.domElement.setAttribute('class', 'guidat-slider-bg');
+
+    this.fg = document.createElement('div');
+    this.fg.setAttribute('class', 'guidat-slider-fg');
+
+    this.domElement.appendChild(this.fg);
+    
     var onDrag = function(e) {
         if (!clicked) return;
         var pos = findPos(_this.domElement);
@@ -31,16 +41,6 @@ GUI.Slider = function(numberController, min, max, step, initValue) {
         }
         document.removeEventListener('mouseup', mouseup, false);
     };
-
-    var x, px;
-
-    this.domElement = document.createElement('div');
-    this.domElement.setAttribute('class', 'guidat-slider-bg');
-
-    this.fg = document.createElement('div');
-    this.fg.setAttribute('class', 'guidat-slider-fg');
-
-    this.domElement.appendChild(this.fg);
 
     var findPos = function(obj) {
         var curleft = 0, curtop = 0;
