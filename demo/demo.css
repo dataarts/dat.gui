@@ -67,12 +67,16 @@ div.collapsed h2, div.expanded h2 {
 	cursor: pointer;
 }
 
+.last { margin-bottom: 0px !important; }
+.first { margin-top: 0px; }
+
 div.trans {
 	border-top: 1px dotted #ccc;
 	margin: 0px 0px 20px 0px;
 }
 ol#secrets {
-/*	padding: 0px 0px 20px 0px;*/
+	padding: 0px;
+	margin: 0px;
 }
 div.expanded h2:before {
 	content: '-';
@@ -102,6 +106,8 @@ div.collapsable {
 }
 
 div.collapsable div {
+	padding-bottom: 20px;
+	margin-bottom: -20px;
 	height: auto;
 }
 
