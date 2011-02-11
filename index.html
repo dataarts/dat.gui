@@ -1,31 +1,24 @@
 <!doctype html>
 <head>
   <title>gui-dat</title>
+
   <link rel="icon" type="image/png" href="demo/assets/favicon.png" />
   <link href="demo/demo.css" media="screen" rel="stylesheet" type="text/css" />
   <link href="gui.css" media="screen" rel="stylesheet" type="text/css" />
-  <script type="text/javascript" src="gui.js">
-</script>
-  <script type="text/javascript" src="controllers/slider.js">
-</script>
-  <script type="text/javascript" src="controllers/controller.js">
-</script>
-  <script type="text/javascript" src="controllers/controller.boolean.js">
-</script>
-  <script type="text/javascript" src="controllers/controller.function.js">
-</script>
-  <script type="text/javascript" src="controllers/controller.number.js">
-</script>
-  <script type="text/javascript" src="controllers/controller.string.js">
-</script>
-  <script type="text/javascript" src="demo/improvedNoise.js">
-</script>
-  <script type="text/javascript" src="demo/prettify.js">
-</script>
-  <script type="text/javascript" src="demo/demo.js">
-</script>
+
+  <script type="text/javascript" src="gui.js"></script>
+  <script type="text/javascript" src="controllers/slider.js"></script>
+  <script type="text/javascript" src="controllers/controller.js"></script>
+  <script type="text/javascript" src="controllers/controller.boolean.js"></script>
+  <script type="text/javascript" src="controllers/controller.function.js"></script>
+  <script type="text/javascript" src="controllers/controller.number.js"></script>
+  <script type="text/javascript" src="controllers/controller.string.js"></script>
+  <script type="text/javascript" src="demo/improvedNoise.js"></script>
+  <script type="text/javascript" src="demo/prettify.js"></script>
+  <script type="text/javascript" src="demo/demo.js"></script>
+
   <script type="text/javascript">
-	//<![CDATA[
+    //<![CDATA[
 
                 window.onload = function() {
 
@@ -52,59 +45,59 @@
    // Fires a function called "explode"
    gui.add(fizzyText, "explode").name("Explode!"); // Specify a custom name.
 
-						// Javascript for documentation
-						getCollapsables();
-						handleListening();
+                        // Javascript for documentation
+                        getCollapsables();
+                        handleListening();
                 };
 
-				function toggle(e) {
-					
-					var collapsable = this.childNodes[3],
-						wrapper = collapsable.childNodes[1];
-					
-					if (this.className === 'collapsed') {
-						this.className = 'expanded';
-						collapsable.style.height = wrapper.clientHeight + 'px';
-					} else {
-						this.className = 'collapsed';
-						collapsable.style.height = '0px';
-					}
-				}
-				
-				function getCollapsables() {
-					
-					if (document.getElementsByClassName == undefined) {
-						document.getElementsByClassName = function(className)
-						{
-							var hasClassName = new RegExp("(?:^|\\s)" + className + "(?:$|\\s)");
-							var allElements = document.getElementsByTagName("*");
-							var results = [];
+                function toggle(e) {
+                    
+                    var collapsable = this.childNodes[3],
+                        wrapper = collapsable.childNodes[1];
+                    
+                    if (this.className === 'collapsed') {
+                        this.className = 'expanded';
+                        collapsable.style.height = wrapper.clientHeight + 'px';
+                    } else {
+                        this.className = 'collapsed';
+                        collapsable.style.height = '0px';
+                    }
+                }
+                
+                function getCollapsables() {
+                    
+                    if (document.getElementsByClassName == undefined) {
+                        document.getElementsByClassName = function(className)
+                        {
+                            var hasClassName = new RegExp("(?:^|\\s)" + className + "(?:$|\\s)");
+                            var allElements = document.getElementsByTagName("*");
+                            var results = [];
 
-							var element;
-							for (var i = 0; (element = allElements[i]) != null; i++) {
-								var elementClass = element.className;
-								if (elementClass && elementClass.indexOf(className) != -1 && hasClassName.test(elementClass))
-									results.push(element);
-							}
+                            var element;
+                            for (var i = 0; (element = allElements[i]) != null; i++) {
+                                var elementClass = element.className;
+                                if (elementClass && elementClass.indexOf(className) != -1 && hasClassName.test(elementClass))
+                                    results.push(element);
+                            }
 
-							return results;
-						};
-					}
-					
-					collapsed = document.getElementsByClassName('collapsed');
-					expanded  = document.getElementsByClassName('expanded');
-				}
-				
-				function handleListening() {
-					
-					for(var i = 0; i < collapsed.length; i++) {
-						collapsed[i].addEventListener('click', toggle, false);
-					}
-					
-					for(var j = 0; j < expanded.length; j++) {
-						expanded[i].addEventListener('click', toggle, false);
-					}
-				}
+                            return results;
+                        };
+                    }
+                    
+                    collapsed = document.getElementsByClassName('collapsed');
+                    expanded  = document.getElementsByClassName('expanded');
+                }
+                
+                function handleListening() {
+                    
+                    for(var i = 0; i < collapsed.length; i++) {
+                        collapsed[i].addEventListener('click', toggle, false);
+                    }
+                    
+                    for(var j = 0; j < expanded.length; j++) {
+                        expanded[i].addEventListener('click', toggle, false);
+                    }
+                }
 
   //]]>
   </script>
@@ -113,10 +106,10 @@
 <body>
   <div id="container">
   
-	<!-- GUIDAT logo -->
+    <!-- GUIDAT logo -->
     <div id="helvetica-demo"></div>
 
-	<!-- It gives you this! -->
+    <!-- It gives you this! -->
     <div id="notifier"></div>
 
     <h1><a href="http://twitter.com/guidat"><img src="demo/assets/profile.png" border="0" alt="GUI-DAT flag" /></a></h1>
@@ -174,26 +167,26 @@ window.onload = function() {
         <pre class="prettyprint">gui.add(obj, "propName").onChange(function(n) {
         alert("You changed me to " + n);
 });</pre>-->
-	
-	<div class="collapsed">
-	    <h2 class="section">Saving your parameters</h2>
-		<div class="collapsable">
-			<div>
-		    	<p>The simplest way to save your parameters is via <code>GUI.saveURL()</code>. This method directs your browser to a URL containing the current GUI settings.</p>
-		    	<pre class="prettyprint last">
+    
+    <div class="collapsed">
+        <h2 class="section">Saving your parameters</h2>
+        <div class="collapsable">
+            <div>
+                <p>The simplest way to save your parameters is via <code>GUI.saveURL()</code>. This method directs your browser to a URL containing the current GUI settings.</p>
+                <pre class="prettyprint last">
 // Make a button for the url function
 gui.add(GUI, "saveURL");</pre>
-			</div>
-		</div>
-	</div>
-	<div class="collapsed">
-	    <h2 class="section">Advanced saving</h2>
-		<div class="collapsable">
-			<div>
-		    	<p>Let's say you'd like to share your settings with someone. Instead of sending a long link with lots of parameters stored in it, you can make your saved settings the defaults.</p>
+            </div>
+        </div>
+    </div>
+    <div class="collapsed">
+        <h2 class="section">Advanced saving</h2>
+        <div class="collapsable">
+            <div>
+                <p>Let's say you'd like to share your settings with someone. Instead of sending a long link with lots of parameters stored in it, you can make your saved settings the defaults.</p>
 
-		    	<p>First, add the method <code>GUI.showSaveString()</code> to a gui object:</p>
-		    	<pre class="prettyprint">var gui = new GUI();
+                <p>First, add the method <code>GUI.showSaveString()</code> to a gui object:</p>
+                <pre class="prettyprint">var gui = new GUI();
 
 // Add some stuff (and pretend I change their values);
 gui.add(someObject, "someProperty");
@@ -202,8 +195,8 @@ gui.add(someObject, "someOtherProperty");
 // Make a save button.
 gui.add(GUI, "showSaveString");</pre>
 
-			<p>Clicking the "showSaveString" button bring up an alert with a string. Copy and paste that string into the method <code>GUI.load()</code> before you instantiate any gui objects.</p>
-			<pre class="prettyprint">
+            <p>Clicking the "showSaveString" button bring up an alert with a string. Copy and paste that string into the method <code>GUI.load()</code> before you instantiate any gui objects.</p>
+            <pre class="prettyprint">
 // Replace COPIED STRING with the value you got from showSaveString()
 GUI.load("COPIED STRING");
 
@@ -213,69 +206,69 @@ var gui = new GUI();
 gui.add(someObject, "someProperty");
 gui.add(someObject, "someOtherProperty");</pre>
 
-		    	<p class = "last"><strong>Save strings won't work if you change the order in which you've added properties to your gui objects, or the order of the gui objects themselves.</strong>. If you want to add more parameters to your gui and use an old save string, make sure they're added after the properties whose values you've saved.</p>
-	    	</div>
-		</div>
+                <p class = "last"><strong>Save strings won't work if you change the order in which you've added properties to your gui objects, or the order of the gui objects themselves.</strong>. If you want to add more parameters to your gui and use an old save string, make sure they're added after the properties whose values you've saved.</p>
+            </div>
+        </div>
     </div>
 
 
-	<div class="collapsed">
-	    <h2 class="section">Choosing from a list of values</h2>
-		<div class="collapsable">
-			<div>
+    <div class="collapsed">
+        <h2 class="section">Choosing from a list of values</h2>
+        <div class="collapsable">
+            <div>
 <pre class="prettyprint first last">gui.add(obj, "propertyName").options(1, 2, 3, 5, 8);
 
 // Alternatively, you can specify custom labels using object syntax
 gui.add(obj, "propertyName").options({'Small': 1, 'Medium': 2, 'Large': 3});
 </pre>
-	    	</div>
-		</div>
-	</div>
+            </div>
+        </div>
+    </div>
 
-	<div class="collapsed">
-	    <h2 class="section">Listen for variable changes inside the GUI</h2>
-		<div class="collapsable">
-			<div>
-				<p>To fire a function whenever a user changes a variable via the GUI, use the following syntax:</p>
-		    	<pre class="prettyprint">gui.add(obj, "propertyName").onChange(function(newValue) {
+    <div class="collapsed">
+        <h2 class="section">Listen for variable changes inside the GUI</h2>
+        <div class="collapsable">
+            <div>
+                <p>To fire a function whenever a user changes a variable via the GUI, use the following syntax:</p>
+                <pre class="prettyprint">gui.add(obj, "propertyName").onChange(function(newValue) {
    alert("You changed me to " + newValue);
-});</pre>		<p>This can be slightly annoying for types like number or string. You may not want to fire a function while the user is sliding, or while they're typing. To fire a function when the user has <em>finished</em> making changes, use the following:</p>
-		    	<pre class="prettyprint">gui.add(obj, "propertyName").onFinishChange(function(newValue) {
+});</pre>       <p>This can be slightly annoying for types like number or string. You may not want to fire a function while the user is sliding, or while they're typing. To fire a function when the user has <em>finished</em> making changes, use the following:</p>
+                <pre class="prettyprint">gui.add(obj, "propertyName").onFinishChange(function(newValue) {
    alert("You just finished changing me to " + newValue);
 });</pre>
-				<p>Finally, if you'd like to do a little something extra when a function is called, use the following:</p>
-		    	<pre class="prettyprint last">gui.add(obj, "functionName").onFire(function() {
+                <p>Finally, if you'd like to do a little something extra when a function is called, use the following:</p>
+                <pre class="prettyprint last">gui.add(obj, "functionName").onFire(function() {
    alert("You called a function with gui-dat");
 });</pre>
-	    	</div>
-		</div>
-	</div>
-	<div class="collapsed">
-	    <h2 class="section">Listen for variable changes outside of the GUI</h2>
-		<div class="collapsable">
-			<div>
-		    	<p>Let's say you have a variable that changes by itself from time to time. If you'd like the GUI to reflect those changes, use the <code>listen()</code> method.</p>
-		    	<pre class="prettyprint last">gui.add(obj, "changingProperty").listen();</pre>
-	    	</div>
-		</div>
-	</div>
+            </div>
+        </div>
+    </div>
+    <div class="collapsed">
+        <h2 class="section">Listen for variable changes outside of the GUI</h2>
+        <div class="collapsable">
+            <div>
+                <p>Let's say you have a variable that changes by itself from time to time. If you'd like the GUI to reflect those changes, use the <code>listen()</code> method.</p>
+                <pre class="prettyprint last">gui.add(obj, "changingProperty").listen();</pre>
+            </div>
+        </div>
+    </div>
     
-	<div class="collapsed">
-		<h2 class="section">Advanced listening</h2>
-		<div class="collapsable">
-			<div>
-		    	<p>By default, <strong>gui-dat</strong> will create an internal interval that checks for changes in the values you've marked with <code>listen()</code>. If you'd like to check for these changes in an interval of your own definition, use the following:</p>
-		    	<pre class="prettyprint">
+    <div class="collapsed">
+        <h2 class="section">Advanced listening</h2>
+        <div class="collapsable">
+            <div>
+                <p>By default, <strong>gui-dat</strong> will create an internal interval that checks for changes in the values you've marked with <code>listen()</code>. If you'd like to check for these changes in an interval of your own definition, use the following:</p>
+                <pre class="prettyprint">
 gui.autoListen = false; // disables internal interval
 gui.add(obj, "changingProperty").listen();
 
 // Make your own loop
 setInterval(function() {
-	gui.listen(); // updates values you've marked with listen()
+    gui.listen(); // updates values you've marked with listen()
 }, 1000 / 60);</pre>
 
-		    	<p>Alternatively, you can forego calling <code>listen()</code> on individual controllers, and instead choose to monitor changes in <em>all</em> values controlled by your gui.</p>
-		    	<pre class="prettyprint last">
+                <p>Alternatively, you can forego calling <code>listen()</code> on individual controllers, and instead choose to monitor changes in <em>all</em> values controlled by your gui.</p>
+                <pre class="prettyprint last">
 gui.autoListen = false; // disables internal interval
 gui.add(obj, "add");
 gui.add(obj, "lotsa");
@@ -283,26 +276,26 @@ gui.add(obj, "properties");
 
 // Make your own loop
 setInterval(function() {
-	gui.listenAll(); // updates ALL values managed by this gui
+    gui.listenAll(); // updates ALL values managed by this gui
 }, 1000 / 60);</pre>
-			</div>
-		</div>
-	</div>
+            </div>
+        </div>
+    </div>
     
-	<div class="collapsed">
-	    <h2 class="section">Multiple panels and custom placement</h2>
-		<div class="collapsable">
-			<div>
-		    	<p>You can instantiate multiple <code>GUI</code> objects and name them however you'd like.</p>
-		    	<pre class="prettyprint">var gui1 = new GUI();
+    <div class="collapsed">
+        <h2 class="section">Multiple panels and custom placement</h2>
+        <div class="collapsable">
+            <div>
+                <p>You can instantiate multiple <code>GUI</code> objects and name them however you'd like.</p>
+                <pre class="prettyprint">var gui1 = new GUI();
 var gui2 = new GUI();
 
 // The name function overwrites the "Show Controls" text.
 gui1.name("Utilities");
 gui2.name("Camera Placement");</pre>
 
-		    	<p>By default, <strong>gui-dat</strong> panels will be automatically added to the HTML document and fixed to the top of the screen. You can disable this behavior / styling and append the gui DOM element to a container of your choosing.</p>
-		    	<pre class="prettyprint last">
+                <p>By default, <strong>gui-dat</strong> panels will be automatically added to the HTML document and fixed to the top of the screen. You can disable this behavior / styling and append the gui DOM element to a container of your choosing.</p>
+                <pre class="prettyprint last">
 // Notice this belongs to the GUI class (uppercase) 
 // and not an instance thereof.
 GUI.autoPlace = false; 
@@ -315,26 +308,26 @@ gui.domElement.style.top = "20px";
 gui.domElement.style.left = "20px";
 
 document.getElementById("my-gui-container").appendChild( gui.domElement );</pre>
-			</div>
-		</div>
+            </div>
+        </div>
     </div>
 
-	<div class="collapsed">
-	    <h2 class="section">Pro tips.</h2>
-		<div class="collapsable">
-			<div>
-			    <ol id="secrets">
-		          <li><strong>gui-dat</strong> panels are resizeable. Drag the show/hide button.</li>
+    <div class="collapsed">
+        <h2 class="section">Pro tips.</h2>
+        <div class="collapsable">
+            <div>
+                <ol id="secrets">
+                  <li><strong>gui-dat</strong> panels are resizeable. Drag the show/hide button.</li>
 
-		          <li>Pro tip #2 forthcoming.</li>
-			    </ol>
-			</div>
-	    </div>
-	</div>
-	
-	<div class = "trans">&nbsp;</div>
-	
+                  <li>Pro tip #2 forthcoming.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    
+    <div class = "trans">&nbsp;</div>
+    
     <footer class = "trans">Initiated by <a href="http://georgemichaelbrower.com/">George Michael Brower</a> and <a href="http://jonobr1.com/">Jono Brandel</a> of the Data Arts Team, Google Creative Lab.
-	</footer>
+    </footer>
 </body>
 </html>
