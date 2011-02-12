@@ -12,7 +12,7 @@ GUI.Slider = function(numberController, min, max, step, initValue) {
     this.fg.setAttribute('class', 'guidat-slider-fg');
 
     this.domElement.appendChild(this.fg);
-    
+
     var onDrag = function(e) {
         if (!clicked) return;
         var pos = findPos(_this.domElement);
@@ -20,7 +20,7 @@ GUI.Slider = function(numberController, min, max, step, initValue) {
         val = Math.round(val/step)*step;
         numberController.setValue(val);
     };
-    
+
     this.domElement.addEventListener('mousedown', function(e) {
         clicked = true;
         x = px = e.pageX;
@@ -30,12 +30,12 @@ GUI.Slider = function(numberController, min, max, step, initValue) {
         onDrag(e);
         document.addEventListener('mouseup', mouseup, false);
     }, false);
-    
-    var mouseup = function(e) { 
+
+    var mouseup = function(e) {
         _this.domElement.className = _this.domElement.className.replace(' active', '');
         _this.fg.className = _this.fg.className.replace(' active', '');
         numberController.domElement.className = numberController.domElement.className.replace(' active', '');
-        clicked = false;            
+        clicked = false;
         if (numberController.finishChangeFunction != null) {
             numberController.finishChangeFunction.call(this, numberController.getValue());
         }
@@ -57,33 +57,6 @@ GUI.Slider = function(numberController, min, max, step, initValue) {
         var pct = GUI.map(e, min, max, 0, 100);
         this.fg.style.width = pct+"%";
     });
-
-    var onDrag = function(e) {
-        if (!clicked) return;
-        var pos = findPos(_this.domElement);
-        var val = GUI.map(e.pageX, pos[0], pos[0] + _this.domElement.offsetWidth, min, max);
-        val = Math.round(val/step)*step;
-        numberController.setValue(val);
-    };
-
-    this.domElement.addEventListener('mousedown', function(e) {
-        clicked = true;
-        x = px = e.pageX;
-        _this.domElement.setAttribute('class', 'guidat-slider-bg active');
-        _this.fg.setAttribute('class', 'guidat-slider-fg active');
-        onDrag(e);
-        document.addEventListener('mouseup', mouseup, false);
-    }, false);
-
-    var mouseup = function(e) {
-        _this.domElement.setAttribute('class', 'guidat-slider-bg');
-        _this.fg.setAttribute('class', 'guidat-slider-fg');
-        clicked = false;
-        if (numberController.finishChangeFunction != null) {
-            numberController.finishChangeFunction.call(this, numberController.getValue());
-        }
-        document.removeEventListener('mouseup', mouseup, false);
-    };
 
     document.addEventListener('mousemove', onDrag, false);
 
