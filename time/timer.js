@@ -1,9 +1,46 @@
 GUI.millis = function() {
 	var d = new Date();
 	return d.getTime();
+};
+
+GUI.Controller.prototype.at = function(when, what, tween) {
+	if (!this.scrubber) {
+		GUI.error('You must create a new Timer for this GUI in order to define events.');
+		return this;
+	}
+	this.scrubber.add(new GUI.ScrubberPoint(this.scrubber, when, what));
+	this.scrubber.render();
+	return this;
 }
+
+GUI.loadJSON = function(json) {
+	if (typeof json == 'string') {
+		json = eval('('+json+')');
+	}
+	GUI.loadedJSON = json;
+}
+
+
+GUI.loadedJSON = null;
+
+GUI.getJSON = function() {
+	var guis = [], timers = [];
+	for (var i in GUI.allGuis) {
+		guis.push(GUI.allGuis[i].getJSON());
+	}
+	for (var i in GUI.allTimers) {
+		timers.push(GUI.allTimers[i].getJSON());
+	}
+	
+	var obj = {guis:guis, timers:timers};
+	return obj;
+}
+
+GUI.allTimers = [];
 	
 GUI.Timer = function(gui) {
+	
+	GUI.allTimers.push(this);
 	
 	var _this = this;
 	
@@ -122,12 +159,12 @@ GUI.Timer = function(gui) {
 		}
 	}, false);
 	
-	this.getSaveObject = function() {
+	this.getJSON = function() {
 		
 		var scrubberArr = [];
 		
 		for (var i in _this.scrubbers) {
-			scrubberArr.push(_this.scrubbers[i].getSaveObject());
+			scrubberArr.push(_this.scrubbers[i].getJSON());
 		}
 	
 		var obj = {'windowMin':_this.windowMin,

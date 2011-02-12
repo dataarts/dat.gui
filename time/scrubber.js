@@ -1,19 +1,3 @@
-GUI.Controller.prototype.at = function(when, what, tween) {
-	if (!this.scrubber) {
-		GUI.error('You must create a new Timer for this GUI in order to define events.');
-		return this;
-	}
-	this.scrubber.add(new GUI.ScrubberPoint(this.scrubber, when, what));
-	this.scrubber.render();
-	return this;
-}
-
-GUI.downloadText = function(text) {
-	var url = 'data:application/plain;charset=utf-8,' + escape( text );
-	console.log(url);
-    window.open( url, '_blank' );
-}
-
 GUI.Scrubber = function(controller, timer) {	
 
 	var _this = this;
@@ -28,11 +12,11 @@ GUI.Scrubber = function(controller, timer) {
 	var previouslyHandled;
 	this.position = null;
 	
-	this.getSaveObject = function() {	
+	this.getJSON = function() {	
 		
 		var pointArray = [];
 		for (var i in this.points) {
-			pointArray.push(this.points[i].getSaveObject());
+			pointArray.push(this.points[i].getJSON());
 		}
 		var obj = {'points': pointArray};
 		
@@ -48,7 +32,7 @@ GUI.Scrubber = function(controller, timer) {
 	
 	this.add = function(p) {
 		this.points.push(p);
-		this.getSaveObject();
+		this.getJSON();
 		this.sort();
 	};
 	
@@ -467,7 +451,7 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 		}
 	}
 	
-	this.getSaveObject = function() {
+	this.getJSON = function() {
 		var obj = { 'value': _this.value, 'time': time };
 		
 		// TODO: save tweens

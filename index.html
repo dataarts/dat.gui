@@ -7,82 +7,49 @@
   <link rel="icon" type="image/png" href="demo/assets/favicon.png" />
   <link href="demo/demo.css" media="screen" rel="stylesheet" type="text/css" />
   <link href="gui.css" media="screen" rel="stylesheet" type="text/css" />
-  <script type="text/javascript" src="gui.js">
-</script>
-  <script type="text/javascript" src="controllers/slider.js">
-</script>
-  <script type="text/javascript" src="controllers/controller.js">
-</script>
-  <script type="text/javascript" src="controllers/controller.boolean.js">
-</script>
-  <script type="text/javascript" src="controllers/controller.function.js">
-</script>
-  <script type="text/javascript" src="controllers/controller.number.js">
-</script>
-  <script type="text/javascript" src="controllers/controller.string.js">
-</script>
-  <script type="text/javascript" src="time/scrubber.js">
-</script>
-  <script type="text/javascript" src="time/timer.js">
-</script>
-  <script type="text/javascript" src="demo/improvedNoise.js">
-</script>
-  <script type="text/javascript" src="demo/prettify.js">
-</script>
-  <script type="text/javascript" src="demo/demo.js">
-</script>
+  <script type="text/javascript" src="gui.js"></script>
+  <script type="text/javascript" src="controllers/slider.js"></script>
+  <script type="text/javascript" src="controllers/controller.js"></script>
+  <script type="text/javascript" src="controllers/controller.boolean.js"></script>
+  <script type="text/javascript" src="controllers/controller.function.js"></script>
+  <script type="text/javascript" src="controllers/controller.number.js"></script>
+  <script type="text/javascript" src="controllers/controller.string.js"></script>
+  <script type="text/javascript" src="time/scrubber.js"></script>
+  <script type="text/javascript" src="time/timer.js"></script>
+  <script type="text/javascript" src="demo/improvedNoise.js"></script>
+  <script type="text/javascript" src="demo/prettify.js"></script>
+  <script type="text/javascript" src="demo/demo.js"></script>
   <script type="text/javascript">
 	//<![CDATA[
 				var timer;
                 window.onload = function() {
+                
+                		GUI.loadJSON('{"guis":[{"open":true,"width":279,"openHeight":95,"scroll":0,"values":["gui-datddd",3.315,0.5841]},{"open":true,"width":283,"openHeight":127,"scroll":0,"values":[1.71,45,true,null]}],"timers":[]}');
 
                         var fizzyText = new FizzyText("gui-dat");
 					
-						GUI.load('{"windowMin":-2500,"windowWidth":10000,"playhead":0,"snapIncrement":250,"scrubbers":[{"points":[{"value":"gui-dat","time":1},{"value":"is","time":1000},{"value":"getting","time":2000},{"value":"pretty","time":3000},{"value":"tight","time":4000}]},{"points":[]},{"points":[]},{"points":[]},{"points":[]},{"points":[]},{"points":[{"time":1000},{"time":2000},{"time":3000},{"time":4000}]}]}');
-
                         var gui = new GUI();
                         
                         var gui2 = new GUI();
-                        
-                        var gui3 = new GUI();
-						timer = new GUI.Timer(gui);
 
                         // Text field
-                        gui.add(fizzyText, "message")
-                           .at(1, "gui-dat")
-                           .at(1000, "is")
-                           .at(2000, "getting")
-                           .at(3000, "pretty")
-                           .at(4000, "tight");
+                        gui.add(fizzyText, "message");
                         
                         // Sliders with min and max
                        	gui.add(fizzyText, "maxSize", 0.5, 7);
                         gui.add(fizzyText, "growthSpeed", 0.01, 1);
                            
-                        gui.add(fizzyText, "speed", 0.1, 2);
+                        gui2.add(fizzyText, "speed", 0.1, 2);
 
                         // Sliders with min, max and increment.
-                        gui.add(fizzyText, "noiseStrength", 10, 100, 5);
+                        gui2.add(fizzyText, "noiseStrength", 10, 100, 5);
                         	
                         // Boolean checkbox
-                        gui.add(fizzyText, "displayOutline");
+                        gui2.add(fizzyText, "displayOutline");
                         
                         // Fires a function called "explode"
-                        gui.add(fizzyText, "explode")
-                        	.at(1000)
-                        	.at(2000)
-                        	.at(3000)
-                        	.at(4000);   
+                        gui2.add(fizzyText, "explode"); 
                         
-                     	gui2.add(timer, "playhead").step(125).listen();
-                        gui2.add(timer, "playPause");
-                        gui2.add(timer, "snapIncrement");
-                        gui2.add(timer, "useSnap");
-                       
-                        gui3.add(timer, "windowMin").listen();
-                        gui3.add(timer, "windowWidth", 0, 20000).listen();
-                        
-                        console.log(JSON.stringify(timer.getSaveObject()));
                         
                 };
 

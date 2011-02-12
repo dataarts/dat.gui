@@ -9,12 +9,13 @@ GUI.BooleanController = function() {
     
     this.domElement.addEventListener('click', function(e) {
     //	input.checked = !input.checked;
-//    	e.preventDefault();
+    	e.preventDefault();
 //    	_this.setValue(input.checked);
     }, false);
     
     input.addEventListener('mouseup', function(e) {
-    	//input.checked = !input.checked; // counteracts default.
+    	input.checked = !input.checked; // counteracts default.
+    	
     	_this.setValue(this.checked);
     }, false);
     

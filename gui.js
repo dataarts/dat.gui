@@ -1,6 +1,14 @@
 var GUI = function() {
 
+	GUI.allGuis.push(this);
+	
+	if (GUI.loadedJSON != null && GUI.loadedJSON.guis.length > 0) {
+		// Consume object at index 0
+		var json = GUI.loadedJSON.guis.splice(0, 1)[0];
+	}
+	
 	var _this = this;
+	
 	// For use with GUIScrubber
 	this.timer = null;
 	
@@ -283,6 +291,7 @@ var GUI = function() {
 		return new F();
 	};
 	
+	// TODO: Keep this? If so, controllerContainerHeight should be aware of these, which it is not.
 	this.divider = function() {
 		controllerContainer.appendChild(document.createElement('hr'));
 	}
@@ -342,10 +351,11 @@ var GUI = function() {
 		GUI.allControllers.push(controllerObject);
 
 		// Do we have a saved value for this controller?
-		if (type != "function" && 
-			GUI.saveIndex < GUI.savedValues.length) {
-			controllerObject.setValue(GUI.savedValues[GUI.saveIndex]);
-			GUI.saveIndex++;
+		if (json.values.length > 0) {		
+			var val = json.values.splice(0, 1)[0];
+			if (type != "function") {
+				controllerObject.setValue(val);
+			}
 		}
 	
 		// Compute sum height of controllers.
@@ -407,6 +417,27 @@ var GUI = function() {
 		// TODO
 	}
 
+	this.getJSON = function() {
+		var values = [];
+		for (var i in controllers) {
+			var val;
+			switch (controllers[i].type) {
+				case 'function':
+					val = null;
+					break;
+				case 'number':
+					val = GUI.roundToDecimal(controllers[i].getValue(), 4);
+					break;
+				default:
+					val = controllers[i].getValue();
+					break;
+			}
+			values.push(val);
+			
+		}
+		return {open:open, width:width, openHeight:openHeight, scroll:controllerContainer.scrollTop, values:values}
+	}
+	
 	// GUI ... GUI
 	
 	this.toggle = function() {
@@ -451,37 +482,32 @@ var GUI = function() {
 		checkForOverflow();
 	}
 	
-	// Load saved appearance:
-
-	if (GUI.guiIndex < GUI.savedAppearanceVars.length) {
 	
-		width = parseInt(GUI.savedAppearanceVars[GUI.guiIndex][1]);
-		//_this.domElement.style.width = width+"px";
+	// Load saved appearance.
+	if (json) {
+
+		width = json.width;
+		_this.domElement.style.width = width+"px";
 		
-		openHeight = parseInt(GUI.savedAppearanceVars[GUI.guiIndex][2]);
+		openHeight = json.openHeight;
+		
 		explicitOpenHeight = true;
-		if (eval(GUI.savedAppearanceVars[GUI.guiIndex][0]) == true) {
+		
+		if (json.open) {
 			curControllerContainerHeight = openHeight;
-			var t = GUI.savedAppearanceVars[GUI.guiIndex][3]
-			
+
 			// Hack.
 			setTimeout(function() {
-				controllerContainer.scrollTop = t;
+				controllerContainer.scrollTop = json.scroll;
 			}, 0);
 			
-			// TODO: Check this -- don't really remember writing it. 
-			// Wouldn't it suggest I'm only saving one scrollTop position? 
-			if (GUI.scrollTop > -1) {
-				document.body.scrollTop = GUI.scrollTop;
-			}
 			resizeTo = openHeight;
 			this.show();
-		}
-		
-		GUI.guiIndex++;
+		}		
 
 	}
 	
+	// Add hide listener if this is the first GUI. 
 	if (GUI.allGuis.length == 0) {
 		window.addEventListener('keyup', function(e) {
 			// Hide on "H"
@@ -490,12 +516,8 @@ var GUI = function() {
 			}
 		}, false);
 	}
-	
-	GUI.allGuis.push(this);
 
 };
-
-// Static members
 
 // Do not set this directly.
 GUI.hidden = false;
@@ -514,6 +536,7 @@ GUI.show = function() {
 		GUI.allGuis[i].domElement.style.display = "block";
 	}
 }
+
 GUI.hide = function() {
 	GUI.hidden = true;
 	for (var i in GUI.allGuis) {
@@ -523,119 +546,9 @@ GUI.hide = function() {
 
 GUI.autoPlace = true;
 GUI.autoPlaceContainer = null;
+
 GUI.allControllers = [];
 GUI.allGuis = [];
-
-GUI.saveURL = function() { 
-	title = window.location;
-	url = GUI.replaceGetVar("saveString", GUI.getSaveString());
-	window.location = url;
-};
-
-GUI.scrollTop = -1;
-
-GUI.load = function(saveString) {
-
-	//GUI.savedAppearanceVars = [];
-	var vals = saveString.split(",");
-	var numGuis = parseInt(vals[0]);
-	GUI.scrollTop = parseInt(vals[1]);
-	for (var i = 0; i < numGuis; i++) {
-		var appr = vals.splice(2, 4);
-		GUI.savedAppearanceVars.push(appr);
-	}
-	
-	GUI.savedValues = vals.splice(2, vals.length);
-	
-};
-
-GUI.savedValues = [];
-GUI.savedAppearanceVars = [];
-
-GUI.getSaveString = function() {
-
-	var vals = [];
-	
-	vals.push(GUI.allGuis.length);
-	vals.push(document.body.scrollTop);
-	
-	
-	for (var i in GUI.allGuis) {
-		var av = GUI.allGuis[i].appearanceVars();
-		for (var j = 0; j < av.length; j++) {
-			vals.push(av[j]);
-		}
-	}	
-	
-	for (var i in GUI.allControllers) {
-	
-		// We don't save values for functions.
-		if (GUI.allControllers[i].type == "function") {
-			continue;
-		}
-		
-		var v = GUI.allControllers[i].getValue();
-		
-		// Round numbers so they don't get enormous
-		if (GUI.allControllers[i].type == "number") {
-			v = GUI.roundToDecimal(v, 4);
-		}
-		
-		vals.push(v);
-		
-	}
-	
-	return vals.join(',');
-	
-}
-
-GUI.getVarFromURL = function(v) {
-
-    var vars = [], hash;
-    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-
-    for (var i = 0; i < hashes.length; i++) {
- 		hash = hashes[i].split("=")
-        if (hash == undefined) continue;
-		if (hash[0] == v) {
-			return hash[1];
-		}
-    }
-	
-	return null;
-
-};
-
-GUI.replaceGetVar = function(varName, val) {
-
-    var vars = [], hash;
-    var loc = window.location.href;
-    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-
-    for (var i = 0; i < hashes.length; i++) {
- 		hash = hashes[i].split("=")
-        if (hash == undefined) continue;
-		if (hash[0] == varName) {
-			return loc.replace(hash[1], val);
-		}
-    }
-	
-	if (window.location.href.indexOf('?') != -1) {
-		return loc + "&"+varName+"="+val;
-	}
-	
-	return loc+"?"+varName+"="+val;
-	
-};
-
-GUI.saveIndex = 0;
-GUI.guiIndex = 0;
-
-GUI.showSaveString = function() {
-	alert(GUI.getSaveString());
-}
-
-// Util functions
 
 GUI.makeUnselectable = function(elem) {
 	elem.onselectstart = function() { return false; };
@@ -694,7 +607,3 @@ GUI.extendController = function(clazz) {
 	clazz.prototype = new GUI.Controller();
 	clazz.prototype.constructor = clazz;
 }
-
-GUI.disableKeyListeners = false;
-
-if (GUI.getVarFromURL('saveString') != null) GUI.load(GUI.getVarFromURL('saveString'));
