@@ -31,6 +31,41 @@
 	height: 31px;
 }
 
+#guidat-save-dialogue { 
+z-index: 1001;
+-webkit-box-shadow: rgba(0,0,0,0.6) 0px 0px 10px;
+position: fixed;
+top: 50%;
+left: 50%;
+background-color: #111;
+color: #ccc;
+width: 400px;
+height: 228px;
+margin-top: -114px;
+margin-left: -200px;
+text-align: center;
+padding: 10px;
+}
+
+#guidat-save-dialogue textarea { 
+margin-top: 9px;
+width: 390px;
+height: 160px;
+font-size: 9px;
+border: 0;
+font-family: Monaco, monospace;
+padding: 5px;
+}
+
+#guidat-save-dialogue a { 
+display: block;
+text-decoration: none;
+background-color: rgba(255,255,255,0.1);
+border: 1px outset #444;
+margin-bottom: 9px;
+padding: 5px;
+}
+
 .guidat { 
 	color: #fff;
 	opacity: 0.97;

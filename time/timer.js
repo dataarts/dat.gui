@@ -4,6 +4,7 @@ GUI.millis = function() {
 };
 
 GUI.Controller.prototype.at = function(when, what, tween) {
+	// TODO: Disable if we're using loaded JSON. Don't want to duplicate events.
 	if (!this.scrubber) {
 		GUI.error('You must create a new Timer for this GUI in order to define events.');
 		return this;
@@ -20,28 +21,48 @@ GUI.loadJSON = function(json) {
 	GUI.loadedJSON = json;
 }
 
-
 GUI.loadedJSON = null;
 
 GUI.getJSON = function() {
-	var guis = [], timers = [];
+	var guis = [];
 	for (var i in GUI.allGuis) {
 		guis.push(GUI.allGuis[i].getJSON());
 	}
-	for (var i in GUI.allTimers) {
-		timers.push(GUI.allTimers[i].getJSON());
-	}
-	
-	var obj = {guis:guis, timers:timers};
-	return obj;
+	var obj = {guis:guis};
+	return {guis:guis};
 }
 
-GUI.allTimers = [];
+GUI.save = function() {
+	
+	var jsonString = JSON.stringify(GUI.getJSON());
+	
+	var dialogue = document.createElement('div');
+	dialogue.setAttribute('id', 'guidat-save-dialogue');
+	
+	var a = document.createElement('a');
+	a.setAttribute('href', window.location.href+'?gui='+escape(jsonString));
+	a.innerHTML = 'Use this URL.';
+	
+	var span2 = document.createElement('span');
+	span2.innerHTML = '&hellip; or paste this into the beginning of your source:';
+	
+	var textarea = document.createElement('textarea');
+	textarea.setAttribute('disabled', 'true');
+	textarea.innerHTML += 'GUI.loadJSON('+jsonString+');';
+	
+	//textarea.select();
+	
+	dialogue.appendChild(a);
+	dialogue.appendChild(span2);
+	dialogue.appendChild(textarea);
+	
+	document.body.appendChild(dialogue);
+	
+}
+
 	
 GUI.Timer = function(gui) {
-	
-	GUI.allTimers.push(this);
-	
+
 	var _this = this;
 	
 	this.hoverPoint = null;
@@ -171,6 +192,7 @@ GUI.Timer = function(gui) {
 				   'windowWidth':_this.windowWidth,
 				   'playhead':_this.playhead,
 				   'snapIncrement': _this.snapIncrement,
+				   'useSnap': _this.useSnap,
 				   'scrubbers': scrubberArr};
 				   
 		return obj;
@@ -261,5 +283,13 @@ GUI.Timer = function(gui) {
 	this.addWindowListener = function(fnc) {
 		windowListeners.push(fnc);
 	};
-		
+	
+	// Load saved stuff.
+	if (gui.json && gui.json.timer) {
+		this.playhead = gui.json.timer.playhead;
+		this.snapIncrement = gui.json.timer.snapIncrement;
+		this.useSnap = gui.json.timer.useSnap;
+		this.windowMin = gui.json.timer.windowMin;
+		this.windowWidth = gui.json.timer.windowWidth;
+	}
 }

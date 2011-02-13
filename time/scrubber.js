@@ -2,6 +2,7 @@ GUI.Scrubber = function(controller, timer) {
 
 	var _this = this;
 
+
 	this.points = [];
 	this.timer = timer;
 	this.timer.scrubbers.push(this);
@@ -32,7 +33,6 @@ GUI.Scrubber = function(controller, timer) {
 	
 	this.add = function(p) {
 		this.points.push(p);
-		this.getJSON();
 		this.sort();
 	};
 	
@@ -374,8 +374,21 @@ GUI.Scrubber = function(controller, timer) {
 	};
 	
 	this.timer.addPlayListener(onPlayChange);
-	
 	this.timer.addWindowListener(this.render);
+	
+	// Load saved points!!!!
+	
+	if (timer.gui.json) {
+		var json = timer.gui.json.timer.scrubbers.splice(0, 1)[0];
+		for (var i in json.points) {
+			var p = json.points[i];
+			var pp = new GUI.ScrubberPoint(this, p.time, p.value);
+			if (p.tween) {
+				pp.tween = GUI.Easing[p.tween];
+			}
+			this.add(pp);
+		}
+	}
 	
 	
 };
@@ -452,9 +465,17 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 	}
 	
 	this.getJSON = function() {
-		var obj = { 'value': _this.value, 'time': time };
+		var obj = { 'value': _this.value, 'time': GUI.roundToDecimal(time,4) };
 		
 		// TODO: save tweens
+		
+		if (this.tween != GUI.Easing.Linear) {
+			for (var i in GUI.Easing) {
+				if (this.tween == GUI.Easing[i]) {
+					obj.tween = i;
+				}
+			}
+		}
 		
 		return obj;
 

@@ -24,31 +24,48 @@
 				var timer;
                 window.onload = function() {
                 
-                		GUI.loadJSON('{"guis":[{"open":true,"width":279,"openHeight":95,"scroll":0,"values":["gui-datddd",3.315,0.5841]},{"open":true,"width":283,"openHeight":127,"scroll":0,"values":[1.71,45,true,null]}],"timers":[]}');
-
+                GUI.loadJSON({"guis":[{"open":true,"width":280,"openHeight":287,"scroll":1,"values":["over time",1.35,8.955,0.9833,1.254,10,false,null,0],"timer":{"windowMin":1687.2598554396586,"windowWidth":11596,"playhead":6413.8663,"snapIncrement":250,"useSnap":false,"scrubbers":[{"points":[{"value":"","time":-961.1787},{"value":"gui-dat","time":197.8981},{"value":"over time","time":5000}]},{"points":[{"value":1.3499999999999999,"time":644.1387}]},{"points":[{"value":0.5,"time":72.8056,"tween":"CircularEaseOut"},{"value":7,"time":659.1556},{"value":7,"time":2211.2348},{"value":5.525,"time":4992.5319},{"value":8.955,"time":6413.8663}]},{"points":[{"value":0.5049,"time":-532.8902,"tween":"Hold"},{"value":0.5544,"time":1666.4321},{"value":0.01,"time":3382.0743,"tween":"Hold"},{"value":0.01,"time":4969.9097},{"value":1,"time":6393.5388}]},{"points":[{"value":0.39899999999999997,"time":1652.5592,"tween":"QuarticEaseIn"},{"value":1.254,"time":3471.5432}]},{"points":[{"value":10,"time":795.5192,"tween":"Hold"},{"value":10,"time":5000}]},{"points":[]},{"points":[]},{"points":[{"value":0,"time":250,"tween":"Hold"}]}]}},{"open":true,"width":280,"openHeight":127,"scroll":0,"values":[null,false,250,null]}]});
                         var fizzyText = new FizzyText("gui-dat");
 					
                         var gui = new GUI();
                         
-                        var gui2 = new GUI();
+                        var timerControls = new GUI();
+						
+						timer = new GUI.Timer(gui);
 
                         // Text field
                         gui.add(fizzyText, "message");
+                        
+                        gui.add(fizzyText, "scale", 0.25, 4);
                         
                         // Sliders with min and max
                        	gui.add(fizzyText, "maxSize", 0.5, 7);
                         gui.add(fizzyText, "growthSpeed", 0.01, 1);
                            
-                        gui2.add(fizzyText, "speed", 0.1, 2);
+                        gui.add(fizzyText, "speed", 0.1, 2);
 
                         // Sliders with min, max and increment.
-                        gui2.add(fizzyText, "noiseStrength", 10, 100, 5);
+                        gui.add(fizzyText, "noiseStrength", 10, 100, 5);
                         	
                         // Boolean checkbox
-                        gui2.add(fizzyText, "displayOutline");
+                        gui.add(fizzyText, "displayOutline");
                         
                         // Fires a function called "explode"
-                        gui2.add(fizzyText, "explode"); 
+                        gui.add(fizzyText, "explode"); 
+                        
+                        
+						timerControls.add(timer, "playPause");
+						timerControls.add(timer, "useSnap");
+						timerControls.add(timer, "snapIncrement");
+						
+						timerControls.add(GUI, "save");
+						
+						gui.add(fizzyText, 'y', -500, 500);
+
+GUI.hide();
+						timer.playhead = 0;
+						timer.play();
+						
                         
                         
                 };

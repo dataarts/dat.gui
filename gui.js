@@ -7,6 +7,10 @@ var GUI = function() {
 		var json = GUI.loadedJSON.guis.splice(0, 1)[0];
 	}
 	
+	this.__defineGetter__("json", function() {
+		return json;
+	});
+	
 	var _this = this;
 	
 	// For use with GUIScrubber
@@ -351,7 +355,7 @@ var GUI = function() {
 		GUI.allControllers.push(controllerObject);
 
 		// Do we have a saved value for this controller?
-		if (json.values.length > 0) {		
+		if (json && json.values.length > 0) {		
 			var val = json.values.splice(0, 1)[0];
 			if (type != "function") {
 				controllerObject.setValue(val);
@@ -435,7 +439,11 @@ var GUI = function() {
 			values.push(val);
 			
 		}
-		return {open:open, width:width, openHeight:openHeight, scroll:controllerContainer.scrollTop, values:values}
+		var obj= {open:open, width:width, openHeight:openHeight, scroll:controllerContainer.scrollTop, values:values}
+		if (this.timer) {
+			obj.timer = timer.getJSON();
+		}
+		return obj;
 	}
 	
 	// GUI ... GUI
@@ -463,11 +471,6 @@ var GUI = function() {
 	this.name = function(n) {
 		name = n;
 		toggleButton.innerHTML = n;
-	}
-	
-	// used in saveURL
-	this.appearanceVars = function() {
-		return [open, width, openHeight, controllerContainer.scrollTop]
 	}
 	
 	var beginResize = function() {
@@ -508,7 +511,7 @@ var GUI = function() {
 	}
 	
 	// Add hide listener if this is the first GUI. 
-	if (GUI.allGuis.length == 0) {
+	if (GUI.allGuis.length == 1) {
 		window.addEventListener('keyup', function(e) {
 			// Hide on "H"
 			if (e.keyCode == 72) {

@@ -1,9 +1,9 @@
 function FizzyText(message) {
 
-	var that = this;
+	var _this = this;
 
-	// These are the variables that we manipulate with gui-dat.
-	// Notice they're all defined with "this". That makes them public.
+	// These are the variables _this we manipulate with gui-dat.
+	// Notice they're all defined with "this". _this makes them public.
 	// Otherwise, gui-dat can't see them.
 
     this.growthSpeed = 0.5;		  // how fast do particles change size?
@@ -12,8 +12,11 @@ function FizzyText(message) {
     this.speed = 0.4;			  // how fast do particles move?
     this.displayOutline = false;  // should we draw the message as a stroke?
     this.framesRendered = 0;
-
-    // __defineGetter__ and __defineSetter__ makes JavaScript believe that
+    this.x = 0;
+    this.y = 0;
+	this.scale = 1;
+	
+    // __defineGetter__ and __defineSetter__ makes JavaScript believe _this
     // we've defined a variable 'this.message'. This way, whenever we 
     // change the message variable, we can call some more functions.
     
@@ -42,8 +45,8 @@ function FizzyText(message) {
 
     var _this = this;
 
-	var width = 550;
-	var height = 200;
+	var width, height;
+	
 	var textAscent = 140;
     var textOffsetLeft = 20;
 	var noiseScale = 300;
@@ -60,10 +63,17 @@ function FizzyText(message) {
     var c = document.createElement('canvas');
     var g = c.getContext('2d');
 
-    r.setAttribute('width', width);
-    c.setAttribute('width', width);
-    r.setAttribute('height', height);
-    c.setAttribute('height', height);
+	var onResize = function() {
+		r.width = c.width = width = window.innerWidth;
+		r.height = c.height = height = window.innerHeight;
+		console.log(width, height);
+	}
+	
+	window.addEventListener('resize', function() {
+		onResize();
+		createBitmap(this.message);
+	}, false);
+	onResize();
 
 	// Add our demo to the HTML
     document.getElementById('helvetica-demo').appendChild(c);
@@ -76,10 +86,10 @@ function FizzyText(message) {
 
 	// Set g.font to the same font as the bitmap canvas, incase we
 	// want to draw some outlines.
-    s.font = g.font = "800 " + textAscent + "px helvetica, arial, sans-serif";
+    s.font = g.font = "bold " + textAscent + "px Helvetica, Arial, sans-serif";
 
     // Instantiate some particles
-    for (var i = 0; i < 1000; i++) {
+    for (var i = 0; i < 1500; i++) {
         particles.push(new Particle(Math.random() * width, Math.random() * height));
     }
 
@@ -91,7 +101,8 @@ function FizzyText(message) {
         s.fillRect(0, 0, width, height);
 
         s.fillStyle = "#222";
-        s.fillText(msg, textOffsetLeft, textAscent);
+        s.textAlign = 'center';
+        s.fillText(msg, width/2, height/2);
 
         // Pull reference
         var imageData = s.getImageData(0, 0, width, height);
@@ -102,23 +113,30 @@ function FizzyText(message) {
 	// Called once per frame, updates the animation.
     var render = function () {
 
-	    that.framesRendered ++;
+	    _this.framesRendered ++;
+		g.fillStyle="#000";
+        g.fillRect(0, 0, width, height);
 
-        g.clearRect(0, 0, width, height);
-
+		g.save();
+		g.translate(width/2, height/2);
+		g.scale(_this.scale, _this.scale);
+		g.translate(-width/2+_this.x, -height/2+_this.y);
+		
         if (_this.displayOutline) {
             g.globalCompositeOperation = "source-over";
             g.strokeStyle = "#000";
             g.lineWidth = .5;
-            g.strokeText(message, textOffsetLeft, textAscent);
+            g.strokeText(message, textOffsetLeft+width/2, textAscent+height/2);
         }
 
-        g.globalCompositeOperation = "darker";
+        g.globalCompositeOperation = "lighter";
 
         for (var i = 0; i < particles.length; i++) {
             g.fillStyle = colors[i % colors.length];
             particles[i].render();
         }
+        
+        g.restore();
 
     };
 
@@ -148,11 +166,7 @@ function FizzyText(message) {
 	this.message = message;
 	
 	var loop = function() {
-		// Don't render if we don't see it.
-		// Would be cleaner if I dynamically acquired the top of the canvas.
-		if (document.body.scrollTop < height + 20) {
-			render();
-		}
+		render();
 	}
 	
 	// This calls the render function every 30 milliseconds.
