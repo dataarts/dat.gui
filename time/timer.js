@@ -176,6 +176,7 @@ GUI.Timer = function(gui) {
 					_this.activePoint.remove();
 					_this.activePoint = null;
 				}
+				_this.hideTweenSelector();
 				break;
 		}
 	}, false);
@@ -293,3 +294,4 @@ GUI.Timer = function(gui) {
 		this.windowWidth = gui.json.timer.windowWidth;
 	}
 }
+

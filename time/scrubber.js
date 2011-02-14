@@ -426,7 +426,7 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 	});
 
 	var barSize = 4;
-	var rectSize = 7;
+	var rectSize = 5;
 	
 	var c1 = '#ffd800';
 	var c2 = '#ff9000';
@@ -441,9 +441,13 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 	this.onSelect = function() {
 	
 		if (type == 'number') {
+		
 			timer.showTweenSelector();
+			timer.tweenSelector.value = 'al';
 			positionTweenSelector();
+		
 		}
+		
 		
 	}
 	
@@ -581,7 +585,7 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 				
 				if (n != null) {
 					
-					g.lineWidth = rectSize/2;
+					g.lineWidth = 2;
 					g.strokeStyle='#222';
 					g.beginPath();
 					
