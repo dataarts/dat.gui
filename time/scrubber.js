@@ -443,8 +443,14 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 		if (type == 'number') {
 		
 			timer.showTweenSelector();
-			timer.tweenSelector.value = 'al';
 			positionTweenSelector();
+			var tweenName;
+			for (var i in GUI.Easing) {
+				if (this.tween == GUI.Easing[i]) {
+					tweenName = i;
+				}
+			}
+			timer.tweenSelector.value = tweenName;
 		
 		}
 		
@@ -507,6 +513,20 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 		}
 		
 		return scrubber.points[i+1];
+		
+	});
+	
+	this.__defineGetter__('prev', function() {	
+		if (scrubber.points.length <= 1) {
+			return null;
+		}
+		
+		var i = scrubber.points.indexOf(this);
+		if (i - 1 < 0) {
+			return null;
+		}
+		
+		return scrubber.points[i-1];
 		
 	});
 	
@@ -581,28 +601,57 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 			case 'number':
 			
 				g.save();
+				
+				var p = this.prev;
+				
+				g.lineWidth = 3;
+				g.strokeStyle='#222';
+
+				if (p != null && p.time < timer.windowMin) {
+				console.log(p.time, timer.windowMin);					
+					var t = GUI.map(timer.windowMin, p.time, this.time, 0, 1);
+					var yy = GUI.map(p.tween(t), 0, 1, p.y, y);
+					
+					g.beginPath();
+					g.moveTo(0, yy);
+					
+					if (p.tween == GUI.Easing.Linear) {
+
+						g.lineTo(x, y);	
+
+					} else { 
+					
+						for (var i = t; i < 1; i+=0.01) {
+							var tx = GUI.map(i, 0, 1, p.x, x);
+							var ty = p.tween(i);
+							ty = GUI.map(ty, 0, 1, p.y, y);
+							g.lineTo(tx, ty);
+						}
+						
+					}
+					
+					g.stroke();
+					
+				}
+				
 				var n = this.next;
 				
 				if (n != null) {
 					
-					g.lineWidth = 2;
-					g.strokeStyle='#222';
 					g.beginPath();
 					
 					g.moveTo(x, y);
 						
-					// TODO: Lines from points that may be outside of the window's scope.
+
 					if (_this.tween == GUI.Easing.Linear) {
 						g.lineTo(n.x, n.y);
 					} else { 
-						
 						for (var i = 0; i < 1; i+=0.01) {
 							var tx = GUI.map(i, 0, 1, x, n.x);
 							var ty = _this.tween(i);
 							ty = GUI.map(ty, 0, 1, y, n.y);
 							g.lineTo(tx, ty);
 						}
-						
 					}
 					
 					g.stroke();
