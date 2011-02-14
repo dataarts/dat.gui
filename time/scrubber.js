@@ -104,9 +104,9 @@ GUI.Scrubber = function(controller, timer) {
 				if (i == 0) continue;
 				var x = Math.round(GUI.map(i, _this.timer.windowMin, _this.timer.windowMin+_this.timer.windowWidth, 0, width))+0.5;
 				if (i < 0) {
-					_this.g.strokeStyle = '#111111';
+					_this.g.strokeStyle = '#111';
 				} else { 
-					_this.g.strokeStyle = '#282828';
+					_this.g.strokeStyle = '#363636';
 				}
 				_this.g.beginPath();
 				_this.g.moveTo(x, 0);
@@ -266,9 +266,9 @@ GUI.Scrubber = function(controller, timer) {
 			}
 		}
 		if (_this.timer.hoverPoint == null) {
-			document.body.style.cursor = 'pointer';
-		} else { 
 			document.body.style.cursor = 'auto';
+		} else { 
+			document.body.style.cursor = 'pointer';
 		}
 		_this.render();
 	});

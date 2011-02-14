@@ -384,7 +384,6 @@ var GUI = function() {
 		for (var i in controllers) {
 			controllerHeight += controllers[i].domElement.offsetHeight;
 		}
-		return;
 		if (controllerHeight - 1 > openHeight) {
 			controllerContainer.style.overflowY = "auto";
 		} else {
