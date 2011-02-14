@@ -451,7 +451,21 @@ var GUI = function() {
 
     GUI.allGuis.push(this);
 
+	// Add hide listener if this is the first GUI. 
+	if (GUI.allGuis.length == 1) {
+		window.addEventListener('keyup', function(e) {
+			// Hide on "H"
+			if (e.keyCode == 72) {
+				GUI.toggleHide();
+			}
+		}, false);
+	}
+
 };
+
+// Do not set this directly.
+GUI.hidden = false;
+
 
 // Static members
 
@@ -459,6 +473,29 @@ GUI.autoPlace = true;
 GUI.autoPlaceContainer = null;
 GUI.allControllers = [];
 GUI.allGuis = [];
+
+
+GUI.toggleHide = function() {
+	if (GUI.hidden) {
+		GUI.show();
+	} else { 
+		GUI.hide();
+	}
+}
+
+GUI.show = function() {
+	GUI.hidden = false;
+	for (var i in GUI.allGuis) {
+		GUI.allGuis[i].domElement.style.display = "block";
+	}
+}
+
+GUI.hide = function() {
+	GUI.hidden = true;
+	for (var i in GUI.allGuis) {
+		GUI.allGuis[i].domElement.style.display = "none";
+	}
+}
 
 GUI.saveURL = function() {
     var url = GUI.replaceGetVar("saveString", GUI.getSaveString());
