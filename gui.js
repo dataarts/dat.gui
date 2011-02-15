@@ -89,6 +89,16 @@ var GUI = function() {
 	
 	var my, pmy, mx, pmx;
 	
+	this.popout = function(e) {
+		
+		var w = window.open("index.html",
+		 "mywindow",
+		 "location=1,status=1,scrollbars=1,width=100,height=100");
+		w.document.title = "gui-dat";
+		console.log(w.document);
+
+	}
+	
 	var resize = function(e) {
 		pmy = my;
 		pmx = mx;

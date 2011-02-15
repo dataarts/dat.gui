@@ -32,6 +32,10 @@ GUI.getJSON = function() {
 	return {guis:guis};
 }
 
+GUI.closeSave = function() {
+	//
+}
+
 GUI.save = function() {
 	
 	var jsonString = JSON.stringify(GUI.getJSON());
@@ -47,16 +51,26 @@ GUI.save = function() {
 	span2.innerHTML = '&hellip; or paste this into the beginning of your source:';
 	
 	var textarea = document.createElement('textarea');
-	textarea.setAttribute('disabled', 'true');
+	//textarea.setAttribute('disabled', 'true');
 	textarea.innerHTML += 'GUI.loadJSON('+jsonString+');';
+
+	var close = document.createElement('div');
+	close.setAttribute('id', 'guidat-save-dialogue-close');
+	close.addEventListener('click', function() {
+		GUI.closeSave();
+	}, false);
 	
-	//textarea.select();
 	
 	dialogue.appendChild(a);
 	dialogue.appendChild(span2);
 	dialogue.appendChild(textarea);
+		document.body.appendChild(dialogue);
+		
+		textarea.addEventListener('click', function() {
+			this.select();
+		}, false);
+		
 	
-	document.body.appendChild(dialogue);
 	
 }
 

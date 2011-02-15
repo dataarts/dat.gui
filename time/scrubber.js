@@ -607,8 +607,7 @@ GUI.ScrubberPoint = function(scrubber, time, value) {
 				g.lineWidth = 3;
 				g.strokeStyle='#222';
 
-				if (p != null && p.time < timer.windowMin) {
-				console.log(p.time, timer.windowMin);					
+				if (p != null && p.time < timer.windowMin) {		
 					var t = GUI.map(timer.windowMin, p.time, this.time, 0, 1);
 					var yy = GUI.map(p.tween(t), 0, 1, p.y, y);
 					
