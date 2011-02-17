@@ -67,7 +67,7 @@ GUI.NumberController = function() {
         var newVal;
         switch(e.keyCode) {
             case 13:
-                newVal = this.getValue();
+                newVal = parseFloat(this.value);
                 _this.setValue(newVal);
                 break;
             case 38:    // up
