@@ -66,7 +66,7 @@ GUI.NumberController = function() {
     numberField.addEventListener('keydown', function(e) {
         var newVal;
         switch(e.keyCode) {
-            case 13:
+            case 13:    // enter
                 newVal = parseFloat(this.value);
                 _this.setValue(newVal);
                 break;
