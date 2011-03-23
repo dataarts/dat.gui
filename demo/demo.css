@@ -94,6 +94,9 @@ div.expanded h2:before, div.collapsed h2:before {
 	font-family: Monaco, monospace;
 }
 
+div.collapsable>div {
+	padding-bottom: 10px;
+}
 div.collapsable {
 	overflow: hidden;
 	clear: both;
