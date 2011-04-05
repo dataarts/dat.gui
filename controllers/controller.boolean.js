@@ -7,6 +7,14 @@ GUI.BooleanController = function() {
     var input = document.createElement('input');
     input.setAttribute('type', 'checkbox');
 
+    if(arguments[3]) {
+      input.checked = true;
+      this.setValue(true);
+    } else {
+      input.checked = false;
+      this.setValue(false);
+    }
+
     this.domElement.addEventListener('click', function(e) {
         input.checked = !input.checked;
         e.preventDefault();
