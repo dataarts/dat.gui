@@ -1,4 +1,4 @@
-var GUI = function() {
+var GUI = function(parameters) {
 
     var _this = this;
     
@@ -34,7 +34,8 @@ var GUI = function() {
     var resizeTo = 0;
     var resizeTimeout;
     
-    this.domElement = document.createElement('div');
+
+    parameters.domElement ? this.domElement = parameters.domElement : this.domElement = document.createElement('div');
     this.domElement.setAttribute('class', 'guidat');
     this.domElement.style.width = width+'px';
 
