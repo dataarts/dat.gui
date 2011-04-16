@@ -35,7 +35,7 @@ var GUI = function(parameters) {
     var resizeTimeout;
     
 
-    parameters.domElement ? this.domElement = parameters.domElement : this.domElement = document.createElement('div');
+    this.domElement = document.createElement('div');
     this.domElement.setAttribute('class', 'guidat');
     this.domElement.style.width = width+'px';
 
@@ -177,7 +177,12 @@ var GUI = function(parameters) {
     
     this.domElement.appendChild(controllerContainer);
     this.domElement.appendChild(toggleButton);
-    
+
+    if ( parameters.domElement ){
+      GUI.autoPlace = false;
+      parameters.domElement.appendChild(this.domElement);
+    }
+
     if (GUI.autoPlace) {
         if(GUI.autoPlaceContainer == null) {
             GUI.autoPlaceContainer = document.createElement('div');
@@ -187,7 +192,7 @@ var GUI = function(parameters) {
         }
         GUI.autoPlaceContainer.appendChild(this.domElement);
     }
-    
+
     this.autoListenIntervalTime = 1000/60;
     
     var createListenInterval = function() {
