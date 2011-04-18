@@ -1,46 +1,46 @@
 DAT.GUI.StringController = function() {
 
-    this.type = "string";
+  this.type = "string";
 
-    var _this = this;
-    DAT.GUI.Controller.apply(this, arguments);
+  var _this = this;
+  DAT.GUI.Controller.apply(this, arguments);
 
-    var input = document.createElement('input');
+  var input = document.createElement('input');
 
-    var initialValue = this.getValue();
+  var initialValue = this.getValue();
 
-    input.setAttribute('value', initialValue);
-    input.setAttribute('spellcheck', 'false');
+  input.setAttribute('value', initialValue);
+  input.setAttribute('spellcheck', 'false');
 
-    this.domElement.addEventListener('mouseup', function() {
-        input.focus();
-        input.select();
-    }, false);
+  this.domElement.addEventListener('mouseup', function() {
+    input.focus();
+    input.select();
+  }, false);
 
-    // TODO: getting messed up on ctrl a
-    input.addEventListener('keyup', function(e) {
-        if (e.keyCode == 13 && _this.finishChangeFunction != null) {
-            _this.finishChangeFunction.call(this, _this.getValue());
-        }
-        _this.setValue(input.value);
-    }, false);
+  // TODO: getting messed up on ctrl a
+  input.addEventListener('keyup', function(e) {
+    if (e.keyCode == 13 && _this.finishChangeFunction != null) {
+      _this.finishChangeFunction.call(this, _this.getValue());
+    }
+    _this.setValue(input.value);
+  }, false);
 
-    input.addEventListener('blur', function() {
-        if (_this.finishChangeFunction != null) {
-            _this.finishChangeFunction.call(this, _this.getValue());
-        }
-    }, false);
+  input.addEventListener('blur', function() {
+    if (_this.finishChangeFunction != null) {
+      _this.finishChangeFunction.call(this, _this.getValue());
+    }
+  }, false);
 
-    this.updateDisplay = function() {
-        input.value = _this.getValue();
-    };
+  this.updateDisplay = function() {
+    input.value = _this.getValue();
+  };
 
-    this.options = function() {
-        _this.domElement.removeChild(input);
-        return DAT.GUI.Controller.prototype.options.apply(this, arguments);
-    };
+  this.options = function() {
+    _this.domElement.removeChild(input);
+    return DAT.GUI.Controller.prototype.options.apply(this, arguments);
+  };
 
-    this.domElement.appendChild(input);
+  this.domElement.appendChild(input);
 
 };
 
