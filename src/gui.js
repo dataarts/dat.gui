@@ -1,5 +1,9 @@
 var GUI = function(parameters) {
 
+	if (parameters == undefined) {
+		parameters = {};
+	}
+
     var _this = this;
     
     var MIN_WIDTH = 240;
@@ -178,7 +182,7 @@ var GUI = function(parameters) {
     this.domElement.appendChild(controllerContainer);
     this.domElement.appendChild(toggleButton);
 
-    if ( parameters.domElement ){
+    if ( parameters.domElement ) {
       GUI.autoPlace = false;
       parameters.domElement.appendChild(this.domElement);
     }
