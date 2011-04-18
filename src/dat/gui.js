@@ -6,6 +6,10 @@ DAT.GUI = function(parameters) {
     parameters = {};
   }
 
+  if (parameters.height == undefined) {
+    parameters.height = 300;
+  }
+
   var MIN_WIDTH = 240;
   var MAX_WIDTH = 500;
 
@@ -19,11 +23,9 @@ DAT.GUI = function(parameters) {
   // Sum total of heights of controllers in this gui
   var controllerHeight;
 
-  var curControllerContainerHeight = 0;
-
   var _this = this;
 
-  var open = false;
+  var open = true;
   var width = 280;
 
   // Prevents checkForOverflow bug in which loaded gui appearance
@@ -45,9 +47,10 @@ DAT.GUI = function(parameters) {
   this.domElement.setAttribute('class', 'guidat');
   this.domElement.style.width = width + 'px';
 
+  var curControllerContainerHeight = parameters.height;
   var controllerContainer = document.createElement('div');
   controllerContainer.setAttribute('class', 'guidat-controllers');
-  controllerContainer.style.height = '0px';
+  controllerContainer.style.height = curControllerContainerHeight + 'px';
 
   // Firefox hack to prevent horizontal scrolling
   controllerContainer.addEventListener('DOMMouseScroll', function(e) {
@@ -63,7 +66,7 @@ DAT.GUI = function(parameters) {
     if (e.preventDefault) {
       e.preventDefault();
     }
-    
+
     e.returnValue = false;
 
     controllerContainer.scrollTop = scrollAmount;
@@ -71,11 +74,10 @@ DAT.GUI = function(parameters) {
   }, false);
 
 
-
   var toggleButton = document.createElement('a');
   toggleButton.setAttribute('class', 'guidat-toggle');
   toggleButton.setAttribute('href', '#');
-  toggleButton.innerHTML = openString;
+  toggleButton.innerHTML = open ? closeString : openString;
 
   var toggleDragged = false;
   var dragDisplacementY = 0;
@@ -357,12 +359,9 @@ DAT.GUI = function(parameters) {
     'function': DAT.GUI.ControllerFunction
   };
 
-
   this.reset = function() {
     // TODO ... Set all values back to their initials.
   }
-
-  // DAT.GUI ... DAT.GUI
 
   this.toggle = function() {
     open ? this.close() : this.open();
@@ -373,6 +372,7 @@ DAT.GUI = function(parameters) {
     resizeTo = openHeight;
     clearTimeout(resizeTimeout);
     beginResize();
+      adaptToScrollbar();
     open = true;
   }
 
@@ -381,6 +381,7 @@ DAT.GUI = function(parameters) {
     resizeTo = 0;
     clearTimeout(resizeTimeout);
     beginResize();
+      adaptToScrollbar();
     open = false;
   }
 
@@ -396,13 +397,12 @@ DAT.GUI = function(parameters) {
 
   var beginResize = function() {
 
+    curControllerContainerHeight = controllerContainer.offsetHeight;
     curControllerContainerHeight += (resizeTo - curControllerContainerHeight)
         * 0.6;
 
     if (Math.abs(curControllerContainerHeight - resizeTo) < 1) {
       curControllerContainerHeight = resizeTo;
-      adaptToScrollbar();
-
     } else {
       resizeTimeout = setTimeout(beginResize, 1000 / 30);
     }
@@ -413,13 +413,12 @@ DAT.GUI = function(parameters) {
   }
 
   var adaptToScrollbar = function() {
-    // Clears lingering slider column
-    _this.domElement.style.width = (width + 1) + 'px';
+    // Clears lingering scrollbar column
+    _this.domElement.style.width = (width - 1) + 'px';
     setTimeout(function() {
       _this.domElement.style.width = width + 'px';
     }, 1);
   };
-
 
 
   // Load saved appearance:
@@ -524,8 +523,7 @@ DAT.GUI.savedAppearanceVars = [];
 
 DAT.GUI.getSaveString = function() {
 
-  var vals = [],
-      i;
+  var vals = [], i;
 
   vals.push(DAT.GUI.allGuis.length);
   vals.push(document.body.scrollTop);

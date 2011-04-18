@@ -17,8 +17,9 @@ DAT.GUI.Slider = function(numberController, min, max, step, initValue) {
     if (!clicked) return;
     var pos = findPos(_this.domElement);
     var val = DAT.GUI.map(e.pageX, pos[0], pos[0] + _this.domElement
-        .offsetWidth, min, max);
-    val = Math.round(val / step) * step;
+        .offsetWidth, numberController.getMin(), numberController.getMax());
+    val = Math.round(val / numberController.getStep()) * numberController
+        .getStep();
     numberController.setValue(val);
   };
 
@@ -34,7 +35,8 @@ DAT.GUI.Slider = function(numberController, min, max, step, initValue) {
     DAT.GUI.removeClass(numberController.domElement, 'active');
     clicked = false;
     if (numberController.finishChangeFunction != null) {
-      numberController.finishChangeFunction.call(this, numberController.getValue());
+      numberController.finishChangeFunction.call(this,
+          numberController.getValue());
     }
     document.removeEventListener('mouseup', mouseup, false);
   };
@@ -51,8 +53,8 @@ DAT.GUI.Slider = function(numberController, min, max, step, initValue) {
   };
 
   this.__defineSetter__('value', function(e) {
-    var pct = DAT.GUI.map(e, min, max, 0, 100);
-    this.fg.style.width = pct + "%";
+    this.fg.style.width = DAT.GUI.map(e, numberController.getMin(),
+        numberController.getMax(), 0, 100) + "%";
   });
 
   document.addEventListener('mousemove', onDrag, false);
