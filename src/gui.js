@@ -1,4 +1,4 @@
-var GUI = function() {
+var GUI = function(parameters) {
 
     var _this = this;
     
@@ -34,6 +34,7 @@ var GUI = function() {
     var resizeTo = 0;
     var resizeTimeout;
     
+
     this.domElement = document.createElement('div');
     this.domElement.setAttribute('class', 'guidat');
     this.domElement.style.width = width+'px';
@@ -176,7 +177,12 @@ var GUI = function() {
     
     this.domElement.appendChild(controllerContainer);
     this.domElement.appendChild(toggleButton);
-    
+
+    if ( parameters.domElement ){
+      GUI.autoPlace = false;
+      parameters.domElement.appendChild(this.domElement);
+    }
+
     if (GUI.autoPlace) {
         if(GUI.autoPlaceContainer == null) {
             GUI.autoPlaceContainer = document.createElement('div');
@@ -186,7 +192,7 @@ var GUI = function() {
         }
         GUI.autoPlaceContainer.appendChild(this.domElement);
     }
-    
+
     this.autoListenIntervalTime = 1000/60;
     
     var createListenInterval = function() {
