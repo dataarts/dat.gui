@@ -42,12 +42,17 @@ DAT.GUI.NumberController = function() {
     this.domElement.appendChild(slider.domElement);
   }
 
-  numberField.addEventListener('blur', function(e) {
+  numberField.addEventListener('blur', function() {
     var val = parseFloat(this.value);
+    if (slider) {
+      DAT.GUI.removeClass(slider.domElement, 'active');
+      console.log(slider.domElement.className);
+    }
     if (!isNaN(val)) {
       _this.setValue(val);
     }
   }, false);
+
 
   numberField.addEventListener('mousewheel', function(e) {
     e.preventDefault();
@@ -58,6 +63,11 @@ DAT.GUI.NumberController = function() {
   numberField.addEventListener('mousedown', function(e) {
     py = y = e.pageY;
     clickedNumberField = true;
+    if (slider) {
+      DAT.GUI.addClass(slider.domElement, 'active');
+
+    console.log(slider.domElement.className);
+    }
     document.addEventListener('mousemove', dragNumberField, false);
     document.addEventListener('mouseup', mouseup, false);
   }, false);
@@ -84,12 +94,10 @@ DAT.GUI.NumberController = function() {
   var mouseup = function(e) {
     document.removeEventListener('mousemove', dragNumberField, false);
     DAT.GUI.makeSelectable(_this.parent.domElement);
-    DAT.GUI.makeSelectable(numberField);
     if (clickedNumberField && !draggedNumberField) {
       numberField.focus();
       numberField.select();
     }
-    if (slider) slider.domElement.className = slider.domElement.className.replace(' active', '');
     draggedNumberField = false;
     clickedNumberField = false;
     if (_this.finishChangeFunction != null) {
@@ -108,9 +116,6 @@ DAT.GUI.NumberController = function() {
     // TODO: Make makeUselectable go through each element and child element.
 
     DAT.GUI.makeUnselectable(_this.parent.domElement);
-    DAT.GUI.makeUnselectable(numberField);
-
-    if (slider) slider.domElement.className += ' active';
 
     py = y;
     y = e.pageY;

@@ -71,7 +71,7 @@ DAT.GUI = function(parameters) {
   var toggleButton = document.createElement('a');
   toggleButton.setAttribute('class', 'guidat-toggle');
   toggleButton.setAttribute('href', '#');
-  toggleButton.innerHTML = "Show Controls";
+  toggleButton.innerHTML = 'Show Controls';
 
   var toggleDragged = false;
   var dragDisplacementY = 0;
@@ -91,7 +91,7 @@ DAT.GUI = function(parameters) {
       if (dmy > 0) {
         open = true;
         curControllerContainerHeight = openHeight = 1;
-        toggleButton.innerHTML = name || "Hide Controls";
+        toggleButton.innerHTML = name || 'Hide Controls';
       } else {
         return;
       }
@@ -102,7 +102,8 @@ DAT.GUI = function(parameters) {
 
     if (dmy > 0 &&
         curControllerContainerHeight > controllerHeight) {
-      var d = DAT.GUI.map(curControllerContainerHeight, controllerHeight, controllerHeight + 100, 1, 0);
+      var d = DAT.GUI.map(curControllerContainerHeight, controllerHeight, 
+          controllerHeight + 100, 1, 0);
       dmy *= d;
     }
 
@@ -155,9 +156,11 @@ DAT.GUI = function(parameters) {
 
       } else if (controllerContainer.children.length >= 1) {
 
-        var singleControllerHeight = controllerContainer.children[0].offsetHeight;
+        var singleControllerHeight = controllerContainer.children[0].
+            offsetHeight;
         clearTimeout(resizeTimeout);
-        var target = Math.round(curControllerContainerHeight / singleControllerHeight) * singleControllerHeight - 1;
+        var target = Math.round(curControllerContainerHeight / 
+            singleControllerHeight) * singleControllerHeight - 1;
         resizeTo = target;
         if (resizeTo <= 0) {
           _this.hide();
@@ -186,7 +189,7 @@ DAT.GUI = function(parameters) {
   } else if (DAT.GUI.autoPlace) {
     if (DAT.GUI.autoPlaceContainer == null) {
       DAT.GUI.autoPlaceContainer = document.createElement('div');
-      DAT.GUI.autoPlaceContainer.setAttribute("id", "guidat");
+      DAT.GUI.autoPlaceContainer.setAttribute('id', 'guidat');
 
       document.body.appendChild(DAT.GUI.autoPlaceContainer);
     }
@@ -201,7 +204,7 @@ DAT.GUI = function(parameters) {
     }, this.autoListenIntervalTime);
   };
 
-  this.__defineSetter__("autoListen", function(v) {
+  this.__defineSetter__('autoListen', function(v) {
     autoListen = v;
     if (!autoListen) {
       clearInterval(listenInterval);
@@ -210,7 +213,7 @@ DAT.GUI = function(parameters) {
     }
   });
 
-  this.__defineGetter__("autoListen", function(v) {
+  this.__defineGetter__('autoListen', function(v) {
     return autoListen;
   });
 
@@ -271,7 +274,7 @@ DAT.GUI = function(parameters) {
 
     // Have we already added this?
     if (alreadyControlled(object, propertyName)) {
-      //  DAT.GUI.error("Controller for \"" + propertyName+"\" already added.");
+      //  DAT.GUI.error('Controller for \'' + propertyName+'\' already added.');
       //  return;
     }
 
@@ -279,7 +282,8 @@ DAT.GUI = function(parameters) {
 
     // Does this value exist? Is it accessible?
     if (value == undefined) {
-      DAT.GUI.error(object + " either has no property \"" + propertyName + "\", or the property is inaccessible.");
+      DAT.GUI.error(object + ' either has no property \'' + propertyName + 
+          '\', or the property is inaccessible.');
       return;
     }
 
@@ -288,7 +292,7 @@ DAT.GUI = function(parameters) {
 
     // Do we know how to deal with this data type?
     if (handler == undefined) {
-      DAT.GUI.error("Cannot create controller for data type \"" + type + "\"");
+      DAT.GUI.error('Cannot create controller for data type \'' + type + '\'');
       return;
     }
 
@@ -301,7 +305,7 @@ DAT.GUI = function(parameters) {
 
     // Were we able to make the controller?
     if (!controllerObject) {
-      DAT.GUI.error("Error creating controller for \"" + propertyName + "\".");
+      DAT.GUI.error('Error creating controller for \'' + propertyName + '\'.');
       return;
     }
 
@@ -311,7 +315,7 @@ DAT.GUI = function(parameters) {
     DAT.GUI.allControllers.push(controllerObject);
 
     // Do we have a saved value for this controller?
-    if (type != "function" &&
+    if (type != 'function' &&
         DAT.GUI.saveIndex < DAT.GUI.savedValues.length) {
       controllerObject.setValue(DAT.GUI.savedValues[DAT.GUI.saveIndex]);
       DAT.GUI.saveIndex++;
@@ -336,17 +340,17 @@ DAT.GUI = function(parameters) {
       controllerHeight += controllers[i].domElement.offsetHeight;
     }
     if (controllerHeight - 1 > openHeight) {
-      controllerContainer.style.overflowY = "auto";
+      controllerContainer.style.overflowY = 'auto';
     } else {
-      controllerContainer.style.overflowY = "hidden";
+      controllerContainer.style.overflowY = 'hidden';
     }
   };
 
   var handlerTypes = {
-    "number": DAT.GUI.NumberController,
-    "string": DAT.GUI.StringController,
-    "boolean": DAT.GUI.BooleanController,
-    "function": DAT.GUI.FunctionController
+    'number': DAT.GUI.NumberController,
+    'string': DAT.GUI.StringController,
+    'boolean': DAT.GUI.BooleanController,
+    'function': DAT.GUI.FunctionController
   };
 
 
@@ -361,7 +365,7 @@ DAT.GUI = function(parameters) {
   };
 
   this.show = function() {
-    toggleButton.innerHTML = name || "Hide Controls";
+    toggleButton.innerHTML = name || 'Hide Controls';
     resizeTo = openHeight;
     clearTimeout(resizeTimeout);
     beginResize();
@@ -369,7 +373,7 @@ DAT.GUI = function(parameters) {
   }
 
   this.hide = function() {
-    toggleButton.innerHTML = name || "Show Controls";
+    toggleButton.innerHTML = name || 'Show Controls';
     resizeTo = 0;
     clearTimeout(resizeTimeout);
     beginResize();
@@ -387,17 +391,21 @@ DAT.GUI = function(parameters) {
   }
 
   var beginResize = function() {
-    //console.log("Resizing from " + curControllerContainerHeight + " to " + resizeTo);
-    curControllerContainerHeight += (resizeTo - curControllerContainerHeight) * 0.6;
-    if (Math.abs(curControllerContainerHeight - resizeTo) < 1) {
+    
+    curControllerContainerHeight += (resizeTo - curControllerContainerHeight) 
+        * 0.6;
+    
+     if (Math.abs(curControllerContainerHeight - resizeTo) < 1) {
       curControllerContainerHeight = resizeTo;
       adaptToScrollbar();
 
     } else {
       resizeTimeout = setTimeout(beginResize, 1000 / 30);
     }
-    controllerContainer.style.height = Math.round(curControllerContainerHeight) + 'px';
+    controllerContainer.style.height = Math.round(curControllerContainerHeight) 
+        + 'px';
     checkForOverflow();
+    
   }
 
   var adaptToScrollbar = function() {
@@ -413,7 +421,7 @@ DAT.GUI = function(parameters) {
   if (DAT.GUI.guiIndex < DAT.GUI.savedAppearanceVars.length) {
 
     width = parseInt(DAT.GUI.savedAppearanceVars[DAT.GUI.guiIndex][1]);
-    _this.domElement.style.width = width + "px";
+    _this.domElement.style.width = width + 'px';
 
     openHeight = parseInt(DAT.GUI.savedAppearanceVars[DAT.GUI.guiIndex][2]);
     explicitOpenHeight = true;
@@ -441,7 +449,7 @@ DAT.GUI = function(parameters) {
   // Add hide listener if this is the first DAT.GUI. 
   if (DAT.GUI.allGuis.length == 1) {
     window.addEventListener('keyup', function(e) {
-      // Hide on "H"
+      // Hide on 'H'
       if (e.keyCode == 72) {
         DAT.GUI.toggleHide();
       }
@@ -472,19 +480,19 @@ DAT.GUI.toggleHide = function() {
 DAT.GUI.show = function() {
   DAT.GUI.hidden = false;
   for (var i in DAT.GUI.allGuis) {
-    DAT.GUI.allGuis[i].domElement.style.display = "block";
+    DAT.GUI.allGuis[i].domElement.style.display = 'block';
   }
 }
 
 DAT.GUI.hide = function() {
   DAT.GUI.hidden = true;
   for (var i in DAT.GUI.allGuis) {
-    DAT.GUI.allGuis[i].domElement.style.display = "none";
+    DAT.GUI.allGuis[i].domElement.style.display = 'none';
   }
 }
 
 DAT.GUI.saveURL = function() {
-  var url = DAT.GUI.replaceGetVar("saveString", DAT.GUI.getSaveString());
+  var url = DAT.GUI.replaceGetVar('saveString', DAT.GUI.getSaveString());
   window.location = url;
 };
 
@@ -493,7 +501,7 @@ DAT.GUI.scrollTop = -1;
 DAT.GUI.load = function(saveString) {
 
   //DAT.GUI.savedAppearanceVars = [];
-  var vals = saveString.split(",");
+  var vals = saveString.split(',');
   var numGuis = parseInt(vals[0]);
   DAT.GUI.scrollTop = parseInt(vals[1]);
   for (var i = 0; i < numGuis; i++) {
@@ -527,14 +535,14 @@ DAT.GUI.getSaveString = function() {
   for (i in DAT.GUI.allControllers) {
 
     // We don't save values for functions.
-    if (DAT.GUI.allControllers[i].type == "function") {
+    if (DAT.GUI.allControllers[i].type == 'function') {
       continue;
     }
 
     var v = DAT.GUI.allControllers[i].getValue();
 
     // Round numbers so they don't get enormous
-    if (DAT.GUI.allControllers[i].type == "number") {
+    if (DAT.GUI.allControllers[i].type == 'number') {
       v = DAT.GUI.roundToDecimal(v, 4);
     }
 
@@ -549,10 +557,11 @@ DAT.GUI.getSaveString = function() {
 DAT.GUI.getVarFromURL = function(v) {
 
   var vars = [], hash;
-  var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+  var hashes = window.location.href.slice(
+      window.location.href.indexOf('?') + 1).split('&');
 
   for (var i = 0; i < hashes.length; i++) {
-    hash = hashes[i].split("=");
+    hash = hashes[i].split('=');
     if (hash == undefined) continue;
     if (hash[0] == v) {
       return hash[1];
@@ -567,10 +576,11 @@ DAT.GUI.replaceGetVar = function(varName, val) {
 
   var vars = [], hash;
   var loc = window.location.href;
-  var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+  var hashes = window.location.href.slice(
+      window.location.href.indexOf('?') + 1).split('&');
 
   for (var i = 0; i < hashes.length; i++) {
-    hash = hashes[i].split("=");
+    hash = hashes[i].split('=');
     if (hash == undefined) continue;
     if (hash[0] == varName) {
       return loc.replace(hash[1], val);
@@ -578,10 +588,10 @@ DAT.GUI.replaceGetVar = function(varName, val) {
   }
 
   if (window.location.href.indexOf('?') != -1) {
-    return loc + "&" + varName + "=" + val;
+    return loc + '&' + varName + '=' + val;
   }
 
-  return loc + "?" + varName + "=" + val;
+  return loc + '?' + varName + '=' + val;
 
 };
 
@@ -598,17 +608,17 @@ DAT.GUI.makeUnselectable = function(elem) {
   elem.onselectstart = function() {
     return false;
   };
-  elem.style.MozUserSelect = "none";
-  elem.style.KhtmlUserSelect = "none";
-  elem.unselectable = "on";
+  elem.style.MozUserSelect = 'none';
+  elem.style.KhtmlUserSelect = 'none';
+  elem.unselectable = 'on';
 };
 
 DAT.GUI.makeSelectable = function(elem) {
   elem.onselectstart = function() {
   };
-  elem.style.MozUserSelect = "auto";
-  elem.style.KhtmlUserSelect = "auto";
-  elem.unselectable = "off";
+  elem.style.MozUserSelect = 'auto';
+  elem.style.KhtmlUserSelect = 'auto';
+  elem.unselectable = 'off';
 };
 
 DAT.GUI.map = function(v, i1, i2, o1, o2) {
@@ -623,7 +633,7 @@ DAT.GUI.constrain = function (v, o1, o2) {
 
 DAT.GUI.error = function(str) {
   if (typeof console.error == 'function') {
-    console.error("[DAT.GUI ERROR] " + str);
+    console.error('[DAT.GUI ERROR] ' + str);
   }
 };
 
@@ -637,4 +647,20 @@ DAT.GUI.extendController = function(clazz) {
   clazz.prototype.constructor = clazz;
 };
 
-if (DAT.GUI.getVarFromURL('saveString') != null) DAT.GUI.load(DAT.GUI.getVarFromURL('saveString'));
+DAT.GUI.addClass = function(domElement, className) {
+  if (DAT.GUI.hasClass(domElement, className)) return;
+  domElement.className += ' ' + className;
+}
+
+DAT.GUI.hasClass = function(domElement, className) {
+  return domElement.className.indexOf(className) != -1;
+}
+
+DAT.GUI.removeClass = function(domElement, className) {
+  var reg = new RegExp('(\\s|^)'+className+'(\\s|$)', 'g');
+  domElement.className = domElement.className.replace(reg, '');
+}
+
+if (DAT.GUI.getVarFromURL('saveString') != null) {
+  DAT.GUI.load(DAT.GUI.getVarFromURL('saveString'));
+}
