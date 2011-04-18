@@ -168,8 +168,6 @@ DAT.GUI = function(parameters) {
         }
       }
     }
-    ;
-
 
     document.removeEventListener('mousemove', resize, false);
     e.preventDefault();
@@ -184,11 +182,8 @@ DAT.GUI = function(parameters) {
   this.domElement.appendChild(toggleButton);
 
   if (parameters.domElement) {
-    DAT.GUI.autoPlace = false;
     parameters.domElement.appendChild(this.domElement);
-  }
-
-  if (DAT.GUI.autoPlace) {
+  } else if (DAT.GUI.autoPlace) {
     if (DAT.GUI.autoPlaceContainer == null) {
       DAT.GUI.autoPlaceContainer = document.createElement('div');
       DAT.GUI.autoPlaceContainer.setAttribute("id", "guidat");
@@ -259,7 +254,6 @@ DAT.GUI = function(parameters) {
     }
     return false;
   };
-
 
   var construct = function(constructor, args) {
     function F() {
@@ -355,28 +349,9 @@ DAT.GUI = function(parameters) {
     "function": DAT.GUI.FunctionController
   };
 
-  var alreadyControlled = function(object, propertyName) {
-    for (var i in controllers) {
-      if (controllers[i].object == object &&
-          controllers[i].propertyName == propertyName) {
-        return true;
-      }
-    }
-    return false;
-  };
-
-  var construct = function(constructor, args) {
-
-    function F() {
-      return constructor.apply(this, args);
-    }
-
-    F.prototype = constructor.prototype;
-    return new F();
-  };
 
   this.reset = function() {
-    // TODO
+    // TODO ... Set all values back to their initials.
   }
 
   // DAT.GUI ... DAT.GUI
