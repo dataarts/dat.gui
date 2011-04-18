@@ -1,4 +1,4 @@
-DAT.GUI.StringController = function() {
+DAT.GUI.ControllerString = function() {
 
   this.type = "string";
 
@@ -44,4 +44,4 @@ DAT.GUI.StringController = function() {
 
 };
 
-DAT.GUI.extendController(DAT.GUI.StringController);
+DAT.GUI.extendController(DAT.GUI.ControllerString);

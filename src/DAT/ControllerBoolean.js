@@ -1,4 +1,4 @@
-DAT.GUI.BooleanController = function() {
+DAT.GUI.ControllerBoolean = function() {
 
   this.type = "boolean";
   DAT.GUI.Controller.apply(this, arguments);
@@ -40,4 +40,4 @@ DAT.GUI.BooleanController = function() {
   };
 
 };
-DAT.GUI.extendController(DAT.GUI.BooleanController);
+DAT.GUI.extendController(DAT.GUI.ControllerBoolean);

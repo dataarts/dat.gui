@@ -1,4 +1,4 @@
-DAT.GUI.FunctionController = function() {
+DAT.GUI.ControllerFunction = function() {
 
   this.type = "function";
 
@@ -27,4 +27,4 @@ DAT.GUI.FunctionController = function() {
   };
 
 };
-DAT.GUI.extendController(DAT.GUI.FunctionController);
+DAT.GUI.extendController(DAT.GUI.ControllerFunction);

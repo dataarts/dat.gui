@@ -347,10 +347,10 @@ DAT.GUI = function(parameters) {
   };
 
   var handlerTypes = {
-    'number': DAT.GUI.NumberController,
-    'string': DAT.GUI.StringController,
-    'boolean': DAT.GUI.BooleanController,
-    'function': DAT.GUI.FunctionController
+    'number': DAT.GUI.ControllerNumber,
+    'string': DAT.GUI.ControllerString,
+    'boolean': DAT.GUI.ControllerBoolean,
+    'function': DAT.GUI.ControllerFunction
   };
 
 
@@ -657,7 +657,7 @@ DAT.GUI.hasClass = function(domElement, className) {
 }
 
 DAT.GUI.removeClass = function(domElement, className) {
-  var reg = new RegExp('(\\s|^)'+className+'(\\s|$)', 'g');
+  var reg = new RegExp(' '+className, 'g');
   domElement.className = domElement.className.replace(reg, '');
 }
 

@@ -1,4 +1,4 @@
-DAT.GUI.NumberController = function() {
+DAT.GUI.ControllerNumber = function() {
 
   this.type = "number";
 
@@ -65,8 +65,6 @@ DAT.GUI.NumberController = function() {
     clickedNumberField = true;
     if (slider) {
       DAT.GUI.addClass(slider.domElement, 'active');
-
-    console.log(slider.domElement.className);
     }
     document.addEventListener('mousemove', dragNumberField, false);
     document.addEventListener('mouseup', mouseup, false);
@@ -158,4 +156,4 @@ DAT.GUI.NumberController = function() {
   };
 };
 
-DAT.GUI.extendController(DAT.GUI.NumberController);
+DAT.GUI.extendController(DAT.GUI.ControllerNumber);
