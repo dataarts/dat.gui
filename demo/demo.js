@@ -10,7 +10,7 @@ function FizzyText(message) {
   this.maxSize = 3.2;           // how big can they get?
   this.noiseStrength = 10;      // how turbulent is the flow?
   this.speed = 0.4;             // how fast do particles move?
-  this.displayOutline = true;  // should we draw the message as a stroke?
+  this.displayOutline = false;  // should we draw the message as a stroke?
   this.framesRendered = 0;
 
   // __defineGetter__ and __defineSetter__ makes JavaScript believe that
