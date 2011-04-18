@@ -26,7 +26,7 @@ function FizzyText(message) {
         createBitmap(message);
     });
 
-    // We can even add functions to the GUI! As long as they have 
+    // We can even add functions to the DAT.GUI! As long as they have
     // 0 arguments, we can call them from the dat-gui panel.
     
     this.explode = function() {
@@ -205,7 +205,7 @@ function FizzyText(message) {
             this.x += Math.cos(angle) * _this.speed + this.vx;
             this.y += -Math.sin(angle) * _this.speed + this.vy;
             
-            this.r = GUI.constrain(this.r, 0, _this.maxSize);
+            this.r = DAT.GUI.constrain(this.r, 0, _this.maxSize);
             
             // If we're tiny, keep moving around until we find a black
             // pixel.

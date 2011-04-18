@@ -1,10 +1,10 @@
-GUI.FunctionController = function() {
+DAT.GUI.FunctionController = function() {
     
     this.type = "function";
     
     var _this = this;
     
-    GUI.Controller.apply(this, arguments);
+    DAT.GUI.Controller.apply(this, arguments);
     
     this.domElement.addEventListener('click', function() {
         _this.fire();
@@ -26,4 +26,4 @@ GUI.FunctionController = function() {
         _this.object[_this.propertyName].call(_this.object);
     };
 };
-GUI.extendController(GUI.FunctionController);
+DAT.GUI.extendController(DAT.GUI.FunctionController);

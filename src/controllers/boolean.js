@@ -1,7 +1,7 @@
-GUI.BooleanController = function() {
+DAT.GUI.BooleanController = function() {
 
     this.type = "boolean";
-    GUI.Controller.apply(this, arguments);
+    DAT.GUI.Controller.apply(this, arguments);
 
     var _this = this;
     var input = document.createElement('input');
@@ -40,8 +40,8 @@ GUI.BooleanController = function() {
                 val = eval(val);
             } catch (e) {}
         }
-        return GUI.Controller.prototype.setValue.call(this, val);
+        return DAT.GUI.Controller.prototype.setValue.call(this, val);
     };
 
 };
-GUI.extendController(GUI.BooleanController);
+DAT.GUI.extendController(DAT.GUI.BooleanController);

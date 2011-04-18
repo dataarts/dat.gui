@@ -1,8 +1,8 @@
-GUI.NumberController = function() {
+DAT.GUI.NumberController = function() {
 
     this.type = "number";
 
-    GUI.Controller.apply(this, arguments);
+    DAT.GUI.Controller.apply(this, arguments);
 
     var _this = this;
 
@@ -38,7 +38,7 @@ GUI.NumberController = function() {
     var slider;
 
     if (min != undefined && max != undefined) {
-        slider = new GUI.Slider(this, min, max, step, this.getValue());
+        slider = new DAT.GUI.Slider(this, min, max, step, this.getValue());
         this.domElement.appendChild(slider.domElement);
     }
 
@@ -83,8 +83,8 @@ GUI.NumberController = function() {
 
     var mouseup = function(e) {
         document.removeEventListener('mousemove', dragNumberField, false);
-        GUI.makeSelectable(_this.parent.domElement);
-        GUI.makeSelectable(numberField);
+        DAT.GUI.makeSelectable(_this.parent.domElement);
+        DAT.GUI.makeSelectable(numberField);
         if (clickedNumberField && !draggedNumberField) {
             numberField.focus();
             numberField.select();
@@ -107,8 +107,8 @@ GUI.NumberController = function() {
         // Or any other fields in this gui for that matter ...
         // TODO: Make makeUselectable go through each element and child element.
 
-        GUI.makeUnselectable(_this.parent.domElement);
-        GUI.makeUnselectable(numberField);
+        DAT.GUI.makeUnselectable(_this.parent.domElement);
+        DAT.GUI.makeUnselectable(numberField);
         
         if(slider) slider.domElement.className += ' active';
         
@@ -123,7 +123,7 @@ GUI.NumberController = function() {
     this.options = function() {
         _this.noSlider();
         _this.domElement.removeChild(numberField);
-        return GUI.Controller.prototype.options.apply(this, arguments);
+        return DAT.GUI.Controller.prototype.options.apply(this, arguments);
     };
 
     this.noSlider = function() {
@@ -143,14 +143,14 @@ GUI.NumberController = function() {
             val = max;
         }
 
-        return GUI.Controller.prototype.setValue.call(this, val);
+        return DAT.GUI.Controller.prototype.setValue.call(this, val);
 
     };
 
     this.updateDisplay = function() {
-        numberField.value = GUI.roundToDecimal(_this.getValue(), 4);
+        numberField.value = DAT.GUI.roundToDecimal(_this.getValue(), 4);
         if (slider) slider.value = _this.getValue();
     };
 };
 
-GUI.extendController(GUI.NumberController);
+DAT.GUI.extendController(DAT.GUI.NumberController);

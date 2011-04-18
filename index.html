@@ -1,6 +1,6 @@
 <!doctype html>
 <head>
-  <title>gui-dat</title>
+  <title>dat.gui</title>
 
   <link rel="icon" type="image/png" href="demo/assets/favicon.png" />
   <link href="demo/demo.css" media="screen" rel="stylesheet" type="text/css" />
@@ -25,9 +25,9 @@
 
                         prettyPrint();
 
-                        var fizzyText = new FizzyText("gui-dat");
+                        var fizzyText = new FizzyText("dat.gui");
 
-                        var gui = new GUI();
+                        var gui = new DAT.GUI();
 
                         // Text field
                         gui.add(fizzyText, "message");
@@ -107,20 +107,20 @@
 <body>
   <div id="container">
   
-    <!-- GUIDAT logo -->
+    <!-- DAT.GUIDAT logo -->
     <div id="helvetica-demo"></div>
 
     <!-- It gives you this! -->
     <div id="notifier"></div>
 
-    <h1><a href="http://twitter.com/guidat"><img src="demo/assets/profile.png" border="0" alt="GUI-DAT flag" /></a></h1>
+    <h1><a href="http://twitter.com/guidat"><img src="demo/assets/profile.png" border="0" alt="dat.gui flag" /></a></h1>
 
-    <p><strong>gui-dat</strong> is a lightweight controller library for JavaScript. It allows you to easily manipulate variables and fire functions on the fly.</p>
+    <p><strong>dat.gui</strong> is a lightweight controller library for JavaScript. It allows you to easily manipulate variables and fire functions on the fly.</p>
 
     <ul>
-      <li><a href="https://github.com/jonobr1/gui-dat/raw/versions/gui.min.js"><strong>Download the minified source</strong></a> <small>[11kb]</small></li>
+      <li><a href="https://github.com/jonobr1/dat.gui/raw/versions/gui.min.js"><strong>Download the minified source</strong></a> <small>[11kb]</small></li>
 
-      <li><a href="http://github.com/jonobr1/gui-dat">Contribute on GitHub!</a></li>
+      <li><a href="http://github.com/jonobr1/dat.gui">Contribute on GitHub!</a></li>
     </ul>
 
     <h2>Basic Usage</h2>
@@ -130,9 +130,9 @@
 
 window.onload = function() {
 
-   var fizzyText = new <a href="demo/demo.js">FizzyText</a>("gui-dat");
+   var fizzyText = new <a href="demo/demo.js">FizzyText</a>("dat.gui");
 
-   var gui = new GUI();
+   var gui = new DAT.GUI();
 
    // Text field
    gui.add(fizzyText, "message");
@@ -157,7 +157,7 @@ window.onload = function() {
 </pre>
 
     <ul id="desc">
-      <li><strong>gui-dat</strong> will infer the type of the property you're trying to add<br />
+      <li><strong>dat.gui</strong> will infer the type of the property you're trying to add<br />
       (based on its initial value) and create the corresponding control.</li>
 
       <li>The properties must be public, i.e. defined by <code><strong>this</strong>.prop = value</code>.</li>
@@ -173,10 +173,10 @@ window.onload = function() {
         <h2 class="section">Saving your parameters</h2>
         <div class="collapsable">
             <div>
-                <p>The simplest way to save your parameters is via <code>GUI.saveURL()</code>. This method directs your browser to a URL containing the current GUI settings.</p>
+                <p>The simplest way to save your parameters is via <code>DAT.GUI.saveURL()</code>. This method directs your browser to a URL containing the current GUI settings.</p>
                 <pre class="prettyprint last">
 // Make a button for the url function
-gui.add(GUI, "saveURL");</pre>
+gui.add(DAT.GUI, "saveURL");</pre>
             </div>
         </div>
     </div>
@@ -186,22 +186,22 @@ gui.add(GUI, "saveURL");</pre>
             <div>
                 <p>Let's say you'd like to share your settings with someone. Instead of sending a long link with lots of parameters stored in it, you can make your saved settings the defaults.</p>
 
-                <p>First, add the method <code>GUI.showSaveString()</code> to a gui object:</p>
-                <pre class="prettyprint">var gui = new GUI();
+                <p>First, add the method <code>DAT.GUI.showSaveString()</code> to a gui object:</p>
+                <pre class="prettyprint">var gui = new DAT.GUI();
 
 // Add some stuff (and pretend I change their values);
 gui.add(someObject, "someProperty");
 gui.add(someObject, "someOtherProperty");
 
 // Make a save button.
-gui.add(GUI, "showSaveString");</pre>
+gui.add(DAT.GUI, "showSaveString");</pre>
 
-            <p>Clicking the "showSaveString" button bring up an alert with a string. Copy and paste that string into the method <code>GUI.load()</code> before you instantiate any gui objects.</p>
+            <p>Clicking the "showSaveString" button bring up an alert with a string. Copy and paste that string into the method <code>DAT.GUI.load()</code> before you instantiate any gui objects.</p>
             <pre class="prettyprint">
 // Replace COPIED STRING with the value you got from showSaveString()
-GUI.load("COPIED STRING");
+DAT.GUI.load("COPIED STRING");
 
-var gui = new GUI();
+var gui = new DAT.GUI();
 
 // Now these properties will be set to the values you just saved.
 gui.add(someObject, "someProperty");
@@ -239,7 +239,7 @@ gui.add(obj, "propertyName").options({'Small': 1, 'Medium': 2, 'Large': 3});
 });</pre>
                 <p>Finally, if you'd like to do a little something extra when a function is called, use the following:</p>
                 <pre class="prettyprint last">gui.add(obj, "functionName").onFire(function() {
-   alert("You called a function with gui-dat");
+   alert("You called a function with dat.gui");
 });</pre>
             </div>
         </div>
@@ -248,7 +248,7 @@ gui.add(obj, "propertyName").options({'Small': 1, 'Medium': 2, 'Large': 3});
         <h2 class="section">Listen for variable changes outside of the GUI</h2>
         <div class="collapsable">
             <div>
-                <p>Let's say you have a variable that changes by itself from time to time. If you'd like the GUI to reflect those changes, use the <code>listen()</code> method.</p>
+                <p>Let's say you have a variable that changes by itself from time to time. If you'd like the DAT.GUI to reflect those changes, use the <code>listen()</code> method.</p>
                 <pre class="prettyprint last">gui.add(obj, "changingProperty").listen();</pre>
             </div>
         </div>
@@ -258,7 +258,7 @@ gui.add(obj, "propertyName").options({'Small': 1, 'Medium': 2, 'Large': 3});
         <h2 class="section">Advanced listening</h2>
         <div class="collapsable">
             <div>
-                <p>By default, <strong>gui-dat</strong> will create an internal interval that checks for changes in the values you've marked with <code>listen()</code>. If you'd like to check for these changes in an interval of your own definition, use the following:</p>
+                <p>By default, <strong>dat.gui</strong> will create an internal interval that checks for changes in the values you've marked with <code>listen()</code>. If you'd like to check for these changes in an interval of your own definition, use the following:</p>
                 <pre class="prettyprint">
 gui.autoListen = false; // disables internal interval
 gui.add(obj, "changingProperty").listen();
@@ -287,21 +287,21 @@ setInterval(function() {
         <h2 class="section">Multiple panels and custom placement</h2>
         <div class="collapsable">
             <div>
-                <p>You can instantiate multiple <code>GUI</code> objects and name them however you'd like.</p>
-                <pre class="prettyprint">var gui1 = new GUI();
-var gui2 = new GUI();
+                <p>You can instantiate multiple <code>DAT.GUI</code> objects and name them however you'd like.</p>
+                <pre class="prettyprint">var gui1 = new DAT.GUI();
+var gui2 = new DAT.GUI();
 
 // The name function overwrites the "Show Controls" text.
 gui1.name("Utilities");
 gui2.name("Camera Placement");</pre>
 
-                <p>By default, <strong>gui-dat</strong> panels will be automatically added to the HTML document and fixed to the top of the screen. You can disable this behavior / styling and append the gui DOM element to a container of your choosing.</p>
+                <p>By default, <strong>dat.gui</strong> panels will be automatically added to the HTML document and fixed to the top of the screen. You can disable this behavior / styling and append the gui DOM element to a container of your choosing.</p>
                 <pre class="prettyprint last">
-// Notice this belongs to the GUI class (uppercase) 
+// Notice this belongs to the DAT.GUI class (uppercase)
 // and not an instance thereof.
-GUI.autoPlace = false; 
+DAT.GUI.autoPlace = false;
 
-var gui = new GUI();
+var gui = new DAT.GUI();
 
 // Do some custom styles ...
 gui.domElement.style.position = "absolute";
@@ -318,7 +318,7 @@ document.getElementById("my-gui-container").appendChild( gui.domElement );</pre>
         <div class="collapsable">
             <div>
                 <ol id="secrets">
-                  <li><strong>gui-dat</strong> panels are resizeable. Drag the show/hide button.</li>
+                  <li><strong>dat.gui</strong> panels are resizeable. Drag the show/hide button.</li>
 
                   <li>Press 'H' to show/hide GUI&apos;s.</li>
                 </ol>

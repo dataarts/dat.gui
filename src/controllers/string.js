@@ -1,9 +1,9 @@
-GUI.StringController = function() {
+DAT.GUI.StringController = function() {
 
     this.type = "string";
 
     var _this = this;
-    GUI.Controller.apply(this, arguments);
+    DAT.GUI.Controller.apply(this, arguments);
 
     var input = document.createElement('input');
 
@@ -37,11 +37,11 @@ GUI.StringController = function() {
 
     this.options = function() {
         _this.domElement.removeChild(input);
-        return GUI.Controller.prototype.options.apply(this, arguments);
+        return DAT.GUI.Controller.prototype.options.apply(this, arguments);
     };
 
     this.domElement.appendChild(input);
 
 };
 
-GUI.extendController(GUI.StringController);
+DAT.GUI.extendController(DAT.GUI.StringController);

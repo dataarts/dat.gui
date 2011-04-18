@@ -1,4 +1,4 @@
-GUI.Controller = function() {
+DAT.GUI.Controller = function() {
 
     this.parent = arguments[0];
     this.object = arguments[1];
@@ -14,34 +14,34 @@ GUI.Controller = function() {
     this.name(this.propertyName);
     this.domElement.appendChild(this.propertyNameElement);
 
-    GUI.makeUnselectable(this.domElement);
+    DAT.GUI.makeUnselectable(this.domElement);
 
 };
 
-GUI.Controller.prototype.changeFunction = null;
-GUI.Controller.prototype.finishChangeFunction = null;
+DAT.GUI.Controller.prototype.changeFunction = null;
+DAT.GUI.Controller.prototype.finishChangeFunction = null;
 
-GUI.Controller.prototype.name = function(n) {
+DAT.GUI.Controller.prototype.name = function(n) {
     this.propertyNameElement.innerHTML = n;
     return this;
 };
 
-GUI.Controller.prototype.reset = function() {
+DAT.GUI.Controller.prototype.reset = function() {
     this.setValue(this.initialValue);
     return this;
 };
 
-GUI.Controller.prototype.listen = function() {
+DAT.GUI.Controller.prototype.listen = function() {
     this.parent.listenTo(this);
     return this;
 };
 
-GUI.Controller.prototype.unlisten = function() {
+DAT.GUI.Controller.prototype.unlisten = function() {
     this.parent.unlistenTo(this); // <--- hasn't been tested yet
     return this;
 };
 
-GUI.Controller.prototype.setValue = function(n) {
+DAT.GUI.Controller.prototype.setValue = function(n) {
     this.object[this.propertyName] = n;
     if (this.changeFunction != null) {
         this.changeFunction.call(this, n);
@@ -50,23 +50,23 @@ GUI.Controller.prototype.setValue = function(n) {
     return this;
 };
 
-GUI.Controller.prototype.getValue = function() {
+DAT.GUI.Controller.prototype.getValue = function() {
     return this.object[this.propertyName];
 };
 
-GUI.Controller.prototype.updateDisplay = function() {};
+DAT.GUI.Controller.prototype.updateDisplay = function() {};
 
-GUI.Controller.prototype.onChange = function(fnc) {
+DAT.GUI.Controller.prototype.onChange = function(fnc) {
     this.changeFunction = fnc;
     return this;
 };
 
-GUI.Controller.prototype.onFinishChange = function(fnc) {
+DAT.GUI.Controller.prototype.onFinishChange = function(fnc) {
     this.finishChangeFunction = fnc;
     return this;
 };
 
-GUI.Controller.prototype.options = function() {
+DAT.GUI.Controller.prototype.options = function() {
     var _this = this;
     var select = document.createElement('select');
     if (arguments.length == 1) {

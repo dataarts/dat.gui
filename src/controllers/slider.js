@@ -1,4 +1,4 @@
-GUI.Slider = function(numberController, min, max, step, initValue) {
+DAT.GUI.Slider = function(numberController, min, max, step, initValue) {
 
     var clicked = false;
     var _this = this;
@@ -16,7 +16,8 @@ GUI.Slider = function(numberController, min, max, step, initValue) {
     var onDrag = function(e) {
         if (!clicked) return;
         var pos = findPos(_this.domElement);
-        var val = GUI.map(e.pageX, pos[0], pos[0] + _this.domElement.offsetWidth, min, max);
+        var val = DAT.GUI.map(e.pageX, pos[0], pos[0] + _this.domElement
+            .offsetWidth, min, max);
         val = Math.round(val/step)*step;
         numberController.setValue(val);
     };
@@ -54,7 +55,7 @@ GUI.Slider = function(numberController, min, max, step, initValue) {
     };
 
     this.__defineSetter__('value', function(e) {
-        var pct = GUI.map(e, min, max, 0, 100);
+        var pct = DAT.GUI.map(e, min, max, 0, 100);
         this.fg.style.width = pct+"%";
     });
 
