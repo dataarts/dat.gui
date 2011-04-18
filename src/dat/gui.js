@@ -33,11 +33,13 @@ DAT.GUI = function(parameters) {
   // How big we get when we open
   var openHeight;
 
+  var closeString = 'Close Controls';
+  var openString = 'Open Controls';
+
   var name;
 
   var resizeTo = 0;
   var resizeTimeout;
-
 
   this.domElement = document.createElement('div');
   this.domElement.setAttribute('class', 'guidat');
@@ -45,6 +47,7 @@ DAT.GUI = function(parameters) {
 
   var controllerContainer = document.createElement('div');
   controllerContainer.setAttribute('class', 'guidat-controllers');
+  controllerContainer.style.height = '0px';
 
   // Firefox hack to prevent horizontal scrolling
   controllerContainer.addEventListener('DOMMouseScroll', function(e) {
@@ -60,18 +63,19 @@ DAT.GUI = function(parameters) {
     if (e.preventDefault) {
       e.preventDefault();
     }
+    
     e.returnValue = false;
 
     controllerContainer.scrollTop = scrollAmount;
 
   }, false);
 
-  controllerContainer.style.height = '0px';
+
 
   var toggleButton = document.createElement('a');
   toggleButton.setAttribute('class', 'guidat-toggle');
   toggleButton.setAttribute('href', '#');
-  toggleButton.innerHTML = 'Show Controls';
+  toggleButton.innerHTML = openString;
 
   var toggleDragged = false;
   var dragDisplacementY = 0;
@@ -91,7 +95,7 @@ DAT.GUI = function(parameters) {
       if (dmy > 0) {
         open = true;
         curControllerContainerHeight = openHeight = 1;
-        toggleButton.innerHTML = name || 'Hide Controls';
+        toggleButton.innerHTML = name || closeString;
       } else {
         return;
       }
@@ -102,7 +106,7 @@ DAT.GUI = function(parameters) {
 
     if (dmy > 0 &&
         curControllerContainerHeight > controllerHeight) {
-      var d = DAT.GUI.map(curControllerContainerHeight, controllerHeight, 
+      var d = DAT.GUI.map(curControllerContainerHeight, controllerHeight,
           controllerHeight + 100, 1, 0);
       dmy *= d;
     }
@@ -159,11 +163,11 @@ DAT.GUI = function(parameters) {
         var singleControllerHeight = controllerContainer.children[0].
             offsetHeight;
         clearTimeout(resizeTimeout);
-        var target = Math.round(curControllerContainerHeight / 
+        var target = Math.round(curControllerContainerHeight /
             singleControllerHeight) * singleControllerHeight - 1;
         resizeTo = target;
         if (resizeTo <= 0) {
-          _this.hide();
+          _this.close();
           openHeight = singleControllerHeight * 2;
         } else {
           openHeight = resizeTo;
@@ -282,7 +286,7 @@ DAT.GUI = function(parameters) {
 
     // Does this value exist? Is it accessible?
     if (value == undefined) {
-      DAT.GUI.error(object + ' either has no property \'' + propertyName + 
+      DAT.GUI.error(object + ' either has no property \'' + propertyName +
           '\', or the property is inaccessible.');
       return;
     }
@@ -361,19 +365,19 @@ DAT.GUI = function(parameters) {
   // DAT.GUI ... DAT.GUI
 
   this.toggle = function() {
-    open ? this.hide() : this.show();
+    open ? this.close() : this.open();
   };
 
-  this.show = function() {
-    toggleButton.innerHTML = name || 'Hide Controls';
+  this.open = function() {
+    toggleButton.innerHTML = name || closeString;
     resizeTo = openHeight;
     clearTimeout(resizeTimeout);
     beginResize();
     open = true;
   }
 
-  this.hide = function() {
-    toggleButton.innerHTML = name || 'Show Controls';
+  this.close = function() {
+    toggleButton.innerHTML = name || openString;
     resizeTo = 0;
     clearTimeout(resizeTimeout);
     beginResize();
@@ -391,21 +395,21 @@ DAT.GUI = function(parameters) {
   }
 
   var beginResize = function() {
-    
-    curControllerContainerHeight += (resizeTo - curControllerContainerHeight) 
+
+    curControllerContainerHeight += (resizeTo - curControllerContainerHeight)
         * 0.6;
-    
-     if (Math.abs(curControllerContainerHeight - resizeTo) < 1) {
+
+    if (Math.abs(curControllerContainerHeight - resizeTo) < 1) {
       curControllerContainerHeight = resizeTo;
       adaptToScrollbar();
 
     } else {
       resizeTimeout = setTimeout(beginResize, 1000 / 30);
     }
-    controllerContainer.style.height = Math.round(curControllerContainerHeight) 
+    controllerContainer.style.height = Math.round(curControllerContainerHeight)
         + 'px';
     checkForOverflow();
-    
+
   }
 
   var adaptToScrollbar = function() {
@@ -415,6 +419,8 @@ DAT.GUI = function(parameters) {
       _this.domElement.style.width = width + 'px';
     }, 1);
   };
+
+
 
   // Load saved appearance:
 
@@ -438,7 +444,7 @@ DAT.GUI = function(parameters) {
         document.body.scrollTop = DAT.GUI.scrollTop;
       }
       resizeTo = openHeight;
-      this.show();
+      this.open();
     }
 
     DAT.GUI.guiIndex++;
@@ -471,20 +477,20 @@ DAT.GUI.allGuis = [];
 
 DAT.GUI.toggleHide = function() {
   if (DAT.GUI.hidden) {
-    DAT.GUI.show();
+    DAT.GUI.open();
   } else {
-    DAT.GUI.hide();
+    DAT.GUI.close();
   }
 }
 
-DAT.GUI.show = function() {
+DAT.GUI.open = function() {
   DAT.GUI.hidden = false;
   for (var i in DAT.GUI.allGuis) {
     DAT.GUI.allGuis[i].domElement.style.display = 'block';
   }
 }
 
-DAT.GUI.hide = function() {
+DAT.GUI.close = function() {
   DAT.GUI.hidden = true;
   for (var i in DAT.GUI.allGuis) {
     DAT.GUI.allGuis[i].domElement.style.display = 'none';
@@ -671,7 +677,7 @@ DAT.GUI.hasClass = function(domElement, className) {
 }
 
 DAT.GUI.removeClass = function(domElement, className) {
-  var reg = new RegExp(' '+className, 'g');
+  var reg = new RegExp(' ' + className, 'g');
   domElement.className = domElement.className.replace(reg, '');
 }
 

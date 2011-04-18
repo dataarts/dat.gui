@@ -9,9 +9,8 @@ DAT.GUI.ControllerNumber = function() {
   // If we simply click and release a number field, we want to highlight it.
   // This variable keeps track of whether or not we've dragged
   var draggedNumberField = false;
-
+  
   var clickedNumberField = false;
-
   var draggingHorizontal = false;
   var draggingVertical = false;
 
@@ -29,6 +28,47 @@ DAT.GUI.ControllerNumber = function() {
     }
   }
 
+  this.min = function() {
+    var needsSlider = false;
+    if (min == undefined && max != undefined) {
+      needsSlider = true;
+    }
+    if (arguments.length == 0) {
+      return min;
+    } else {
+      min = arguments[0];
+    }
+    if (needsSlider) {
+      addSlider();
+    }
+    return _this;
+  };
+
+  this.max = function() {
+    var needsSlider = false;
+    if (min != undefined && max == undefined) {
+      needsSlider = true;
+    }
+    if (arguments.length == 0) {
+      return max;
+    } else {
+      max = arguments[0];
+    }
+    if (needsSlider) {
+      addSlider();
+    }
+    return _this;
+  };
+
+  this.step = function() {
+    if (arguments.length == 0) {
+      return step;
+    } else {
+      step = arguments[0];
+    }
+    return _this;
+  };
+
   var numberField = document.createElement('input');
   numberField.setAttribute('id', this.propertyName);
   numberField.setAttribute('type', 'text');
@@ -40,9 +80,13 @@ DAT.GUI.ControllerNumber = function() {
 
   var slider;
 
+  var addSlider = function() {
+    slider = new DAT.GUI.Slider(_this, min, max, step, _this.getValue());
+    _this.domElement.appendChild(slider.domElement);
+  };
+
   if (min != undefined && max != undefined) {
-    slider = new DAT.GUI.Slider(this, min, max, step, this.getValue());
-    this.domElement.appendChild(slider.domElement);
+    addSlider();
   }
 
   numberField.addEventListener('blur', function() {
@@ -116,7 +160,6 @@ DAT.GUI.ControllerNumber = function() {
     y = e.pageY;
     var dy = py - y;
 
-
     if (!draggingHorizontal && !draggingVertical) {
       if (dy == 0) {
         draggingHorizontal = true;
@@ -135,10 +178,10 @@ DAT.GUI.ControllerNumber = function() {
     draggedNumberField = true;
     e.preventDefault();
 
-
     var newVal = _this.getValue() + dy * step;
     _this.setValue(newVal);
     return false;
+
   };
 
   this.options = function() {
