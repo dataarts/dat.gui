@@ -12,6 +12,9 @@ DAT.GUI.ControllerNumber = function() {
 
   var clickedNumberField = false;
 
+  var draggingHorizontal = false;
+  var draggingVertical = false;
+
   var y = 0, py = 0;
 
   var min = arguments[3];
@@ -45,8 +48,7 @@ DAT.GUI.ControllerNumber = function() {
   numberField.addEventListener('blur', function() {
     var val = parseFloat(this.value);
     if (slider) {
-      DAT.GUI.removeClass(slider.domElement, 'active');
-      console.log(slider.domElement.className);
+      DAT.GUI.removeClass(_this.domElement, 'active');
     }
     if (!isNaN(val)) {
       _this.setValue(val);
@@ -64,7 +66,8 @@ DAT.GUI.ControllerNumber = function() {
     py = y = e.pageY;
     clickedNumberField = true;
     if (slider) {
-      DAT.GUI.addClass(slider.domElement, 'active');
+      DAT.GUI.addClass(_this.domElement, 'active');
+      console.log(_this.domElement.className);
     }
     document.addEventListener('mousemove', dragNumberField, false);
     document.addEventListener('mouseup', mouseup, false);
@@ -91,7 +94,8 @@ DAT.GUI.ControllerNumber = function() {
 
   var mouseup = function(e) {
     document.removeEventListener('mousemove', dragNumberField, false);
-    DAT.GUI.makeSelectable(_this.parent.domElement);
+    
+    DAT.GUI.makeSelectable(numberField);
     if (clickedNumberField && !draggedNumberField) {
       numberField.focus();
       numberField.select();
@@ -101,23 +105,37 @@ DAT.GUI.ControllerNumber = function() {
     if (_this.finishChangeFunction != null) {
       _this.finishChangeFunction.call(this, _this.getValue());
     }
+    draggingHorizontal = false;
+    draggingVertical = false;
     document.removeEventListener('mouseup', mouseup, false);
   };
 
   var dragNumberField = function(e) {
 
-    draggedNumberField = true;
-    e.preventDefault();
-
-    // We don't want to be highlighting this field as we scroll.
-    // Or any other fields in this gui for that matter ...
-    // TODO: Make makeUselectable go through each element and child element.
-
-    DAT.GUI.makeUnselectable(_this.parent.domElement);
-
     py = y;
     y = e.pageY;
     var dy = py - y;
+
+
+    if (!draggingHorizontal && !draggingVertical) {
+      if (dy == 0) {
+        draggingHorizontal = true;
+      } else {
+        draggingVertical = true;
+      }
+    }
+
+    if (draggingHorizontal) {
+      return true;
+    }
+
+    DAT.GUI.makeUnselectable(_this.parent.domElement);
+    DAT.GUI.makeUnselectable(numberField);
+
+    draggedNumberField = true;
+    e.preventDefault();
+
+
     var newVal = _this.getValue() + dy * step;
     _this.setValue(newVal);
     return false;

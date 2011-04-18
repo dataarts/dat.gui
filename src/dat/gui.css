@@ -80,13 +80,14 @@ a.guidat-toggle:hover {
   float: right;
 }
 
-.guidat-controller input:hover
-.guidat-controller.number.active {
+.guidat-controller input:hover {
   background-color: #444;
 }
 
-.guidat-controller input:focus {
+.guidat-controller input:focus,
+.guidat-controller.active input {
   background-color: #555;
+  color: #fff;
 }
 
 .guidat-controller.number {
@@ -139,13 +140,13 @@ a.guidat-toggle:hover {
   display: inline-block;
 }
 
-.guidat-slider-bg:hover,
-.guidat-slider-bg.active {
+.guidat-controller .guidat-slider-bg:hover,
+.guidat-controller.active .guidat-slider-bg {
   background-color: #444;
 }
 
-.guidat-slider-bg:hover .guidat-slider-fg,
-.guidat-slider-bg.active .guidat-slider-fg {
+.guidat-controller .guidat-slider-bg .guidat-slider-fg:hover,
+.guidat-controller.active .guidat-slider-bg .guidat-slider-fg {
   background-color: #52c8ff;
 }
 
@@ -161,5 +162,5 @@ a.guidat-toggle:hover {
 .guidat-slider-fg {
   cursor: ew-resize;
   background-color: #00aeff;
-  height: 20px;
+  height: 21px;
 }

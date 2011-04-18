@@ -605,20 +605,34 @@ DAT.GUI.showSaveString = function() {
 // Util functions
 
 DAT.GUI.makeUnselectable = function(elem) {
+  if (elem == undefined || elem.style == undefined) return;
   elem.onselectstart = function() {
     return false;
   };
   elem.style.MozUserSelect = 'none';
   elem.style.KhtmlUserSelect = 'none';
   elem.unselectable = 'on';
+
+  var kids = elem.childNodes;
+  for (var i = 0; i < kids.length; i++) {
+    DAT.GUI.makeUnselectable(kids[i]);
+  }
+
 };
 
 DAT.GUI.makeSelectable = function(elem) {
+  if (elem == undefined || elem.style == undefined) return;
   elem.onselectstart = function() {
   };
   elem.style.MozUserSelect = 'auto';
   elem.style.KhtmlUserSelect = 'auto';
   elem.unselectable = 'off';
+
+  var kids = elem.childNodes;
+  for (var i = 0; i < kids.length; i++) {
+    DAT.GUI.makeSelectable(kids[i]);
+  }
+
 };
 
 DAT.GUI.map = function(v, i1, i2, o1, o2) {

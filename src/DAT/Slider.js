@@ -25,17 +25,13 @@ DAT.GUI.Slider = function(numberController, min, max, step, initValue) {
   this.domElement.addEventListener('mousedown', function(e) {
     clicked = true;
     x = px = e.pageX;
-    _this.domElement.className += ' active';
-    _this.fg.className += ' active';
-    numberController.domElement.className += ' active';
+    DAT.GUI.addClass(numberController.domElement, 'active');
     onDrag(e);
     document.addEventListener('mouseup', mouseup, false);
   }, false);
 
   var mouseup = function(e) {
-    _this.domElement.className = _this.domElement.className.replace(' active', '');
-    _this.fg.className = _this.fg.className.replace(' active', '');
-    numberController.domElement.className = numberController.domElement.className.replace(' active', '');
+    DAT.GUI.removeClass(numberController.domElement, 'active');
     clicked = false;
     if (numberController.finishChangeFunction != null) {
       numberController.finishChangeFunction.call(this, numberController.getValue());
