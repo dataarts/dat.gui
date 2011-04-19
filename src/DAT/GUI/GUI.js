@@ -6,10 +6,6 @@ DAT.GUI = function(parameters) {
     parameters = {};
   }
 
-  if (parameters.height == undefined) {
-    parameters.height = 300;
-  }
-
   var MIN_WIDTH = 240;
   var MAX_WIDTH = 500;
 
@@ -23,9 +19,11 @@ DAT.GUI = function(parameters) {
   // Sum total of heights of controllers in this gui
   var controllerHeight;
 
+  var curControllerContainerHeight = 0;
+
   var _this = this;
 
-  var open = true;
+  var open = false;
   var width = 280;
 
   // Prevents checkForOverflow bug in which loaded gui appearance
@@ -47,10 +45,9 @@ DAT.GUI = function(parameters) {
   this.domElement.setAttribute('class', 'guidat');
   this.domElement.style.width = width + 'px';
 
-  var curControllerContainerHeight = parameters.height;
   var controllerContainer = document.createElement('div');
   controllerContainer.setAttribute('class', 'guidat-controllers');
-  controllerContainer.style.height = curControllerContainerHeight + 'px';
+  controllerContainer.style.height = '0px';
 
   // Firefox hack to prevent horizontal scrolling
   controllerContainer.addEventListener('DOMMouseScroll', function(e) {
@@ -74,10 +71,11 @@ DAT.GUI = function(parameters) {
   }, false);
 
 
+
   var toggleButton = document.createElement('a');
   toggleButton.setAttribute('class', 'guidat-toggle');
   toggleButton.setAttribute('href', '#');
-  toggleButton.innerHTML = open ? closeString : openString;
+  toggleButton.innerHTML = openString;
 
   var toggleDragged = false;
   var dragDisplacementY = 0;
@@ -302,7 +300,7 @@ DAT.GUI = function(parameters) {
       return;
     }
 
-    var args = [this]; // Set first arg (parent) to this 
+    var args = [this]; // Set first arg (parent) to this
     for (var j = 0; j < arguments.length; j++) {
       args.push(arguments[j]);
     }
@@ -359,9 +357,12 @@ DAT.GUI = function(parameters) {
     'function': DAT.GUI.ControllerFunction
   };
 
+
   this.reset = function() {
     // TODO ... Set all values back to their initials.
   }
+
+  // DAT.GUI ... DAT.GUI
 
   this.toggle = function() {
     open ? this.close() : this.open();
@@ -372,7 +373,6 @@ DAT.GUI = function(parameters) {
     resizeTo = openHeight;
     clearTimeout(resizeTimeout);
     beginResize();
-      adaptToScrollbar();
     open = true;
   }
 
@@ -381,7 +381,6 @@ DAT.GUI = function(parameters) {
     resizeTo = 0;
     clearTimeout(resizeTimeout);
     beginResize();
-      adaptToScrollbar();
     open = false;
   }
 
@@ -397,12 +396,13 @@ DAT.GUI = function(parameters) {
 
   var beginResize = function() {
 
-    curControllerContainerHeight = controllerContainer.offsetHeight;
     curControllerContainerHeight += (resizeTo - curControllerContainerHeight)
         * 0.6;
 
     if (Math.abs(curControllerContainerHeight - resizeTo) < 1) {
       curControllerContainerHeight = resizeTo;
+      adaptToScrollbar();
+
     } else {
       resizeTimeout = setTimeout(beginResize, 1000 / 30);
     }
@@ -413,12 +413,13 @@ DAT.GUI = function(parameters) {
   }
 
   var adaptToScrollbar = function() {
-    // Clears lingering scrollbar column
-    _this.domElement.style.width = (width - 1) + 'px';
+    // Clears lingering slider column
+    _this.domElement.style.width = (width + 1) + 'px';
     setTimeout(function() {
       _this.domElement.style.width = width + 'px';
     }, 1);
   };
+
 
 
   // Load saved appearance:
@@ -452,23 +453,13 @@ DAT.GUI = function(parameters) {
   DAT.GUI.allGuis.push(this);
 
   // Add hide listener if this is the first DAT.GUI.
-
   if (DAT.GUI.allGuis.length == 1) {
-
     window.addEventListener('keyup', function(e) {
       // Hide on 'H'
-      if (!DAT.GUI.supressHotKeys && e.keyCode == 72) {
+      if (e.keyCode == 72) {
         DAT.GUI.toggleHide();
       }
     }, false);
-
-    if (DAT.GUI.inlineCSS) {
-      var styleSheet = document.createElement('style');
-      styleSheet.setAttribute('type', 'text/css');
-      styleSheet.innerHTML = DAT.GUI.inlineCSS;
-      document.head.appendChild(styleSheet);
-    }
-
   }
 
 };
@@ -483,7 +474,6 @@ DAT.GUI.autoPlaceContainer = null;
 DAT.GUI.allControllers = [];
 DAT.GUI.allGuis = [];
 
-DAT.GUI.supressHotKeys = false;
 
 DAT.GUI.toggleHide = function() {
   if (DAT.GUI.hidden) {
@@ -534,7 +524,8 @@ DAT.GUI.savedAppearanceVars = [];
 
 DAT.GUI.getSaveString = function() {
 
-  var vals = [], i;
+  var vals = [],
+      i;
 
   vals.push(DAT.GUI.allGuis.length);
   vals.push(document.body.scrollTop);

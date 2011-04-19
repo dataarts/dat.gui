@@ -86,7 +86,7 @@ def build(src):
 
   cssfiles = source_list(src, '*.css')
   css = '\n'.join([open(f).read() for f in cssfiles])
-  css = re.sub('\W+','',css)
+  css = re.sub(r'[ \t\n\r]+',' ',css)
 
   jsfiles = source_list(src, '*.js')
   code = '\n'.join([open(f).read() for f in jsfiles])
