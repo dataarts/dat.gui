@@ -4,8 +4,8 @@
 
   <title>dat.gui</title>
 
-  <link rel='icon' type='image/png' href='demo/assets/favicon.png'/>
-  <link href='demo/demo.css' media='screen' rel='stylesheet' type='text/css'/>
+  <link rel='icon' type='image/png' href='docs/assets/favicon.png'/>
+  <link href='docs/docs.css' media='screen' rel='stylesheet' type='text/css'/>
 
   <!--Minified build-->
   <!--<script type='text/javascript' src='build/DAT.GUI.min.js'></script>-->
@@ -24,9 +24,10 @@
   <script type='text/javascript' src='src/DAT/GUI/ControllerNumber.js'></script>
 
   <!--Demo-->
-  <script type='text/javascript' src='demo/improvedNoise.js'></script>
-  <script type='text/javascript' src='demo/prettify.js'></script>
-  <script type='text/javascript' src='demo/demo.js'></script>
+  <script type='text/javascript' src='docs/RequestAnimationFrame.js'></script>
+  <script type='text/javascript' src='docs/improvedNoise.js'></script>
+  <script type='text/javascript' src='docs/prettify.js'></script>
+  <script type='text/javascript' src='docs/demo.js'></script>
 
   <script type='text/javascript'>
     //<![CDATA[
@@ -124,11 +125,11 @@
 <!-- It gives you this! -->
 <div id='notifier'></div>
 
-<h1><a href='http://twitter.com/guidat'><img src='demo/assets/profile.png'
+<h1><a href='http://twitter.com/guidat'><img src='docs/assets/profile.png'
                                              border='0' alt='dat.gui flag'/></a>
 </h1>
 
-<p><strong>dat.gui</strong> is a lightweight controller library for JavaScript.
+<p><code>DAT.GUI</code> is a lightweight controller library for JavaScript.
   It allows you to easily manipulate variables and fire functions on the fly.
 </p>
 
@@ -149,12 +150,12 @@
 
 <h2>Basic Usage</h2>
     <pre id='demo-pre' class='prettyprint'>
-&lt;script type='text/javascript' src='gui.min.js'&gt;&lt;/script&gt;
+&lt;script type='text/javascript' src='DAT.GUI.min.js'&gt;&lt;/script&gt;
 &lt;script type='text/javascript'&gt;
 
 window.onload = function() {
 
-   var fizzyText = new <a href='demo/demo.js'>FizzyText</a>('dat.gui');
+   var fizzyText = new <a href='docs/demo.js'>FizzyText</a>('dat.gui');
 
    var gui = new DAT.GUI();
 
@@ -180,7 +181,7 @@ window.onload = function() {
 </pre>
 
 <ul id='desc'>
-  <li><strong>dat.gui</strong> will infer the type of the property you're trying
+  <li><code>DAT.GUI</code> will infer the type of the property you're trying
     to add<br/>
     (based on its initial value) and create the corresponding control.
   </li>
@@ -299,7 +300,7 @@ gui.add(obj, 'propertyName').options({'Small': 1, 'Medium': 2, 'Large': 3});
   <div class='collapsable'>
     <div>
       <p>Let's say you have a variable that changes by itself from time to time.
-        If you'd like the DAT.GUI to reflect those changes, use the <code>listen()</code>
+        If you'd like the GUI to reflect those changes, use the <code>listen()</code>
         method.</p>
       <pre
           class='prettyprint last'>gui.add(obj, 'changingProperty').listen();</pre>
@@ -312,7 +313,7 @@ gui.add(obj, 'propertyName').options({'Small': 1, 'Medium': 2, 'Large': 3});
 
   <div class='collapsable'>
     <div>
-      <p>By default, <strong>dat.gui</strong> will create an internal interval
+      <p>By default, <code>DAT.GUI</code> will create an internal interval
         that checks for changes in the values you've marked with
         <code>listen()</code>. If you'd like to check for these changes in an
         interval of your own definition, use the following:</p>
@@ -356,10 +357,10 @@ var gui2 = new DAT.GUI();
 gui1.name('Utilities');
 gui2.name('Camera Placement');</pre>
 
-      <p>By default, <strong>dat.gui</strong> panels will be automatically added
-        to the HTML document and fixed to the top of the screen. You can disable
-        this behavior / styling and append the gui DOM element to a container of
-        your choosing.</p>
+      <p>By default, <code>DAT.GUI</code> panels will be automatically added
+        to the HTML document and fixed to the top of the screen from right to
+        left. You can disable this behavior and append the gui DOM element to
+        a container of your choosing.</p>
                 <pre class='prettyprint last'>
 // Notice this belongs to the DAT.GUI class (uppercase)
 // and not an instance thereof.
@@ -383,7 +384,7 @@ document.getElementById('my-gui-container').appendChild( gui.domElement );</pre>
   <div class='collapsable'>
     <div>
       <ol id='secrets'>
-        <li><strong>dat.gui</strong> panels are resizeable. Drag the show/hide
+        <li><code>DAT.GUI</code> panels are resizeable. Drag the show/hide
           button.
         </li>
 

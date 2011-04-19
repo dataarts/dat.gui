@@ -148,6 +148,9 @@ function FizzyText(message) {
   this.message = message;
 
   var loop = function() {
+
+    requestAnimationFrame(loop);
+    
     // Don't render if we don't see it.
     // Would be cleaner if I dynamically acquired the top of the canvas.
     if (document.body.scrollTop < height + 20) {
@@ -156,7 +159,7 @@ function FizzyText(message) {
   }
 
   // This calls the render function every 30 milliseconds.
-  setInterval(loop, frameTime);
+  loop();
 
   // This class is responsible for drawing and moving those little
   // colored dots.
