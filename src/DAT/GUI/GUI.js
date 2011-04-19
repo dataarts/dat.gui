@@ -20,9 +20,6 @@ DAT.GUI = function(parameters) {
 
   var listenInterval;
 
-  // Set this to minified css if you don't want to attach style sheets
-  var inlineCSS = '';
-
   // Sum total of heights of controllers in this gui
   var controllerHeight;
 
@@ -454,7 +451,8 @@ DAT.GUI = function(parameters) {
 
   DAT.GUI.allGuis.push(this);
 
-  // Add hide listener if this is the first DAT.GUI. 
+  // Add hide listener if this is the first DAT.GUI.
+
   if (DAT.GUI.allGuis.length == 1) {
 
     window.addEventListener('keyup', function(e) {
@@ -464,10 +462,10 @@ DAT.GUI = function(parameters) {
       }
     }, false);
 
-    if (inlineCSS != '') {
+    if (DAT.GUI.inlineCSS) {
       var styleSheet = document.createElement('style');
       styleSheet.setAttribute('type', 'text/css');
-      styleSheet.innerHTML = inlineCSS;
+      styleSheet.innerHTML = DAT.GUI.inlineCSS;
       document.head.appendChild(styleSheet);
     }
 
