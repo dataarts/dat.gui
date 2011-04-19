@@ -33,12 +33,11 @@
       var fizzyText = new FizzyText("dat.gui");
       var gui = new DAT.GUI();
 
-
       // Text field
       gui.add(fizzyText, "message");
 
       // Sliders with min + max
-      gui.add(fizzyText, "maxSize").min(0.5).max(7);
+      gui.add(fizzyText, "maxSize");
       gui.add(fizzyText, "growthSpeed").min(0.01).max(1).step(0.05);
       gui.add(fizzyText, "speed", 0.1, 2, 0.05); // shorthand for min/max/step
 
