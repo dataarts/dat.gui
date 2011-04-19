@@ -466,7 +466,7 @@ DAT.GUI = function(parameters) {
       var styleSheet = document.createElement('style');
       styleSheet.setAttribute('type', 'text/css');
       styleSheet.innerHTML = DAT.GUI.inlineCSS;
-      document.head.appendChild(styleSheet);
+      document.head.insertBefore(styleSheet, document.head.firstChild);
     }
 
   }
