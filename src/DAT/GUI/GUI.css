@@ -29,7 +29,9 @@
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-a.guidat-toggle {
+a.guidat-toggle:link,
+a.guidat-toggle:visited,
+a.guidat-toggle:active {
   text-decoration: none;
   cursor: pointer;
   color: #fff;
