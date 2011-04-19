@@ -460,6 +460,14 @@ DAT.GUI = function(parameters) {
         DAT.GUI.toggleHide();
       }
     }, false);
+
+    if (DAT.GUI.inlineCSS) {
+      var styleSheet = document.createElement('style');
+      styleSheet.setAttribute('type', 'text/css');
+      styleSheet.innerHTML = DAT.GUI.inlineCSS;
+      document.head.insertBefore(styleSheet, document.head.firstChild);
+    }
+
   }
 
 };
