@@ -12,7 +12,7 @@ Commands:
   clean                 remove any built files
 """
 parser = OptionParser(usage=usage)
-parser.add_option('-l', '--level', dest='level', default='ADVANCED_OPTIMIZATIONS',
+parser.add_option('-l', '--level', dest='level', default='SIMPLE_OPTIMIZATIONS',
                   help='Closure compilation level [WHITESPACE_ONLY, SIMPLE_OPTIMIZATIONS, \
                   ADVANCED_OPTIMIZATIONS]')
 
