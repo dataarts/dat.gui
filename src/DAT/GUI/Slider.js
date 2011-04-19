@@ -1,4 +1,5 @@
-DAT.GUI.Slider = function(numberController, min, max, step, initValue) {
+// Standalone GUI element
+DAT.GUI.Slider = function(object, property, min, max, step) {
 
   var clicked = false;
   var _this = this;
@@ -16,28 +17,21 @@ DAT.GUI.Slider = function(numberController, min, max, step, initValue) {
   var onDrag = function(e) {
     if (!clicked) return;
     var pos = findPos(_this.domElement);
-    var val = DAT.GUI.map(e.pageX, pos[0], pos[0] + _this.domElement
-        .offsetWidth, numberController.getMin(), numberController.getMax());
-    val = Math.round(val / numberController.getStep()) * numberController
-        .getStep();
-    numberController.setValue(val);
+    var val = map(e.pageX, pos[0], pos[0] + _this.domElement
+        .offsetWidth, getMin(), getMax());
+    val = Math.round(val / getStep()) * getStep();
+    setValue(val);
   };
 
   this.domElement.addEventListener('mousedown', function(e) {
     clicked = true;
     x = px = e.pageX;
-    DAT.GUI.addClass(numberController.domElement, 'active');
     onDrag(e);
     document.addEventListener('mouseup', mouseup, false);
   }, false);
 
   var mouseup = function(e) {
-    DAT.GUI.removeClass(numberController.domElement, 'active');
     clicked = false;
-    if (numberController.finishChangeFunction != null) {
-      numberController.finishChangeFunction.call(this,
-          numberController.getValue());
-    }
     document.removeEventListener('mouseup', mouseup, false);
   };
 
@@ -52,13 +46,59 @@ DAT.GUI.Slider = function(numberController, min, max, step, initValue) {
     }
   };
 
+  // Overridden methods
+  var map = function(v, i1, i2, o1, o2) {
+    return o1 + (o2 - o1) * ((v - i1) / (i2 - i1));
+  };
+
+  var getMin = function() {
+    return min;
+  };
+
+  var getMax = function() {
+    return max;
+  };
+
+  var getStep = function() {
+    return step;
+  };
+
+  var setValue = function(val) {
+
+    val = parseFloat(val);
+
+    if (min != undefined && val <= min) {
+      val = min;
+    } else if (max != undefined && val >= max) {
+      val = max;
+    }
+
+    object[propertyName] = val;
+    _this.value = getValue();
+  };
+
+  var getValue = function() {
+    return object[propertyName];
+  };
+  
+  // Public methods
+  this.min = function(n) {
+    min = n;
+  };
+  this.max = function(n) {
+    max = n;
+  };
+  this.step = function(n) }{
+    step = n;
+  };
+
   this.__defineSetter__('value', function(e) {
-    this.fg.style.width = DAT.GUI.map(e, numberController.getMin(),
-        numberController.getMax(), 0, 100) + "%";
+    this.fg.style.width = DAT.GUI.map(e, getMin(),
+        getMax(), 0, 100) + "%";
   });
 
   document.addEventListener('mousemove', onDrag, false);
 
-  this.value = initValue;
+  this.value = getValue();
 
 };

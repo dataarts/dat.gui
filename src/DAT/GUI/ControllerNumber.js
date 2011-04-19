@@ -95,7 +95,7 @@ DAT.GUI.ControllerNumber = function() {
   var slider;
 
   var addSlider = function() {
-    slider = new DAT.GUI.Slider(_this, min, max, step, _this.getValue());
+    slider = new DAT.GUI.ControllerNumberSlider(_this, min, max, step, _this.getValue());
     _this.domElement.appendChild(slider.domElement);
   };
 
