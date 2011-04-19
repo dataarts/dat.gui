@@ -6,8 +6,12 @@ DAT.GUI = function(parameters) {
     parameters = {};
   }
 
+
+  var paramsExplicitHeight = false;
   if (parameters.height == undefined) {
     parameters.height = 300;
+  } else {
+    paramsExplicitHeight = true;
   }
 
   var MIN_WIDTH = 240;
@@ -280,6 +284,7 @@ DAT.GUI = function(parameters) {
 
   this.add = function() {
 
+
     if (arguments.length == 1) {
       var toReturn = [];
       for (var i in arguments[0]) {
@@ -348,6 +353,24 @@ DAT.GUI = function(parameters) {
     if (!explicitOpenHeight) {
       openHeight = controllerHeight;
     }
+
+    // Let's see if we're doing this on onload and lets *try* to guess how
+    // big you want the damned box.
+    if (!paramsExplicitHeight) {
+      try {
+
+        // Probably a better way to do this
+        var caller = arguments.callee.caller;
+
+        if (caller == window['onload']) {
+          curControllerContainerHeight = resizeTo = openHeight =
+              controllerHeight;
+          controllerContainer.style.height = curControllerContainerHeight + 'px';
+        }
+
+      } catch (e) {}
+    }
+
 
     return controllerObject;
 

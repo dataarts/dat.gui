@@ -1,44 +1,61 @@
 <!doctype html>
 <html>
 <head>
+
   <title>dat.gui</title>
 
-  <link rel="icon" type="image/png" href="demo/assets/favicon.png"/>
-  <link href="demo/demo.css" media="screen" rel="stylesheet" type="text/css"/>
+  <link rel='icon' type='image/png' href='demo/assets/favicon.png'/>
+  <link href='demo/demo.css' media='screen' rel='stylesheet' type='text/css'/>
 
-  <script type="text/javascript" src="build/DAT.GUI.js"></script>
+  <!--Minified build-->
+  <script type='text/javascript' src='build/DAT.GUI.min.js'></script>
 
-  <script type="text/javascript" src="demo/improvedNoise.js"></script>
-  <script type="text/javascript" src="demo/prettify.js"></script>
-  <script type="text/javascript" src="demo/demo.js"></script>
+  <!--Build--->
+  <!--<script type='text/javascript' src='build/DAT.GUI.js'></script>-->
 
-  <script type="text/javascript">
+  <!--All source-->
+  <!--<link href='src/DAT/GUI/GUI.css' media='screen' rel='stylesheet' type='text/css'/>-->
+  <!--<script type='text/javascript' src='src/DAT/GUI/GUI.js'></script>-->
+  <!--<script type='text/javascript' src='src/DAT/GUI/Slider.js'></script>-->
+  <!--<script type='text/javascript' src='src/DAT/GUI/Controller.js'></script>-->
+  <!--<script type='text/javascript' src='src/DAT/GUI/ControllerBoolean.js'></script>-->
+  <!--<script type='text/javascript' src='src/DAT/GUI/ControllerString.js'></script>-->
+  <!--<script type='text/javascript' src='src/DAT/GUI/ControllerFunction.js'></script>-->
+  <!--<script type='text/javascript' src='src/DAT/GUI/ControllerNumber.js'></script>-->
+
+  <!--Demo-->
+  <script type='text/javascript' src='demo/improvedNoise.js'></script>
+  <script type='text/javascript' src='demo/prettify.js'></script>
+  <script type='text/javascript' src='demo/demo.js'></script>
+
+  <script type='text/javascript'>
     //<![CDATA[
 
     window.onload = function() {
 
+      console.log(this);
+
       prettyPrint();
 
-      var fizzyText = new FizzyText("dat.gui");
+      var fizzyText = new FizzyText('dat.gui');
       var gui = new DAT.GUI();
 
-
       // Text field
-      gui.add(fizzyText, "message");
+      gui.add(fizzyText, 'message');
 
       // Sliders with min + max
-      gui.add(fizzyText, "maxSize").min(0.5).max(7);
-      gui.add(fizzyText, "growthSpeed").min(0.01).max(1).step(0.05);
-      gui.add(fizzyText, "speed", 0.1, 2, 0.05); // shorthand for min/max/step
+      gui.add(fizzyText, 'maxSize').min(0.5).max(7);
+      gui.add(fizzyText, 'growthSpeed').min(0.01).max(1).step(0.05);
+      gui.add(fizzyText, 'speed', 0.1, 2, 0.05); // shorthand for min/max/step
 
       // Sliders with min, max and increment.
-      gui.add(fizzyText, "noiseStrength", 10, 100, 5);
+      gui.add(fizzyText, 'noiseStrength', 10, 100, 5);
 
       // Boolean checkbox
-      gui.add(fizzyText, "displayOutline");
+      gui.add(fizzyText, 'displayOutline');
 
-      // Fires a function called "explode"
-      gui.add(fizzyText, "explode").name("Explode!"); // Specify a custom name.
+      // Fires a function called 'explode'
+      gui.add(fizzyText, 'explode').name('Explode!'); // Specify a custom name.
 
       // Javascript for documentation
       getCollapsables();
@@ -63,8 +80,8 @@
 
       if (document.getElementsByClassName == undefined) {
         document.getElementsByClassName = function(className) {
-          var hasClassName = new RegExp("(?:^|\\s)" + className + "(?:$|\\s)");
-          var allElements = document.getElementsByTagName("*");
+          var hasClassName = new RegExp('(?:^|\\s)' + className + '(?:$|\\s)');
+          var allElements = document.getElementsByTagName('*');
           var results = [];
 
           var element;
@@ -99,16 +116,16 @@
 </head>
 
 <body>
-<div id="container">
+<div id='container'>
 
 <!-- GUIDAT logo -->
-<div id="helvetica-demo"></div>
+<div id='helvetica-demo'></div>
 
 <!-- It gives you this! -->
-<div id="notifier"></div>
+<div id='notifier'></div>
 
-<h1><a href="http://twitter.com/guidat"><img src="demo/assets/profile.png"
-                                             border="0" alt="dat.gui flag"/></a>
+<h1><a href='http://twitter.com/guidat'><img src='demo/assets/profile.png'
+                                             border='0' alt='dat.gui flag'/></a>
 </h1>
 
 <p><strong>dat.gui</strong> is a lightweight controller library for JavaScript.
@@ -116,49 +133,53 @@
 </p>
 
 <ul>
-  <li><a href="https://github.com/jonobr1/dat.gui/raw/versions/gui.min
-      .js"><strong>Download the minified source</strong></a>
-    <small
-        id="buildsize">[150.9kb]
+  <li>
+  	<a href='https://github.com/dataarts/dat.gui/raw/master/build/DAT.GUI.min.js'><strong>Download the minified source</strong></a>
+    <small id='buildsizemin'>[buildsizemin]
+    </small>
+  </li>
+  <li>
+  	<a href='https://github.com/dataarts/dat.gui/raw/master/build/DAT.GUI.js'><strong>Download the uncompressed source</strong></a>
+    <small id='buildsize'>[buildsize]
     </small>
   </li>
 
-  <li><a href="http://github.com/jonobr1/dat.gui">Contribute on GitHub!</a></li>
+  <li><a href='http://github.com/dataarts/dat.gui'>Contribute on GitHub!</a></li>
 </ul>
 
 <h2>Basic Usage</h2>
-    <pre id="demo-pre" class="prettyprint">
-&lt;script type="text/javascript" src="gui.min.js"&gt;&lt;/script&gt;
-&lt;script type="text/javascript"&gt;
+    <pre id='demo-pre' class='prettyprint'>
+&lt;script type='text/javascript' src='gui.min.js'&gt;&lt;/script&gt;
+&lt;script type='text/javascript'&gt;
 
 window.onload = function() {
 
-   var fizzyText = new <a href="demo/demo.js">FizzyText</a>("dat.gui");
+   var fizzyText = new <a href='demo/demo.js'>FizzyText</a>('dat.gui');
 
    var gui = new DAT.GUI();
 
    // Text field
-   gui.add(fizzyText, "message");
+   gui.add(fizzyText, 'message');
 
    // Sliders with min + max
-   gui.add(fizzyText, "maxSize").min(0.5).max(7);
-   gui.add(fizzyText, "growthSpeed").min(0.01).max(1).step(0.05);
-   gui.add(fizzyText, "speed", 0.1, 2, 0.05); // shorthand for min/max/step
+   gui.add(fizzyText, 'maxSize').min(0.5).max(7);
+   gui.add(fizzyText, 'growthSpeed').min(0.01).max(1).step(0.05);
+   gui.add(fizzyText, 'speed', 0.1, 2, 0.05); // shorthand for min/max/step
 
-   gui.add(fizzyText, "noiseStrength", 10, 100, 5);
+   gui.add(fizzyText, 'noiseStrength', 10, 100, 5);
 
    // Boolean checkbox
-   gui.add(fizzyText, "displayOutline");
+   gui.add(fizzyText, 'displayOutline');
 
-   // Fires a function called "explode"
-   gui.add(fizzyText, "explode").name("Explode!"); // Specify a custom name.
+   // Fires a function called 'explode'
+   gui.add(fizzyText, 'explode').name('Explode!'); // Specify a custom name.
 
 };
 
 &lt;/script&gt;
 </pre>
 
-<ul id="desc">
+<ul id='desc'>
   <li><strong>dat.gui</strong> will infer the type of the property you're trying
     to add<br/>
     (based on its initial value) and create the corresponding control.
@@ -170,30 +191,30 @@ window.onload = function() {
 </ul>
 
 <!--
-        <h2 class="collapsed">Fire a function when someone uses a control</h2>
-        <pre class="prettyprint">gui.add(obj, "propName").onChange(function(n) {
-        alert("You changed me to " + n);
+        <h2 class='collapsed'>Fire a function when someone uses a control</h2>
+        <pre class='prettyprint'>gui.add(obj, 'propName').onChange(function(n) {
+        alert('You changed me to ' + n);
 });</pre>-->
 
-<!--<div class="collapsed">-->
+<!--<div class='collapsed'>-->
   <!---->
-  <!--<h2 class="section">Saving your parameters</h2>-->
+  <!--<h2 class='section'>Saving your parameters</h2>-->
 
-  <!--<div class="collapsable">-->
+  <!--<div class='collapsable'>-->
     <!--<div>-->
       <!--<p>The simplest way to save your parameters is via-->
         <!--<code>DAT.GUI.saveURL()</code>. This method directs your browser to a-->
         <!--URL containing the current GUI settings.</p>-->
-                <!--<pre class="prettyprint last">-->
+                <!--<pre class='prettyprint last'>-->
 <!--// Make a button for the url function-->
-<!--gui.add(DAT.GUI, "saveURL");</pre>-->
+<!--gui.add(DAT.GUI, 'saveURL');</pre>-->
     <!--</div>-->
   <!--</div>-->
 <!--</div>-->
-<!--<div class="collapsed">-->
-  <!--<h2 class="section">Advanced saving</h2>-->
+<!--<div class='collapsed'>-->
+  <!--<h2 class='section'>Advanced saving</h2>-->
 
-  <!--<div class="collapsable">-->
+  <!--<div class='collapsable'>-->
     <!--<div>-->
       <!--<p>Let's say you'd like to share your settings with someone. Instead of-->
         <!--sending a long link with lots of parameters stored in it, you can make-->
@@ -201,29 +222,29 @@ window.onload = function() {
 
       <!--<p>First, add the method <code>DAT.GUI.showSaveString()</code> to a gui-->
         <!--object:</p>-->
-                <!--<pre class="prettyprint">var gui = new DAT.GUI();-->
+                <!--<pre class='prettyprint'>var gui = new DAT.GUI();-->
 
 <!--// Add some stuff (and pretend I change their values);-->
-<!--gui.add(someObject, "someProperty");-->
-<!--gui.add(someObject, "someOtherProperty");-->
+<!--gui.add(someObject, 'someProperty');-->
+<!--gui.add(someObject, 'someOtherProperty');-->
 
 <!--// Make a save button.-->
-<!--gui.add(DAT.GUI, "showSaveString");</pre>-->
+<!--gui.add(DAT.GUI, 'showSaveString');</pre>-->
 
-      <!--<p>Clicking the "showSaveString" button bring up an alert with a string.-->
+      <!--<p>Clicking the 'showSaveString' button bring up an alert with a string.-->
         <!--Copy and paste that string into the method <code>DAT.GUI.load()</code>-->
         <!--before you instantiate any gui objects.</p>-->
-            <!--<pre class="prettyprint">-->
+            <!--<pre class='prettyprint'>-->
 <!--// Replace COPIED STRING with the value you got from showSaveString()-->
-<!--DAT.GUI.load("COPIED STRING");-->
+<!--DAT.GUI.load('COPIED STRING');-->
 
 <!--var gui = new DAT.GUI();-->
 
 <!--// Now these properties will be set to the values you just saved.-->
-<!--gui.add(someObject, "someProperty");-->
-<!--gui.add(someObject, "someOtherProperty");</pre>-->
+<!--gui.add(someObject, 'someProperty');-->
+<!--gui.add(someObject, 'someOtherProperty');</pre>-->
 
-      <!--<p class="last"><strong>Save strings won't work if you change the order in-->
+      <!--<p class='last'><strong>Save strings won't work if you change the order in-->
         <!--which you've added properties to your gui objects, or the order of the-->
         <!--gui objects themselves.</strong>. If you want to add more parameters to-->
         <!--your gui and use an old save string, make sure they're added after the-->
@@ -233,71 +254,71 @@ window.onload = function() {
 <!--</div>-->
 
 
-<div class="collapsed">
-  <h2 class="section">Choosing from a list of values</h2>
+<div class='collapsed'>
+  <h2 class='section'>Choosing from a list of values</h2>
 
-  <div class="collapsable">
+  <div class='collapsable'>
     <div>
-<pre class="prettyprint first last">gui.add(obj, "propertyName").options(1, 2, 3, 5, 8);
+<pre class='prettyprint first last'>gui.add(obj, 'propertyName').options(1, 2, 3, 5, 8);
 
 // Alternatively, you can specify custom labels using object syntax
-gui.add(obj, "propertyName").options({'Small': 1, 'Medium': 2, 'Large': 3});
+gui.add(obj, 'propertyName').options({'Small': 1, 'Medium': 2, 'Large': 3});
 </pre>
     </div>
   </div>
 </div>
 
-<div class="collapsed">
-  <h2 class="section">Listen for variable changes inside the GUI</h2>
+<div class='collapsed'>
+  <h2 class='section'>Listen for variable changes inside the GUI</h2>
 
-  <div class="collapsable">
+  <div class='collapsable'>
     <div>
       <p>To fire a function whenever a user changes a variable via the GUI, use
         the following syntax:</p>
-                <pre class="prettyprint">gui.add(obj, "propertyName").onChange(function(newValue) {
-   alert("You changed me to " + newValue);
+                <pre class='prettyprint'>gui.add(obj, 'propertyName').onChange(function(newValue) {
+   alert('You changed me to ' + newValue);
 });</pre>
       <p>This can be slightly annoying for types like number or string. You may
         not want to fire a function while the user is sliding, or while they're
         typing. To fire a function when the user has <em>finished</em> making
         changes, use the following:</p>
-                <pre class="prettyprint">gui.add(obj, "propertyName").onFinishChange(function(newValue) {
-   alert("You just finished changing me to " + newValue);
+                <pre class='prettyprint'>gui.add(obj, 'propertyName').onFinishChange(function(newValue) {
+   alert('You just finished changing me to ' + newValue);
 });</pre>
       <p>Finally, if you'd like to do a little something extra when a function
         is called, use the following:</p>
-                <pre class="prettyprint last">gui.add(obj, "functionName").onFire(function() {
-   alert("You called a function with dat.gui");
+                <pre class='prettyprint last'>gui.add(obj, 'functionName').onFire(function() {
+   alert('You called a function with dat.gui');
 });</pre>
     </div>
   </div>
 </div>
-<div class="collapsed">
-  <h2 class="section">Listen for variable changes outside of the GUI</h2>
+<div class='collapsed'>
+  <h2 class='section'>Listen for variable changes outside of the GUI</h2>
 
-  <div class="collapsable">
+  <div class='collapsable'>
     <div>
       <p>Let's say you have a variable that changes by itself from time to time.
         If you'd like the DAT.GUI to reflect those changes, use the <code>listen()</code>
         method.</p>
       <pre
-          class="prettyprint last">gui.add(obj, "changingProperty").listen();</pre>
+          class='prettyprint last'>gui.add(obj, 'changingProperty').listen();</pre>
     </div>
   </div>
 </div>
 
-<div class="collapsed">
-  <h2 class="section">Advanced listening</h2>
+<div class='collapsed'>
+  <h2 class='section'>Advanced listening</h2>
 
-  <div class="collapsable">
+  <div class='collapsable'>
     <div>
       <p>By default, <strong>dat.gui</strong> will create an internal interval
         that checks for changes in the values you've marked with
         <code>listen()</code>. If you'd like to check for these changes in an
         interval of your own definition, use the following:</p>
-                <pre class="prettyprint">
+                <pre class='prettyprint'>
 gui.autoListen = false; // disables internal interval
-gui.add(obj, "changingProperty").listen();
+gui.add(obj, 'changingProperty').listen();
 
 // Make your own loop
 setInterval(function() {
@@ -307,11 +328,11 @@ setInterval(function() {
       <p>Alternatively, you can forego calling <code>listen()</code> on
         individual controllers, and instead choose to monitor changes in
         <em>all</em> values controlled by your gui.</p>
-                <pre class="prettyprint last">
+                <pre class='prettyprint last'>
 gui.autoListen = false; // disables internal interval
-gui.add(obj, "add");
-gui.add(obj, "lotsa");
-gui.add(obj, "properties");
+gui.add(obj, 'add');
+gui.add(obj, 'lotsa');
+gui.add(obj, 'properties');
 
 // Make your own loop
 setInterval(function() {
@@ -321,25 +342,25 @@ setInterval(function() {
   </div>
 </div>
 
-<div class="collapsed">
-  <h2 class="section">Multiple panels and custom placement</h2>
+<div class='collapsed'>
+  <h2 class='section'>Multiple panels and custom placement</h2>
 
-  <div class="collapsable">
+  <div class='collapsable'>
     <div>
       <p>You can instantiate multiple <code>DAT.GUI</code> objects and name them
         however you'd like.</p>
-                <pre class="prettyprint">var gui1 = new DAT.GUI();
+                <pre class='prettyprint'>var gui1 = new DAT.GUI();
 var gui2 = new DAT.GUI();
 
-// The name function overwrites the "Show Controls" text.
-gui1.name("Utilities");
-gui2.name("Camera Placement");</pre>
+// The name function overwrites the 'Show Controls' text.
+gui1.name('Utilities');
+gui2.name('Camera Placement');</pre>
 
       <p>By default, <strong>dat.gui</strong> panels will be automatically added
         to the HTML document and fixed to the top of the screen. You can disable
         this behavior / styling and append the gui DOM element to a container of
         your choosing.</p>
-                <pre class="prettyprint last">
+                <pre class='prettyprint last'>
 // Notice this belongs to the DAT.GUI class (uppercase)
 // and not an instance thereof.
 DAT.GUI.autoPlace = false;
@@ -347,21 +368,21 @@ DAT.GUI.autoPlace = false;
 var gui = new DAT.GUI();
 
 // Do some custom styles ...
-gui.domElement.style.position = "absolute";
-gui.domElement.style.top = "20px";
-gui.domElement.style.left = "20px";
+gui.domElement.style.position = 'absolute';
+gui.domElement.style.top = '20px';
+gui.domElement.style.left = '20px';
 
-document.getElementById("my-gui-container").appendChild( gui.domElement );</pre>
+document.getElementById('my-gui-container').appendChild( gui.domElement );</pre>
     </div>
   </div>
 </div>
 
-<div class="collapsed">
-  <h2 class="section">Pro tips.</h2>
+<div class='collapsed'>
+  <h2 class='section'>Pro tips.</h2>
 
-  <div class="collapsable">
+  <div class='collapsable'>
     <div>
-      <ol id="secrets">
+      <ol id='secrets'>
         <li><strong>dat.gui</strong> panels are resizeable. Drag the show/hide
           button.
         </li>
@@ -372,10 +393,10 @@ document.getElementById("my-gui-container").appendChild( gui.domElement );</pre>
   </div>
 </div>
 
-<div class="trans">&nbsp;</div>
+<div class='trans'>&nbsp;</div>
 
-<footer class="trans">Initiated by <a href="http://georgemichaelbrower.com/">George
-  Michael Brower</a> and <a href="http://jonobr1.com/">Jono Brandel</a> of the
+<footer class='trans'>Initiated by <a href='http://georgemichaelbrower.com/'>George
+  Michael Brower</a> and <a href='http://jonobr1.com/'>Jono Brandel</a> of the
   Data Arts Team, Google Creative Lab.
 </footer>
 </body>
