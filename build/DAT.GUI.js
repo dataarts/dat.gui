@@ -6,8 +6,12 @@ DAT.GUI = function(parameters) {
     parameters = {};
   }
 
+
+  var paramsExplicitHeight = false;
   if (parameters.height == undefined) {
     parameters.height = 300;
+  } else {
+    paramsExplicitHeight = true;
   }
 
   var MIN_WIDTH = 240;
@@ -81,6 +85,7 @@ DAT.GUI = function(parameters) {
 
   var toggleDragged = false;
   var dragDisplacementY = 0;
+  var dragDisplacementX = 0;
   var togglePressed = false;
 
   var my, pmy, mx, pmx;
@@ -114,15 +119,19 @@ DAT.GUI = function(parameters) {
     }
 
     toggleDragged = true;
+
     dragDisplacementY += dmy;
-    dragDisplacementX += dmx;
     openHeight += dmy;
-    width += dmx;
     curControllerContainerHeight += dmy;
     controllerContainer.style.height = openHeight + 'px';
+
+    dragDisplacementX += dmx;
+    width += dmx;
     width = DAT.GUI.constrain(width, MIN_WIDTH, MAX_WIDTH);
     _this.domElement.style.width = width + 'px';
+
     checkForOverflow();
+
   };
 
   toggleButton.addEventListener('mousedown', function(e) {
@@ -130,8 +139,8 @@ DAT.GUI = function(parameters) {
     pmx = mx = e.pageX;
     togglePressed = true;
     e.preventDefault();
-    dragDisplacementY = 0;
     dragDisplacementX = 0;
+    dragDisplacementY = 0;
     document.addEventListener('mousemove', resize, false);
     return false;
 
@@ -265,15 +274,16 @@ DAT.GUI = function(parameters) {
   };
 
   var construct = function(constructor, args) {
-    function F() {
+    function C() {
       return constructor.apply(this, args);
     }
 
-    F.prototype = constructor.prototype;
-    return new F();
+    C.prototype = constructor.prototype;
+    return new C();
   };
 
   this.add = function() {
+
 
     if (arguments.length == 1) {
       var toReturn = [];
@@ -343,6 +353,24 @@ DAT.GUI = function(parameters) {
     if (!explicitOpenHeight) {
       openHeight = controllerHeight;
     }
+
+    // Let's see if we're doing this on onload and lets *try* to guess how
+    // big you want the damned box.
+    if (!paramsExplicitHeight) {
+      try {
+
+        // Probably a better way to do this
+        var caller = arguments.callee.caller;
+
+        if (caller == window['onload']) {
+          curControllerContainerHeight = resizeTo = openHeight =
+              controllerHeight;
+          controllerContainer.style.height = curControllerContainerHeight + 'px';
+        }
+
+      } catch (e) {}
+    }
+
 
     return controllerObject;
 
@@ -758,6 +786,7 @@ DAT.GUI.Controller.prototype.getValue = function() {
 };
 
 DAT.GUI.Controller.prototype.updateDisplay = function() {
+  
 };
 
 DAT.GUI.Controller.prototype.onChange = function(fnc) {
@@ -1006,10 +1035,7 @@ DAT.GUI.ControllerNumber = function() {
   numberField.addEventListener('mousedown', function(e) {
     py = y = e.pageY;
     clickedNumberField = true;
-    if (slider) {
-      DAT.GUI.addClass(_this.domElement, 'active');
-      console.log(_this.domElement.className);
-    }
+    DAT.GUI.makeSelectable(numberField);
     document.addEventListener('mousemove', dragNumberField, false);
     document.addEventListener('mouseup', mouseup, false);
   }, false);
@@ -1038,8 +1064,8 @@ DAT.GUI.ControllerNumber = function() {
     
     DAT.GUI.makeSelectable(numberField);
     if (clickedNumberField && !draggedNumberField) {
-      numberField.focus();
-      numberField.select();
+      //numberField.focus();
+      //numberField.select();
     }
     draggedNumberField = false;
     clickedNumberField = false;
@@ -1057,6 +1083,8 @@ DAT.GUI.ControllerNumber = function() {
     y = e.pageY;
     var dy = py - y;
 
+    
+
     if (!draggingHorizontal && !draggingVertical) {
       if (dy == 0) {
         draggingHorizontal = true;
@@ -1068,6 +1096,8 @@ DAT.GUI.ControllerNumber = function() {
     if (draggingHorizontal) {
       return true;
     }
+
+    DAT.GUI.addClass(_this.domElement, 'active');
 
     DAT.GUI.makeUnselectable(_this.parent.domElement);
     DAT.GUI.makeUnselectable(numberField);
@@ -1139,9 +1169,14 @@ DAT.GUI.ControllerString = function() {
   input.addEventListener('keyup', function(e) {
     if (e.keyCode == 13 && _this.finishChangeFunction != null) {
       _this.finishChangeFunction.call(this, _this.getValue());
+      input.blur();
     }
     _this.setValue(input.value);
   }, false);
+
+  input.addEventListener('mousedown', function(e) {
+    DAT.GUI.makeSelectable(input);
+  });
 
   input.addEventListener('blur', function() {
     DAT.GUI.supressHotKeys = false;
