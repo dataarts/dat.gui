@@ -76,6 +76,9 @@ DAT.GUI.Controller.prototype.options = function() {
       var opt = document.createElement('option');
       opt.innerHTML = i;
       opt.setAttribute('value', arr[i]);
+      if (arguments[i] == this.getValue()) {
+        opt.selected = true;
+      }
       select.appendChild(opt);
     }
   } else {
@@ -83,6 +86,9 @@ DAT.GUI.Controller.prototype.options = function() {
       var opt = document.createElement('option');
       opt.innerHTML = arguments[i];
       opt.setAttribute('value', arguments[i]);
+      if (arguments[i] == this.getValue()) {
+        opt.selected = true;
+      }
       select.appendChild(opt);
     }
   }

@@ -6,13 +6,15 @@
   <link href="demo/demo.css" media="screen" rel="stylesheet" type="text/css"/>
 
   <link href="src/DAT/GUI/gui.css" media="screen" rel="stylesheet"
-        type="text/css"
-      />
+        type="text/css"/>
+
   <script type="text/javascript" src="src/DAT/GUI/GUI.js"></script>
   <script type="text/javascript" src="src/DAT/GUI/Slider.js"></script>
   <script type="text/javascript" src="src/DAT/GUI/Controller.js"></script>
-  <script type="text/javascript" src="src/DAT/GUI/ControllerBoolean.js"></script>
-  <script type="text/javascript" src="src/DAT/GUI/ControllerFunction.js"></script>
+  <script type="text/javascript"
+          src="src/DAT/GUI/ControllerBoolean.js"></script>
+  <script type="text/javascript"
+          src="src/DAT/GUI/ControllerFunction.js"></script>
   <script type="text/javascript" src="src/DAT/GUI/ControllerNumber.js"></script>
   <script type="text/javascript" src="src/DAT/GUI/ControllerString.js"></script>
 
@@ -78,7 +80,8 @@
           var element;
           for (var i = 0; (element = allElements[i]) != null; i++) {
             var elementClass = element.className;
-            if (elementClass && elementClass.indexOf(className) != -1 && hasClassName.test(elementClass))
+            if (elementClass && elementClass.indexOf(className) != -1 &&
+                hasClassName.test(elementClass))
               results.push(element);
           }
 
