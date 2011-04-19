@@ -20,13 +20,9 @@ DAT.GUI.ControllerNumber = function() {
   var max = arguments[4];
   var step = arguments[5];
 
-  if (!step) {
-    if (min != undefined && max != undefined) {
+  var defaultStep = function() {
       step = (max - min) * 0.01;
-    } else {
-      step = 1;
-    }
-  }
+  };
 
   this.min = function() {
     var needsSlider = false;
@@ -40,6 +36,9 @@ DAT.GUI.ControllerNumber = function() {
     }
     if (needsSlider) {
       addSlider();
+      if (step == undefined) {
+        defaultStep();
+      }
     }
     return _this;
   };
@@ -56,6 +55,9 @@ DAT.GUI.ControllerNumber = function() {
     }
     if (needsSlider) {
       addSlider();
+      if (step == undefined) { 
+        defaultStep();
+      }
     }
     return _this;
   };
@@ -68,6 +70,18 @@ DAT.GUI.ControllerNumber = function() {
     }
     return _this;
   };
+
+  this.getMin = function() {
+    return min;
+  };
+
+  this.getMax = function() {
+    return max;
+  };
+  
+  this.getStep = function() {
+    return step || 1;
+  }
 
   var numberField = document.createElement('input');
   numberField.setAttribute('id', this.propertyName);

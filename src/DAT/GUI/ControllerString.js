@@ -26,9 +26,14 @@ DAT.GUI.ControllerString = function() {
   }, false);
 
   input.addEventListener('blur', function() {
+    DAT.GUI.supressHotKeys = false;
     if (_this.finishChangeFunction != null) {
       _this.finishChangeFunction.call(this, _this.getValue());
     }
+  }, false);
+
+  input.addEventListener('focus', function() {
+    DAT.GUI.supressHotKeys = true;
   }, false);
 
   this.updateDisplay = function() {
