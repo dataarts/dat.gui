@@ -33,11 +33,12 @@
       var fizzyText = new FizzyText("dat.gui");
       var gui = new DAT.GUI();
 
+
       // Text field
       gui.add(fizzyText, "message");
 
       // Sliders with min + max
-      gui.add(fizzyText, "maxSize");
+      gui.add(fizzyText, "maxSize").min(0.5).max(7);
       gui.add(fizzyText, "growthSpeed").min(0.01).max(1).step(0.05);
       gui.add(fizzyText, "speed", 0.1, 2, 0.05); // shorthand for min/max/step
 
@@ -185,61 +186,62 @@ window.onload = function() {
         alert("You changed me to " + n);
 });</pre>-->
 
-<div class="collapsed">
-  <h2 class="section">Saving your parameters</h2>
+<!--<div class="collapsed">-->
+  <!---->
+  <!--<h2 class="section">Saving your parameters</h2>-->
 
-  <div class="collapsable">
-    <div>
-      <p>The simplest way to save your parameters is via
-        <code>DAT.GUI.saveURL()</code>. This method directs your browser to a
-        URL containing the current GUI settings.</p>
-                <pre class="prettyprint last">
-// Make a button for the url function
-gui.add(DAT.GUI, "saveURL");</pre>
-    </div>
-  </div>
-</div>
-<div class="collapsed">
-  <h2 class="section">Advanced saving</h2>
+  <!--<div class="collapsable">-->
+    <!--<div>-->
+      <!--<p>The simplest way to save your parameters is via-->
+        <!--<code>DAT.GUI.saveURL()</code>. This method directs your browser to a-->
+        <!--URL containing the current GUI settings.</p>-->
+                <!--<pre class="prettyprint last">-->
+<!--// Make a button for the url function-->
+<!--gui.add(DAT.GUI, "saveURL");</pre>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+<!--<div class="collapsed">-->
+  <!--<h2 class="section">Advanced saving</h2>-->
 
-  <div class="collapsable">
-    <div>
-      <p>Let's say you'd like to share your settings with someone. Instead of
-        sending a long link with lots of parameters stored in it, you can make
-        your saved settings the defaults.</p>
+  <!--<div class="collapsable">-->
+    <!--<div>-->
+      <!--<p>Let's say you'd like to share your settings with someone. Instead of-->
+        <!--sending a long link with lots of parameters stored in it, you can make-->
+        <!--your saved settings the defaults.</p>-->
 
-      <p>First, add the method <code>DAT.GUI.showSaveString()</code> to a gui
-        object:</p>
-                <pre class="prettyprint">var gui = new DAT.GUI();
+      <!--<p>First, add the method <code>DAT.GUI.showSaveString()</code> to a gui-->
+        <!--object:</p>-->
+                <!--<pre class="prettyprint">var gui = new DAT.GUI();-->
 
-// Add some stuff (and pretend I change their values);
-gui.add(someObject, "someProperty");
-gui.add(someObject, "someOtherProperty");
+<!--// Add some stuff (and pretend I change their values);-->
+<!--gui.add(someObject, "someProperty");-->
+<!--gui.add(someObject, "someOtherProperty");-->
 
-// Make a save button.
-gui.add(DAT.GUI, "showSaveString");</pre>
+<!--// Make a save button.-->
+<!--gui.add(DAT.GUI, "showSaveString");</pre>-->
 
-      <p>Clicking the "showSaveString" button bring up an alert with a string.
-        Copy and paste that string into the method <code>DAT.GUI.load()</code>
-        before you instantiate any gui objects.</p>
-            <pre class="prettyprint">
-// Replace COPIED STRING with the value you got from showSaveString()
-DAT.GUI.load("COPIED STRING");
+      <!--<p>Clicking the "showSaveString" button bring up an alert with a string.-->
+        <!--Copy and paste that string into the method <code>DAT.GUI.load()</code>-->
+        <!--before you instantiate any gui objects.</p>-->
+            <!--<pre class="prettyprint">-->
+<!--// Replace COPIED STRING with the value you got from showSaveString()-->
+<!--DAT.GUI.load("COPIED STRING");-->
 
-var gui = new DAT.GUI();
+<!--var gui = new DAT.GUI();-->
 
-// Now these properties will be set to the values you just saved.
-gui.add(someObject, "someProperty");
-gui.add(someObject, "someOtherProperty");</pre>
+<!--// Now these properties will be set to the values you just saved.-->
+<!--gui.add(someObject, "someProperty");-->
+<!--gui.add(someObject, "someOtherProperty");</pre>-->
 
-      <p class="last"><strong>Save strings won't work if you change the order in
-        which you've added properties to your gui objects, or the order of the
-        gui objects themselves.</strong>. If you want to add more parameters to
-        your gui and use an old save string, make sure they're added after the
-        properties whose values you've saved.</p>
-    </div>
-  </div>
-</div>
+      <!--<p class="last"><strong>Save strings won't work if you change the order in-->
+        <!--which you've added properties to your gui objects, or the order of the-->
+        <!--gui objects themselves.</strong>. If you want to add more parameters to-->
+        <!--your gui and use an old save string, make sure they're added after the-->
+        <!--properties whose values you've saved.</p>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
 
 
 <div class="collapsed">

@@ -81,6 +81,7 @@ DAT.GUI = function(parameters) {
 
   var toggleDragged = false;
   var dragDisplacementY = 0;
+  var dragDisplacementX = 0;
   var togglePressed = false;
 
   var my, pmy, mx, pmx;
@@ -114,15 +115,19 @@ DAT.GUI = function(parameters) {
     }
 
     toggleDragged = true;
+
     dragDisplacementY += dmy;
-    dragDisplacementX += dmx;
     openHeight += dmy;
-    width += dmx;
     curControllerContainerHeight += dmy;
     controllerContainer.style.height = openHeight + 'px';
+
+    dragDisplacementX += dmx;
+    width += dmx;
     width = DAT.GUI.constrain(width, MIN_WIDTH, MAX_WIDTH);
     _this.domElement.style.width = width + 'px';
+
     checkForOverflow();
+
   };
 
   toggleButton.addEventListener('mousedown', function(e) {
@@ -130,8 +135,8 @@ DAT.GUI = function(parameters) {
     pmx = mx = e.pageX;
     togglePressed = true;
     e.preventDefault();
-    dragDisplacementY = 0;
     dragDisplacementX = 0;
+    dragDisplacementY = 0;
     document.addEventListener('mousemove', resize, false);
     return false;
 
@@ -265,12 +270,12 @@ DAT.GUI = function(parameters) {
   };
 
   var construct = function(constructor, args) {
-    function F() {
+    function C() {
       return constructor.apply(this, args);
     }
 
-    F.prototype = constructor.prototype;
-    return new F();
+    C.prototype = constructor.prototype;
+    return new C();
   };
 
   this.add = function() {

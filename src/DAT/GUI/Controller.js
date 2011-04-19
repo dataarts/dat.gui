@@ -55,6 +55,7 @@ DAT.GUI.Controller.prototype.getValue = function() {
 };
 
 DAT.GUI.Controller.prototype.updateDisplay = function() {
+  
 };
 
 DAT.GUI.Controller.prototype.onChange = function(fnc) {

@@ -21,9 +21,14 @@ DAT.GUI.ControllerString = function() {
   input.addEventListener('keyup', function(e) {
     if (e.keyCode == 13 && _this.finishChangeFunction != null) {
       _this.finishChangeFunction.call(this, _this.getValue());
+      input.blur();
     }
     _this.setValue(input.value);
   }, false);
+
+  input.addEventListener('mousedown', function(e) {
+    DAT.GUI.makeSelectable(input);
+  });
 
   input.addEventListener('blur', function() {
     DAT.GUI.supressHotKeys = false;

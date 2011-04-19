@@ -123,10 +123,7 @@ DAT.GUI.ControllerNumber = function() {
   numberField.addEventListener('mousedown', function(e) {
     py = y = e.pageY;
     clickedNumberField = true;
-    if (slider) {
-      DAT.GUI.addClass(_this.domElement, 'active');
-      console.log(_this.domElement.className);
-    }
+    DAT.GUI.makeSelectable(numberField);
     document.addEventListener('mousemove', dragNumberField, false);
     document.addEventListener('mouseup', mouseup, false);
   }, false);
@@ -155,8 +152,8 @@ DAT.GUI.ControllerNumber = function() {
     
     DAT.GUI.makeSelectable(numberField);
     if (clickedNumberField && !draggedNumberField) {
-      numberField.focus();
-      numberField.select();
+      //numberField.focus();
+      //numberField.select();
     }
     draggedNumberField = false;
     clickedNumberField = false;
@@ -174,6 +171,8 @@ DAT.GUI.ControllerNumber = function() {
     y = e.pageY;
     var dy = py - y;
 
+    
+
     if (!draggingHorizontal && !draggingVertical) {
       if (dy == 0) {
         draggingHorizontal = true;
@@ -185,6 +184,8 @@ DAT.GUI.ControllerNumber = function() {
     if (draggingHorizontal) {
       return true;
     }
+
+    DAT.GUI.addClass(_this.domElement, 'active');
 
     DAT.GUI.makeUnselectable(_this.parent.domElement);
     DAT.GUI.makeUnselectable(numberField);
