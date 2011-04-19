@@ -745,6 +745,111 @@ DAT.GUI.removeClass = function(domElement, className) {
 if (DAT.GUI.getVarFromURL('saveString') != null) {
   DAT.GUI.load(DAT.GUI.getVarFromURL('saveString'));
 }
+// Standalone GUI element
+DAT.GUI.Slider = function(object, property, min, max, step) {
+
+  var clicked = false;
+  var _this = this;
+
+  var x, px;
+
+  this.domElement = document.createElement('div');
+  this.domElement.setAttribute('class', 'guidat-slider-bg');
+
+  this.fg = document.createElement('div');
+  this.fg.setAttribute('class', 'guidat-slider-fg');
+
+  this.domElement.appendChild(this.fg);
+
+  var onDrag = function(e) {
+    if (!clicked) return;
+    var pos = findPos(_this.domElement);
+    var val = map(e.pageX, pos[0], pos[0] + _this.domElement
+        .offsetWidth, getMin(), getMax());
+    val = Math.round(val / getStep()) * getStep();
+    setValue(val);
+  };
+
+  this.domElement.addEventListener('mousedown', function(e) {
+    clicked = true;
+    x = px = e.pageX;
+    onDrag(e);
+    document.addEventListener('mouseup', mouseup, false);
+  }, false);
+
+  var mouseup = function(e) {
+    clicked = false;
+    document.removeEventListener('mouseup', mouseup, false);
+  };
+
+  var findPos = function(obj) {
+    var curleft = 0, curtop = 0;
+    if (obj.offsetParent) {
+      do {
+        curleft += obj.offsetLeft;
+        curtop += obj.offsetTop;
+      } while ((obj = obj.offsetParent));
+      return [curleft,curtop];
+    }
+  };
+
+  // Overridden methods
+  var map = function(v, i1, i2, o1, o2) {
+    return o1 + (o2 - o1) * ((v - i1) / (i2 - i1));
+  };
+
+  var getMin = function() {
+    return min;
+  };
+
+  var getMax = function() {
+    return max;
+  };
+
+  var getStep = function() {
+    return step;
+  };
+
+  var setValue = function(val) {
+
+    val = parseFloat(val);
+
+    if (min != undefined && val <= min) {
+      val = min;
+    } else if (max != undefined && val >= max) {
+      val = max;
+    }
+
+    object[propertyName] = val;
+    _this.value = getValue();
+  };
+
+  var getValue = function() {
+    return object[propertyName];
+  };
+  
+  // Public methods
+  this.min = function(n) {
+    min = n;
+  };
+  this.max = function(n) {
+    max = n;
+  };
+  this.step = function(n) }{
+    step = n;
+  };
+
+  this.__defineSetter__('value', function(e) {
+    this.fg.style.width = DAT.GUI.map(e, getMin(),
+        getMax(), 0, 100) + "%";
+  });
+
+  document.addEventListener('mousemove', onDrag, false);
+
+  this.value = getValue();
+
+};
+
 DAT.GUI.Controller = function() {
 
   this.parent = arguments[0];
@@ -1023,7 +1128,7 @@ DAT.GUI.ControllerNumber = function() {
   var slider;
 
   var addSlider = function() {
-    slider = new DAT.GUI.Slider(_this, min, max, step, _this.getValue());
+    slider = new DAT.GUI.ControllerNumberSlider(_this, min, max, step, _this.getValue());
     _this.domElement.appendChild(slider.domElement);
   };
 
@@ -1162,65 +1267,7 @@ DAT.GUI.ControllerNumber = function() {
 
 DAT.GUI.extendController(DAT.GUI.ControllerNumber);
 
-DAT.GUI.ControllerString = function() {
-
-  this.type = "string";
-
-  var _this = this;
-  DAT.GUI.Controller.apply(this, arguments);
-
-  var input = document.createElement('input');
-
-  var initialValue = this.getValue();
-
-  input.setAttribute('value', initialValue);
-  input.setAttribute('spellcheck', 'false');
-
-  this.domElement.addEventListener('mouseup', function() {
-    input.focus();
-    input.select();
-  }, false);
-
-  // TODO: getting messed up on ctrl a
-  input.addEventListener('keyup', function(e) {
-    if (e.keyCode == 13 && _this.finishChangeFunction != null) {
-      _this.finishChangeFunction.call(this, _this.getValue());
-      input.blur();
-    }
-    _this.setValue(input.value);
-  }, false);
-
-  input.addEventListener('mousedown', function(e) {
-    DAT.GUI.makeSelectable(input);
-  });
-
-  input.addEventListener('blur', function() {
-    DAT.GUI.supressHotKeys = false;
-    if (_this.finishChangeFunction != null) {
-      _this.finishChangeFunction.call(this, _this.getValue());
-    }
-  }, false);
-
-  input.addEventListener('focus', function() {
-    DAT.GUI.supressHotKeys = true;
-  }, false);
-
-  this.updateDisplay = function() {
-    input.value = _this.getValue();
-  };
-
-  this.options = function() {
-    _this.domElement.removeChild(input);
-    return DAT.GUI.Controller.prototype.options.apply(this, arguments);
-  };
-
-  this.domElement.appendChild(input);
-
-};
-
-DAT.GUI.extendController(DAT.GUI.ControllerString);
-
-DAT.GUI.Slider = function(numberController, min, max, step, initValue) {
+DAT.GUI.ControllerNumberSlider = function(numberController, min, max, step, initValue) {
 
   var clicked = false;
   var _this = this;
@@ -1284,4 +1331,61 @@ DAT.GUI.Slider = function(numberController, min, max, step, initValue) {
   this.value = initValue;
 
 };
+DAT.GUI.ControllerString = function() {
+
+  this.type = "string";
+
+  var _this = this;
+  DAT.GUI.Controller.apply(this, arguments);
+
+  var input = document.createElement('input');
+
+  var initialValue = this.getValue();
+
+  input.setAttribute('value', initialValue);
+  input.setAttribute('spellcheck', 'false');
+
+  this.domElement.addEventListener('mouseup', function() {
+    input.focus();
+    input.select();
+  }, false);
+
+  // TODO: getting messed up on ctrl a
+  input.addEventListener('keyup', function(e) {
+    if (e.keyCode == 13 && _this.finishChangeFunction != null) {
+      _this.finishChangeFunction.call(this, _this.getValue());
+      input.blur();
+    }
+    _this.setValue(input.value);
+  }, false);
+
+  input.addEventListener('mousedown', function(e) {
+    DAT.GUI.makeSelectable(input);
+  });
+
+  input.addEventListener('blur', function() {
+    DAT.GUI.supressHotKeys = false;
+    if (_this.finishChangeFunction != null) {
+      _this.finishChangeFunction.call(this, _this.getValue());
+    }
+  }, false);
+
+  input.addEventListener('focus', function() {
+    DAT.GUI.supressHotKeys = true;
+  }, false);
+
+  this.updateDisplay = function() {
+    input.value = _this.getValue();
+  };
+
+  this.options = function() {
+    _this.domElement.removeChild(input);
+    return DAT.GUI.Controller.prototype.options.apply(this, arguments);
+  };
+
+  this.domElement.appendChild(input);
+
+};
+
+DAT.GUI.extendController(DAT.GUI.ControllerString);
 DAT.GUI.inlineCSS = '#guidat { position: fixed; top: 0; right: 0; width: auto; z-index: 1001; text-align: right; } .guidat { color: #fff; opacity: 0.97; text-align: left; float: right; margin-right: 20px; margin-bottom: 20px; background-color: #fff; } .guidat, .guidat input { font: 9.5px Lucida Grande, sans-serif; } .guidat-controllers { height: 300px; overflow-y: auto; overflow-x: hidden; background-color: rgba(0, 0, 0, 0.1); } a.guidat-toggle:link, a.guidat-toggle:visited, a.guidat-toggle:active { text-decoration: none; cursor: pointer; color: #fff; background-color: #222; text-align: center; display: block; padding: 5px; } a.guidat-toggle:hover { background-color: #000; } .guidat-controller { padding: 3px; height: 25px; clear: left; border-bottom: 1px solid #222; background-color: #111; } .guidat-controller, .guidat-controller input, .guidat-slider-bg, .guidat-slider-fg { -moz-transition: background-color 0.15s linear; -webkit-transition: background-color 0.15s linear; transition: background-color 0.15s linear; } .guidat-controller.boolean:hover, .guidat-controller.function:hover { background-color: #000; } .guidat-controller input { float: right; outline: none; border: 0; padding: 4px; margin-top: 2px; background-color: #222; } .guidat-controller select { margin-top: 4px; float: right; } .guidat-controller input:hover { background-color: #444; } .guidat-controller input:focus, .guidat-controller.active input { background-color: #555; color: #fff; } .guidat-controller.number { border-left: 5px solid #00aeff; } .guidat-controller.string { border-left: 5px solid #1ed36f; } .guidat-controller.string input { border: 0; color: #1ed36f; margin-right: 2px; width: 148px; } .guidat-controller.boolean { border-left: 5px solid #54396e; } .guidat-controller.function { border-left: 5px solid #e61d5f; } .guidat-controller.number input[type=text] { width: 35px; margin-left: 5px; margin-right: 2px; color: #00aeff; } .guidat .guidat-controller.boolean input { margin-top: 6px; margin-right: 2px; font-size: 20px; } .guidat-controller:last-child { border-bottom: none; -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5); box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5); } .guidat-propertyname { padding: 5px; padding-top: 7px; cursor: default; display: inline-block; } .guidat-controller .guidat-slider-bg:hover, .guidat-controller.active .guidat-slider-bg { background-color: #444; } .guidat-controller .guidat-slider-bg .guidat-slider-fg:hover, .guidat-controller.active .guidat-slider-bg .guidat-slider-fg { background-color: #52c8ff; } .guidat-slider-bg { background-color: #222; cursor: ew-resize; width: 40%; margin-top: 2px; float: right; height: 21px; } .guidat-slider-fg { cursor: ew-resize; background-color: #00aeff; height: 21px; } ';
