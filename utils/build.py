@@ -121,15 +121,17 @@ def build(jssrc, csssrc=list([''])):
     f.write(code)
 
   compiled = compile(code)
-  outpath = os.path.join(BUILD_ROOT, BUILD_NAME+'.min.js')
-  with open(outpath,'w') as f:
+  outpathmin = os.path.join(BUILD_ROOT, BUILD_NAME+'.min.js')
+  with open(outpathmin,'w') as f:
     f.write(compiled)
 
   size = bytes_to_kb(os.path.getsize(outpath))
+  sizemin = bytes_to_kb(os.path.getsize(outpathmin))
   with open(INDEX,'r') as f:
     index = f.read()
   with open(INDEX,'w') as f:
-    index = re.sub(r'\[[0-9.]+kb\]','[%skb]'%(size,),index)
+    index = re.sub(r'<small id=\'buildsize\'>\[[0-9.]+kb\]','<small id=\'buildsize\'>[%skb]'%(size,),index)
+    index = re.sub(r'<small id=\'buildsizemin\'>\[[0-9.]+kb\]','<small id=\'buildsizemin\'>[%skb]'%(sizemin,),index)
     f.write(index)
 
   print('DONE. Built files in %s.'%(BUILD_ROOT,))
