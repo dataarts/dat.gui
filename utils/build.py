@@ -24,6 +24,20 @@ INDEX = os.path.join(PREFIX,'index.html')
 BUILD_NAME = 'DAT.GUI'
 ALL_JS = ['DAT.GUI.js','DAT.GUI']
 
+LICENSE = """/**
+ * dat.gui Javascript Controller Library
+ * http://dataarts.github.com/dat.gui
+ *
+ * Copyright 2011 Data Arts Team, Google Creative Lab
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+"""
+
 def flatten(l, ltypes=(list, tuple)):
     ltype = type(l)
     l = list(l)
@@ -107,22 +121,25 @@ def build(jssrc, csssrc=list([''])):
 
   if csssrc:
     cssfiles = source_list(csssrc, '*.css')
+    print('CSS files being compiled: ', cssfiles)
     css = '\n'.join([open(f).read() for f in cssfiles])
     css = re.sub(r'[ \t\n\r]+',' ',css)
 
   jsfiles = source_list(jssrc, '*.js')
-  print(jsfiles)
+  print('JS files being compiled: ', jsfiles)
   code = '\n'.join([open(f).read() for f in jsfiles])
   if csssrc:
     code += """DAT.GUI.inlineCSS = '%s';\n"""%(css,)
 
   outpath = os.path.join(BUILD_ROOT, BUILD_NAME+'.js')
   with open(outpath,'w') as f:
+    f.write(LICENSE)
     f.write(code)
 
   compiled = compile(code)
   outpathmin = os.path.join(BUILD_ROOT, BUILD_NAME+'.min.js')
   with open(outpathmin,'w') as f:
+    f.write(LICENSE)
     f.write(compiled)
 
   size = bytes_to_kb(os.path.getsize(outpath))
