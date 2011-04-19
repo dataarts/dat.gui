@@ -17,11 +17,11 @@ parser.add_option('-l', '--level', dest='level', default='SIMPLE_OPTIMIZATIONS',
                   help='Closure compilation level [WHITESPACE_ONLY, SIMPLE_OPTIMIZATIONS, \
                   ADVANCED_OPTIMIZATIONS]')
 
-UTILS = os.path.dirname(os.path.abspath(__file__))
-
-SRC_ROOT= os.path.join(UTILS,'..','src')
-BUILD_ROOT = os.path.join(UTILS,'..','build')
-INDEX = os.path.join(UTILS,'..','index.html')
+UTILS = os.path.dirname(os.path.relpath(__file__))
+PREFIX = os.path.join(UTILS,'..')
+SRC_ROOT= os.path.join(PREFIX,'src')
+BUILD_ROOT = os.path.join(PREFIX,'build')
+INDEX = os.path.join(PREFIX,'index.html')
 BUILD_NAME = 'DAT.GUI'
 ALL_JS = ['DAT.GUI.js','DAT.GUI']
 
@@ -135,12 +135,17 @@ def build(jssrc, csssrc=list([''])):
 
   print('DONE. Built files in %s.'%(BUILD_ROOT,))
 
-def debug(src):
-  files = source_list(src)
-  scripts = ""
+def debug(jssrc, csssrc=list([''])):
+  head = ""
+  files = source_list(csssrc, '*.css')
   for f in files:
-    scripts += '<script type="text/javascript" src="%s"></script>\n'%(f,)
-  print(scripts)
+    f = f.replace(PREFIX+'/','')
+    head += '<link href="%s" media="screen" rel="stylesheet" type="text/css"/>\n'%(f,)
+  files = source_list(jssrc, '*.js')
+  for f in files:
+    f = f.replace(PREFIX+'/','')
+    head += '<script type="text/javascript" src="%s"></script>\n'%(f,)
+  print(head)
 
 if __name__ == '__main__':
   global options
@@ -154,6 +159,6 @@ if __name__ == '__main__':
   elif command == 'clean':
     clean()
   elif command == 'debug':
-    debug(ALL)
+    debug(ALL_JS)
 
 
