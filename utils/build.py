@@ -22,7 +22,7 @@ SRC_ROOT= os.path.join(PREFIX,'src')
 BUILD_ROOT = os.path.join(PREFIX,'build')
 INDEX = os.path.join(PREFIX,'index.html')
 BUILD_NAME = 'DAT.GUI'
-ALL_JS = ['DAT.GUI.js','DAT.GUI.Slider.js','DAT.GUI']
+ALL_JS = ['DAT.GUI.js','DAT.GUI']
 
 LICENSE = """/**
  * dat.gui Javascript Controller Library
