@@ -22,7 +22,7 @@ SRC_ROOT= os.path.join(PREFIX,'src')
 BUILD_ROOT = os.path.join(PREFIX,'build')
 INDEX = os.path.join(PREFIX,'index.html')
 BUILD_NAME = 'DAT.GUI'
-ALL_JS = ['DAT.GUI.js','DAT.GUI']
+ALL_JS = ['DAT.GUI.js','DAT.GUI.Slider.js','DAT.GUI']
 
 LICENSE = """/**
  * dat.gui Javascript Controller Library
@@ -59,7 +59,11 @@ def expand(path, globby):
   path.insert(0,SRC_ROOT)
   filename = "%s.%s"%(path[-2],path[-1])
   if fnmatch.fnmatch(filename, globby):
-    path[-1] = filename
+    tmppath = os.path.join(*(path[:-1]+[filename]))
+    if os.path.exists(tmppath):
+      path[-1] = filename
+    else:
+      path = path[:-2]+[filename]
   path = os.path.join(*path)
   if os.path.isdir(path):
     for root, dirnames, filenames in os.walk(path):
