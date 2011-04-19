@@ -3,6 +3,7 @@
 from optparse import OptionParser
 import httplib, urllib
 import os, fnmatch, shutil, re
+from collections import OrderedDict
 
 usage = """usage: %prog [options] command
 
@@ -12,18 +13,17 @@ Commands:
   clean                 remove any built files
 """
 parser = OptionParser(usage=usage)
-parser.add_option('-l', '--level', dest='level', default='ADVANCED_OPTIMIZATIONS',
+parser.add_option('-l', '--level', dest='level', default='SIMPLE_OPTIMIZATIONS',
                   help='Closure compilation level [WHITESPACE_ONLY, SIMPLE_OPTIMIZATIONS, \
                   ADVANCED_OPTIMIZATIONS]')
 
-UTILS = os.path.dirname(os.path.abspath(__file__))
-
-SRC_ROOT= os.path.join(UTILS,'..','src')
-BUILD_ROOT = os.path.join(UTILS,'..','build')
-INDEX = os.path.join(UTILS,'..','index.html')
+UTILS = os.path.dirname(os.path.relpath(__file__))
+PREFIX = os.path.join(UTILS,'..')
+SRC_ROOT= os.path.join(PREFIX,'src')
+BUILD_ROOT = os.path.join(PREFIX,'build')
+INDEX = os.path.join(PREFIX,'index.html')
 BUILD_NAME = 'DAT.GUI'
-ALL = ['DAT']
-
+ALL_JS = ['DAT.GUI.js','DAT.GUI']
 
 def flatten(l, ltypes=(list, tuple)):
     ltype = type(l)
@@ -44,16 +44,38 @@ def expand(path, globby):
   matches = []
   path = path.split('.')
   path.insert(0,SRC_ROOT)
+  filename = "%s.%s"%(path[-2],path[-1])
+  if fnmatch.fnmatch(filename, globby):
+    path[-1] = filename
   path = os.path.join(*path)
-  for root, dirnames, filenames in os.walk(path):
-    for filename in fnmatch.filter(filenames, globby):
-      matches.append(os.path.join(root, filename))
+  if os.path.isdir(path):
+    for root, dirnames, filenames in os.walk(path):
+      for filename in fnmatch.filter(filenames, globby):
+        matches.append(os.path.join(root, filename))
+  else:
+    matches.append(path)
   return matches
+
+def unique(seq, idfun=None):
+  """Ordered uniquify function
+  if in 2.7 use:
+   OrderedDict.fromkeys(seq).keys()
+  """
+  if idfun is None:
+    def idfun(x): return x
+  seen = {}
+  result = []
+  for item in seq:
+    marker = idfun(item)
+    if marker in seen: continue
+    seen[marker] = 1
+    result.append(item)
+  return result
 
 def source_list(src, globby='*.js'):
   def expander(f):
     return expand(f,globby)
-  return set(flatten(map(expander, src)))
+  return unique(flatten(map(expander, src)))
 
 def compile(code):
   params = urllib.urlencode([
@@ -80,17 +102,20 @@ def clean():
   else:
     print('DONE. Nothing to clean')
 
-def build(src):
+def build(jssrc, csssrc=list([''])):
   if not os.path.exists(BUILD_ROOT):
     os.makedirs(BUILD_ROOT)
 
-  cssfiles = source_list(src, '*.css')
-  css = '\n'.join([open(f).read() for f in cssfiles])
-  css = re.sub(r'[ \t\n\r]+',' ',css)
+  if csssrc:
+    cssfiles = source_list(csssrc, '*.css')
+    css = '\n'.join([open(f).read() for f in cssfiles])
+    css = re.sub(r'[ \t\n\r]+',' ',css)
 
-  jsfiles = source_list(src, '*.js')
+  jsfiles = source_list(jssrc, '*.js')
+  print(jsfiles)
   code = '\n'.join([open(f).read() for f in jsfiles])
-  code += """DAT.GUI.inlineCSS = '%s';\n"""%(css,)
+  if csssrc:
+    code += """DAT.GUI.inlineCSS = '%s';\n"""%(css,)
 
   outpath = os.path.join(BUILD_ROOT, BUILD_NAME+'.js')
   with open(outpath,'w') as f:
@@ -110,12 +135,17 @@ def build(src):
 
   print('DONE. Built files in %s.'%(BUILD_ROOT,))
 
-def debug(src):
-  files = source_list(src)
-  scripts = ""
+def debug(jssrc, csssrc=list([''])):
+  head = ""
+  files = source_list(csssrc, '*.css')
   for f in files:
-    scripts += '<script type="text/javascript" src="%s"></script>\n'%(f,)
-  print(scripts)
+    f = f.replace(PREFIX+'/','')
+    head += '<link href="%s" media="screen" rel="stylesheet" type="text/css"/>\n'%(f,)
+  files = source_list(jssrc, '*.js')
+  for f in files:
+    f = f.replace(PREFIX+'/','')
+    head += '<script type="text/javascript" src="%s"></script>\n'%(f,)
+  print(head)
 
 if __name__ == '__main__':
   global options
@@ -125,10 +155,10 @@ if __name__ == '__main__':
     exit(0)
   command = args[0]
   if command == 'build':
-    build(ALL)
+    build(ALL_JS)
   elif command == 'clean':
     clean()
   elif command == 'debug':
-    debug(ALL)
+    debug(ALL_JS)
 
 
