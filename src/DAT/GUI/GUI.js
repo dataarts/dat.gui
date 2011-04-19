@@ -670,17 +670,19 @@ DAT.GUI.extendController = function(clazz) {
 DAT.GUI.addClass = function(domElement, className) {
   if (DAT.GUI.hasClass(domElement, className)) return;
   domElement.className += ' ' + className;
-}
+};
 
 DAT.GUI.hasClass = function(domElement, className) {
   return domElement.className.indexOf(className) != -1;
-}
+};
 
 DAT.GUI.removeClass = function(domElement, className) {
   var reg = new RegExp(' ' + className, 'g');
   domElement.className = domElement.className.replace(reg, '');
-}
+};
 
 if (DAT.GUI.getVarFromURL('saveString') != null) {
   DAT.GUI.load(DAT.GUI.getVarFromURL('saveString'));
 }
+
+window["DAT.GUI"] = DAT.GUI;
