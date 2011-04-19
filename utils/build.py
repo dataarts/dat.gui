@@ -3,7 +3,6 @@
 from optparse import OptionParser
 import httplib, urllib
 import os, fnmatch, shutil, re
-from collections import OrderedDict
 
 usage = """usage: %prog [options] command
 
@@ -93,7 +92,7 @@ def compile(code):
   return data
 
 def bytes_to_kb(b,digits=1):
-  return round(0.0078125 * b, digits)
+  return round(0.0009765625 * b, digits)
 
 def clean():
   if os.path.exists(BUILD_ROOT):
