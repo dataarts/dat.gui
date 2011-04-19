@@ -101,10 +101,6 @@ def build(src):
   with open(outpath,'w') as f:
     f.write(compiled)
 
-  outpath = os.path.join(BUILD_ROOT, BUILD_NAME+'.css')
-  with open(outpath,'w') as f:
-    f.write(code)
-
   size = bytes_to_kb(os.path.getsize(outpath))
   with open(INDEX,'r') as f:
     index = f.read()
