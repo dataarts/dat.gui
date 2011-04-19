@@ -116,7 +116,7 @@ DAT.GUI.ControllerNumber = function() {
 
   numberField.addEventListener('mousewheel', function(e) {
     e.preventDefault();
-    _this.setValue(_this.getValue() + Math.abs(e.wheelDeltaY) / e.wheelDeltaY * step);
+    _this.setValue(_this.getValue() + Math.abs(e.wheelDeltaY) / e.wheelDeltaY * _this.getStep());
     return false;
   }, false);
 
@@ -140,11 +140,11 @@ DAT.GUI.ControllerNumber = function() {
         _this.setValue(newVal);
         break;
       case 38:    // up
-        newVal = _this.getValue() + step;
+        newVal = _this.getValue() + _this.getStep();
         _this.setValue(newVal);
         break;
       case 40:    // down
-        newVal = _this.getValue() - step;
+        newVal = _this.getValue() - _this.getStep();
         _this.setValue(newVal);
         break;
     }
@@ -192,7 +192,7 @@ DAT.GUI.ControllerNumber = function() {
     draggedNumberField = true;
     e.preventDefault();
 
-    var newVal = _this.getValue() + dy * step;
+    var newVal = _this.getValue() + dy * _this.getStep();
     _this.setValue(newVal);
     return false;
 

@@ -275,6 +275,14 @@ DAT.GUI = function(parameters) {
 
   this.add = function() {
 
+    if (arguments.length == 1) {
+      var toReturn = [];
+      for (var i in arguments[0]) {
+        toReturn.push(_this.add(arguments[0], i));
+      }
+      return toReturn;
+    }
+
     var object = arguments[0];
     var propertyName = arguments[1];
 
