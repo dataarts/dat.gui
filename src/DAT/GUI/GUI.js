@@ -20,6 +20,9 @@ DAT.GUI = function(parameters) {
 
   var listenInterval;
 
+  // Set this to minified css if you don't want to attach style sheets
+  var inlineCSS = '';
+
   // Sum total of heights of controllers in this gui
   var controllerHeight;
 
@@ -453,12 +456,21 @@ DAT.GUI = function(parameters) {
 
   // Add hide listener if this is the first DAT.GUI. 
   if (DAT.GUI.allGuis.length == 1) {
+
     window.addEventListener('keyup', function(e) {
       // Hide on 'H'
-      if (e.keyCode == 72) {
+      if (!DAT.GUI.supressHotKeys && e.keyCode == 72) {
         DAT.GUI.toggleHide();
       }
     }, false);
+
+    if (inlineCSS != '') {
+      var styleSheet = document.createElement('style');
+      styleSheet.setAttribute('type', 'text/css');
+      styleSheet.innerHTML = inlineCSS;
+      document.head.appendChild(styleSheet);
+    }
+
   }
 
 };
@@ -473,6 +485,7 @@ DAT.GUI.autoPlaceContainer = null;
 DAT.GUI.allControllers = [];
 DAT.GUI.allGuis = [];
 
+DAT.GUI.supressHotKeys = false;
 
 DAT.GUI.toggleHide = function() {
   if (DAT.GUI.hidden) {
