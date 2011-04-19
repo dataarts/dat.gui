@@ -30,7 +30,11 @@ DAT.GUI = function(parameters) {
   var _this = this;
 
   var open = true;
+  
   var width = 280;
+  if (parameters.width != undefined) {
+  	width = parameters.width;
+  }
 
   // Prevents checkForOverflow bug in which loaded gui appearance
   // settings are not respected by presence of scrollbar.
