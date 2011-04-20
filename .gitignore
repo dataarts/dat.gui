@@ -1,2 +1,0 @@
-.idea
-.DS_Store
