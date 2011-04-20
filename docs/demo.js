@@ -150,12 +150,13 @@ function FizzyText(message) {
   var loop = function() {
 
     requestAnimationFrame(loop);
-    
+
     // Don't render if we don't see it.
     // Would be cleaner if I dynamically acquired the top of the canvas.
     if (document.body.scrollTop < height + 20) {
       render();
     }
+
   }
 
   // This calls the render function every 30 milliseconds.

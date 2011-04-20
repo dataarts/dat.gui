@@ -28,7 +28,7 @@ DAT.GUI.ControllerString = function() {
 
   input.addEventListener('mousedown', function(e) {
     DAT.GUI.makeSelectable(input);
-  });
+  }, false);
 
   input.addEventListener('blur', function() {
     DAT.GUI.supressHotKeys = false;
