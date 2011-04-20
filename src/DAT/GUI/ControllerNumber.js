@@ -80,7 +80,15 @@ DAT.GUI.ControllerNumber = function() {
   };
   
   this.getStep = function() {
-    return step || 1;
+    if (step == undefined) {
+      if (max != undefined && min != undefined) {
+        return (max-min)/100;
+      } else {
+        return 1;
+      }
+    } else {
+      return step;
+    }
   }
 
   var numberField = document.createElement('input');

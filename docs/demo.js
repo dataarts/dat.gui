@@ -6,8 +6,8 @@ function FizzyText(message) {
   // Notice they're all defined with "this". That makes them public.
   // Otherwise, gui-dat can't see them.
 
-  this.growthSpeed = 0.5;       // how fast do particles change size?
-  this.maxSize = 3.2;           // how big can they get?
+  this.growthSpeed = 0.2;       // how fast do particles change size?
+  this.maxSize = 5.59;          // how big can they get?
   this.noiseStrength = 10;      // how turbulent is the flow?
   this.speed = 0.4;             // how fast do particles move?
   this.displayOutline = false;  // should we draw the message as a stroke?
