@@ -401,6 +401,10 @@ DAT.GUI = function(parameters) {
 
   this.reset = function() {
     // TODO ... Set all values back to their initials.
+    for (var i = 0, l = DAT.GUI.allControllers.length; i < l; i++) {
+        // apply to each controller
+        DAT.GUI.allControllers[i].reset();
+    }
   }
 
   this.toggle = function() {
