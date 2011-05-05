@@ -4,7 +4,8 @@ DAT.GUI.Controller = function() {
   this.object = arguments[1];
   this.propertyName = arguments[2];
 
-  if (arguments.length > 0) this.initialValue = this.propertyName[this.object];
+  //if (arguments.length > 0) this.initialValue = this.propertyName[this.object];
+  if (arguments.length > 0) this.initialValue = this.object[this.propertyName];
 
   this.domElement = document.createElement('div');
   this.domElement.setAttribute('class', 'guidat-controller ' + this.type);
