@@ -41,14 +41,18 @@
       var gui = new DAT.GUI();
 
       // Text field
-      gui.add(fizzyText, 'message');
-
+      gui.add(fizzyText, 'message')
+      
+		
       // Sliders with min + max
       gui.add(fizzyText, 'maxSize').min(0.5).max(7);
       gui.add(fizzyText, 'growthSpeed').min(0.01).max(1).step(0.05);
       gui.add(fizzyText, 'speed', 0.1, 2, 0.05); // shorthand for min/max/step
-      gui.add(fizzyText, 'font', fizzyText.allFonts ); // shorthand for min/max/step
-
+      gui.add(fizzyText, 'font', fizzyText.allFonts ) // Font toggle
+      .onChange(function(newValue) {
+		   fizzyText.message = fizzyText.message;
+		});
+      
       // Sliders with min, max and increment.
       gui.add(fizzyText, 'noiseStrength', 10, 100, 5);
 
@@ -58,6 +62,7 @@
       // Fires a function called 'explode'
       gui.add(fizzyText, 'explode').name('Explode!'); // Specify a custom name.
 
+		
       // Javascript for documentation
       getCollapsables();
       handleListening();
