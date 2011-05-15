@@ -20,14 +20,7 @@ DAT.GUI.ControllerObject = function( gui, object, propertyName, options ) {
     _this.setValue(select.value);
   }, false);
 
-  this.domElement.style.cursor = "pointer";
-  this.propertyNameElement.style.cursor = "pointer";
   this.domElement.appendChild(select);
-
-  this.updateDisplay = function() {
-
-  };
-
 
   this.setValue = function(val) {
     val = select.value;
