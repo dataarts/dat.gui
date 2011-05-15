@@ -115,6 +115,10 @@ a.guidat-toggle:hover {
   border-left: 5px solid #e61d5f;
 }
 
+.guidat-controller.object {
+  border-left: 5px solid #f00;
+}
+
 .guidat-controller.number input[type=text] {
   width: 35px;
   margin-left: 5px;
