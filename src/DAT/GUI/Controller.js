@@ -42,7 +42,7 @@ DAT.GUI.Controller.prototype.unlisten = function() {
 };
 
 DAT.GUI.Controller.prototype.setValue = function(n) {
-	if(this.object[this.propertyName]){
+	if(this.object[this.propertyName] != undefined){
 		this.object[this.propertyName] = n;
 	}else{
 		var o = new Object();
@@ -57,7 +57,8 @@ DAT.GUI.Controller.prototype.setValue = function(n) {
 };
 
 DAT.GUI.Controller.prototype.getValue = function() {
-	var val = this.object[this.propertyName] || this.object.get(this.propertyName);
+	var val = this.object[this.propertyName];
+	if(val == undefined) this.object.get(this.propertyName);
   return val;
 };
 
