@@ -42,7 +42,13 @@ DAT.GUI.Controller.prototype.unlisten = function() {
 };
 
 DAT.GUI.Controller.prototype.setValue = function(n) {
-  this.object[this.propertyName] = n;
+	if(this.object[this.propertyName]){
+		this.object[this.propertyName] = n;
+	}else{
+		var o = new Object();
+		o[this.propertyName] = n;
+		this.object.set(o);
+	}
   if (this.changeFunction != null) {
     this.changeFunction.call(this, n);
   }
@@ -51,7 +57,8 @@ DAT.GUI.Controller.prototype.setValue = function(n) {
 };
 
 DAT.GUI.Controller.prototype.getValue = function() {
-  return this.object[this.propertyName];
+	var val = this.object[this.propertyName] || this.object.get(this.propertyName);
+  return val;
 };
 
 DAT.GUI.Controller.prototype.updateDisplay = function() {

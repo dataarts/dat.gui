@@ -306,7 +306,7 @@ DAT.GUI = function(parameters) {
       //  return;
     }
 
-    var value = object[propertyName];
+    var value = object[propertyName] || (object.get && object.get(propertyName));
 
     // Does this value exist? Is it accessible?
     if (value == undefined) {
