@@ -58,7 +58,7 @@ DAT.GUI.Controller.prototype.setValue = function(n) {
 
 DAT.GUI.Controller.prototype.getValue = function() {
 	var val = this.object[this.propertyName];
-	if(val == undefined) this.object.get(this.propertyName);
+	if(val == undefined) val = this.object.get(this.propertyName);
   return val;
 };
 
