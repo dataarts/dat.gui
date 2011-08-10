@@ -1,5 +1,5 @@
-**dat.gui** is a lightweight controller library for JavaScript. It allows you to easily manipulate variables and fire functions on the fly.
+August 10, 2011
 
-Check the [index page](http://dataarts.github.com/dat.gui/) for usage.
+Hi everyone. Today we're moving this project over to Google Code. You can find it [here](http://code.google.com/p/dat-gui/). See you there!
 
-Initiated by [George Michael Brower](http://georgemichaelbrower.com/) and [Jono Brandel](http://jonobr1.com/) of the Data Arts Team, Google Creative Lab.
+\- The Google Data Arts Team
