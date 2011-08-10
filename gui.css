@@ -1,0 +1,241 @@
+#guidat { 
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	z-index: 1001;
+}
+
+.guidat-tween-selector { 
+	z-index: 1001;
+	position: absolute;
+	top: 0; 
+	left: 0;
+}
+
+.guidat {
+	float: right;
+	padding: 0px;
+	margin: 0px 20px 0px 0px;
+}
+
+.guidat-scrubber {
+	width: 75%;
+	float: right;
+	margin-top: -3px;
+	margin-right: -2px;
+	margin-left: 3px;
+	background-color: #333;
+	border-bottom: 1px solid #444;
+	height: 31px;
+}
+
+#guidat-save-dialogue { 
+z-index: 1001;
+-webkit-box-shadow: rgba(0,0,0,0.6) 0px 0px 10px;
+position: fixed;
+top: 50%;
+left: 50%;
+background-color: #111;
+color: #ccc;
+width: 400px;
+height: 228px;
+margin-top: -114px;
+margin-left: -200px;
+text-align: center;
+padding: 10px;
+}
+
+#guidat-save-dialogue textarea { 
+margin-top: 9px;
+width: 390px;
+height: 160px;
+font-size: 9px;
+border: 0;
+font-family: Monaco, monospace;
+padding: 5px;
+}
+
+#guidat-save-dialogue a { 
+display: block;
+text-decoration: none;
+background-color: rgba(255,255,255,0.1);
+border: 1px outset #444;
+margin-bottom: 9px;
+padding: 5px;
+}
+
+.guidat { 
+	color: #fff;
+	opacity: 0.97;
+	text-align: left;
+	background-color: #fff;
+}
+
+.guidat,
+.guidat input { 
+	font: 9.5px Lucida Grande, sans-serif;
+}
+
+.guidat-controllers { 
+	height: 300px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	background-color: rgba(0,0,0,0.1);
+}
+
+.guidat-controllers hr { 
+	height: 0;
+	border-top: 1px solid #000;
+}
+
+a.guidat-toggle { 
+	text-decoration: none;
+	cursor: pointer;
+	color: #fff;
+	background-color: #222;
+	text-align: center;
+	display: block;
+	padding: 5px;
+
+}
+
+a.guidat-toggle:hover { 
+	background-color: #000;
+}
+
+.guidat-controller { 
+	padding: 3px;
+	height: 25px;
+	clear: left;
+	border-bottom: 1px solid #222;
+	background-color: #111;
+}
+
+.guidat-controller,
+.guidat-controller input,
+.guidat-slider-bg,
+.guidat-slider-fg { 
+	-moz-transition: background-color 0.15s linear;
+	-webkit-transition: background-color 0.15s linear;
+	transition: background-color 0.15s linear;
+}
+
+.guidat-controller.boolean:hover,
+.guidat-controller.function:hover {
+	background-color: #000;
+}
+
+.guidat-controller input { 
+	float: right;
+	outline: none;
+	border: 0;
+	padding: 4px;
+	margin-top: 2px;
+	background-color: #222;
+}
+
+.guidat-controller input:hover { 
+	background-color: #444;
+}
+
+.guidat-controller input:focus { 
+	background-color: #555;
+}
+
+.guidat-controller.number { 
+	border-left: 5px solid #00aeff ;
+}
+
+.guidat-controller.string { 
+	border-left: 5px solid #1ed36f;
+}
+
+.guidat-controller.string input { 
+	border: 0;
+	width: 125px;
+	color: #1ed36f;
+	margin-right: 2px;
+}
+
+.guidat-controller.boolean { 
+	border-left: 5px solid #54396e;
+}
+
+.guidat-controller.function { 
+	border-left: 5px solid #e61d5f;
+}
+
+.guidat-controller.number input[type=text] {
+	margin-left: 5px;
+	margin-right: 2px;
+	color: #00aeff;
+	width: 35px;
+}
+
+.guidat .guidat-controller.boolean input { 
+	margin-top: 6px;
+	margin-right: 2px;
+	font-size: 20px;
+}
+
+.guidat-controller:last-child {
+	border-bottom: none;
+	-webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.guidat-propertyname { 
+	padding: 5px;
+	padding-top: 7px;
+	cursor: default;
+	display: inline-block;
+}
+
+
+.guidat-slider-bg:hover,
+.guidat-slider-bg.active {
+	background-color: #444;
+}
+
+.guidat-slider-bg:hover .guidat-slider-fg, 
+.guidat-slider-bg.active .guidat-slider-fg { 
+	background-color: #52c8ff;
+}
+
+.guidat-slider-bg { 
+	background-color: #222;
+	cursor: ew-resize;
+	width: 85px;
+	margin-top: 2px;
+	float: right;
+	height: 21px;
+}
+
+.guidat-slider-fg { 
+	background-color: #00aeff;
+	height: 20px;
+}
+
+/* Styles for timed GUI */
+
+.guidat.time {
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	left: 0;
+}
+
+.time .guidat-slider-bg { 
+	width: 7%;
+}
+
+.time .guidat-controller.string input {
+	width: 10.6%;
+}
+.time .guidat-controller.number input[type=text] {
+	width: 3%;
+}
+
