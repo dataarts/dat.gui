@@ -1,0 +1,43 @@
+/**
+ * dat-gui JavaScript Controller Library
+ * http://code.google.com/p/dat-gui
+ *
+ * Copyright 2011 Data Arts Team, Google Creative Lab
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
+.slider {
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.15);
+  height: 1em;
+  border-radius: 1em;
+  background-color: #eee;
+  padding: 0 0.5em;
+  overflow: hidden;
+}
+
+.slider-fg {
+  padding: 1px 0 2px 0;
+  background-color: #aaa;
+  height: 1em;
+  margin-left: -0.5em;
+  padding-right: 0.5em;
+  border-radius: 1em 0 0 1em;
+}
+
+.slider-fg:after {
+  display: inline-block;
+  border-radius: 1em;
+  background-color: #fff;
+  border:  1px solid #aaa;
+  content: '';
+  float: right;
+  margin-right: -1em;
+  margin-top: -1px;
+  height: 0.9em;
+  width: 0.9em;
+}
