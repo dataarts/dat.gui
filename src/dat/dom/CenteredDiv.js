@@ -16,11 +16,14 @@ define([
   'dat/utils/common'
 ], function(dom, common) {
 
+
   var CenteredDiv = function() {
 
     this.backgroundElement = document.createElement('div');
     common.extend(this.backgroundElement.style, {
-      backgroundColor: 'rgba(0,0,0,0.5)',
+      backgroundColor: 'rgba(0,0,0,0.8)',
+      top: 0,
+      left: 0,
       display: 'none',
       zIndex: '1000',
       opacity: 0,
@@ -28,13 +31,12 @@ define([
     });
 
     dom.makeFullscreen(this.backgroundElement);
+    this.backgroundElement.style.position = 'fixed';
 
     this.domElement = document.createElement('div');
     common.extend(this.domElement.style, {
       position: 'fixed',
       display: 'none',
-      left: '50%',
-      top: '50%',
       zIndex: '1001',
       opacity: 0,
       WebkitTransition: '-webkit-transform 0.2s ease-out, opacity 0.2s linear'
@@ -55,6 +57,8 @@ define([
   CenteredDiv.prototype.show = function() {
 
     var _this = this;
+    
+
 
     this.backgroundElement.style.display = 'block';
 
@@ -100,9 +104,13 @@ define([
   };
 
   CenteredDiv.prototype.layout = function() {
-    this.domElement.style.marginLeft = -dom.getWidth(this.domElement) / 2 + 'px';
-    this.domElement.style.marginTop = -dom.getHeight(this.domElement) / 2 + 'px';
+    this.domElement.style.left = window.innerWidth/2 - dom.getWidth(this.domElement) / 2 + 'px';
+    this.domElement.style.top = window.innerHeight/2 - dom.getHeight(this.domElement) / 2 + 'px';
   };
+  
+  function lockScroll(e) {
+    console.log(e);
+  }
 
   return CenteredDiv;
 

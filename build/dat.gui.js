@@ -1113,7 +1113,7 @@ dat.controllers.BooleanController = (function (Controller, dom, common) {
     BooleanController.superclass.call(this, object, property);
 
     var _this = this;
-    var _prev = this.getValue();
+    this.__prev = this.getValue();
 
     this.__checkbox = document.createElement('input');
     this.__checkbox.setAttribute('type', 'checkbox');
@@ -1127,13 +1127,7 @@ dat.controllers.BooleanController = (function (Controller, dom, common) {
     this.updateDisplay();
 
     function onChange() {
-      var cur = !_this.getValue();
-      if (cur !== _prev) {
-        _this.setValue(cur);
-      } else {
-        _this.setValue(!cur);
-      }
-      _prev = cur;
+      _this.setValue(!_this.__prev);
     }
 
   };
@@ -1158,10 +1152,13 @@ dat.controllers.BooleanController = (function (Controller, dom, common) {
 
         updateDisplay: function() {
           
+          console.log(this.getValue());
+          
           if (this.getValue() === true) {
             this.__checkbox.setAttribute('checked', 'checked');
+            this.__checkbox.checked = true;    
           } else {
-            this.__checkbox.removeAttribute('checked');
+              this.__checkbox.checked = false;
           }
 
           return BooleanController.superclass.prototype.updateDisplay.call(this);
@@ -3561,11 +3558,14 @@ dat.utils.requestAnimationFrame = (function () {
 })(),
 dat.dom.CenteredDiv = (function (dom, common) {
 
+
   var CenteredDiv = function() {
 
     this.backgroundElement = document.createElement('div');
     common.extend(this.backgroundElement.style, {
-      backgroundColor: 'rgba(0,0,0,0.5)',
+      backgroundColor: 'rgba(0,0,0,0.8)',
+      top: 0,
+      left: 0,
       display: 'none',
       zIndex: '1000',
       opacity: 0,
@@ -3573,13 +3573,12 @@ dat.dom.CenteredDiv = (function (dom, common) {
     });
 
     dom.makeFullscreen(this.backgroundElement);
+    this.backgroundElement.style.position = 'fixed';
 
     this.domElement = document.createElement('div');
     common.extend(this.domElement.style, {
       position: 'fixed',
       display: 'none',
-      left: '50%',
-      top: '50%',
       zIndex: '1001',
       opacity: 0,
       WebkitTransition: '-webkit-transform 0.2s ease-out, opacity 0.2s linear'
@@ -3600,6 +3599,8 @@ dat.dom.CenteredDiv = (function (dom, common) {
   CenteredDiv.prototype.show = function() {
 
     var _this = this;
+    
+
 
     this.backgroundElement.style.display = 'block';
 
@@ -3645,9 +3646,13 @@ dat.dom.CenteredDiv = (function (dom, common) {
   };
 
   CenteredDiv.prototype.layout = function() {
-    this.domElement.style.marginLeft = -dom.getWidth(this.domElement) / 2 + 'px';
-    this.domElement.style.marginTop = -dom.getHeight(this.domElement) / 2 + 'px';
+    this.domElement.style.left = window.innerWidth/2 - dom.getWidth(this.domElement) / 2 + 'px';
+    this.domElement.style.top = window.innerHeight/2 - dom.getHeight(this.domElement) / 2 + 'px';
   };
+  
+  function lockScroll(e) {
+    console.log(e);
+  }
 
   return CenteredDiv;
 

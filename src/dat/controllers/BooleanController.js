@@ -31,7 +31,7 @@ define([
     BooleanController.superclass.call(this, object, property);
 
     var _this = this;
-    var _prev = this.getValue();
+    this.__prev = this.getValue();
 
     this.__checkbox = document.createElement('input');
     this.__checkbox.setAttribute('type', 'checkbox');
@@ -45,13 +45,7 @@ define([
     this.updateDisplay();
 
     function onChange() {
-      var cur = !_this.getValue();
-      if (cur !== _prev) {
-        _this.setValue(cur);
-      } else {
-        _this.setValue(!cur);
-      }
-      _prev = cur;
+      _this.setValue(!_this.__prev);
     }
 
   };
@@ -76,10 +70,13 @@ define([
 
         updateDisplay: function() {
           
+          console.log(this.getValue());
+          
           if (this.getValue() === true) {
             this.__checkbox.setAttribute('checked', 'checked');
+            this.__checkbox.checked = true;    
           } else {
-            this.__checkbox.removeAttribute('checked');
+              this.__checkbox.checked = false;
           }
 
           return BooleanController.superclass.prototype.updateDisplay.call(this);

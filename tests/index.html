@@ -493,9 +493,12 @@
       var c1 = new BooleanController(object, 'booleanProperty');
       var c2 = new BooleanController(object, 'anotherBooleanProperty');
 
-      equal($(c1.__checkbox).attr('checked') === 'checked',
+      equal(c1.__checkbox.checked,
           object.booleanProperty);
-      equal($(c2.__checkbox).attr('checked') === 'checked',
+          
+console.log(c2.__checkbox.getAttribute('checked'));
+          
+      equal(c2.__checkbox.getAttribute('checked') === 'checked',
           object.anotherBooleanProperty);
 
     });
@@ -511,16 +514,19 @@
 
       dom.fakeEvent(c1.__checkbox, 'click');
       equal(false, object.booleanProperty, 'changes');
-      equal(false, $(c1.__checkbox).attr('checked') === 'checked', 'checkbox valid');
+      equal(false, c1.__checkbox.checked, 'checkbox valid');
 
       dom.fakeEvent(c1.__checkbox, 'click');
       equal(true, object.booleanProperty, 'changes back');
-      equal(true, $(c1.__checkbox).attr('checked') === 'checked', 'checkbox valid');
+
+      equal(true, c1.__checkbox.checked, 'checkbox valid');        
+
+
 
       object.booleanProperty = false;
       dom.fakeEvent(c1.__checkbox, 'click');
       equal(false, object.booleanProperty, 'maintains sync');
-      equal(false, $(c1.__checkbox).attr('checked') === 'checked', 'checkbox valid');
+      equal(false, c1.__checkbox.checked, 'checkbox valid');
 
     });
 
@@ -535,16 +541,16 @@
 
       dom.fakeEvent(c1.__checkbox, 'click');
       equal(true, object.booleanProperty, 'changes');
-      equal(true, $(c1.__checkbox).attr('checked') === 'checked', 'checkbox valid');
+      equal(true, c1.__checkbox.checked, 'checkbox valid');
 
       dom.fakeEvent(c1.__checkbox, 'click');
       equal(false, object.booleanProperty, 'changes back');
-      equal(false, $(c1.__checkbox).attr('checked') === 'checked', 'checkbox valid');
+      equal(false, c1.__checkbox.checked, 'checkbox valid');
 
       object.booleanProperty = true;
       dom.fakeEvent(c1.__checkbox, 'click');
       equal(true, object.booleanProperty, 'maintains sync');
-      equal(true, $(c1.__checkbox).attr('checked') === 'checked', 'checkbox valid');
+      equal(true, c1.__checkbox.checked, 'checkbox valid');
 
 
     });
@@ -1214,7 +1220,7 @@
 
       var c = gui.add({ x: false }, 'x');
 
-      equal($(c.__checkbox).attr('checked'), undefined, 'Acknowledges original');
+      equal(c.__checkbox.checked, false, 'Acknowledges original');
 
       dom.fakeEvent(c.__li, 'click');
 
@@ -1222,7 +1228,7 @@
 
       dom.fakeEvent(c.__li, 'click');
 
-      equal($(c.__checkbox).attr('checked'), undefined, 'Changes back');
+      equal(c.__checkbox.checked, false, 'Changes back');
 
       gui.destroy();
 
