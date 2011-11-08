@@ -70,8 +70,6 @@ define([
 
         updateDisplay: function() {
           
-          console.log(this.getValue());
-          
           if (this.getValue() === true) {
             this.__checkbox.setAttribute('checked', 'checked');
             this.__checkbox.checked = true;    
