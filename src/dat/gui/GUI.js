@@ -14,7 +14,7 @@
 define([
 
   'dat/utils/css',
-  
+
   'text!dat/gui/saveDialogue.html',
   'text!dat/gui/style.css',
 
@@ -42,6 +42,9 @@ define([
   var CSS_NAMESPACE = 'dg';
 
   var HIDE_KEY_CODE = 72;
+
+  /** The only value shared between the JS and SCSS. Use caution. */
+  var CLOSE_BUTTON_HEIGHT = 20;
 
   var DEFAULT_DEFAULT_PRESET_NAME = 'Default';
 
@@ -197,7 +200,6 @@ define([
             }
           },
 
-
           /**
            * Handles <code>GUI</code>'s element placement for you
            * @type Boolean
@@ -285,7 +287,10 @@ define([
               // Lets just check our height against the window height right off
               // the bat.
               this.onResize();
-//              resetWidth();
+
+              if (_this.__closeButton) {
+                _this.__closeButton.innerHTML = v ? GUI.TEXT_OPEN : GUI.TEXT_CLOSED;
+              }
             }
           },
 
@@ -329,6 +334,7 @@ define([
     if (common.isUndefined(params.parent)) {
 
       params.closed = false;
+
       dom.addClass(this.domElement, GUI.CLASS_MAIN);
       dom.makeSelectable(this.domElement, false);
 
@@ -349,6 +355,19 @@ define([
 
       }
 
+      this.__closeButton = document.createElement('div');
+      this.__closeButton.innerHTML = GUI.TEXT_CLOSED;
+      dom.addClass(this.__closeButton, GUI.CLASS_CLOSE_BUTTON);
+      this.domElement.appendChild(this.__closeButton);
+
+      dom.bind(this.__closeButton, 'click', function() {
+
+        _this.closed = !_this.closed;
+
+
+      });
+
+
       // Oh, you're a nested GUI!
     } else {
 
@@ -363,7 +382,6 @@ define([
 
       var on_click_title = function(e) {
         e.preventDefault();
-        e.stopPropagation()
         _this.closed = !_this.closed;
         return false;
       };
@@ -420,18 +438,18 @@ define([
       localStorage.setItem(getLocalStorageHash(_this, 'gui'), JSON.stringify(_this.getSaveObject()));
     }
 
-    // Small hack to fix CSS positioning bug in Chrome
+    var root = _this.getRoot();
     function resetWidth() {
-      var root = _this.getRoot();
-      root.width += 1;
-      common.defer(function() {
-        root.width -= 1;
-      });
-    }
+	      var root = _this.getRoot();
+	      root.width += 1;
+	      common.defer(function() {
+	        root.width -= 1;
+	      });
+	    }
 
-    if (!params.parent) {
-      resetWidth();
-    }
+	    if (!params.parent) {
+	      resetWidth();
+	    }
 
   };
 
@@ -450,8 +468,12 @@ define([
   GUI.CLASS_CONTROLLER_ROW = 'cr';
   GUI.CLASS_TOO_TALL = 'taller-than-window';
   GUI.CLASS_CLOSED = 'closed';
+  GUI.CLASS_CLOSE_BUTTON = 'close-button';
+  GUI.CLASS_DRAG = 'drag';
 
   GUI.DEFAULT_WIDTH = 245;
+  GUI.TEXT_CLOSED = 'Close Controls';
+  GUI.TEXT_OPEN = 'Open Controls';
 
   dom.bind(window, 'keydown', function(e) {
 
@@ -573,43 +595,39 @@ define([
 
           var li = addRow(this, gui.domElement);
           dom.addClass(li, 'folder');
-
-          gui.open = function() {
-            this.closed = false;
-          };
-
-          gui.close = function() {
-            this.closed = true;
-          };
-
           return gui;
 
         },
 
-        onResize: function() {
+        open: function() {
+          this.closed = false;
+        },
 
+        close: function() {
+          this.closed = true;
+        },
+
+        onResize: function() {
 
           var root = this.getRoot();
 
-
           if (root.scrollable) {
 
-            var top = dom.getOffset(root.domElement).top;
-
+            var top = dom.getOffset(root.__ul).top;
             var h = 0;
+
             common.each(root.__ul.childNodes, function(node) {
-              h += dom.getHeight(node);
+              if (! (root.autoPlace && node === root.__save_row))
+                h += dom.getHeight(node);
             });
 
-
-            if (window.innerHeight < h) {
+            if (window.innerHeight - top - CLOSE_BUTTON_HEIGHT < h) {
               dom.addClass(root.domElement, GUI.CLASS_TOO_TALL);
-              root.__ul.style.height = window.innerHeight - top + 'px';
+              root.__ul.style.height = window.innerHeight - top - CLOSE_BUTTON_HEIGHT + 'px';
             } else {
               dom.removeClass(root.domElement, GUI.CLASS_TOO_TALL);
               root.__ul.style.height = 'auto';
             }
-
 
           }
 
@@ -617,6 +635,10 @@ define([
             common.defer(function() {
               root.__resize_handle.style.height = root.__ul.offsetHeight + 'px';
             });
+          }
+
+          if (root.__closeButton) {
+            root.__closeButton.style.width = root.width + 'px';
           }
 
         },
@@ -631,7 +653,7 @@ define([
          * @instance
          */
         remember: function() {
-        
+
           if (common.isUndefined(SAVE_DIALOGUE)) {
             SAVE_DIALOGUE = new CenteredDiv();
             SAVE_DIALOGUE.domElement.innerHTML = saveDialogueContents;
@@ -737,7 +759,7 @@ define([
             // Make revert work on Default.
             if (!this.getRoot().load.remembered) {
               controller.setValue(controller.initialValue);
-            } else { 
+            } else {
               recallSavedValue(gui || this.getRoot(), controller);
             }
           }, this);
@@ -1201,6 +1223,7 @@ define([
     var pmouseX;
 
     dom.bind(gui.__resize_handle, 'mousedown', dragStart);
+    dom.bind(gui.__closeButton, 'mousedown', dragStart);
 
     gui.domElement.insertBefore(gui.__resize_handle, gui.domElement.firstElementChild);
 
@@ -1210,6 +1233,7 @@ define([
 
       pmouseX = e.clientX;
 
+      dom.addClass(gui.__closeButton, GUI.CLASS_DRAG);
       dom.bind(window, 'mousemove', drag);
       dom.bind(window, 'mouseup', dragStop);
 
@@ -1222,6 +1246,7 @@ define([
       e.preventDefault();
 
       gui.width += pmouseX - e.clientX;
+      gui.onResize();
       pmouseX = e.clientX;
 
       return false;
@@ -1230,6 +1255,7 @@ define([
 
     function dragStop() {
 
+      dom.removeClass(gui.__closeButton, GUI.CLASS_DRAG);
       dom.unbind(window, 'mousemove', drag);
       dom.unbind(window, 'mouseup', dragStop);
 
@@ -1243,6 +1269,8 @@ define([
     // set the width manually if we want it to bleed to the edge
     if (gui.__save_row && gui.autoPlace) {
       gui.__save_row.style.width = w + 'px';
+    }if (gui.__closeButton) {
+      gui.__closeButton.style.width = w + 'px';
     }
   }
 

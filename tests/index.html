@@ -1034,7 +1034,8 @@
 
       var gui = new GUI();
 
-      while (dom.getHeight(gui.domElement) < window.innerHeight) {
+      // Add a lot of controllers. This will fail if you have some freakishly tall monitor.
+      for (var i = 0; i < 50; i++) {
         gui.add({ x: 0 }, 'x');
       }
 
@@ -1394,6 +1395,7 @@
       equal($(gui.__preset_select).children('option:selected')[0].value, gui.preset, "Dropdown display matches preset value");
 
     }
+ 
   
 });
 </script>

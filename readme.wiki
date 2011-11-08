@@ -82,8 +82,8 @@ _To export minified source using Closure Compiler, open {{{utils/build_gui.js}}}
 ----
 
 ==Thanks==
-The following libraries and open-source projects were used in the development of dat.GUI.
+The following libraries / open-source projects were used in the development of dat.GUI:
  * [http://requirejs.org/ require.js]
  * [http://sass-lang.com/ Sass]
  * [http://nodejs.org/ node.js]
- * [https://github.com/jquery/qunit QUnit] / [http://jquery.com jquery]
+ * [https://github.com/jquery/qunit QUnit] / [http://jquery.com/ jquery]

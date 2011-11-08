@@ -1,6 +1,8 @@
 $nest-margin: 4px;
 $row-height: 27px;
 
+$button-height: 20px;
+
 .dg {
 
   /** Clear list styles */
@@ -22,12 +24,60 @@ $row-height: 27px;
    z-index: 0;
   }
 
+  &:not(.ac) .main {
+    /** Exclude mains in ac so that we don't hide close button */
+    overflow: hidden;
+  }
+
   &.main {
+
     @include transition(opacity, 0.1s, linear);
-    /*overflow-y: hidden;*/
+
     &.taller-than-window {
+
       overflow-y: auto;
+
+      .close-button {
+
+        opacity: 1;
+
+        /* TODO, these are style notes */
+        margin-top: -1px;
+        border-top: 1px solid $border-color;
+
+      }
+
     }
+
+    ul.closed .close-button {
+      opacity: 1 !important;
+    }
+
+
+    &:hover .close-button,
+    .close-button.drag {
+      opacity: 1;
+    }
+
+    .close-button {
+      /*opacity: 0;*/
+      @include transition(opacity, 0.1s, linear);
+      border: 0;
+      position: absolute;
+
+      line-height: $button-height - 1;
+      height: $button-height;
+
+        /* TODO, these are style notes */
+      cursor: pointer;
+      text-align: center;
+      background-color: #000;
+      &:hover {
+        background-color: #111;
+      }
+
+    }
+
   }
 
   /* Auto-placed GUI's */
@@ -37,9 +87,14 @@ $row-height: 27px;
     margin-right: 15px;
     overflow-x: hidden;
 
-    &.has-save {
+    &.has-save ul {
       margin-top: $row-height;
+      &.closed {
+        margin-top: 0;
+      }
     }
+
+
 
     .save-row {
       position: fixed;
@@ -49,6 +104,10 @@ $row-height: 27px;
 
   }
 
+  li {   
+    @include transition(height, 0.1s, ease-out);
+  }
+
   /* Line items that don't contain folders. */
   li:not(.folder) {
     cursor: auto;
@@ -56,7 +115,6 @@ $row-height: 27px;
     line-height: $row-height;
     overflow: hidden;
     padding: 0 4px 0 5px;
-    @include transition(height, 0.1s, ease-out);
   }
 
   li.folder {   
@@ -155,13 +213,14 @@ $row-height: 27px;
     position: absolute;
     margin-left: -9px;
     margin-top: 23px;
+    z-index: 10;
   }
 
 
   .c:hover .selector,
   .selector.drag {
     display: block;
-    }
+  }
 
 
   li.save-row {
@@ -182,6 +241,7 @@ $row-height: 27px;
     font-size: 13px;
     line-height: 15px;
   }
+
 
 }
 

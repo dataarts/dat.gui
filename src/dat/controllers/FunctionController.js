@@ -35,8 +35,10 @@ define([
 
     this.__button = document.createElement('div');
     this.__button.innerHTML = text === undefined ? 'Fire' : text;
-    dom.bind(this.__button, 'click', function() {
+    dom.bind(this.__button, 'click', function(e) {
+      e.preventDefault();
       _this.fire();
+      return false;
     });
 
     dom.addClass(this.__button, 'button');

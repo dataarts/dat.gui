@@ -10,7 +10,7 @@ $string-color: #1ed36f;
 $function-color: #e61d5f;
 $save-row-color: #dad5cb;
 $button-color: darken($save-row-color, 10%);
-
+$border-color: lighten($background-color, $border-lighten);
 $input-color: lighten($background-color, 8.5%);
 
 @mixin transition($prop, $time, $curve) {
@@ -79,7 +79,7 @@ $input-color: lighten($background-color, 8.5%);
 
     &:not(.folder) {
       background: $background-color;
-      border-bottom: 1px solid lighten($background-color, $border-lighten);
+      border-bottom: 1px solid $border-color;
     }
 
     &.save-row {
