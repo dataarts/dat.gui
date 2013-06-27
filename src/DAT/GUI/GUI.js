@@ -316,7 +316,9 @@ DAT.GUI = function(parameters) {
       return;
     }
 
-    var type = typeof value;
+    var type = typeof arguments[2] === 'object'
+            ? 'object'
+            : typeof value;
     var handler = handlerTypes[type];
 
     // Do we know how to deal with this data type?
@@ -324,7 +326,7 @@ DAT.GUI = function(parameters) {
       DAT.GUI.error('Cannot create controller for data type \'' + type + '\'');
       return;
     }
-
+    
     var args = [this]; // Set first arg (parent) to this 
     for (var j = 0; j < arguments.length; j++) {
       args.push(arguments[j]);
@@ -397,7 +399,8 @@ DAT.GUI = function(parameters) {
     'number': DAT.GUI.ControllerNumber,
     'string': DAT.GUI.ControllerString,
     'boolean': DAT.GUI.ControllerBoolean,
-    'function': DAT.GUI.ControllerFunction
+    'function': DAT.GUI.ControllerFunction,
+    'object': DAT.GUI.ControllerObject
   };
 
   this.reset = function() {

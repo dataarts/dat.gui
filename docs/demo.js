@@ -1,4 +1,4 @@
-function FizzyText(message) {
+function FizzyText(message, font) {
 
   var that = this;
 
@@ -6,13 +6,16 @@ function FizzyText(message) {
   // Notice they're all defined with "this". That makes them public.
   // Otherwise, gui-dat can't see them.
 
+
   this.growthSpeed = 0.2;       // how fast do particles change size?
   this.maxSize = 5.59;          // how big can they get?
   this.noiseStrength = 10;      // how turbulent is the flow?
   this.speed = 0.4;             // how fast do particles move?
   this.displayOutline = false;  // should we draw the message as a stroke?
   this.framesRendered = 0;
-
+  this.font = 0;
+  this.allFonts = ['arial', 'times', 'courier'];
+	
   // __defineGetter__ and __defineSetter__ makes JavaScript believe that
   // we've defined a variable 'this.message'. This way, whenever we
   // change the message variable, we can call some more functions.
@@ -23,7 +26,16 @@ function FizzyText(message) {
 
   this.__defineSetter__("message", function (m) {
     message = m;
-    createBitmap(message);
+    createBitmap(message, font);
+  });
+
+  this.__defineGetter__("font", function () {
+    return font;
+  });
+
+  this.__defineSetter__("font", function (f) {
+    font = f;
+    createBitmap(message, font);
   });
 
   // We can even add functions to the DAT.GUI! As long as they have
@@ -76,8 +88,8 @@ function FizzyText(message) {
 
   // Set g.font to the same font as the bitmap canvas, incase we
   // want to draw some outlines.
-  s.font = g.font = "800 82px helvetica, arial, sans-serif";
-
+  s.font = g.font = "800 82px " + this.allFonts[ this.font ];
+  
   // Instantiate some particles
   for (var i = 0; i < 1000; i++) {
     particles.push(new Particle(Math.random() * width, Math.random() * height));
@@ -85,8 +97,8 @@ function FizzyText(message) {
 
   // This function creates a bitmap of pixels based on your message
   // It's called every time we change the message property.
-  var createBitmap = function (msg) {
-
+  var createBitmap = function (msg, font) {
+    s.font = g.font = "800 82px " + that.allFonts[ font ];
     s.fillStyle = "#fff";
     s.fillRect(0, 0, width, height);
 
@@ -101,8 +113,9 @@ function FizzyText(message) {
 
   // Called once per frame, updates the animation.
   var render = function () {
-
     that.framesRendered ++;
+
+    s.font = g.font = "800 82px " + that.allFonts[ that.font ];
 
     g.clearRect(0, 0, width, height);
 

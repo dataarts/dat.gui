@@ -51,7 +51,6 @@ DAT.GUI.ControllerString = function() {
   };
 
   this.domElement.appendChild(input);
-
 };
 
 DAT.GUI.extendController(DAT.GUI.ControllerString);

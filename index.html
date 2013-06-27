@@ -21,6 +21,7 @@
   <script type='text/javascript' src='src/DAT/GUI/ControllerString.js'></script>
   <script type='text/javascript' src='src/DAT/GUI/ControllerFunction.js'></script>
   <script type='text/javascript' src='src/DAT/GUI/ControllerNumber.js'></script>
+  <script type='text/javascript' src='src/DAT/GUI/ControllerObject.js'></script>
 
   <!--Demo-->
   <link href='docs/docs.css' media='screen' rel='stylesheet' type='text/css'/>
@@ -36,16 +37,17 @@
 
       prettyPrint();
 
-      var fizzyText = new FizzyText('dat.gui');
+      window.fizzyText = new FizzyText('dat.gui', 0);
       var gui = new DAT.GUI();
 
       // Text field
       gui.add(fizzyText, 'message');
-
+		
       // Sliders with min + max
       gui.add(fizzyText, 'maxSize').min(0.5).max(7);
       gui.add(fizzyText, 'growthSpeed').min(0.01).max(1).step(0.05);
       gui.add(fizzyText, 'speed', 0.1, 2, 0.05); // shorthand for min/max/step
+      gui.add(fizzyText, 'font', fizzyText.allFonts ); // Font toggle
 
       // Sliders with min, max and increment.
       gui.add(fizzyText, 'noiseStrength', 10, 100, 5);
@@ -56,6 +58,7 @@
       // Fires a function called 'explode'
       gui.add(fizzyText, 'explode').name('Explode!'); // Specify a custom name.
 
+		
       // Javascript for documentation
       getCollapsables();
       handleListening();
