@@ -87,7 +87,7 @@ $button-height: 20px;
     margin-right: 15px;
     overflow-x: hidden;
 
-    &.has-save ul {
+    &.has-save > ul {
       margin-top: $row-height;
       &.closed {
         margin-top: 0;
