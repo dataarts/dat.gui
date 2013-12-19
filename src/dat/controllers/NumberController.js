@@ -122,6 +122,8 @@ define([
          */
         step: function(v) {
           this.__step = v;
+          this.__impliedStep = v;
+          this.__precision = numDecimals(v);
           return this;
         }
 
