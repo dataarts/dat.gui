@@ -68,8 +68,9 @@ define([
     
     each: function(obj, itr, scope) {
 
-      
-      if (ARR_EACH && obj.forEach === ARR_EACH) { 
+      if (!obj) return;
+
+      if (ARR_EACH && obj.forEach && obj.forEach === ARR_EACH) { 
         
         obj.forEach(itr, scope);
         
