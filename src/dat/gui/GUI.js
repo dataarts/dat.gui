@@ -179,6 +179,8 @@ define([
         SUPPORTS_LOCAL_STORAGE &&
             localStorage.getItem(getLocalStorageHash(this, 'isLocal')) === 'true';
 
+    var saveToLocalStorage;
+
     Object.defineProperties(this,
 
         /** @lends dat.gui.GUI.prototype */
@@ -434,9 +436,14 @@ define([
       addResizeHandle(this);
     }
 
-    function saveToLocalStorage() {
-      localStorage.setItem(getLocalStorageHash(_this, 'gui'), JSON.stringify(_this.getSaveObject()));
+    saveToLocalStorage = function () {
+      if (SUPPORTS_LOCAL_STORAGE && localStorage.getItem(getLocalStorageHash(_this, 'isLocal')) === 'true') {
+        localStorage.setItem(getLocalStorageHash(_this, 'gui'), JSON.stringify(_this.getSaveObject()));
+      }
     }
+
+    // expose this method publicly
+    this.saveToLocalStorageIfPossible = saveToLocalStorage;
 
     var root = _this.getRoot();
     function resetWidth() {
@@ -734,6 +741,7 @@ define([
 
           this.load.remembered[this.preset] = getCurrentPreset(this);
           markPresetModified(this, false);
+          this.saveToLocalStorageIfPossible();
 
         },
 
@@ -750,6 +758,7 @@ define([
           this.load.remembered[presetName] = getCurrentPreset(this);
           this.preset = presetName;
           addPresetOption(this, presetName, true);
+          this.saveToLocalStorageIfPossible();
 
         },
 
