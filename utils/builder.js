@@ -110,6 +110,10 @@ function build(_params) {
 
   to_write += params.shortcut + ' = ' + params.main.replace(/\//g, '.') + ' = ' + defined[params.main].getClosure() + ';';
 
+  if ( params.umd ){
+    to_write = wrap_umd( params.shortcut.split('.')[0], to_write + '\nreturn '+params.umd.ret+';' );
+  }
+
   if (params.verbose) console.log('Exported: ' + params.main + ' to window.' + params.shortcut);
 
   if (params.minify) {
@@ -224,6 +228,29 @@ function define(deps, callback) {
 
   this.recurseDeps();
 
+}
+
+/**
+ * Wrap the source code in a UMD declaration
+ * @param {String} name The root namespace (for browser global definition)
+ * @param  {String} src Source code text
+ * @return {String}
+ */
+function wrap_umd( name, src ){
+
+  return [
+    "(function (root, factory) {",
+    "  if (typeof define === 'function' && define.amd) {",
+    "    // AMD. Register as an anonymous module.",
+    "    define(factory);",
+    "  } else {",
+    "    // Browser globals",
+    "    root."+ name +" = factory();",
+    "  }",
+    "}(this, function () {",
+      src.replace(/\n/g,'\n  '),
+    "}));\n"
+  ].join('\n');
 }
 
 function file_exists(path) {

@@ -4,5 +4,8 @@ require('./builder.js').build({
    "out": "../build/dat.gui.js",
    "minify": false,
    "shortcut": "dat.GUI",
-   "paths": {}
+   "paths": {},
+   "umd": {
+        ret: 'dat'
+   }
 });
