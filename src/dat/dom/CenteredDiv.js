@@ -27,7 +27,8 @@ define([
       display: 'none',
       zIndex: '1000',
       opacity: 0,
-      WebkitTransition: 'opacity 0.2s linear'
+      WebkitTransition: 'opacity 0.2s linear',
+      transition: 'opacity 0.2s linear'
     });
 
     dom.makeFullscreen(this.backgroundElement);
@@ -39,7 +40,8 @@ define([
       display: 'none',
       zIndex: '1001',
       opacity: 0,
-      WebkitTransition: '-webkit-transform 0.2s ease-out, opacity 0.2s linear'
+      WebkitTransition: '-webkit-transform 0.2s ease-out, opacity 0.2s linear',
+      transition: 'transform 0.2s ease-out, opacity 0.2s linear'
     });
 
 
@@ -57,8 +59,6 @@ define([
   CenteredDiv.prototype.show = function() {
 
     var _this = this;
-    
-
 
     this.backgroundElement.style.display = 'block';
 
