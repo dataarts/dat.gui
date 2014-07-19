@@ -85,7 +85,9 @@ define([
     }
 
     function onMouseDrag(e) {
-
+      
+      document.activeElement.blur();
+      
       var diff = prev_y - e.clientY;
       _this.setValue(_this.getValue() + diff * _this.__impliedStep);
 
@@ -114,7 +116,7 @@ define([
       {
 
         updateDisplay: function() {
-
+          if (dom.isActive(this.__input)) return;
           this.__input.value = this.__truncationSuspended ? this.getValue() : roundToDecimal(this.getValue(), this.__precision);
           return NumberControllerBox.superclass.prototype.updateDisplay.call(this);
         }
