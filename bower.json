@@ -1,0 +1,23 @@
+{
+  "name": "polymer-gui",
+  "version": "0.0.0",
+  "description": "Attempt at revamping dat.gui with Polymyer.",
+  "keywords": [
+    "gui"
+  ],
+  "authors": [
+    "George Michael Brower"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.3.5"
+  }
+}
