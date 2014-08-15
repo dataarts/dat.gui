@@ -1,0 +1,48 @@
+<link rel="import" href="../components/polymer/polymer.html">
+
+<polymer-element name="gui-row" attributes="name">
+
+<template>
+
+<style>
+
+#row { 
+    -webkit-text-select: none;
+    background: #e74400;
+}
+
+#name {
+    font: 11px 'Montserrat', sans-serif;
+    color: #fff;
+
+    -webkit-font-smoothing: antialiased;
+    width: 35%;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+
+</style>
+
+<div id="row" layout horizontal center>
+    <div id="name">{{ name }}</div>
+    <div id="controller" flex>
+        <content></content>
+    </div>
+</div>
+
+</template>
+
+</div>
+
+<script>
+Polymer('gui-row', {
+
+    ready: function() {
+        
+    }
+
+});
+</script>
+
+</polymer-element>
