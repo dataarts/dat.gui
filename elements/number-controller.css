@@ -1,97 +1,87 @@
 :host {
-    display: block;
-    -webkit-text-select: none;
-    font-size: 0;
-    height: 100%;
+  display: block;
+  text-select: none;
+  font-size: 0;
+  height: 100%;
 }
-
-:host * {
-    margin: 0;
+#track-container {
+  height: 100%;
+  width: 100%;
+  height: 30px;
 }
-
-#track-container { 
-    height: 100%;
-    width: 100%;
-    height: 30px;
+#track {
+  width: 100%;
+  height: 1px;
+  -webkit-border-radius: 1px;
+  border-radius: 1px;
+  display: inline-block;
+  position: relative;
+  background: rgba(0,0,0,0.1);
 }
-
-#track { 
-    width: 100%;
-    height: 11px;
-    display: inline-block;
-    position: relative;
-    border-radius: 20px;
-    background: rgba( 0, 0, 0, 0.1 );
-
-}
-
 #fill {
-    height: 9px;
-    margin-top: 1px;
-    margin-left: 1px;
-    border-radius: 10px;
-    position: absolute;
-    background: #fff;
-    pointer-events: none;
+  height: 1px;
+  margin-top: 0px;
+  margin-left: 1px;
+  -webkit-border-radius: 1px;
+  border-radius: 1px;
+  position: absolute;
+  background: #fff;
+  pointer-events: none;
 }
-
-
-#container.transition #knob {
-    -webkit-transition: left 0.1s ease-out;
+#knob {
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  margin-top: -3px;
+  -webkit-transition: -webkit-transform 0.2s cubic-bezier(0.25, 0.25, 0, 1);
+  -moz-transition: -moz-transform 0.2s cubic-bezier(0.25, 0.25, 0, 1);
+  -o-transition: -o-transform 0.2s cubic-bezier(0.25, 0.25, 0, 1);
+  -ms-transition: -ms-transform 0.2s cubic-bezier(0.25, 0.25, 0, 1);
+  transition: transform 0.2s cubic-bezier(0.25, 0.25, 0, 1);
+  pointer-events: none;
+  position: absolute;
+  background-color: #fff;
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
 }
-
-#container.transition #fill {
-    -webkit-transition: width 0.1s ease-out;
+#track-container:hover #knob {
+  -webkit-transform: scale(1.8);
+  -moz-transform: scale(1.8);
+  -o-transform: scale(1.8);
+  -ms-transform: scale(1.8);
+  transform: scale(1.8);
 }
-
-.straddle-zero #knob { 
-    position: absolute;
-    pointer-events: none;
-    width: 9px;
-    height: 9px;
-    margin-top: 1px;
-    background-color: #fff;
-    border-radius: 100%;
+#track-container:active #knob {
+  -webkit-transform: scale(1.4);
+  -moz-transform: scale(1.4);
+  -o-transform: scale(1.4);
+  -ms-transform: scale(1.4);
+  transform: scale(1.4);
 }
-
-.straddle-zero.negative #knob {
-    margin-left: -3px;
+input {
+  font: 500 11px 'Roboto', sans-serif;
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+  height: 30px;
+  padding-left: 5px;
+  display: inline-block;
+  background: transparent;
+  border: 0;
+  text-align: center;
+  outline: none;
+  width: 20%;
+  -webkit-transition: width 0.2s cubic-bezier(0.25, 0.25, 0, 1);
+  -moz-transition: width 0.2s cubic-bezier(0.25, 0.25, 0, 1);
+  -o-transition: width 0.2s cubic-bezier(0.25, 0.25, 0, 1);
+  -ms-transition: width 0.2s cubic-bezier(0.25, 0.25, 0, 1);
+  transition: width 0.2s cubic-bezier(0.25, 0.25, 0, 1);
 }
-.straddle-zero.positive #knob {
-    margin-left: -5px;
-}
-
-/*
-.negative #knob,
-.negative #fill { 
-    background: #333;
-}
-*/
-input { 
-
-    font: 11px 'Montserrat', sans-serif;
-    color: #fff;
-    -webkit-font-smoothing: antialiased;
-
-    padding-left: 5px;
-    display: inline-block;
-    vertical-align: top;
-    background: transparent;
-    border-radius: 10px;
-    height: 30px;
-    border: 0;
-    text-align: center;
-    outline: none;
-    width: 20%;
-    -webkit-transition: width 0.24s cubic-bezier(.25,.25,0,1);
-}
-
-
 input:hover {
-    width: 28%;
-} 
-
-input:focus { 
-    width: 65%;
+  width: 28%;
 }
-
+input:focus {
+  width: 50%;
+}
+input::selection {
+  background-color: rgba(0,0,0,0.1);
+}

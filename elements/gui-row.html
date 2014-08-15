@@ -4,25 +4,7 @@
 
 <template>
 
-<style>
-
-#row { 
-    -webkit-text-select: none;
-    background: #e74400;
-}
-
-#name {
-    font: 11px 'Montserrat', sans-serif;
-    color: #fff;
-
-    -webkit-font-smoothing: antialiased;
-    width: 35%;
-    padding: 0 10px;
-    box-sizing: border-box;
-}
-
-
-</style>
+<link rel="stylesheet" href="gui-row.css">
 
 <div id="row" layout horizontal center>
     <div id="name">{{ name }}</div>
@@ -35,14 +17,6 @@
 
 </div>
 
-<script>
-Polymer('gui-row', {
-
-    ready: function() {
-        
-    }
-
-});
-</script>
+<script src="gui-row.js"></script>
 
 </polymer-element>

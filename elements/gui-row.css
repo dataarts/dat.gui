@@ -1,0 +1,18 @@
+#row {
+  -webkit-text-select: none;
+  background: #e74400;
+}
+#name {
+  font: 500 11px 'Roboto', sans-serif;
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: hidden;
+  width: 33%;
+  padding: 0 10px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}

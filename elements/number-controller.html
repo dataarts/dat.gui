@@ -1,17 +1,30 @@
 <!-- 
 
-todo:
-step
-decimals
-only validate input box on blur, not on keydown
+[ ] step
+[ ] sig figs
 
-dy to drag friction
+[ ] arrow keys
 
- -->
+[ ] only validate input box on blur, not on keydown
+[ ] enter key blurs
+
+[x] dy to drag friction
+[x] negative slider
+[x] hover behavior
+
+-->
 
 <link rel="import" href="../components/polymer/polymer.html">
+<link rel="import" href="base-controller.html">
 
-<polymer-element name="gui-number" attributes="min max value step" constructor="NumberController">
+<script src="number-controller.js"></script>
+
+<polymer-element 
+    name="number-controller" 
+    attributes="min max value step" 
+    extends="base-controller"
+    constructor="NumberController" 
+    >
 
 <template>
 
@@ -22,19 +35,15 @@ dy to drag friction
     <div id="track-container"
          on-down="{{ down }}"
          on-trackx="{{ trackx }}"
+         on-tracky="{{ tracky }}"
          on-trackstart="{{ trackstart }}"
          horizontal layout center
          flex>
 
         <div id="track">
 
-            <div id="fill">
-                
-            </div>
-
-            <div id="knob">
-                
-            </div>
+            <div id="fill"></div>
+            <div id="knob"></div>
 
         </div>
 
@@ -48,168 +57,5 @@ dy to drag friction
     </template>
 
 </div>
-
-<script>
-Polymer('gui-number', {
-
-    min: 0,
-    max: 100,
-    step: 1,
-    value: 50,
-
-    object: null,
-    property: null,
-
-    ready: function() {
-
-        var _this = this;
-
-        window.addEventListener( 'keydown', function( e ) {
-            if ( e.keyCode == 18 ) _this._alt = true;
-            if ( e.keyCode == 16 ) _this._shift = true;
-        }, false );
-
-        window.addEventListener( 'keyup', function( e ) {
-            if ( e.keyCode == 18 ) _this._alt = false;
-            if ( e.keyCode == 16 ) _this._shift = false;
-        }, false );
-
-        this.update();
-
-    },
-
-    objectChanged: function() {
-        if ( this.object && this.property ) {
-            this.bindToObject();
-        }
-    },
-
-    propertyChanged: function() {
-        if ( this.object && this.property ) {
-            this.bindToObject();
-        }
-    },
-
-    valueChanged: function() {
-        this.value = Math.max( this.value, this.min );
-        this.value = Math.min( this.value, this.max );
-        if ( this._boundToObject ) this.object[ this.property ] = this.value;
-        else this.update();
-    },
-
-    minChanged: function() {
-        this.value = Math.max( this.value, this.min );
-        this.update();
-    },
-
-    maxChanged: function() {
-        this.value = Math.min( this.value, this.max );
-        this.update();
-    },
-
-    bindToObject: function() {
-        
-        var _this = this;
-        
-        this._boundToObject = true;
-
-        Object.observe( this.object, function( changes ) {
-
-            changes.forEach( function( c ) {
-
-                if ( c.name == _this.property ) {
-                    _this.update()
-                }
-
-            } );
-
-        } );
-    },
-
-    update: function() {
-        
-        var ratio = this.map( this.value, this.min, this.max, 0, 1 );
-
-        if ( this.min < 0 && this.max > 0 ) {
-
-            this.$.container.classList.add( 'straddle-zero' );
-
-            var zero = this.map( 0, this.min, this.max, 0, 1 );
-
-            if ( this.value >= 0 ) {
-
-                this.$.fill.style.left = zero * 100 + '%';
-                this.$.fill.style.width = (ratio - zero) * 100 + '%';
-                this.$.fill.style.right = '';
-
-            } else { 
-
-                this.$.fill.style.left = '';
-                this.$.fill.style.width = (zero - ratio) * 100 + '%';
-                this.$.fill.style.right = ( 1 - zero ) * 100 + '%';
-
-            }
-
-        } else { 
-
-            this.$.container.classList.remove( 'straddle-zero' );
-
-            this.$.fill.style.left = 0;
-            this.$.fill.style.width = ratio * 100 + '%';
-            this.$.fill.style.right = '';
-
-        }
-
-        this.$.knob.style.left = ratio * 100 + '%';
-
-        this.$.container.classList.toggle( 'positive', this.value >= 0 );
-        this.$.container.classList.toggle( 'negative', this.value < 0 );
-
-    },
-
-    // Events
-    // ------------------------------- 
-    
-    click: function( e ) {
-        this.$.input.select();
-    },
-
-    down: function( e ) {
-        e.preventDefault();
-        this.$.container.classList.add( 'transition' );
-        this._rect = this.$.track.getBoundingClientRect();
-        if ( !this._alt ) this.setValueFromX( e.x );
-    },
-
-    trackstart: function( e ) {
-        this.$.container.classList.remove( 'transition' );
-    },
-
-    trackx: function( e ) {
-        var dv = this.setValueFromDX( e.ddx );
-        if ( this._alt ) dv /= 10;
-        if ( this._shift ) dv /= 10;
-        this.value += dv;
-    },
-
-
-    // Helpers
-    // ------------------------------- 
-    
-    setValueFromX: function( x ) {
-        this.value = this.map( x, this._rect.left, this._rect.right, this.min, this.max );
-    },
-
-    setValueFromDX: function( dx ) {
-        return this.map( dx, 0, this._rect.width, 0, this.max - this.min );
-    },
-
-    map: function( x, a, b, c, d ) {
-        return ( x - a ) / ( b - a ) * ( d - c ) + c;
-    }
-    
-
-});
-</script>
 
 </polymer-element>

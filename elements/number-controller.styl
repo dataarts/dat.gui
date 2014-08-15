@@ -1,0 +1,98 @@
+@import 'shared';
+
+track-height = 30px
+track-size = 1px;
+fill-size = 1px;
+knob-size = 6px
+
+:host {
+    display: block;
+    text-select: none;
+    font-size: 0;
+    height: 100%;
+}
+
+#track-container { 
+    height: 100%;
+    width: 100%;
+    height: track-height;
+}
+
+#track { 
+    width: 100%;
+    height: track-size;
+    border-radius: track-size;
+    display: inline-block;
+    position: relative;
+    background: dark;
+}
+
+#fill {
+    height: fill-size;
+    margin-top: ( ( track-size - fill-size ) / 2 );
+    margin-left: 1px;
+    border-radius: fill-size;
+    position: absolute;
+    background: #fff;
+    pointer-events: none;
+}
+
+
+#knob { 
+
+    width: knob-size;
+    height: knob-size;
+
+    margin-left: -( knob-size / 2 );
+    margin-top: -( knob-size / 2 );
+
+    transition: transform 0.2s ease;
+
+    pointer-events: none;
+    position: absolute;
+
+    background-color: #fff;
+    border-radius: 100%;
+
+}
+
+#track-container:hover #knob {
+
+    transform: scale( 1.8 )
+
+}
+
+#track-container:active #knob {
+
+    transform: scale( 1.4 )
+
+}
+
+input { 
+
+    font();
+
+    height: track-height;
+
+    padding-left: 5px;
+    display: inline-block;
+    background: transparent;
+    border: 0;
+    text-align: center;
+    outline: none;
+    width: 20%;
+    transition: width 0.2s ease;
+
+}
+
+input:hover {
+    width: 28%;
+} 
+
+input:focus { 
+    width: 50%;
+}
+
+input::selection { 
+    background-color: dark;
+}

@@ -1,0 +1,11 @@
+{
+  "name": "polymer-gui",
+  "version": "0.0.0",
+  "devDependencies": {
+    "gulp": "^3.8.7",
+    "gulp-stylus": "^1.3.0",
+    "gulp-watch": "^0.6.9",
+    "nib": "^1.0.3",
+    "yargs": "^1.3.1"
+  }
+}

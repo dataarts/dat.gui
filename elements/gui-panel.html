@@ -1,17 +1,12 @@
 <link rel="import" href="../components/polymer/polymer.html">
 
-<polymer-element name="gui-panel">
+<polymer-element 
+    name="gui-panel"
+    constructor="GUI">
 
 <template>
 
-<style>
-:host {
-    position: absolute;
-    top: 0;
-    right: 20px;
-    width: 300px;
-}
-</style>
+<link rel="stylesheet" href="gui-panel.css">
 
 <div>
     <content></content>
@@ -21,14 +16,6 @@
 
 </div>
 
-<script>
-Polymer('gui-panel', {
-
-    ready: function() {
-        
-    }
-
-});
-</script>
+<script src="gui-panel.js"></script>
 
 </polymer-element>

@@ -6,7 +6,7 @@
     
     <script src="components/platform/platform.js"></script>
 
-    <link href="//fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
 
     <link rel="import" href="elements/number-controller.html">
     <link rel="import" href="elements/gui-panel.html">
@@ -20,23 +20,23 @@
     <gui-panel>
 
         <gui-row name="Number">
-            <gui-number></gui-number>
+            <number-controller id="test"></number-controller>
         </gui-row>
 
-        <gui-row name="Number Controller">
-            <gui-number value="5000" min="0" max="10000"></gui-number>
+        <gui-row name="variableWithSeriousRange">
+            <number-controller value="5000" min="0" max="10000"></number-controller>
         </gui-row>
 
         <gui-row name="Straddle Zero">
-            <gui-number min="-1" max="1" value="0"></gui-number>
+            <number-controller min="-1" max="1" value="0"></number-controller>
         </gui-row>
 
         <gui-row name="Weird Range">
-            <gui-number min="-1" max="2" value="0"></gui-number>
+            <number-controller min="-1" max="2" value="0"></number-controller>
         </gui-row>
 
         <gui-row name="Negative">
-            <gui-number min="-1" max="0" value="0"></gui-number>
+            <number-controller min="-1" max="0" value="0"></number-controller>
         </gui-row>
 
     </gui-panel>
@@ -44,30 +44,36 @@
 
 <script>
 
-var object = { "x": 0 };
+var object = { "x": 25 };
 
-document.addEventListener("polymer-ready",function() {
+
+document.addEventListener("polymer-ready", function() {
 
     // Added via JavaScript
 
-    var test1 = new NumberController();
-    test1.min = 0;
-    test1.max = 60;
-    test1.value = 50;
+    // var test1 = new NumberController();
+    // test1.min = 0;
+    // test1.max = 60;
+    // test1.value = 50;
     
     // document.body.appendChild( test1 );
 
-    var test2 = new NumberController();
+    // var test2 = new NumberController();
+
+    var test2 = document.getElementById( 'test' );
     test2.object = object
     test2.property = "x";
 
-    Object.observe( object, function(changes) {
-        changes.forEach( function( c ) {
-            if ( c.name == "x" ) {
-                console.log( "object.x was changed to " + c.object.x, typeof c.object.x );
-            }
-        } );
-    } );
+    window.test2 = test2;
+
+    console.log( test2 );
+    // Object.observe( object, function(changes) {
+    //     changes.forEach( function( c ) {
+    //         if ( c.name == "x" ) {
+    //             console.log( "object.x was changed to " + c.object.x, typeof c.object.x );
+    //         }
+    //     } );
+    // } );
     
     // document.body.appendChild( test2 );
     // window.test2 = test2;
