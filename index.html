@@ -1,86 +1,17 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title></title>
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     
     <script src="components/platform/platform.js"></script>
-
-    <link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
-
-    <link rel="import" href="elements/number-controller.html">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto" type="text/css">
     <link rel="import" href="elements/gui-panel.html">
     <link rel="import" href="elements/gui-row.html">
+    <link rel="import" href="elements/number-controller.html">
 
 </head>
-<body touch-action="auto">
+<body>
 
-    <!-- Added via DOM -->
-
-    <gui-panel>
-
-        <gui-row name="Number">
-            <number-controller id="test"></number-controller>
-        </gui-row>
-
-        <gui-row name="variableWithSeriousRange">
-            <number-controller value="5000" min="0" max="10000"></number-controller>
-        </gui-row>
-
-        <gui-row name="Straddle Zero">
-            <number-controller min="-1" max="1" value="0"></number-controller>
-        </gui-row>
-
-        <gui-row name="Weird Range">
-            <number-controller min="-1" max="2" value="0"></number-controller>
-        </gui-row>
-
-        <gui-row name="Negative">
-            <number-controller min="-1" max="0" value="0"></number-controller>
-        </gui-row>
-
-    </gui-panel>
-
-
-<script>
-
-var object = { "x": 25 };
-
-
-document.addEventListener("polymer-ready", function() {
-
-    // Added via JavaScript
-
-    // var test1 = new NumberController();
-    // test1.min = 0;
-    // test1.max = 60;
-    // test1.value = 50;
-    
-    // document.body.appendChild( test1 );
-
-    // var test2 = new NumberController();
-
-    var test2 = document.getElementById( 'test' );
-    test2.object = object
-    test2.property = "x";
-
-    window.test2 = test2;
-
-    console.log( test2 );
-    // Object.observe( object, function(changes) {
-    //     changes.forEach( function( c ) {
-    //         if ( c.name == "x" ) {
-    //             console.log( "object.x was changed to " + c.object.x, typeof c.object.x );
-    //         }
-    //     } );
-    // } );
-    
-    // document.body.appendChild( test2 );
-    // window.test2 = test2;
-
-});
-
-</script>
+<script src="index.js"></script>
 
 </body>
 </html>

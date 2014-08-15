@@ -1,8 +1,26 @@
+/*
+
+[ ] arrow keys
+
+[ ] only validate input box on blur, not on keydown
+[ ] enter key blurs
+
+[ ] min( ) max( ) step( ) commands of yore
+
+[x] sig figs
+[x] step
+[x] dy to drag friction
+[x] negative slider
+[x] hover behavior
+
+*/
+
 Polymer('number-controller', {
 
     min: 0,
     max: 100,
-    step: 1,
+    step: null,
+    decimals: 3,
     value: 50,
 
     ready: function() {
@@ -28,6 +46,9 @@ Polymer('number-controller', {
     valueChanged: function() {
         this.value = Math.max( this.value, this.min );
         this.value = Math.min( this.value, this.max );
+        if ( this.step !== null ) {
+            this.value = Math.round( this.value / this.step ) * this.step;
+        }
         this.super();
     },
 
@@ -105,31 +126,75 @@ Polymer('number-controller', {
     down: function( e ) {
         e.preventDefault();
         this._rect = this.$.track.getBoundingClientRect();
-        if ( !this._alt ) this.setValueFromX( e.x );
+        if ( !this._alt ) this.value = this.valueFromX( e.x );
+    },
+
+    up: function( e ) {
+        // this.$.container.classList.add( 'transition' );
     },
 
     trackstart: function( e ) {
+        // this.$.container.classList.remove( 'transition' );
         this._dragFriction = 1;
     },
 
     trackx: function( e ) {
-        var dv = this.setValueFromDX( e.ddx );
-        if ( this._alt ) dv /= 10;
-        this.value += dv * this._dragFriction;
+
+        if ( this.step == null ) {
+
+            var dv = this.valueFromDX( e.ddx );
+            if ( this._alt ) dv /= 10;
+            this.value += dv * this._dragFriction;
+
+        } else {
+            
+            this.value = this.valueFromX( e.pageX );
+
+        }
     },
 
     tracky: function( e ) {
         this._dragFriction = Math.max( 0.01, Math.min( 1, this.map( e.dy, 50, 300, 1, 0.1 ) ) );
     },
 
+    blur: function( e ) {
+        this.value = parseFloat( this.$.input.value );
+    },
+
+    keydown: function( e ) {
+        if ( e.keyCode == 13 ) {
+            this.$.input.blur();
+        }
+    },
+
+
+    // Filters
+    // ------------------------------- 
+
+    truncate: function( v ) {
+
+        if ( v % 1 !== 0 && this.decimals !== null ) {
+
+            var s = v.toString();
+            var numDecimals = s.substring( s.indexOf( '.' ) ).length;
+
+            return v.toFixed( Math.min( numDecimals, this.decimals ) );
+
+        } else { 
+            return v;
+        }
+
+    },
+    
+
     // Helpers
     // ------------------------------- 
     
-    setValueFromX: function( x ) {
-        this.value = this.map( x, this._rect.left, this._rect.right, this.min, this.max );
+    valueFromX: function( x ) {
+        return this.map( x, this._rect.left, this._rect.right, this.min, this.max );
     },
 
-    setValueFromDX: function( dx ) {
+    valueFromDX: function( dx ) {
         return this.map( dx, 0, this._rect.width, 0, this.max - this.min );
     }
 

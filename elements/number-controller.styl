@@ -1,5 +1,8 @@
 @import 'shared';
 
+fill-color = number-color
+track-color = light
+
 track-height = 30px
 track-size = 1px;
 fill-size = 1px;
@@ -7,13 +10,13 @@ knob-size = 6px
 
 :host {
     display: block;
-    text-select: none;
     font-size: 0;
     height: 100%;
+    user-select: none;
 }
 
+
 #track-container { 
-    height: 100%;
     width: 100%;
     height: track-height;
 }
@@ -24,7 +27,7 @@ knob-size = 6px
     border-radius: track-size;
     display: inline-block;
     position: relative;
-    background: dark;
+    background: track-color;
 }
 
 #fill {
@@ -33,7 +36,7 @@ knob-size = 6px
     margin-left: 1px;
     border-radius: fill-size;
     position: absolute;
-    background: #fff;
+    background: fill-color;
     pointer-events: none;
 }
 
@@ -46,27 +49,31 @@ knob-size = 6px
     margin-left: -( knob-size / 2 );
     margin-top: -( knob-size / 2 );
 
-    transition: transform 0.2s ease;
+    transition: transform 0.1s ease;
 
     pointer-events: none;
     position: absolute;
 
-    background-color: #fff;
+    background-color: fill-color;
     border-radius: 100%;
 
 }
 
 #track-container:hover #knob {
-
-    transform: scale( 1.8 )
-
+    transform: scale( 2 )
 }
 
 #track-container:active #knob {
-
-    transform: scale( 1.4 )
-
+    transform: scale( 1.5 )
 }
+
+// .transition #knob {
+//     transition: left 0.2s ease, transform 0.1s ease;
+// }
+
+// .transition #fill {
+//     transition: left 0.2s ease, right 0.2s ease, width 0.2s ease;
+// }
 
 input { 
 
@@ -74,7 +81,7 @@ input {
 
     height: track-height;
 
-    padding-left: 5px;
+    margin-left: 5px;
     display: inline-block;
     background: transparent;
     border: 0;
@@ -94,5 +101,5 @@ input:focus {
 }
 
 input::selection { 
-    background-color: dark;
+    background-color: light;
 }

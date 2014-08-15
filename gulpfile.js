@@ -1,33 +1,37 @@
-/* jshint node: true */
-"use strict";
-
-var gulp = require("gulp"),
-    stylus = require("gulp-stylus"),
-    nib = require("nib"),
-    watch = require("gulp-watch"),
-    argv = require("yargs").argv
-
-function compileCss() {
-    var deferred = Q.defer();
-
-    gulp.src("elements/*.styl")
-        .pipe(stylus({use: [nib()]}))
-        .pipe(gulp.dest("elements"))
-        .on("end", function() {
-            deferred.resolve();
-        });
-
-    return deferred.promise;
+var gulp    = require( 'gulp' ),
+    stylus  = require( 'gulp-stylus' ),
+    nib     = require( 'nib' ),
+    watch   = require( 'gulp-watch' ),
+    vulcan  = require( 'gulp-vulcanize' );
+    
+var paths = {
+    style: './elements/*.styl'
 }
 
-gulp.task("stylus", function () {
-    if (argv.watch) {
-        watch({glob: "elements/*.styl"}, function(files) {
-            return files
-                .pipe(stylus({use: [nib()]}))
-                .pipe(gulp.dest("elements"));
-        });
-    } else {
-        return compileCss();
-    }
-});
+function compileCSS( files ) {
+    return files
+        .pipe( stylus( { use: [ nib() ] } ) )
+        .pipe( gulp.dest( './elements/' ) );
+}
+
+// gulp.task( 'stylus', function() {
+//     watch( { glob: "./elements/*.styl" }, compileCSS );
+// });
+
+gulp.task( 'default', function() {
+
+    compileCSS( gulp.src( paths.style ) );
+
+    gulp.src( './index.html' )
+        .pipe( vulcan( { 
+            dest: 'build', 
+            inline: true, 
+            strip: true 
+        } ) );
+
+
+} );
+
+gulp.task( 'watch', function() {
+    watch( { glob: paths.style }, compileCSS );
+} );

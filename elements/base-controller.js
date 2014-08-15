@@ -1,3 +1,10 @@
+/*
+
+[ ] onChange( )
+[ ] onFinishChange( )
+
+*/
+
 Polymer('base-controller', {
 
     value: null,
@@ -7,19 +14,36 @@ Polymer('base-controller', {
     ready: function() {
 
         var _this = this;
-        this._observer = function( changes ) {
-
-            changes.forEach( function( c ) {
-
-                if ( c.name == _this.property ) {
-                    _this.value = _this.object[ _this.property ];
-                }
-
-            } );
-
-        };
-        
         this.update();
+
+    },
+
+    bind: function() {
+
+        if ( this._observer ) {
+            this._observer.close();            
+            delete this._observer;
+        }
+
+        var _this = this;
+
+        this._observer = new PathObserver( this.object, this.property );
+        this._observer.open( function( newValue ) {
+
+            _this.value = newValue;
+
+        } );
+
+
+        this.value = this.object[ this.property ];
+        
+    },
+
+    update: function() {},
+
+    listen: function() {
+
+        console.warn( 'controller.listen() is deprecated. All controllers are listened for free.' );
 
     },
 
@@ -29,9 +53,6 @@ Polymer('base-controller', {
 
     objectChanged: function( oldObject, newObject ) {
 
-        if ( oldObject && this.property ) {
-            this.unbind( oldObject );
-        }
 
         if ( newObject && this.property ) {
             this.bind();
@@ -40,10 +61,6 @@ Polymer('base-controller', {
     },
 
     propertyChanged: function( oldProperty, newProperty ) {
-
-        if ( oldProperty && this.object ) {
-            this.unbind( this.object );
-        }
 
         if ( newProperty && this.object ) {
             this.bind();
@@ -61,22 +78,7 @@ Polymer('base-controller', {
 
     },
 
-    bind: function() {
 
-        Object.observe( this.object, this._observer );
-        this.value = this.object[ this.property ];
-        
-    },
-
-    unbind: function( object ) {
-
-        Object.unobserve( object, this._observer );
-
-    },
-
-    update: function() {},
-
-        
     // Helpers
     // ------------------------------- 
 
