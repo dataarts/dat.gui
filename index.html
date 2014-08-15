@@ -5,22 +5,48 @@
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     
     <script src="components/platform/platform.js"></script>
-    <link rel="import" href="number.html">
+
+    <link href="//fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+
+    <link rel="import" href="elements/number-controller.html">
+    <link rel="import" href="elements/gui-panel.html">
+    <link rel="import" href="elements/gui-row.html">
 
 </head>
-<body touch-action="auto" style="background: #e74400">
+<body touch-action="auto">
 
     <!-- Added via DOM -->
-    <gui-number></gui-number>
-    <gui-number min="-1" max="1" value="0"></gui-number>
-    <gui-number min="-1" max="2" value="0"></gui-number>
+
+    <gui-panel>
+
+        <gui-row name="Number">
+            <gui-number></gui-number>
+        </gui-row>
+
+        <gui-row name="Number Controller">
+            <gui-number value="5000" min="0" max="10000"></gui-number>
+        </gui-row>
+
+        <gui-row name="Straddle Zero">
+            <gui-number min="-1" max="1" value="0"></gui-number>
+        </gui-row>
+
+        <gui-row name="Weird Range">
+            <gui-number min="-1" max="2" value="0"></gui-number>
+        </gui-row>
+
+        <gui-row name="Negative">
+            <gui-number min="-1" max="0" value="0"></gui-number>
+        </gui-row>
+
+    </gui-panel>
 
 
 <script>
 
-var object = { 'x': 0 };
+var object = { "x": 0 };
 
-document.addEventListener('polymer-ready',function() {
+document.addEventListener("polymer-ready",function() {
 
     // Added via JavaScript
 
@@ -29,23 +55,22 @@ document.addEventListener('polymer-ready',function() {
     test1.max = 60;
     test1.value = 50;
     
-    document.body.appendChild( test1 );
+    // document.body.appendChild( test1 );
+
+    var test2 = new NumberController();
+    test2.object = object
+    test2.property = "x";
 
     Object.observe( object, function(changes) {
         changes.forEach( function( c ) {
-            if ( c.name == 'x' ) {
-                console.log( 'object.x was changed to ' + c.object.x );
+            if ( c.name == "x" ) {
+                console.log( "object.x was changed to " + c.object.x, typeof c.object.x );
             }
         } );
     } );
     
-    var test2 = new NumberController();
-    test2.object = object
-    test2.property = 'x';
-
-    document.body.appendChild( test2 );
-
-    window.test2 = test2;
+    // document.body.appendChild( test2 );
+    // window.test2 = test2;
 
 });
 
