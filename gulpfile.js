@@ -14,10 +14,6 @@ function compileCSS( files ) {
         .pipe( gulp.dest( './elements/' ) );
 }
 
-// gulp.task( 'stylus', function() {
-//     watch( { glob: "./elements/*.styl" }, compileCSS );
-// });
-
 gulp.task( 'default', function() {
 
     compileCSS( gulp.src( paths.style ) );
