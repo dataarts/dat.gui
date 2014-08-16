@@ -1,18 +1,17 @@
-<link rel="import" href="../components/polymer/polymer.html">
-<link rel="import" href="base-controller.html">
+<link rel="import" href="../../components/polymer/polymer.html">
+<link rel="import" href="../controller-base/controller-base.html">
 
-<script src="number-controller.js"></script>
+<script src="controller-number.js"></script>
 
 <polymer-element 
-    name="number-controller" 
+    name="controller-number" 
     attributes="min max value step" 
-    extends="base-controller"
-    constructor="NumberController" 
+    extends="controller-base"
     >
 
 <template>
 
-<link rel="stylesheet" href="number-controller.css">
+<link rel="stylesheet" href="controller-number.css">
 
 <div id="container" class="transition" horizontal layout center>
 

@@ -15,7 +15,7 @@ Polymer('gui-panel', {
 
         if ( typeof object[ property ] == 'number' ) {
 
-            controller = document.createElement( 'number-controller' );
+            controller = document.createElement( 'controller-number' );
             
             if ( arguments[ 2 ] !== undefined ) controller.min = arguments[ 2 ];
             if ( arguments[ 3 ] !== undefined ) controller.max = arguments[ 3 ];

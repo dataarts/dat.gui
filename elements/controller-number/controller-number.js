@@ -2,12 +2,11 @@
 
 [ ] arrow keys
 
-[ ] only validate input box on blur, not on keydown
-[ ] enter key blurs
-
 [ ] min( ) max( ) step( ) commands of yore
 
-[x] sig figs
+[x] only validate input box on blur, not on keydown
+[x] enter key blurs
+[x] decimals
 [x] step
 [x] dy to drag friction
 [x] negative slider
@@ -15,7 +14,7 @@
 
 */
 
-Polymer('number-controller', {
+Polymer('controller-number', {
 
     min: 0,
     max: 100,
@@ -44,11 +43,14 @@ Polymer('number-controller', {
     // ------------------------------- 
 
     valueChanged: function() {
-        this.value = Math.max( this.value, this.min );
-        this.value = Math.min( this.value, this.max );
+
         if ( this.step !== null ) {
             this.value = Math.round( this.value / this.step ) * this.step;
         }
+
+        this.value = Math.max( this.value, this.min );
+        this.value = Math.min( this.value, this.max );
+        
         this.super();
     },
 
@@ -154,11 +156,16 @@ Polymer('number-controller', {
     },
 
     tracky: function( e ) {
+
         this._dragFriction = Math.max( 0.01, Math.min( 1, this.map( e.dy, 50, 300, 1, 0.1 ) ) );
+        
     },
 
     blur: function( e ) {
-        this.value = parseFloat( this.$.input.value );
+        var v = parseFloat( this.$.input.value );
+        if ( v === v ) {
+            this.value = v;
+        }
     },
 
     keydown: function( e ) {
@@ -174,12 +181,7 @@ Polymer('number-controller', {
     truncate: function( v ) {
 
         if ( v % 1 !== 0 && this.decimals !== null ) {
-
-            var s = v.toString();
-            var numDecimals = s.substring( s.indexOf( '.' ) ).length;
-
-            return v.toFixed( Math.min( numDecimals, this.decimals ) );
-
+            return this.limitDecimals( v, this.decimals );
         } else { 
             return v;
         }
@@ -189,6 +191,23 @@ Polymer('number-controller', {
 
     // Helpers
     // ------------------------------- 
+
+    limitDecimals: function( v, maxDecimals ) {
+
+        var str = v.toString();
+        var numDecimals = str.substring( str.indexOf( '.' ) + 1 ).length;
+
+        str = v.toFixed( Math.min( numDecimals, this.decimals ) );
+        
+        for ( var z, i = 0, l = str.length; i < l; i++ ) {
+            if ( str.charAt( i ) !== '0' ) {
+                z = i;
+            }
+        }
+
+        return str.substring( 0, z+1 );
+
+    },
     
     valueFromX: function( x ) {
         return this.map( x, this._rect.left, this._rect.right, this.min, this.max );

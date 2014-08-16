@@ -5,7 +5,7 @@
 
 */
 
-Polymer('base-controller', {
+Polymer('controller-base', {
 
     value: null,
     object: null,

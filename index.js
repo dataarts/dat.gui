@@ -14,7 +14,7 @@ document.addEventListener( 'polymer-ready', function() {
     gui.add( object, 'listen4Free' );
     gui.add( object, 'listen4Free' ).name( 'customName' );
     gui.add( object, 'step', 0, 50, 5 );
-    gui.add( object, 'straddleZero', -5, 5 );
+    gui.add( object, 'straddleZero', -1, 1, 0.01 );
 
     var c = gui.add( object, 'maxIsNegative', -5, -2 );
 
