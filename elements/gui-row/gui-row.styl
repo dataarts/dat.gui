@@ -1,20 +1,73 @@
-@import 'shared';
+@import '../shared';
+
+
+:host {
+
+    user-select: none;
+    background: #1a1a1a;
+
+    height: 100%;
+    width: 100%;
+    display: block;
+    
+    font();
+
+}
 
 #row { 
-    -webkit-text-select: none;
-    background: #1a1a1a;
+
+}
+
+#comment { 
+
+    line-height: 16px;
+    user-select: text;
+
+    background: #E0CF99;
+    height: 0;
+    color: #333;
+
+    
+    box-sizing: border-box;
+    overflow: hidden;
+    transition: height 0.15s ease;
+    box-shadow: inset 0 2px 0 dark;
+
+}
+
+#commentInner {
+    padding: padding;
 }
 
 #name {
 
-    font();
-
     text-overflow: ellipsis;
     word-wrap: break-word;
     overflow: hidden;
-    width: 33%;
-    padding: 0 10px;
+    padding: 0 padding;
     box-sizing: border-box;
+    display: inline-block;
+    width: 40%;
+
+    height: 30px;
+    line-height: 30px;
+
+    cursor: default;
+
+    .comment-true & { 
+        cursor: pointer;
+    }
+
 }
 
+.comment-true #nameInner { 
 
+    display: inline-block;
+    border-bottom: 1px dotted light;
+    
+    &:after { 
+        content: ' ?';
+        color: light;
+    }
+
+}

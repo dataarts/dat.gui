@@ -17,11 +17,11 @@
 Polymer('controller-number', {
 
     min: 0,
-    max: 100,
+    max: 1,
+    value: 0,
     step: null,
     decimals: 3,
-    value: 50,
-
+    
     ready: function() {
 
         var _this = this;

@@ -9,11 +9,27 @@ Polymer('gui-panel', {
     add: function( object, property ) {
 
         var row = document.createElement( 'gui-row' );
-        row.name = property;
 
         var controller; 
 
-        if ( typeof object[ property ] == 'number' ) {
+
+
+        var value;
+
+        // gui.add( object, 'property' ...
+        if ( typeof object == 'object' ) {
+
+            value = object[ property ];
+        
+        // gui.add( 0, 'anonymous-value' ...
+        } else {
+
+            value = object;
+
+        }
+
+
+        if ( typeof value == 'number' ) {
 
             controller = document.createElement( 'controller-number' );
             
@@ -23,11 +39,20 @@ Polymer('gui-panel', {
 
         }
 
-        controller.object = object;
-        controller.property = property;
+        // gui.add( object, 'property' ...
+        if ( typeof object == 'object' ) {
+            controller.object = object;
+            controller.property = property;
+        } 
+
+        row.name = property;
 
         controller.name = function( name ) {
             row.name = name;
+        };
+
+        controller.comment = function( comment ) {
+            row.comment = comment;
         };
 
         row.appendChild( controller );

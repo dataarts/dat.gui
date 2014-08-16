@@ -1,21 +1,42 @@
 <link rel="import" href="../../components/polymer/polymer.html">
 
-<polymer-element 
-    name="gui-row" 
-    attributes="name">
+<polymer-element name="gui-row" attributes="name comment">
 
 <template>
 
-<link rel="stylesheet" href="gui-row.css">
+<div>
 
-<div id="row" layout horizontal center>
-    <div id="name">{{ name }}</div>
-    <div id="controller" flex>
-        <content></content>
+    <link rel="stylesheet" href="gui-row.css">
+
+    <div id="row" class="comment-{{ comment != null }}" layout horizontal center>
+        
+        <div 
+            id="name"
+            on-mouseover="{{ openComment }}"
+            on-mouseout="{{ closeComment }}"
+            >
+            <div id="nameInner">{{ name }}</div>
+        </div>
+
+        <div id="controller" flex>
+            <content></content>
+        </div>
+
     </div>
+
+    <div id="comment" 
+            on-mouseover="{{ openComment }}"
+            on-mouseout="{{ closeComment }}"
+            class="open-{{ commentOpen }}" hidden?="{{ comment == null }}">
+        
+        <div id="commentInner">{{ comment }}</div>
+
+    </div>
+
 </div>
 
 </template>
+
 
 </div>
 

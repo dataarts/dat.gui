@@ -1,4 +1,4 @@
-@import 'shared';
+@import '../shared';
 
 fill-color = number-color
 track-color = light
@@ -12,7 +12,8 @@ knob-size = 6px
     display: block;
     font-size: 0;
     height: 100%;
-    user-select: none;
+    user-select: none;\
+
 }
 
 
@@ -76,12 +77,12 @@ knob-size = 6px
 // }
 
 input { 
-
+    
     font();
 
     height: track-height;
 
-    margin-left: 5px;
+    margin: 0 ( padding/2 );
     display: inline-block;
     background: transparent;
     border: 0;
