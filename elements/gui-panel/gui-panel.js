@@ -43,7 +43,9 @@ Polymer('gui-panel', {
         if ( typeof object == 'object' ) {
             controller.object = object;
             controller.property = property;
-        } 
+        } else { 
+            controller.value = value;
+        }
 
         row.name = property;
 

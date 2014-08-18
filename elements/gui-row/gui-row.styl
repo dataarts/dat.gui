@@ -24,14 +24,30 @@
     user-select: text;
 
     background: #E0CF99;
-    height: 0;
     color: #333;
+    // box-shadow: inset 0 2px 0 dark;
 
-    
+
     box-sizing: border-box;
     overflow: hidden;
     transition: height 0.15s ease;
-    box-shadow: inset 0 2px 0 dark;
+    
+
+    position: absolute;
+    z-index: 999;
+    pointer-events: none;
+    
+    opacity: 0;
+    transform: translate3d( 10px, 20px, 0 );
+
+    transition: all 0.2s ease;
+
+}
+
+#comment.open-true { 
+    
+    opacity: 1;
+    transform: translate3d( 10px, 0, 0 );
 
 }
 
