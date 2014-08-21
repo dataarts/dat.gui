@@ -1,48 +1,64 @@
 /*
 
-[ ] build without polymer bundled
+[ ] build without platform bundled
 
 */
 
 var gulp    = require( 'gulp' ),
-    stylus  = require( 'gulp-stylus' ),
-    nib     = require( 'nib' ),
-    watch   = require( 'gulp-watch' ),
-    vulcan  = require( 'gulp-vulcanize' );
-    
+    $       = require( 'gulp-load-plugins' )( { 'pattern': '*' } ); // need the star for nib ... 
+
 var paths = {
-    style: 'elements/**/*.styl'
+    main:   'gui.html',
+    css:    'elements/**/*.styl',
+    html:   'elements/**/*.html',
+    js:     'elements/**/*.js',
+    tests:  'tests/*'
 }
 
-function compileCSS( files ) {
-    return files
-        .pipe( stylus( { use: [ nib() ] } ) )
+gulp.task( 'css', function() {
+
+    gulp.src( paths.css )
+        .pipe( $.stylus( { use: [ $.nib() ] } ) )
         .pipe( gulp.dest( 'elements' ) );
-}
-
-
-gulp.task( 'styles', function() {
-
-    compileCSS( gulp.src( paths.style ) );
 
 } );
 
 gulp.task( 'vulcanize', function() {
 
-    gulp.src( 'index.html' )
-        .pipe( vulcan( { 
+    gulp.src( paths.main )
+        .pipe( $.vulcanize( { 
             dest: 'build', 
-            inline: true, 
-            strip: true 
+            inline: true
+            // strip: true 
         } ) );
 
 } );
 
-gulp.task( 'watch', function() {
+gulp.task( 'readme', function() {
+  
+    gulp.src( 'README.md' ).pipe( $.markdown() ).pipe( gulp.dest( './' ) );
 
-    watch( { glob: paths.style }, compileCSS );
+} );
+
+gulp.task( 'test', function() {
+
+    return gulp.src( 'tests/legacy.html' ).pipe( $.qunit() );
+
+} );
+
+gulp.task( 'build', [ 'css', 'vulcanize', 'test' ] );
+
+gulp.task( 'default', function() {
+
+    gulp.watch( [ paths.css ], [ 'css', 'vulcanize' ] );
+    gulp.watch( [ paths.js, paths.main, paths.html ], [ 'vulcanize', 'test' ] );
+
+    // gulp.watch( [ paths.tests, 'test' ] ); // not working? 
+
+    gulp.watch( [ 'README.md' ], [ 'readme' ] );
+
 
 } );
 
 
-gulp.task( 'default', [ 'styles', 'vulcanize' ]);
+

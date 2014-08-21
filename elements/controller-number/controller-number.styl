@@ -12,7 +12,7 @@ knob-size = 6px
     display: block;
     font-size: 0;
     height: 100%;
-    user-select: none;\
+    user-select: none;
 }
 
 #track-container { 
@@ -80,23 +80,28 @@ input {
 
     height: track-height;
 
-    margin: 0 ( padding/2 );
     display: inline-block;
     background: transparent;
     border: 0;
-    text-align: center;
     outline: none;
-    width: 20%;
-    transition: width 0.2s ease;
 
-}
+    .slider-true & {
+    
+        margin-left: padding;
+        width: 100%;
+        width: 22%;
+        transition: width 0.2s ease;
 
-input:hover {
-    width: 28%;
-} 
+        &:hover {
+            width: 28%;
+        } 
 
-input:focus { 
-    width: 50%;
+        &:focus { 
+            width: 50%;
+        }
+
+    }
+
 }
 
 input::selection { 

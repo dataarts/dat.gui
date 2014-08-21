@@ -13,7 +13,7 @@
 
 <link rel="stylesheet" href="controller-number.css">
 
-<div id="container" class="transition" horizontal layout center>
+<div id="container" class="transition slider-{{ slider }}" horizontal layout center>
 
     <div id="track-container"
          on-down="{{ down }}"
@@ -22,6 +22,7 @@
          on-tracky="{{ tracky }}"
          on-trackstart="{{ trackstart }}"
          horizontal layout center
+         hidden?="{{ !slider }}"
          flex>
 
         <div id="track">

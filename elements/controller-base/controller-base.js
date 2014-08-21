@@ -7,18 +7,24 @@
 
 Polymer('controller-base', {
 
-    value: null,
-    object: null,
-    property: null,
-
     ready: function() {
 
-        var _this = this;
         this.update();
 
     },
 
-    bind: function() {
+    update: function() {},
+
+    init: function() {},
+
+
+    // Observers
+    // ------------------------------- 
+
+    watch: function( object, path ) {
+
+        this.object = object;
+        this.path = path;
 
         if ( this._observer ) {
             this._observer.close();            
@@ -27,51 +33,23 @@ Polymer('controller-base', {
 
         var _this = this;
 
-        this._observer = new PathObserver( this.object, this.property );
+        this._observer = new PathObserver( this.object, this.path );
         this._observer.open( function( newValue ) {
 
             _this.value = newValue;
 
         } );
 
-
-        this.value = this.object[ this.property ];
-        
-    },
-
-    update: function() {},
-
-    listen: function() {
-
-        console.warn( 'controller.listen() is deprecated. All controllers are listened for free.' );
-
-    },
-
-
-    // Observers
-    // ------------------------------- 
-
-    objectChanged: function( oldObject, newObject ) {
-
-
-        if ( newObject && this.property ) {
-            this.bind();
-        }
-
-    },
-
-    propertyChanged: function( oldProperty, newProperty ) {
-
-        if ( newProperty && this.object ) {
-            this.bind();
-        }
+        this.value = this.object[ this.path ];
 
     },
 
     valueChanged: function() {
 
-        if ( this.object && this.property ) {
-            this.object[ this.property ] = this.value;
+        if ( this._observer ) {
+            
+            Path.get( this.path ).setValueFrom( this.object, this.value );
+
         }
         
         this.update();
@@ -84,6 +62,30 @@ Polymer('controller-base', {
 
     map: function( x, a, b, c, d ) {
         return ( x - a ) / ( b - a ) * ( d - c ) + c;
+    },
+
+
+    // Legacy
+    // ------------------------------- 
+
+    listen: function() {
+
+        console.warn( 'controller.listen() is deprecated. All controllers are listened for free.' );
+        return this;
+
+    },
+
+    getValue: function() {
+
+        return this.value;
+
+    },
+
+    setValue: function( v ) {
+
+        this.value = v;
+
     }
+        
 
 });

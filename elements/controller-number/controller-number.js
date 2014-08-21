@@ -14,16 +14,24 @@
 
 */
 
-Polymer('controller-number', {
+Gui.register( 'controller-number', function( value ) {
+  
+    return typeof value == 'number';
 
-    min: 0,
-    max: 1,
+} );
+
+Polymer( 'controller-number', {
+
     value: 0,
-    step: null,
     decimals: 3,
-    
-    ready: function() {
+    computed: {
 
+        slider: 'min !== undefined && max !== undefined'
+
+    },
+
+    ready: function() {
+        
         var _this = this;
 
         window.addEventListener( 'keydown', function( e ) {
@@ -38,30 +46,46 @@ Polymer('controller-number', {
 
     },
 
+    init: function( min, max, step ) {
+
+        this.min = min;
+        this.max = max;
+        this.step = step;
+
+    },
 
     // Observers
     // ------------------------------- 
 
-    valueChanged: function() {
+    valueChanged: function( newValue ) {
 
-        if ( this.step !== null ) {
+        if ( this.step !== undefined ) {
             this.value = Math.round( this.value / this.step ) * this.step;
         }
 
-        this.value = Math.max( this.value, this.min );
-        this.value = Math.min( this.value, this.max );
+        if ( this.min !== undefined ) {
+            this.value = Math.max( this.value, this.min );
+        }
+
+        if ( this.max !== undefined ) {
+            this.value = Math.min( this.value, this.max );
+        }
         
         this.super();
     },
 
     minChanged: function() {
+
         this.value = Math.max( this.value, this.min );
         this.update();
+
     },
 
     maxChanged: function() {
+
         this.value = Math.min( this.value, this.max );
         this.update();
+
     },
 
     update: function() {
@@ -122,30 +146,40 @@ Polymer('controller-number', {
     // ------------------------------- 
     
     click: function( e ) {
+
         this.$.input.select();
+
     },
 
     down: function( e ) {
+
         e.preventDefault();
         this._rect = this.$.track.getBoundingClientRect();
         if ( !this._alt ) this.value = this.valueFromX( e.x );
+
     },
 
     up: function( e ) {
+
         // this.$.container.classList.add( 'transition' );
+
     },
 
     trackstart: function( e ) {
+
         // this.$.container.classList.remove( 'transition' );
         this._dragFriction = 1;
+
     },
 
     trackx: function( e ) {
 
-        if ( this.step == null ) {
+        if ( this.step === undefined ) {
 
             var dv = this.valueFromDX( e.ddx );
+
             if ( this._alt ) dv /= 10;
+
             this.value += dv * this._dragFriction;
 
         } else {
@@ -162,16 +196,21 @@ Polymer('controller-number', {
     },
 
     blur: function( e ) {
+
         var v = parseFloat( this.$.input.value );
+        
         if ( v === v ) {
             this.value = v;
         }
+
     },
 
     keydown: function( e ) {
+
         if ( e.keyCode == 13 ) {
             this.$.input.blur();
         }
+
     },
 
 
@@ -180,7 +219,7 @@ Polymer('controller-number', {
 
     truncate: function( v ) {
 
-        if ( v % 1 !== 0 && this.decimals !== null ) {
+        if ( v % 1 !== 0 && this.decimals !== undefined ) {
             return this.limitDecimals( v, this.decimals );
         } else { 
             return v;
@@ -210,11 +249,15 @@ Polymer('controller-number', {
     },
     
     valueFromX: function( x ) {
+
         return this.map( x, this._rect.left, this._rect.right, this.min, this.max );
+
     },
 
     valueFromDX: function( dx ) {
+
         return this.map( dx, 0, this._rect.width, 0, this.max - this.min );
+
     }
 
 });

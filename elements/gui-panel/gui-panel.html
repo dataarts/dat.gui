@@ -1,16 +1,17 @@
 <link rel="import" href="../../components/polymer/polymer.html">
+<link rel="import" href="../gui-row/gui-row.html">
 
 <polymer-element 
     name="gui-panel"
-    constructor="GUI">
+    attributes="docked">
 
 <template>
 
 <link rel="stylesheet" href="gui-panel.css">
 
-<div>
+<div id="container" class="docked-{{ docked }}">
     <content></content>
-    <div id="closeButton">&times;</div>
+    <div id="closeButton" hidden?="{{ docked }}">&times;</div>
 </div>
 
 </template>
