@@ -73,12 +73,12 @@ h2.sticky {
     }
 
     function onScroll() {
-        
         for ( var el, i = 0, l = elements.length; i < l; i++ ) {
             
             el = elements[ i ];
 
             var sticky = window.scrollY > el.top && window.scrollY <= el.next.top;
+
             el.spacer.style.visibility = sticky ? 'visible' : 'hidden';
 
             if ( el.next && sticky ) {
