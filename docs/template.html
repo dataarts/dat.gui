@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>dat-gui</title>
+
+<style>
+* { 
+    margin: 0;
+}
+
+body {
+    margin: 18px;
+}
+
+h1, h2, h3, p, pre { 
+    margin-bottom: 18px;
+}
+
+h1 { 
+    margin-bottom: 36px;
+}
+
+h2 {
+    padding: 18px 0;
+    margin-top: 36px;
+    margin-bottom: 36px;
+}
+
+h2.sticky {
+    border-bottom: 1px solid rgba( 0, 0, 0, 0.25 );
+    left: 0;
+    right: 0;
+    top: 0;
+    padding: 18px;
+    background: #fff;
+
+}
+</style>
+
+</head>
+<body>
+
+<div id="readme">
+<!-- Replaced with contents of README.md -->
+</div>
+
+<script>
+(function() {
+   
+    var selector = '#readme h2'; 
+    var elements = document.querySelectorAll( selector );
+    for ( var el, i = 0, l = elements.length; i < l; i++ ) {
+
+        el = elements[ i ];
+        el.top = el.offsetTop;
+
+        el.spacer = el.cloneNode( true );
+        el.spacer.id = '';
+        el.spacer.style.position = 'fixed';
+        el.spacer.style.visibility = 'hidden';
+        el.spacer.style.zIndex = i;
+        el.spacer.classList.add( 'sticky' );
+
+        el.parentElement.insertBefore( el.spacer, el );
+        el.spacer.height = el.spacer.offsetHeight;
+
+        if ( i > 0 ) {
+            elements[ i - 1 ].next = el;
+        }
+
+    }
+
+    function onScroll() {
+        
+        for ( var el, i = 0, l = elements.length; i < l; i++ ) {
+            
+            el = elements[ i ];
+
+            var sticky = window.scrollY > el.top && window.scrollY <= el.next.top;
+            el.spacer.style.visibility = sticky ? 'visible' : 'hidden';
+
+            if ( el.next && sticky ) {
+
+                var bottom = window.scrollY + el.spacer.height;
+                var marginTop = Math.round( Math.min( 0, el.next.top - bottom ) );
+                el.spacer.style.marginTop = marginTop + 'px';
+                el.spacer.classList.toggle( -marginTop );
+
+            }
+
+        }
+    }
+
+    document.addEventListener( 'scroll', onScroll );
+
+})();
+</script>
+
+</body>
+</html>
