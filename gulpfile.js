@@ -5,7 +5,8 @@
 */
 
 var gulp    = require( 'gulp' ),
-    $       = require( 'gulp-load-plugins' )( { 'pattern': '*' } ); // need the star for nib ... 
+    fs      = require( 'fs' ),
+    $       = require( 'gulp-load-plugins' )( { 'pattern': '*' } );
 
 var paths = {
     main:   'gui.html',
@@ -35,14 +36,20 @@ gulp.task( 'vulcanize', function() {
 } );
 
 gulp.task( 'readme', function() {
-  
-    gulp.src( 'README.md' ).pipe( $.markdown() ).pipe( gulp.dest( './' ) );
+        
+
+    var content = {
+        readme: $.marked( fs.readFileSync( 'README.md', 'utf8' ) )
+    }
+
+    gulp.src( 'docs/template.html' )
+        .pipe( $.plates( content ) )
+        .pipe( $.rename( 'index.html' ) )
+        .pipe( gulp.dest( './' ) );
 
 } );
 
 gulp.task( 'test', function() {
-
-    return gulp.src( 'tests/legacy.html' ).pipe( $.qunit() );
 
 } );
 
@@ -55,7 +62,7 @@ gulp.task( 'default', function() {
 
     // gulp.watch( [ paths.tests, 'test' ] ); // not working? 
 
-    gulp.watch( [ 'README.md' ], [ 'readme' ] );
+    gulp.watch( [ 'README.md', 'docs/template.html' ], [ 'readme' ] );
 
 
 } );
