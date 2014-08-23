@@ -13,11 +13,43 @@
 }
 
 #row {
+
+    debug( blue )
+    
+    height: min-row-height;
     transition: background-color 0.2s linear;
+    border-bottom: 1px solid #262626;
+
     &:hover { 
         background-color: #262626;
     }
+
 }
+
+#controller {
+    height: 100%;
+}
+
+#name {
+
+    debug( magenta )
+
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow: hidden;
+    padding: 0 padding;
+    box-sizing: border-box;
+    display: inline-block;
+    width: 40%;
+
+    cursor: default;
+
+    .comment-true & { 
+        cursor: pointer;
+    }
+
+}
+
 
 #comment { 
 
@@ -57,35 +89,14 @@
     padding: padding;
 }
 
-#name {
-
-    text-overflow: ellipsis;
-    word-wrap: break-word;
-    overflow: hidden;
-    padding: 0 padding;
-    box-sizing: border-box;
-    display: inline-block;
-    width: 40%;
-
-    height: 30px;
-    line-height: 30px;
-
-    cursor: default;
-
-    .comment-true & { 
-        cursor: pointer;
-    }
-
-}
-
 .comment-true #nameInner { 
 
     display: inline-block;
-    border-bottom: 1px dotted light;
+    // border-bottom: 1px dotted light;
     
     &:after { 
-        content: ' ?';
-        color: light;
+        // content: ' ?';
+        // color: light;
     }
 
 }

@@ -3,21 +3,20 @@
 fill-color = number-color
 track-color = light
 
-track-height = 30px
 track-size = 1px;
 fill-size = 1px;
 knob-size = 6px
 
 :host {
-    display: block;
-    font-size: 0;
-    height: 100%;
     user-select: none;
 }
 
+#container { 
+    height: 100%;
+}
+
 #track-container { 
-    width: 100%;
-    height: track-height;
+    height: 100%;
 }
 
 #track { 
@@ -78,8 +77,7 @@ input {
     
     panel-font()
     color: text-color;
-    height: track-height;
-
+    height: 100%;
     display: inline-block;
     background: transparent;
     border: 0;
@@ -89,12 +87,11 @@ input {
     
         text-align: center;
         margin-left: padding;
-        width: 100%;
-        width: 22%;
+        width: 25%;
         transition: width 0.2s ease;
 
         &:hover {
-            width: 28%;
+            width: 33%;
         } 
 
         &:focus { 
@@ -106,6 +103,7 @@ input {
 
     .slider-false & { 
         // border-bottom: 1px solid number-color;
+        width: 100%;
     }
 
 }

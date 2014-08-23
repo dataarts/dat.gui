@@ -482,14 +482,35 @@ if(f)g=void 0;else if(f=g[this.name],!f)return void console.error("Cannot find f
   -webkit-font-smoothing: antialiased;
 }
 #row {
+  height: 30px;
   -webkit-transition: background-color 0.2s linear;
   -moz-transition: background-color 0.2s linear;
   -o-transition: background-color 0.2s linear;
   -ms-transition: background-color 0.2s linear;
   transition: background-color 0.2s linear;
+  border-bottom: 1px solid #262626;
 }
 #row:hover {
   background-color: #262626;
+}
+#controller {
+  height: 100%;
+}
+#name {
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: hidden;
+  padding: 0 8px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
+  width: 40%;
+  cursor: default;
+}
+.comment-true #name {
+  cursor: pointer;
 }
 #comment {
   line-height: 16px;
@@ -543,31 +564,8 @@ if(f)g=void 0;else if(f=g[this.name],!f)return void console.error("Cannot find f
 #commentInner {
   padding: 8px;
 }
-#name {
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis;
-  word-wrap: break-word;
-  overflow: hidden;
-  padding: 0 8px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  display: inline-block;
-  width: 40%;
-  height: 30px;
-  line-height: 30px;
-  cursor: default;
-}
-.comment-true #name {
-  cursor: pointer;
-}
 .comment-true #nameInner {
   display: inline-block;
-  border-bottom: 1px dotted rgba(255,255,255,0.25);
-}
-.comment-true #nameInner:after {
-  content: ' ?';
-  color: rgba(255,255,255,0.25);
 }
 </style>
 
@@ -1166,17 +1164,16 @@ Polymer( 'controller-number', {
 <template>
 
 <style>:host {
-  display: block;
-  font-size: 0;
-  height: 100%;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
+#container {
+  height: 100%;
+}
 #track-container {
-  width: 100%;
-  height: 30px;
+  height: 100%;
 }
 #track {
   width: 100%;
@@ -1232,7 +1229,7 @@ input {
   color: #eee;
   -webkit-font-smoothing: antialiased;
   color: text-color;
-  height: 30px;
+  height: 100%;
   display: inline-block;
   background: transparent;
   border: 0;
@@ -1241,8 +1238,7 @@ input {
 .slider-true input {
   text-align: center;
   margin-left: 8px;
-  width: 100%;
-  width: 22%;
+  width: 25%;
   -webkit-transition: width 0.2s cubic-bezier(0.25, 0.25, 0, 1);
   -moz-transition: width 0.2s cubic-bezier(0.25, 0.25, 0, 1);
   -o-transition: width 0.2s cubic-bezier(0.25, 0.25, 0, 1);
@@ -1254,6 +1250,9 @@ input {
 }
 .slider-true input:focus {
   width: 50%;
+}
+.slider-false input {
+  width: 100%;
 }
 input::selection {
   background-color: rgba(255,255,255,0.1);
@@ -1343,12 +1342,14 @@ Polymer( 'controller-boolean', {
 }
 #container {
   display: block;
-  border: 1px solid #00f;
-  height: row-height;
+  height: 100%;
+}
+#input {
+  height: 20px;
 }
 </style>
 
-<label for="input" id="container">
+<label for="input" id="container" horizontal="" layout="" center="">
     <input id="input" type="checkbox" checked?="{{ value }}" on-change="{{ change }}">
 </label>
 
