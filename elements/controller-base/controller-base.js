@@ -70,7 +70,7 @@ Polymer('controller-base', {
 
     listen: function() {
 
-        console.warn( 'controller.listen() is deprecated. All controllers are listened for free.' );
+        Gui.warn( 'controller.listen() is deprecated. All controllers are listened for free.' );
         return this;
 
     },

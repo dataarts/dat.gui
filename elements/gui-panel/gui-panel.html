@@ -1,17 +1,19 @@
-<link rel="import" href="../../../components/polymer/polymer.html">
+<link rel="import" href="../../../polymer/polymer.html">
 <link rel="import" href="../gui-row/gui-row.html">
 
 <polymer-element 
     name="gui-panel"
-    attributes="docked">
+    attributes="docked autoplace open">
 
 <template>
 
 <link rel="stylesheet" href="gui-panel.css">
 
-<div id="container" class="docked-{{ docked }}">
-    <content></content>
-    <div id="closeButton" hidden?="{{ docked }}">&times;</div>
+<div id="container" class="docked-{{ docked }} autoplace-{{ autoPlace }} open-{{ open }}">
+    <div id="controllers">
+        <content></content>
+    </div>
+    <div id="closeButton" on-tap="{{ tapClose }}" hidden?="{{ docked }}">{{ open ? 'Close' : 'Open' }} Controls</div>
 </div>
 
 </template>

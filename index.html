@@ -1,64 +1,33 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 
-<meta charset="UTF-8">
+<meta charset="utf-8">
+
 <title>dat-gui</title>
 
-<style>
-* { 
-    margin: 0;
-}
+<link rel="import" href="gui.html">
+<link rel="stylesheet" href="docs/style.css">
 
-body {
-    margin: 18px;
-}
-
-h1, h2, h3, p, pre { 
-    margin-bottom: 18px;
-}
-
-h1 { 
-    margin-bottom: 36px;
-}
-
-h2 {
-    padding: 18px 0;
-    margin-top: 36px;
-    margin-bottom: 36px;
-}
-
-h2.sticky {
-    border-bottom: 1px solid rgba( 0, 0, 0, 0.25 );
-    left: 0;
-    right: 0;
-    top: 0;
-    padding: 18px;
-    background: #fff;
-
-}
 </style>
 
 </head>
 <body>
 
 <div id="readme"><h1 id="dat-gui">dat-gui</h1>
-<p>With very little code, dat gui creates an interface that you can use to modify variables.</p>
-<h2 id="basic-usage">Basic Usage</h2>
+<p>dat-gui creates an interface that you can use to modify variables with very little code. </p>
+<h3 id="basic-usage">Basic Usage</h3>
 <p>Download the <a href="todo">minified library</a> and include it in your html.</p>
 <pre><code class="lang-html">&lt;script src=&quot;gui.js&quot;&gt;&lt;/script&gt;
 </code></pre>
-<p>The following code makes a number box for the variable <code>object.someNumber</code>.</p>
+<p>Create controllers by adding objects and their properties. dat-gui chooses a controller based on the variable&#39;s initial value.</p>
 <pre><code class="lang-javascript">var gui = new Gui();
-gui.add( object, &#39;someNumber&#39; );
-</code></pre>
-<p>dat-gui decides what type of controller to use based on the variable&#39;s initial value.</p>
-<pre><code class="lang-javascript">var gui = new Gui();
+gui.add( object, &#39;numberProperty&#39;, 0, 1 ); // Slider
 gui.add( object, &#39;stringProperty&#39; ); // Text box
 gui.add( object, &#39;booleanProperty&#39; ); // Check box
 gui.add( object, &#39;functionProperty&#39; ); // Button
 </code></pre>
-<h2 id="constraining-input">Constraining Input</h2>
+<h3 id="limiting-input">Limiting Input</h3>
 <p>You can specify limits on numbers. A number with a min and max value becomes a slider.</p>
 <pre><code class="lang-javascript">gui.add( text, &#39;growthSpeed&#39;, -5, 5 ); // Min and max
 gui.add( text, &#39;noiseStrength&#39; ).step( 5 ); // Increment amount
@@ -71,32 +40,21 @@ gui.add( text, &#39;message&#39;, [ &#39;pizza&#39;, &#39;chrome&#39;, &#39;hoor
 // Choose from named values
 gui.add( text, &#39;speed&#39;, { Stopped: 0, Slow: 0.1, Fast: 5 } );
 </code></pre>
-<h2 id="color-controllers">Color Controllers</h2>
+<h3 id="color-controllers">Color Controllers</h3>
 <p>dat-gui has a color selector and understands many different representations of color. The following creates color controllers for color variables of different formats.</p>
-<pre><code class="lang-javascript">var FizzyText = function() {
+<pre><code class="lang-javascript">text.color0 = &quot;#ffae23&quot;; // CSS string
+text.color1 = [ 0, 128, 255 ]; // RGB array
+text.color2 = [ 0, 128, 255, 0.3 ]; // RGB with alpha
+text.color3 = { h: 350, s: 0.9, v: 0.3 }; // Hue, saturation, value
 
-  this.color0 = &quot;#ffae23&quot;; // CSS string
-  this.color1 = [ 0, 128, 255 ]; // RGB array
-  this.color2 = [ 0, 128, 255, 0.3 ]; // RGB with alpha
-  this.color3 = { h: 350, s: 0.9, v: 0.3 }; // Hue, saturation, value
+var gui = new Gui();
 
-  // Define render logic ...
-
-};
-
-window.onload = function() {
-
-  var text = new FizzyText();
-  var gui = new Gui();
-
-  gui.addColor(text, &#39;color0&#39;);
-  gui.addColor(text, &#39;color1&#39;);
-  gui.addColor(text, &#39;color2&#39;);
-  gui.addColor(text, &#39;color3&#39;);
-
-};
+gui.addColor(text, &#39;color0&#39;);
+gui.addColor(text, &#39;color1&#39;);
+gui.addColor(text, &#39;color2&#39;);
+gui.addColor(text, &#39;color3&#39;);
 </code></pre>
-<h2 id="events">Events</h2>
+<h3 id="events">Events</h3>
 <p>You can listen for events on individual controllers using an event listener syntax.</p>
 <pre><code class="lang-javascript">var controller = gui.add(fizzyText, &#39;maxSize&#39;, 0, 10);
 
@@ -109,8 +67,8 @@ controller.onFinishChange(function(value) {
   alert(&quot;The new value is &quot; + value);
 });
 </code></pre>
-<h2 id="folders">Folders</h2>
-<p>You can nest as many Gui&#39;s as you want. Nested Gui&#39;s act as collapsible folders.</p>
+<h3 id="folders-comments">Folders &amp; Comments</h3>
+<p>You can nest as many dat-gui as you want. Nested dat-gui act as collapsible folders.</p>
 <pre><code class="lang-javascript">var gui = new Gui();
 
 var f1 = gui.addFolder(&#39;Flow Field&#39;);
@@ -120,11 +78,13 @@ f1.add(text, &#39;noiseStrength&#39;);
 var f2 = gui.addFolder(&#39;Letters&#39;);
 f2.add(text, &#39;growthSpeed&#39;);
 f2.add(text, &#39;maxSize&#39;);
-f2.add(text, &#39;message&#39;);
 
 f2.open();
 </code></pre>
-<h2 id="saving-values">Saving Values</h2>
+<p>The comment method adds a tooltip to a controller.</p>
+<pre><code class="lang-javascript">f2.add(text, &#39;message&#39;).comment( &#39;This is the comment.&#39; );
+</code></pre>
+<h3 id="saving-values">Saving Values</h3>
 <p>Add a save menu to the interface by calling <code>gui.remember</code> on all the objects you&#39;ve added to the Gui.</p>
 <pre><code class="lang-javascript">var fizzyText = new FizzyText();
 var gui = new Gui();
@@ -133,42 +93,47 @@ gui.remember(fizzyText);
 
 // Add controllers ...
 </code></pre>
-<p>Click the gear icon to change your save settings. You can either save your Gui&#39;s values to localStorage, or by copying and pasting a JSON object into your source code as follows:</p>
+<p>Click the gear icon to change your save settings. You can either save your dat-gui values to localStorage, or by copying and pasting a JSON object into your source code as follows:</p>
 <pre><code class="lang-javascript">var fizzyText = new FizzyText();
-var gui = new Gui({ load: JSON });
+var gui = new Gui( { load: JSON } );
 
-gui.remember(fizzyText);
-
-// Add controllers ...
-</code></pre>
-<h2 id="save-to-disk">Save to disk</h2>
-<p>dat-gui comes with a node server that listens for changes to your Gui and saves them to disk. This way you don&#39;t have to worry about losing your local storage or copying and pasting a JSON string.</p>
-<p>First, run the node script:</p>
-<pre><code class="lang-sh">$ node gui-server
-</code></pre>
-<p>Next, instantiate your Gui with a path to a JSON file to store settings. </p>
-<pre><code class="lang-javascript">var gui = new Gui( { save: &#39;path/to/file.json&#39; } );
 gui.remember( fizzyText );
 
 // Add controllers ...
 </code></pre>
-<h2 id="custom-placement">Custom Placement</h2>
-<p>By default, Gui panels are created with fixed position, and are automatically appended to the body.</p>
-<p>You can change this behavior by setting the <code>autoPlace</code> parameter to <code>false</code>.</p>
+<h3 id="presets">Presets</h3>
+<p>The save menu also allows you to save all of your settings as presets. Click Save to modify the current preset, or New to create a new preset from existing settings. Clicking Revert will clear all unsaved changes to the current preset.</p>
+<p>Switch between presets using the dropdown in the save menu. You can specify the default like this:</p>
+<pre><code class="lang-javascript">var gui = new Gui({
+  load: JSON,
+  preset: &#39;Flow&#39;
+});
+</code></pre>
+<p>A word of caution about localStorage:</p>
+<p>Paste the JSON save object into your source frequently. Using localStorage to save presets can make you faster, but its easy to lose your settings by clearing browsing data, changing browsers, or even by changing the URL of the page you&#39;re working on.</p>
+<h3 id="save-to-disk">Save to Disk</h3>
+<p>dat-gui comes with a node server that saves your settings to disk. This way you don&#39;t have to worry about losing your values to local storage or copying and pasting a JSON string.</p>
+<p>First, run the node script:</p>
+<pre><code class="lang-sh">$ node gui-server
+</code></pre>
+<p>Next, instantiate your Gui with a path to a JSON file to store settings. dat-gui will read from this file on load and write to this file on change.</p>
+<pre><code class="lang-javascript">var gui = new Gui( { load: &#39;path/to/file.json&#39; } );
+</code></pre>
+<h3 id="custom-placement">Custom Placement</h3>
+<p>By default, Gui panels are created with fixed position, and are automatically appended to the body. You can change this behavior by setting the <code>autoPlace</code> parameter to <code>false</code>.</p>
 <pre><code class="lang-javascript">var gui = new Gui( { autoPlace: false } );
 
 var customContainer = document.getElementById(&#39;my-gui-container&#39;);
 customContainer.appendChild(gui.domElement);
 </code></pre>
-<h2 id="html-elements">HTML Elements</h2>
-<p>Since dat-gui is built using <a href="todo">Web Components</a>, you can use HTML syntax to add controllers to the page.</p>
+<p>Since dat-gui is built using <a href="todo">Web Components</a>, you can also use HTML syntax to add controllers to the page.</p>
 <pre><code class="lang-html">&lt;body&gt;
 
-&lt;controller-number id=&quot;my-controller&quot; min=&quot;-2&quot; max=&quot;2&quot; step=&quot;1&quot; value=&quot;0&quot;&gt;&lt;/controller-number&gt;
+&lt;controller-number min=&quot;-2&quot; max=&quot;2&quot; step=&quot;1&quot; value=&quot;0&quot;&gt;&lt;/controller-number&gt;
 
 &lt;script&gt;
 
-var controller = document.getElementById( &#39;my-controller&#39; );
+var controller = document.querySelector( &#39;controller-number&#39; );
 controller.onChange( function() {
 
     // react to UI changes ...
@@ -179,7 +144,7 @@ controller.onChange( function() {
 
 &lt;/body&gt;
 </code></pre>
-<h2 id="defining-custom-controllers">Defining Custom Controllers</h2>
+<h3 id="defining-custom-controllers">Defining Custom Controllers</h3>
 <p>dat-gui uses <a href="todo">Polymer</a> under the hood to define custom elements. A dat-gui controller is just a <a href="todo">Polymer element</a> with two important requirements:</p>
 <ul>
 <li>Controllers must extend <code>&lt;controller-base&gt;</code>.</li>
@@ -198,8 +163,8 @@ Gui.register( &#39;controller-number&#39;, function( value ) {
 
 } );
 </code></pre>
-<p><code>Gui.register</code> takes an element name and a test function. The call to <code>Gui.register</code> tells dat-gui to add a <code>&lt;controller-number&gt;</code> to the panel when the user adds a variable whose type is <code>&#39;number&#39;</code>.</p>
-<p>A test function takes a value added with <code>gui.add</code> and returns a boolean that determines if the controller is appropriate for the value. This example uses <a href="todo">duck typing</a> to register <code>&lt;vector-controller&gt;</code> for values that have properties <code>x</code>, <code>y</code> and <code>z</code>.</p>
+<p><code>Gui.register</code> takes an element name and a test function. The test function tells dat-gui to add a <code>&lt;controller-number&gt;</code> to the panel when the user adds a variable whose type is <code>&#39;number&#39;</code>.</p>
+<p>A test function determines if a controller is appropriate for a given value. This example registers <code>&lt;vector-controller&gt;</code> for values that have properties <code>x</code>, <code>y</code> and <code>z</code>.</p>
 <pre><code class="lang-javascript">Gui.register( &#39;vector-controller&#39;, function( value ) {
 
     return value.hasOwnProperty( &#39;x&#39; ) &amp;&amp;
@@ -208,62 +173,21 @@ Gui.register( &#39;controller-number&#39;, function( value ) {
 
 } );
 </code></pre>
-<h2 id="publishing-custom-controllers">Publishing Custom Controllers</h2>
-<p>You should use bower and format your plugin all nice and it should have a certain prefix yada yada.</p>
-<!-- Replaced with contents of README.md -->
-</div>
+<h3 id="publishing-custom-controllers">Publishing Custom Controllers</h3>
+<p>You should use <a href="todo">Bower</a> and format your plugin all nice and it should have a certain prefix yada yada.</p>
+<p>Installing third-party controllers ... </p>
+<pre><code class="lang-sh">$ bower install gui-three
+</code></pre>
+<p>Include the source for the third-party controllers after dat-gui.</p>
+<pre><code class="lang-html">&lt;script src=&quot;gui.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;gui-three.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<!-- Replaced with contents of README.md --></div>
 
-<script>
-(function() {
-   
-    var selector = '#readme h2'; 
-    var elements = document.querySelectorAll( selector );
-    for ( var el, i = 0, l = elements.length; i < l; i++ ) {
+<script src="../underscore/underscore.js"></script>
 
-        el = elements[ i ];
-        el.top = el.offsetTop;
-
-        el.spacer = el.cloneNode( true );
-        el.spacer.id = '';
-        el.spacer.style.position = 'fixed';
-        el.spacer.style.visibility = 'hidden';
-        el.spacer.style.zIndex = i;
-        el.spacer.classList.add( 'sticky' );
-
-        el.parentElement.insertBefore( el.spacer, el );
-        el.spacer.height = el.spacer.offsetHeight;
-
-        if ( i > 0 ) {
-            elements[ i - 1 ].next = el;
-        }
-
-    }
-
-    function onScroll() {
-        
-        for ( var el, i = 0, l = elements.length; i < l; i++ ) {
-            
-            el = elements[ i ];
-
-            var sticky = window.scrollY > el.top && window.scrollY <= el.next.top;
-            el.spacer.style.visibility = sticky ? 'visible' : 'hidden';
-
-            if ( el.next && sticky ) {
-
-                var bottom = window.scrollY + el.spacer.height;
-                var marginTop = Math.round( Math.min( 0, el.next.top - bottom ) );
-                el.spacer.style.marginTop = marginTop + 'px';
-                el.spacer.classList.toggle( -marginTop );
-
-            }
-
-        }
-    }
-
-    document.addEventListener( 'scroll', onScroll );
-
-})();
-</script>
+<script src="docs/main.js"></script>
+<script src="docs/examples.js"></script>
 
 </body>
 </html>

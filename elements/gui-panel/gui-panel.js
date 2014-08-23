@@ -1,18 +1,31 @@
+/*
+
+[ ] kill horizontal scroll when docked
+
+*/
+
 Polymer('gui-panel', {
 
     docked: false,
+    open: true,
 
     ready: function() {
 
         this.anon.values = {};
 
+        window.addEventListener( 'resize', this.checkHeight.bind( this ) );
+
     },
 
-    anon: function( name, initialValue ) {
+    anon: function() {
 
         if ( arguments.length == 1 ) {
+            var name = arguments[ 0 ];
             return this.anon.values[ name ];
         }
+
+        var initialValue = arguments[ 0 ];
+        var name = arguments[ 1 ];
 
         var args = [ this.anon.values, name ];
         args = args.concat( Array.prototype.slice.call( arguments, 2 ) );
@@ -30,7 +43,7 @@ Polymer('gui-panel', {
         var value = Path.get( path ).getValueFrom( object );
 
         if ( value == null || value == undefined ) {
-            return console.error( object + ' doesn\'t have a value for path "' + path + '".' );
+            return Gui.error( object + ' doesn\'t have a value for path "' + path + '".' );
         }
 
         var args = Array.prototype.slice.call( arguments, 2 );
@@ -38,7 +51,7 @@ Polymer('gui-panel', {
         var controller = Gui.getController( value, args );
         
         if ( !controller ) {
-            return console.error( 'Unrecognized type: ', value );
+            return Gui.error( 'Unrecognized type:', value );
         }
 
         controller.watch( object, path )
@@ -64,10 +77,45 @@ Polymer('gui-panel', {
 
     },
 
+
+    openChanged: function() {
+
+        var y;
+        if ( this.open ) {
+            y = 0;
+        } else { 
+            y = -this.$.controllers.offsetHeight + 'px';
+        }
+        this.$.container.style.transform = 'translate3d(0, ' + y + ', 0)';
+
+    },
+
+    // Events
+    // ------------------------------- 
+    
+    tapClose: function() {
+        this.open = !this.open;
+    },
+    
+    checkHeight: function() {
+          
+        if ( window.innerHeight < this.$.controllers.offsetHeight ) {
+            this.docked = true;
+        } else { 
+            this.docked = false;
+        }
+
+    },
+
+    // Legacy
+    // -------------------------------     
+
     listenAll: function() {
 
-        console.warn( 'controller.listenAll() is deprecated. All controllers are listened for free.' );
+        Gui.warn( 'controller.listenAll() is deprecated. All controllers are listened for free.' );
 
-    }
+    },
+
+    // domElement
 
 });

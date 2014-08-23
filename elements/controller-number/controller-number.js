@@ -1,7 +1,6 @@
 /*
 
 [ ] arrow keys
-
 [ ] min( ) max( ) step( ) commands of yore
 
 [x] only validate input box on blur, not on keydown

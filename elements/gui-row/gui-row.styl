@@ -8,12 +8,15 @@
     width: 100%;
     display: block;
     
-    font();
+    panel-font()
 
 }
 
-#row { 
-
+#row {
+    transition: background-color 0.2s linear;
+    &:hover { 
+        background-color: #262626;
+    }
 }
 
 #comment { 
@@ -36,7 +39,7 @@
     pointer-events: none;
     
     opacity: 0;
-    transform: translate3d( 10px, 20px, 0 );
+    transform: translate3d( 0, 20px, 0 );
 
     transition: all 0.2s ease;
 
@@ -45,7 +48,8 @@
 #comment.open-true { 
     
     opacity: 1;
-    transform: translate3d( 10px, 0, 0 );
+    transition-delay: 200ms;
+    transform: translate3d( 0, 0, 0 );
 
 }
 

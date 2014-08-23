@@ -13,14 +13,19 @@ var paths = {
     css:    'elements/**/*.styl',
     html:   'elements/**/*.html',
     js:     'elements/**/*.js',
-    tests:  'tests/*'
+}
+
+function stylus( src, dest ) {
+
+    gulp.src( src )
+        .pipe( $.stylus( { use: [ $.nib() ] } ) )
+        .pipe( gulp.dest( dest ) );
+
 }
 
 gulp.task( 'css', function() {
 
-    gulp.src( paths.css )
-        .pipe( $.stylus( { use: [ $.nib() ] } ) )
-        .pipe( gulp.dest( 'elements' ) );
+    stylus( paths.css, 'elements' );
 
 } );
 
@@ -35,8 +40,9 @@ gulp.task( 'vulcanize', function() {
 
 } );
 
-gulp.task( 'readme', function() {
+gulp.task( 'docs', function() {
         
+    stylus( 'docs/*.styl', 'docs' );
 
     var content = {
         readme: $.marked( fs.readFileSync( 'README.md', 'utf8' ) )
@@ -53,16 +59,15 @@ gulp.task( 'test', function() {
 
 } );
 
-gulp.task( 'build', [ 'css', 'vulcanize', 'test' ] );
+gulp.task( 'build', [ 'css', 'vulcanize', 'test', 'docs' ] );
 
 gulp.task( 'default', function() {
 
+    gulp.task( 'build' );
+
     gulp.watch( [ paths.css ], [ 'css', 'vulcanize' ] );
     gulp.watch( [ paths.js, paths.main, paths.html ], [ 'vulcanize', 'test' ] );
-
-    // gulp.watch( [ paths.tests, 'test' ] ); // not working? 
-
-    gulp.watch( [ 'README.md', 'docs/template.html' ], [ 'readme' ] );
+    gulp.watch( [ 'README.md', 'docs/*' ], [ 'docs' ] );
 
 
 } );

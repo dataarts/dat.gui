@@ -1,7 +1,7 @@
 {
   "name": "polymer-gui",
   "version": "0.0.0",
-  "description": "Attempt at revamping dat.gui with Polymyer.",
+  "description": "Attempt at revamping dat.gui with Polymer.",
   "keywords": [
     "gui"
   ],
@@ -19,5 +19,8 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#~0.3.5"
+  },
+  "devDependencies": {
+    "underscore": "~1.6.0"
   }
 }

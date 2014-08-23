@@ -76,8 +76,8 @@ knob-size = 6px
 
 input { 
     
-    font();
-
+    panel-font()
+    color: text-color;
     height: track-height;
 
     display: inline-block;
@@ -87,6 +87,7 @@ input {
 
     .slider-true & {
     
+        text-align: center;
         margin-left: padding;
         width: 100%;
         width: 22%;
@@ -102,8 +103,13 @@ input {
 
     }
 
+
+    .slider-false & { 
+        // border-bottom: 1px solid number-color;
+    }
+
 }
 
 input::selection { 
-    background-color: light;
+    background-color: rgba( 255, 255, 255, 0.1 );
 }

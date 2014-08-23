@@ -1,0 +1,21 @@
+<link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="../controller-base/controller-base.html">
+
+<script src="controller-boolean.js"></script>
+
+<polymer-element 
+    name="controller-boolean" 
+    extends="controller-base"
+    >
+
+<template>
+
+<link rel="stylesheet" href="controller-boolean.css">
+
+<label for="input" id="container">
+    <input id="input" type="checkbox" checked?="{{ value }}" on-change="{{ change }}">
+</label>
+
+</template>
+
+</polymer-element>
