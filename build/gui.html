@@ -482,6 +482,7 @@ if(f)g=void 0;else if(f=g[this.name],!f)return void console.error("Cannot find f
   -webkit-font-smoothing: antialiased;
 }
 #row {
+  border: 1px solid #00f;
   height: 30px;
   -webkit-transition: background-color 0.2s linear;
   -moz-transition: background-color 0.2s linear;
@@ -497,9 +498,7 @@ if(f)g=void 0;else if(f=g[this.name],!f)return void console.error("Cannot find f
   height: 100%;
 }
 #name {
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis;
-  word-wrap: break-word;
+  border: 1px solid #f0f;
   overflow: hidden;
   padding: 0 8px;
   -webkit-box-sizing: border-box;
@@ -507,10 +506,17 @@ if(f)g=void 0;else if(f=g[this.name],!f)return void console.error("Cannot find f
   box-sizing: border-box;
   display: inline-block;
   width: 40%;
+  height: 100%;
   cursor: default;
 }
 .comment-true #name {
   cursor: pointer;
+}
+#nameInner {
+  border: 1px solid #f00;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
 }
 #comment {
   line-height: 16px;
@@ -571,8 +577,10 @@ if(f)g=void 0;else if(f=g[this.name],!f)return void console.error("Cannot find f
 
     <div id="row" class="comment-{{ comment != null }}" layout="" horizontal="" center="">
         
-        <div id="name" on-mouseover="{{ openComment }}" on-mouseout="{{ closeComment }}">
+        <div id="name" on-mouseover="{{ openComment }}" on-mouseout="{{ closeComment }}" layout="" horizontal="" center="">
+
             <div id="nameInner">{{ name }}</div>
+
         </div>
 
         <div id="controller" flex="">
@@ -632,11 +640,25 @@ Polymer('gui-row', {
   font: 10px 'Lucida Grande', sans-serif;
   color: #eee;
   -webkit-font-smoothing: antialiased;
-  color: text-color;
   cursor: pointer;
   text-align: center;
   padding: 6px 8px;
   background: #000;
+}
+#closeButton:hover {
+  background: #1a1a1a;
+}
+#closeButtonDocked {
+  position: absolute;
+  left: -40px;
+  border: 1px solid #00f;
+  top: 0;
+  color: #000;
+  width: 40px;
+  height: 40px;
+}
+#controllers {
+  overflow: auto;
 }
 #container {
   background: #1a1a1a;
@@ -651,22 +673,35 @@ Polymer('gui-row', {
   position: fixed;
   top: 0;
 }
-#container.docked-false {
+#container.autoplace-true.docked-false {
   right: 20px;
 }
-#container.docked-true {
+#container.autoplace-true.docked-true {
   right: 0;
   bottom: 0;
-  overflow: auto;
+}
+#container.autoplace-true.docked-true.open-false {
+  -webkit-transform: translate3d(245px, 0, 0);
+  -moz-transform: translate3d(245px, 0, 0);
+  -o-transform: translate3d(245px, 0, 0);
+  -ms-transform: translate3d(245px, 0, 0);
+  transform: translate3d(245px, 0, 0);
 }
 </style>
 
 <div id="container" class="docked-{{ docked }} autoplace-{{ autoPlace }} open-{{ open }}">
+    
     <div id="controllers">
         <content></content>
     </div>
+
     <div id="closeButton" on-tap="{{ tapClose }}" hidden?="{{ docked }}">{{ open ? &apos;Close&apos; : &apos;Open&apos; }} Controls</div>
+
+    <div id="closeButtonDocked" on-tap="{{ tapClose }}" hidden?="{{ !docked }}"></div>
+    
+
 </div>
+
 
 </template>
 
@@ -752,17 +787,36 @@ Polymer('gui-panel', {
     },
 
 
+    // Observers
+    // ------------------------------- 
+
     openChanged: function() {
 
-        var y;
-        if ( this.open ) {
-            y = 0;
+        if ( this.open || this.docked ) {
+            
+            // let the style sheet take care of things
+
+            this.$.container.style.transform = '';
+
         } else { 
-            y = -this.$.controllers.offsetHeight + 'px';
+
+            // todo: need the rest of the vendor prefixes ...
+            // wish i could pipe javascript variables into styl.
+
+            var y = -this.$.controllers.offsetHeight + 'px';
+            this.$.container.style.transform = 'translate3d(0, ' + y + ', 0)';
+
         }
-        this.$.container.style.transform = 'translate3d(0, ' + y + ', 0)';
+
 
     },
+
+    dockedChanged: function() {
+
+        this.openChanged();
+
+    },
+    
 
     // Events
     // ------------------------------- 
@@ -781,6 +835,7 @@ Polymer('gui-panel', {
 
     },
 
+
     // Legacy
     // -------------------------------     
 
@@ -790,7 +845,7 @@ Polymer('gui-panel', {
 
     },
 
-    // domElement
+    // todo: domElement
 
 });</script>
 
@@ -1163,13 +1218,7 @@ Polymer( 'controller-number', {
 
 <template>
 
-<style>:host {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-#container {
+<style>#container {
   height: 100%;
 }
 #track-container {
@@ -1246,7 +1295,7 @@ input {
   transition: width 0.2s cubic-bezier(0.25, 0.25, 0, 1);
 }
 .slider-true input:hover {
-  width: 28%;
+  width: 33%;
 }
 .slider-true input:focus {
   width: 50%;
@@ -1255,7 +1304,7 @@ input {
   width: 100%;
 }
 input::selection {
-  background-color: rgba(255,255,255,0.1);
+  background-color: #25a0d8;
 }
 </style>
 
@@ -1345,7 +1394,7 @@ Polymer( 'controller-boolean', {
   height: 100%;
 }
 #input {
-  height: 20px;
+  vertical-align: middle;
 }
 </style>
 

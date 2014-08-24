@@ -78,17 +78,36 @@ Polymer('gui-panel', {
     },
 
 
+    // Observers
+    // ------------------------------- 
+
     openChanged: function() {
 
-        var y;
-        if ( this.open ) {
-            y = 0;
+        if ( this.open || this.docked ) {
+            
+            // let the style sheet take care of things
+
+            this.$.container.style.transform = '';
+
         } else { 
-            y = -this.$.controllers.offsetHeight + 'px';
+
+            // todo: need the rest of the vendor prefixes ...
+            // wish i could pipe javascript variables into styl.
+
+            var y = -this.$.controllers.offsetHeight + 'px';
+            this.$.container.style.transform = 'translate3d(0, ' + y + ', 0)';
+
         }
-        this.$.container.style.transform = 'translate3d(0, ' + y + ', 0)';
+
 
     },
+
+    dockedChanged: function() {
+
+        this.openChanged();
+
+    },
+    
 
     // Events
     // ------------------------------- 
@@ -107,6 +126,7 @@ Polymer('gui-panel', {
 
     },
 
+
     // Legacy
     // -------------------------------     
 
@@ -116,6 +136,6 @@ Polymer('gui-panel', {
 
     },
 
-    // domElement
+    // todo: domElement
 
 });

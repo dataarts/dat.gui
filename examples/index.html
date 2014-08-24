@@ -35,7 +35,10 @@
 
         gui = new dat.GUI();
 
+        gui.docked = true;
+
         gui.add( gui, 'docked' );
+        gui.add( gui, 'open' );
         
         gui.add( object, 'listen4Free' );
         gui.add( object, 'listen4Free' );

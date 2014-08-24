@@ -3,36 +3,79 @@
 #closeButton { 
     
     panel-font()
-    
-    color: text-color;
+
     // font-size: 14px;
+    
     cursor: pointer;
     text-align: center;
     padding: padding * 0.75 padding;
     background: black;
+
+    &:hover { 
+        background: panel-color;
+    }
+
+}
+
+#closeButtonDocked { 
+    
+    position: absolute;
+    left: -40px;
+    border: 1px solid blue;
+    top: 0;
+    color: black;
+
+    width: 40px;
+    height: 40px;
+
+}
+
+#controllers { 
+    overflow: auto;
 
 }
 
 #container { 
 
     background: panel-color;
+    transition: transform 0.4s cubic-bezier( 0, 0.8, 0, 1 );
 
     &.autoplace-true { 
+
         width: panel-width;
         position: fixed;
         top: 0;
+
+        &.docked-false {
+
+            right: 20px;
+
+            &.open-true { 
+                
+            }
+
+            &.open-false { 
+            }
+
+        }
+
+        &.docked-true {
+            
+            right: 0;
+            bottom: 0;
+
+            &.open-true {
+
+            }
+    
+            &.open-false { 
+                transform: translate3d( panel-width, 0, 0 );
+            }
+
+        }
+
     }
 
-    &.docked-false {
-        right: 20px;
-    }
 
-    &.docked-true {
-        right: 0;
-        bottom: 0;
-        overflow: auto;
-    }
-
-    transition: transform 0.4s cubic-bezier( 0, 0.8, 0, 1 );
 
 }
