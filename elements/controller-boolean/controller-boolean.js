@@ -15,7 +15,15 @@ Polymer( 'controller-boolean', {
         
         this.value = this.$.input.checked;
 
+    },
+
+    update: function() {
+
+        // should i really have to do this?
+        this.$.input.checked = this.value;
+
     }
+    
     
     
 

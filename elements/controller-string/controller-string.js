@@ -6,4 +6,5 @@ Gui.register( 'controller-string', function( value ) {
 
 Polymer( 'controller-string', {
 
+
 });

@@ -482,10 +482,7 @@ if(f)g=void 0;else if(f=g[this.name],!f)return void console.error("Cannot find f
   -o-transition: background-color 0.2s linear;
   -ms-transition: background-color 0.2s linear;
   transition: background-color 0.2s linear;
-  border-bottom: 1px solid #262626;
-}
-#row:hover {
-  background-color: #262626;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 #controller {
   height: 100%;
@@ -589,9 +586,6 @@ if(f)g=void 0;else if(f=g[this.name],!f)return void console.error("Cannot find f
 
 </template>
 
-
-
-
 <script>/*
 
 [ ] comment hover behavior
@@ -670,11 +664,23 @@ Polymer('gui-row', {
 }
 #closeButtonDocked {
   position: absolute;
-  left: -40px;
+  right: 245px;
+  cursor: pointer;
   top: 0;
   color: #000;
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#closeButtonDockedInner {
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  background: #fff;
+  width: 100%;
+  height: 100%;
 }
 </style>
 
@@ -686,15 +692,13 @@ Polymer('gui-row', {
 
     <div id="closeButton" on-tap="{{ tapClose }}" hidden?="{{ docked }}">{{ open ? &apos;Close&apos; : &apos;Open&apos; }} Controls</div>
 
-    <div id="closeButtonDocked" on-tap="{{ tapClose }}" hidden?="{{ !docked }}"></div>
+    <div id="closeButtonDocked" on-tap="{{ tapClose }}" hidden?="{{ !docked }}">
+        <div id="closeButtonDockedInner"></div>
+    </div>
     
-
 </div>
 
-
 </template>
-
-
 
 <script>/*
 
@@ -759,6 +763,8 @@ Polymer('gui-panel', {
 
         var row = document.createElement( 'gui-row' );
         row.name = path;
+
+        controller.row = row;
 
         controller.name = function( name ) {
             row.name = name;
@@ -1271,7 +1277,21 @@ input {
   display: inline-block;
   background: transparent;
   border: 0;
+  padding: 0;
   outline: none;
+  padding-left: 8px;
+  -webkit-transition: background-color 0.15s linear;
+  -moz-transition: background-color 0.15s linear;
+  -o-transition: background-color 0.15s linear;
+  -ms-transition: background-color 0.15s linear;
+  transition: background-color 0.15s linear;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+input:hover,
+input:focus {
+  background: rgba(255,255,255,0.05);
 }
 .slider-true input {
   text-align: center;
@@ -1282,6 +1302,7 @@ input {
   -o-transition: width 0.2s cubic-bezier(0.25, 0.25, 0, 1);
   -ms-transition: width 0.2s cubic-bezier(0.25, 0.25, 0, 1);
   transition: width 0.2s cubic-bezier(0.25, 0.25, 0, 1);
+  padding: 0;
 }
 .slider-true input:hover {
   width: 33%;
@@ -1328,17 +1349,47 @@ input::selection {
 
 Polymer( 'controller-string', {
 
-});
-</script>
+
+});</script>
 
 <polymer-element name="controller-string" extends="controller-base" assetpath="../elements/controller-string/">
 
 <template>
 
-<style></style>
+<style>:host {
+  height: 100%;
+}
+input {
+  font: 10px 'Lucida Grande', sans-serif;
+  color: #eee;
+  -webkit-font-smoothing: antialiased;
+  color: text-color;
+  height: 100%;
+  display: inline-block;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  outline: none;
+  padding-left: 8px;
+  -webkit-transition: background-color 0.15s linear;
+  -moz-transition: background-color 0.15s linear;
+  -o-transition: background-color 0.15s linear;
+  -ms-transition: background-color 0.15s linear;
+  transition: background-color 0.15s linear;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  color: #1ebd6e;
+}
+input:hover,
+input:focus {
+  background: rgba(255,255,255,0.05);
+}
+</style>
 
-<div id="container">
-</div>
+<input id="input" type="text" value="{{ value }}">
 
 </template>
 
@@ -1363,7 +1414,15 @@ Polymer( 'controller-boolean', {
         
         this.value = this.$.input.checked;
 
+    },
+
+    update: function() {
+
+        // should i really have to do this?
+        this.$.input.checked = this.value;
+
     }
+    
     
     
 

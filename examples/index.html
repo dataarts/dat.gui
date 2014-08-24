@@ -12,6 +12,9 @@
     </script>
 
     <style type="text/css">
+    body {
+        background: #aaa;
+    }
     </style>
 
 </head>
@@ -38,11 +41,14 @@
         gui.docked = true;
 
         gui.add( gui, 'docked' );
-        gui.add( gui, 'open' );
+        var r = gui.add( gui, 'open' );
+
+        gui.add( r.row, 'name' );
+
         
         gui.add( object, 'listen4Free' );
         gui.add( object, 'listen4Free' );
-        gui.add( object, 'listen4Free' );
+        gui.add( object, 'listen4Free', 0, 1000 );
 
         gui.add( object, 'zeroTo1', 0, 1 );
         

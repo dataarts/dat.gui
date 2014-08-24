@@ -62,6 +62,8 @@ Polymer('gui-panel', {
         var row = document.createElement( 'gui-row' );
         row.name = path;
 
+        controller.row = row;
+
         controller.name = function( name ) {
             row.name = name;
         };

@@ -1,26 +1,52 @@
 @import 'nib';
 
+// config 
+
+support-for-ie ?= true
 use-debug = false
 
 debug( color )
     if use-debug
         border: 1px solid color
 
+// constants
+
 panel-width = 245px
 min-row-height = 30px
 
 font-color = #eee
 panel-color = #1a1a1a
-number-color = #25a0d8
+
+number-color = #25A0D8
+string-color = #1EBD6E
 
 padding = 8px
 
 ease = cubic-bezier( .25, .25, 0, 1 )
 
 light = rgba( 255, 255, 255, 0.25 )
+lighter = rgba( 255, 255, 255, 0.05 )
+
 dark = rgba( 0, 0, 0, 0.1 );
+
+// common
 
 panel-font()
     font: 10px 'Lucida Grande', sans-serif;
     color: font-color;
     -webkit-font-smoothing: antialiased;
+
+input()
+    panel-font()
+    color: text-color;
+    height: 100%;
+    display: inline-block;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    outline: none;
+    padding-left: padding;
+    transition: background-color 0.15s linear;
+    box-sizing: border-box;
+    &:hover, &:focus
+        background: lighter

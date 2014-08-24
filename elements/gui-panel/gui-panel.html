@@ -17,15 +17,13 @@
 
     <div id="closeButton" on-tap="{{ tapClose }}" hidden?="{{ docked }}">{{ open ? 'Close' : 'Open' }} Controls</div>
 
-    <div id="closeButtonDocked" on-tap="{{ tapClose }}" hidden?="{{ !docked }}"></div>
+    <div id="closeButtonDocked" on-tap="{{ tapClose }}" hidden?="{{ !docked }}">
+        <div id="closeButtonDockedInner"></div>
+    </div>
     
-
 </div>
-
 
 </template>
-
-</div>
 
 <script src="gui-panel.js"></script>
 

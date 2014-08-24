@@ -71,13 +71,7 @@ knob-size = 6px
 
 input { 
     
-    panel-font()
-    color: text-color;
-    height: 100%;
-    display: inline-block;
-    background: transparent;
-    border: 0;
-    outline: none;
+    input()
 
     .slider-true & {
     
@@ -85,6 +79,8 @@ input {
         margin-left: padding;
         width: 25%;
         transition: width 0.2s ease;
+        padding: 0;
+
 
         &:hover {
             width: 33%;
