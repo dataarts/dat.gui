@@ -1,38 +1,7 @@
 @import '../shared';
 
-#closeButton { 
-    
-    panel-font()
-
-    // font-size: 14px;
-    
-    cursor: pointer;
-    text-align: center;
-    padding: padding * 0.75 padding;
-    background: black;
-
-    &:hover { 
-        background: panel-color;
-    }
-
-}
-
-#closeButtonDocked { 
-    
-    position: absolute;
-    left: -40px;
-    border: 1px solid blue;
-    top: 0;
-    color: black;
-
-    width: 40px;
-    height: 40px;
-
-}
-
 #controllers { 
     overflow: auto;
-
 }
 
 #container { 
@@ -76,6 +45,37 @@
 
     }
 
+}
 
+
+#closeButton { 
+    
+    panel-font()
+    
+    cursor: pointer;
+    text-align: center;
+    padding: padding * 0.75 padding;
+    background: black;
+
+    &:hover { 
+        background: panel-color;
+    }
+
+}
+
+#closeButtonDocked { 
+    
+    position: absolute;
+    left: -40px;
+    
+    cursor: pointer;
+    
+    border: 1px solid blue;
+
+    top: 0;
+    color: black;
+
+    width: 40px;
+    height: 40px;
 
 }

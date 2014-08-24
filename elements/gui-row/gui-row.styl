@@ -3,16 +3,12 @@
 
 :host {
 
-    user-select: none;
-
-    width: 100%;
-    display: block;
-    
     panel-font()
 
 }
 
 #row {
+
 
     debug( blue )
     
@@ -34,12 +30,10 @@
 
     debug( magenta )
 
-    overflow: hidden;
+    // overflow: hidden;
     padding: 0 padding;
     box-sizing: border-box;
-    display: inline-block;
     width: 40%;
-    height: 100%;
     cursor: default;
 
     .comment-true & { 
@@ -52,10 +46,12 @@
 
     debug( red );
 
+
+    overflow: hidden;
     text-overflow: ellipsis;
     word-wrap: break-word;
     
-    
+
 
 }
 
@@ -100,7 +96,7 @@
 .comment-true #nameInner { 
 
     display: inline-block;
-    // border-bottom: 1px dotted light;
+    border-bottom: 1px dotted light;
     
     &:after { 
         // content: ' ?';
