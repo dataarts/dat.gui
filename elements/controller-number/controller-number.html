@@ -1,0 +1,48 @@
+<link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="../controller-base/controller-base.html">
+
+<script src="controller-number.js"></script>
+
+<polymer-element 
+    name="controller-number" 
+    attributes="min max value step" 
+    extends="controller-base"
+    >
+
+<template>
+
+<link rel="stylesheet" href="controller-number.css">
+
+<div id="container" class="transition slider-{{ slider }}" horizontal layout center>
+
+    <div id="track-container"
+         on-down="{{ down }}"
+         on-up="{{ up }}"
+         on-trackx="{{ trackx }}"
+         on-tracky="{{ tracky }}"
+         on-trackstart="{{ trackstart }}"
+         horizontal layout center
+         hidden?="{{ !slider }}"
+         flex>
+
+        <div id="track">
+
+            <div id="fill"></div>
+            <div id="knob"></div>
+
+        </div>
+
+    </div>
+
+    <input type="text" 
+           value="{{ truncate( value ) }}"
+           on-click="{{ click }}"
+           on-keydown="{{ keydown }}"
+           on-blur="{{ blur }}"
+           id="input">
+
+    </template>
+
+</div>
+
+</polymer-element>

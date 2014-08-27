@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+    <title>dat-gui Test Runner (Mocha)</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../tools/test/mocha/mocha.css">
+    <link rel="import" href="../polymer.html">
+</head>
+<body>
+    <div id="mocha"></div>
+    <script>
+        mocha.setup({ui: 'tdd', slow: 1000, timeout: 10000, htmlbase: ''});
+    </script>
+    <!-- -->
+    <script src="js/marshall.js"></script>
+    <script src="js/oop.js"></script>
+    <script src="js/bindProperties.js"></script>
+    <script src="js/bindMDV.js"></script>
+    <script src="js/attrs.js"></script>
+    <script src="js/properties.js"></script>
+    <script src="js/register.js"></script>
+    <script src="js/prepare.js"></script>
+    <script src="js/events.js"></script>
+    <script src="js/styling.js"></script>
+    <script src="js/mdv-syntax.js"></script>
+    <script src="js/paths.js"></script>
+    <script src="js/utils.js"></script>
+    <!-- -->
+    <script>
+    document.addEventListener('polymer-ready', function() {
+        mocha.run();
+    });
+    </script>
+</body>
+</html>

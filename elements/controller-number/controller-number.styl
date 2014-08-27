@@ -1,0 +1,105 @@
+@import '../shared';
+
+fill-color = number-color
+track-color = light
+
+track-size = 1px;
+fill-size = 1px;
+knob-size = 6px
+
+#container { 
+    height: 100%;
+}
+
+#track-container { 
+    height: 100%;
+}
+
+#track { 
+    width: 100%;
+    height: track-size;
+    border-radius: track-size;
+    display: inline-block;
+    position: relative;
+    background: track-color;
+}
+
+#fill {
+    height: fill-size;
+    margin-top: ( ( track-size - fill-size ) / 2 );
+    margin-left: 1px;
+    border-radius: fill-size;
+    position: absolute;
+    background: fill-color;
+    pointer-events: none;
+}
+
+
+#knob { 
+
+    width: knob-size;
+    height: knob-size;
+
+    margin-left: -( knob-size / 2 );
+    margin-top: -( knob-size / 2 );
+
+    transition: transform 0.1s ease;
+
+    pointer-events: none;
+    position: absolute;
+
+    background-color: fill-color;
+    border-radius: 100%;
+
+}
+
+#track-container:hover #knob {
+    transform: scale( 2 )
+}
+
+#track-container:active #knob {
+    transform: scale( 1.5 )
+}
+
+// .transition #knob {
+//     transition: left 0.2s ease, transform 0.1s ease;
+// }
+
+// .transition #fill {
+//     transition: left 0.2s ease, right 0.2s ease, width 0.2s ease;
+// }
+
+input { 
+    
+    input()
+
+    .slider-true & {
+    
+        text-align: center;
+        margin-left: padding;
+        width: 25%;
+        transition: width 0.2s ease;
+        padding: 0;
+
+
+        &:hover {
+            width: 33%;
+        } 
+
+        &:focus { 
+            width: 50%;
+        }
+
+    }
+
+
+    .slider-false & { 
+        // border-bottom: 1px solid number-color;
+        width: 100%;
+    }
+
+}
+
+input::selection { 
+    background-color: number-color;
+}

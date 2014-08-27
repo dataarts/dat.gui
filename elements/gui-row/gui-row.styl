@@ -1,0 +1,106 @@
+@import '../shared';
+
+
+:host {
+
+    panel-font()
+
+}
+
+#row {
+
+
+    debug( blue )
+    
+    height: min-row-height;
+    transition: background-color 0.2s linear;
+    border-bottom: 1px solid lighter;
+
+    &:hover { 
+        // background-color: #262626;
+    }
+
+}
+
+#controller {
+    height: 100%;
+}
+
+#name {
+
+    debug( magenta )
+
+    // overflow: hidden;
+    padding: 0 padding;
+    box-sizing: border-box;
+    width: 40%;
+    cursor: default;
+
+    .comment-true & { 
+        cursor: pointer;
+    }
+
+}
+
+#nameInner {
+
+    debug( red );
+
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    
+
+
+}
+
+#comment { 
+
+    line-height: 16px;
+    user-select: text;
+
+    background: #E0CF99;
+    color: #333;
+    // box-shadow: inset 0 2px 0 dark;
+
+
+    box-sizing: border-box;
+    overflow: hidden;
+    transition: height 0.15s ease;
+    
+
+    position: absolute;
+    z-index: 999;
+    pointer-events: none;
+    
+    opacity: 0;
+    transform: translate3d( 0, 20px, 0 );
+
+    transition: all 0.2s ease;
+
+}
+
+#comment.open-true { 
+    
+    opacity: 1;
+    transition-delay: 200ms;
+    transform: translate3d( 0, 0, 0 );
+
+}
+
+#commentInner {
+    padding: padding;
+}
+
+.comment-true #nameInner { 
+
+    display: inline-block;
+    border-bottom: 1px dotted light;
+    
+    &:after { 
+        // content: ' ?';
+        // color: light;
+    }
+
+}
