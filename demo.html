@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8">
+
+<title>dat-gui</title>
+
+<link rel="import" href="gui.html">
+
+</style>
+
+</head>
+<body>
+
+<script src="../underscore/underscore.js"></script>
+
+<script>
+  
+Gui.ready( init );
+
+var object;
+
+function init() {
+
+    var gui = new Gui();
+
+    object = {
+        numberProperty: 0, 
+        stringProperty: 'hey',
+        booleanProperty: false,
+        functionProperty: function() {
+
+        }
+    }
+
+    gui.add( object, 'numberProperty', 0, 1 ); // Slider
+    gui.add( object, 'stringProperty' ); // Text box
+    gui.add( object, 'booleanProperty' ); // Check box
+    gui.add( object, 'functionProperty' ); // Button
+
+    console.log( gui );
+
+}
+
+</script>
+
+</body>
+</html>

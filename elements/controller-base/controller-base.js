@@ -26,31 +26,33 @@ Polymer('controller-base', {
         this.object = object;
         this.path = path;
 
-        if ( this._observer ) {
-            this._observer.close();            
-            delete this._observer;
-        }
+        // if ( this._observer ) {
+        //     this._observer.close();            
+        //     delete this._observer;
+        // }
 
-        var _this = this;
+        this.bind('value', new PathObserver(this.object, this.path));
 
-        this._observer = new PathObserver( this.object, this.path );
-        this._observer.open( function( newValue ) {
+        // var _this = this;
 
-            _this.value = newValue;
+        // this._observer = new PathObserver( this.object, this.path );
+        // this._observer.open( function( newValue ) {
 
-        } );
+        //     _this.value = newValue;
 
-        this.value = this.object[ this.path ];
+        // } );
+
+        // this.value = this.object[ this.path ];
 
     },
 
     valueChanged: function() {
 
-        if ( this._observer ) {
+        // if ( this._observer ) {
             
-            Path.get( this.path ).setValueFrom( this.object, this.value );
+        //     Path.get( this.path ).setValueFrom( this.object, this.value );
 
-        }
+        // }
         
         this.update();
 
