@@ -1,5 +1,5 @@
 {
-  "name": "polymer-gui",
+  "name": "dat.gui",
   "version": "0.0.0",
   "devDependencies": {
     "gulp": "^3.8.7",

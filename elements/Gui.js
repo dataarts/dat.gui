@@ -1,10 +1,5 @@
 (function( scope ) {
 
-    var ready = false;
-    var readyHandlers = [];
-
-    var controllers = {};
-
     var Gui = function( params ) {
 
         if ( !ready ) {
@@ -28,6 +23,8 @@
 
     // Register custom controllers
     // ------------------------------- 
+
+    var controllers = {};
 
     Gui.register = function( elementName, test ) {
 
@@ -58,6 +55,9 @@
 
     // Gui ready handler ... * shakes fist at polymer *
     // ------------------------------- 
+    
+    var ready = false;
+    var readyHandlers = [];
     
     document.addEventListener( 'polymer-ready', function() {
 

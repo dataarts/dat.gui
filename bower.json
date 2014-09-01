@@ -1,5 +1,5 @@
 {
-  "name": "polymer-gui",
+  "name": "dat.gui",
   "version": "0.0.0",
   "description": "Attempt at revamping dat.gui with Polymer.",
   "keywords": [

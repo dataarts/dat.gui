@@ -19,11 +19,6 @@ var e,f,g,h=b.type;if("load"===h&&!b.bubbles){var i=c;i instanceof Q.Document&&(
 <!-- src -->
 <script>(function( scope ) {
 
-    var ready = false;
-    var readyHandlers = [];
-
-    var controllers = {};
-
     var Gui = function( params ) {
 
         if ( !ready ) {
@@ -47,6 +42,8 @@ var e,f,g,h=b.type;if("load"===h&&!b.bubbles){var i=c;i instanceof Q.Document&&(
 
     // Register custom controllers
     // ------------------------------- 
+
+    var controllers = {};
 
     Gui.register = function( elementName, test ) {
 
@@ -77,6 +74,9 @@ var e,f,g,h=b.type;if("load"===h&&!b.bubbles){var i=c;i instanceof Q.Document&&(
 
     // Gui ready handler ... * shakes fist at polymer *
     // ------------------------------- 
+    
+    var ready = false;
+    var readyHandlers = [];
     
     document.addEventListener( 'polymer-ready', function() {
 
@@ -654,6 +654,10 @@ Polymer('gui-row', {
   font: 10px 'Lucida Grande', sans-serif;
   color: #eee;
   -webkit-font-smoothing: antialiased;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   cursor: pointer;
   text-align: center;
   padding: 6px 8px;
@@ -879,31 +883,34 @@ Polymer('controller-base', {
         this.object = object;
         this.path = path;
 
-        if ( this._observer ) {
-            this._observer.close();            
-            delete this._observer;
-        }
 
-        var _this = this;
+        this.bind('value', new PathObserver(this.object, this.path));
 
-        this._observer = new PathObserver( this.object, this.path );
-        this._observer.open( function( newValue ) {
+        // if ( this._observer ) {
+        //     this._observer.close();            
+        //     delete this._observer;
+        // }
 
-            _this.value = newValue;
+        // var _this = this;
 
-        } );
+        // this._observer = new PathObserver( this.object, this.path );
+        // this._observer.open( function( newValue ) {
 
-        this.value = this.object[ this.path ];
+        //     _this.value = newValue;
+
+        // } );
+
+        // this.value = this.object[ this.path ];
 
     },
 
     valueChanged: function() {
 
-        if ( this._observer ) {
+        // if ( this._observer ) {
             
-            Path.get( this.path ).setValueFrom( this.object, this.value );
+        //     Path.get( this.path ).setValueFrom( this.object, this.value );
 
-        }
+        // }
         
         this.update();
 
@@ -943,7 +950,7 @@ Polymer('controller-base', {
 
 });</script>
 
-<polymer-element name="controller-base" attributes="object path" assetpath="../elements/controller-base/"></polymer-element>
+<polymer-element name="controller-base" attributes="object path value" assetpath="../elements/controller-base/"></polymer-element>
 
 <script>/*
 

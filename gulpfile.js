@@ -69,7 +69,6 @@ gulp.task( 'default', function() {
     gulp.watch( [ paths.js, paths.main, paths.html ], [ 'vulcanize', 'test' ] );
     gulp.watch( [ 'README.md', 'docs/*' ], [ 'docs' ] );
 
-
 } );
 
 

@@ -26,12 +26,13 @@ Polymer('controller-base', {
         this.object = object;
         this.path = path;
 
+
+        this.bind('value', new PathObserver(this.object, this.path));
+
         // if ( this._observer ) {
         //     this._observer.close();            
         //     delete this._observer;
         // }
-
-        this.bind('value', new PathObserver(this.object, this.path));
 
         // var _this = this;
 
