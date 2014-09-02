@@ -3,8 +3,8 @@
 
 - [ ] folders
 
-- [ ] string controller
-- [ ] boolean controller
 - [ ] function controller
 - [ ] color controller
 
+- [x] string controller
+- [x] boolean controller

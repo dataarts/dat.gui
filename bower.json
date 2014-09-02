@@ -13,14 +13,10 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "components",
-    "test",
-    "tests"
+    "tests",
+    "docs"
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#~0.3.5"
-  },
-  "devDependencies": {
-    "underscore": "~1.6.0"
   }
 }
