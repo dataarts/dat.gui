@@ -21,7 +21,7 @@ var paths = {
     js:     'elements/**/*.js',
 };
 
-function stylus( src, dest ) {
+function css( src, dest ) {
 
     gulp.src( src )
         .pipe( stylus( { use: [ nib() ] } ) )
@@ -31,7 +31,7 @@ function stylus( src, dest ) {
 
 gulp.task( 'docs', function() {
         
-    stylus( 'docs/*.styl', 'docs' );
+    css( 'docs/*.styl', 'docs' );
 
     var content = {
         readme: marked( fs.readFileSync( 'README.md', 'utf8' ) )
@@ -46,7 +46,7 @@ gulp.task( 'docs', function() {
 
 gulp.task( 'css', function() {
 
-    stylus( paths.css, 'elements' );
+    css( paths.css, 'elements' );
 
 } );
 
@@ -76,7 +76,12 @@ gulp.task( 'test', function( done ) {
 
 } );
 
-gulp.task( 'build', [ 'css', 'vulcanize', 'test', 'docs' ] );
+gulp.task( 'build', [ 
+    'css', 
+    'vulcanize', 
+    // 'test', 
+    'docs' 
+] );
 
 gulp.task( 'default', function() {
 

@@ -11,18 +11,13 @@ Polymer( 'controller-boolean', {
 
     },
 
-    change: function() {
-        
-        this.value = this.$.input.checked;
+    toggle: function() {
 
-    },
-
-    update: function() {
-
-        // should i really have to do this?
-        this.$.input.checked = this.value;
+        console.log( 'hi' );
+        this.value = !this.value;
 
     }
+    
     
     
     

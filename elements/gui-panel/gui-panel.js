@@ -13,7 +13,7 @@ Polymer('gui-panel', {
 
         this.anon.values = {};
 
-        window.addEventListener( 'resize', this.checkHeight.bind( this ) );
+        // window.addEventListener( 'resize', this.checkHeight.bind( this ) );
 
     },
 
@@ -118,15 +118,15 @@ Polymer('gui-panel', {
         this.open = !this.open;
     },
     
-    checkHeight: function() {
+    // checkHeight: function() {
           
-        if ( window.innerHeight < this.$.controllers.offsetHeight ) {
-            this.docked = true;
-        } else { 
-            this.docked = false;
-        }
+    //     if ( window.innerHeight < this.$.controllers.offsetHeight ) {
+    //         this.docked = true;
+    //     } else { 
+    //         this.docked = false;
+    //     }
 
-    },
+    // },
 
 
     // Legacy

@@ -22,6 +22,7 @@
     <script>
 
     var object = { 
+        "boolean": false,
         "listen4Free": 332,
         "zeroTo1": 0,
         "step": 10,
@@ -40,10 +41,11 @@
         gui.docked = true;
 
         gui.add( gui, 'docked' );
-        var r = gui.add( gui, 'open' );
 
+        var r = gui.add( gui, 'open' );
         gui.add( r.row, 'name' );
 
+        gui.add( object, 'boolean' );
         
         gui.add( object, 'listen4Free' );
         gui.add( object, 'listen4Free' );

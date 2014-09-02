@@ -9,9 +9,15 @@
 
 <link rel="stylesheet" href="controller-boolean.css">
 
-<label for="input" id="container" horizontal layout center>
-    <input id="input" type="checkbox" checked?="{{ value }}" on-change="{{ change }}">
-</label>
+<div id="container" horizontal layout center on-tap="{{ toggle }}" class="value-{{ value }}">
+    
+    <div id="switch-track">
+        <div id="switch-knob"></div>
+    </div>
+
+    <!-- <div id="text" >{{ value ? 'true' : 'false' }}</div> -->
+
+</div>
 
 </template>
 

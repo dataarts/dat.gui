@@ -18,6 +18,7 @@ font-color = #eee
 panel-color = #1a1a1a
 
 number-color = #25A0D8
+boolean-color = #864694
 string-color = #1EBD6E
 
 padding = 8px
@@ -31,21 +32,20 @@ dark = rgba( 0, 0, 0, 0.1 );
 
 // common
 
-panel-font()
+panel-font( color = font-color )
     font: 10px 'Lucida Grande', sans-serif;
-    color: font-color;
-    -webkit-font-smoothing: antialiased;
+    color: color;
+    if ( light( color ) )
+        -webkit-font-smoothing: antialiased;
 
-input()
-    panel-font()
-    color: text-color;
+input( color )
+    panel-font( color )
     height: 100%;
     display: inline-block;
     background: transparent;
     border: 0;
     padding: 0;
     outline: none;
-    padding-left: padding;
     transition: background-color 0.15s linear;
     box-sizing: border-box;
     &:hover, &:focus

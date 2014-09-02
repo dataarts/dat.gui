@@ -1,8 +1,5 @@
 @import '../shared';
 
-fill-color = number-color
-track-color = light
-
 track-size = 1px;
 fill-size = 1px;
 knob-size = 6px
@@ -13,6 +10,7 @@ knob-size = 6px
 
 #track-container { 
     height: 100%;
+    padding: 0 padding;
 }
 
 #track { 
@@ -21,7 +19,7 @@ knob-size = 6px
     border-radius: track-size;
     display: inline-block;
     position: relative;
-    background: track-color;
+    background: light;
 }
 
 #fill {
@@ -30,7 +28,7 @@ knob-size = 6px
     margin-left: 1px;
     border-radius: fill-size;
     position: absolute;
-    background: fill-color;
+    background: number-color;
     pointer-events: none;
 }
 
@@ -48,7 +46,7 @@ knob-size = 6px
     pointer-events: none;
     position: absolute;
 
-    background-color: fill-color;
+    background-color: number-color;
     border-radius: 100%;
 
 }
@@ -71,12 +69,11 @@ knob-size = 6px
 
 input { 
     
-    input()
+    input( number-color );
 
     .slider-true & {
     
         text-align: center;
-        margin-left: padding;
         width: 25%;
         transition: width 0.2s ease;
         padding: 0;
@@ -95,11 +92,12 @@ input {
 
     .slider-false & { 
         // border-bottom: 1px solid number-color;
+        padding-left: padding
         width: 100%;
     }
 
 }
 
 input::selection { 
-    background-color: number-color;
+    background-color: light;
 }

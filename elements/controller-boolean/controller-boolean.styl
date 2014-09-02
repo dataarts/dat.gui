@@ -1,15 +1,47 @@
 @import '../shared';
 
-#container, #input { 
-    cursor: pointer;
-}
+height = 8px;
+width = round( height * 2.5 );
+border-radius = height;
 
 #container { 
-    display: block;
     height: 100%;
-    // border: 1px solid red;
+    cursor: pointer;
+    padding-left: padding
 }
 
-#input {
-    // margin-top: 20px;
+#switch-track {
+    width: width;
+    height: height;
+    background: light;
+    border-radius: border-radius;
+    transition: background 0.1s linear;
 }
+
+#switch-knob {
+    height: height;
+    width: height;
+    border-radius: border-radius;
+    background: white;
+    transition: transform 0.15s ease;
+}
+
+.value-true {
+    #switch-track {
+        background: boolean-color;
+    }
+    #switch-knob {
+        transform: translate3d( width - height, 0, 0 );
+    }
+}
+
+#text { 
+    margin-left: padding;
+    .value-true & { 
+        // color: boolean-color;
+    }
+    .value-false & { 
+        color: light;
+    }
+}
+
