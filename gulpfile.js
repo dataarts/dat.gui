@@ -55,8 +55,8 @@ gulp.task( 'vulcanize', function() {
     gulp.src( paths.main )
         .pipe( vulcan( { 
             dest: 'build', 
-            inline: true
-            // strip: true 
+            inline: true,
+            strip: true 
         } ) );
 
 } );
@@ -82,6 +82,20 @@ gulp.task( 'build', [
     // 'test', 
     'docs' 
 ] );
+
+
+gulp.task( 'hypervulcanize', function() {
+
+    // - styles from layout.html
+    // styles
+
+
+    // platform.js
+    // polymer.html
+        // - polymer.js
+
+} );
+
 
 gulp.task( 'default', function() {
 

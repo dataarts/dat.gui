@@ -7,7 +7,10 @@ dat-gui creates an interface that you can use to modify variables with very litt
 Download the [minified library]( todo ) and include it in your html.
 
 ```html
-<script src="gui.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/polymer/0.3.4/platform.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/dat-gui/r3/gui.js"></script>
+
 ```
 
 Create controllers by adding objects and their properties. dat-gui chooses a controller based on the variable's initial value.

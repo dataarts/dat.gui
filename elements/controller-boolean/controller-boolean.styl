@@ -8,6 +8,7 @@ border-radius = height;
     height: 100%;
     cursor: pointer;
     padding-left: padding
+
 }
 
 #switch-track {
@@ -32,6 +33,9 @@ border-radius = height;
     }
     #switch-knob {
         transform: translate3d( width - height, 0, 0 );
+    }
+    &:hover #switch-knob { 
+        transform: translate3d( width - height, 0, 0 ) scale( 1.5 );
     }
 }
 
