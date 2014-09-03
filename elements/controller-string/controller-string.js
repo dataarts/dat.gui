@@ -1,23 +1,23 @@
-Gui.register( 'controller-string', function( value ) {
-  
-    return typeof value == 'string';
+Gui.register('controller-string', function(value) {
 
-} );
+  return typeof value == 'string';
 
-Polymer( 'controller-string', {
+});
 
-    click: function( e ) {
+Polymer('controller-string', {
 
-        this.$.input.select();
+  click: function(e) {
 
-    },
+    this.$.input.select();
 
-    keydown: function( e ) {
+  },
 
-        if ( e.keyCode == 13 ) {
-            this.$.input.blur();
-        }
+  keydown: function(e) {
 
+    if (e.keyCode == 13) {
+      this.$.input.blur();
     }
-    
+
+  }
+
 });

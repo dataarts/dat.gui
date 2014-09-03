@@ -3,139 +3,142 @@
 
 Polymer('gui-panel', {
 
-    docked: false,
-    open: true,
-    touch: 'ontouchstart' in window || !!window.DocumentTouch && document instanceof DocumentTouch,
+  docked: false,
+  open: true,
+  touch: ('ontouchstart' in window) ||
+         (!!window.DocumentTouch && document instanceof DocumentTouch),
 
-    ready: function() {
+  ready: function() {
 
-        this.anon.values = {};
+    this.anon.values = {};
 
-        // window.addEventListener( 'resize', this.checkHeight.bind( this ) );
+    // window.addEventListener( 'resize', this.checkHeight.bind( this));
 
-    },
+  },
 
-    anon: function() {
+  anon: function() {
 
-        if ( arguments.length == 1 ) {
-            var name = arguments[ 0 ];
-            return this.anon.values[ name ];
-        }
+    if (arguments.length == 1) {
+      var name = arguments[0];
+      return this.anon.values[name];
+    }
 
-        var initialValue = arguments[ 0 ];
-        var name = arguments[ 1 ];
+    var initialValue = arguments[0];
+    var name = arguments[1];
 
-        var args = [ this.anon.values, name ];
-        args = args.concat( Array.prototype.slice.call( arguments, 2 ) );
+    var args = [this.anon.values, name];
+    args = args.concat(Array.prototype.slice.call(arguments, 2));
 
-        this.anon.values[ name ] = initialValue;
+    this.anon.values[name] = initialValue;
 
-        return this.add.apply( this, args );
+    return this.add.apply(this, args);
 
-    },
+  },
 
-    add: function( object, path ) {
+  add: function(object, path) {
 
-        // Make controller
+    // Make controller
 
-        var value = Path.get( path ).getValueFrom( object );
+    var value = Path.get(path).getValueFrom(object);
 
-        if ( value == null || value == undefined ) {
-            return Gui.error( object + ' doesn\'t have a value for path "' + path + '".' );
-        }
+    if (value == null || value == undefined) {
+      return Gui.error(object +
+                       ' doesn\'t have a value for path "' + path + '".');
+    }
 
-        var args = Array.prototype.slice.call( arguments, 2 );
+    var args = Array.prototype.slice.call(arguments, 2);
 
-        var controller = Gui.getController( value, args );
-        
-        if ( !controller ) {
-            return Gui.error( 'Unrecognized type:', value );
-        }
+    var controller = Gui.getController(value, args);
 
-        controller.watch( object, path )
-        controller.init.apply( controller, args );
+    if (!controller) {
+      return Gui.error('Unrecognized type:', value);
+    }
 
-        // Make row
+    controller.watch(object, path);
+    controller.init.apply(controller, args);
 
-        var row = document.createElement( 'gui-row' );
-        row.name = path;
+    // Make row
 
-        controller.row = row;
+    var row = document.createElement('gui-row');
+    row.name = path;
 
-        controller.name = function( name ) {
-            row.name = name;
-        };
+    controller.row = row;
 
-        controller.comment = function( comment ) {
-            row.comment = comment;
-        };
+    controller.name = function(name) {
+      row.name = name;
+    };
 
-        row.appendChild( controller );
-        this.appendChild( row );
+    controller.comment = function(comment) {
+      row.comment = comment;
+    };
 
-        return controller;
+    row.appendChild(controller);
+    this.appendChild(row);
 
-    },
+    return controller;
 
-
-    // Observers
-    // ------------------------------- 
-
-    openChanged: function() {
-
-        if ( this.open || this.docked ) {
-            
-            // let the style sheet take care of things
-
-            this.$.container.style.transform = '';
-
-        } else { 
-
-            // todo: need the rest of the vendor prefixes ...
-            // wish i could pipe javascript variables into styl.
-
-            var y = -this.$.controllers.offsetHeight + 'px';
-            this.$.container.style.transform = 'translate3d(0, ' + y + ', 0)';
-
-        }
+  },
 
 
-    },
+  // Observers
+  // -------------------------------
 
-    dockedChanged: function() {
+  openChanged: function() {
 
-        this.openChanged();
+    if (this.open || this.docked) {
 
-    },
-    
+      // let the style sheet take care of things
 
-    // Events
-    // ------------------------------- 
-    
-    tapClose: function() {
-        this.open = !this.open;
-    },
-    
-    // checkHeight: function() {
-          
-    //     if ( window.innerHeight < this.$.controllers.offsetHeight ) {
-    //         this.docked = true;
-    //     } else { 
-    //         this.docked = false;
-    //     }
+      this.$.container.style.transform = '';
 
-    // },
+    } else {
+
+      // todo: need the rest of the vendor prefixes ...
+      // wish i could pipe javascript variables into styl.
+
+      var y = -this.$.controllers.offsetHeight + 'px';
+      this.$.container.style.transform = 'translate3d(0, ' + y + ', 0)';
+
+    }
 
 
-    // Legacy
-    // -------------------------------     
+  },
 
-    listenAll: function() {
+  dockedChanged: function() {
 
-        Gui.warn( 'controller.listenAll() is deprecated. All controllers are listened for free.' );
+    this.openChanged();
 
-    },
+  },
 
-    // todo: domElement
+
+  // Events
+  // -------------------------------
+
+  tapClose: function() {
+    this.open = !this.open;
+  },
+
+  // checkHeight: function() {
+
+  //   if ( window.innerHeight < this.$.controllers.offsetHeight) {
+  //     this.docked = true;
+  //   } else {
+  //     this.docked = false;
+  //   }
+
+  // },
+
+
+  // Legacy
+  // -------------------------------
+
+  listenAll: function() {
+
+    Gui.warn('controller.listenAll() is deprecated. ' +
+             'All controllers are listened for free.');
+
+  }
+
+  // todo: domElement
 
 });

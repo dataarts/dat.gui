@@ -1,71 +1,72 @@
 /*
 
-[ ] onChange( )
-[ ] onFinishChange( )
+[ ] onChange()
+[ ] onFinishChange()
 
 */
 
 Polymer('controller-base', {
 
-    ready: function() {
+  ready: function() {
 
-        this.update();
+    this.update();
 
-    },
+  },
 
-    update: function() {},
+  update: function() {},
 
-    init: function() {},
-
-
-    // Observers
-    // ------------------------------- 
-
-    watch: function( object, path ) {
-
-        this.object = object;
-        this.path = path;
-
-        this.bind('value', new PathObserver(this.object, this.path));
-
-    },
-
-    valueChanged: function() {
-        
-        this.update();
-
-    },
+  init: function() {},
 
 
-    // Helpers
-    // ------------------------------- 
+  // Observers
+  // -------------------------------
 
-    map: function( x, a, b, c, d ) {
-        return ( x - a ) / ( b - a ) * ( d - c ) + c;
-    },
+  watch: function(object, path) {
+
+    this.object = object;
+    this.path = path;
+
+    this.bind('value', new PathObserver(this.object, this.path));
+
+  },
+
+  valueChanged: function() {
+
+    this.update();
+
+  },
 
 
-    // Legacy
-    // ------------------------------- 
+  // Helpers
+  // -------------------------------
 
-    listen: function() {
+  map: function(x, a, b, c, d) {
+    return (x - a) / (b - a) * (d - c) + c;
+  },
 
-        Gui.warn( 'controller.listen() is deprecated. All controllers are listened for free.' );
-        return this;
 
-    },
+  // Legacy
+  // -------------------------------
 
-    getValue: function() {
+  listen: function() {
 
-        return this.value;
+    Gui.warn('controller.listen() is deprecated. ' +
+             'All controllers are listened for free.');
+    return this;
 
-    },
+  },
 
-    setValue: function( v ) {
+  getValue: function() {
 
-        this.value = v;
+    return this.value;
 
-    }
-        
+  },
+
+  setValue: function(v) {
+
+    this.value = v;
+
+  }
+
 
 });

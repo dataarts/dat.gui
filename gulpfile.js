@@ -49,9 +49,9 @@ gulp.task('vulcanize', ['css'], function() {
 gulp.task('lint', function() {
   return gulp.src('elements/**/*.js')
     //.pipe($.reload({stream: true, once: true}))
-    .pipe($.jshint())
-    .pipe($.jshint.reporter('jshint-stylish'));
-    //.pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
+    .pipe($.gjslint())
+    .pipe($.gjslint.reporter('console', {}));
+    //.pipe($.if(!browserSync.active, $.gjslint.reporter('fail')));
 });
 
 gulp.task('css', function() {
