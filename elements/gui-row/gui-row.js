@@ -13,7 +13,6 @@ Polymer('gui-row', {
     ready: function() {
 
 
-
     },
 
     openComment: function() {
