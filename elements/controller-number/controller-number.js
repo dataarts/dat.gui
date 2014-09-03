@@ -150,6 +150,14 @@ Polymer( 'controller-number', {
 
     },
 
+    keydown: function( e ) {
+
+        if ( e.keyCode == 13 ) {
+            this.$.input.blur();
+        }
+
+    },
+    
     down: function( e ) {
 
         e.preventDefault();
@@ -204,13 +212,6 @@ Polymer( 'controller-number', {
 
     },
 
-    keydown: function( e ) {
-
-        if ( e.keyCode == 13 ) {
-            this.$.input.blur();
-        }
-
-    },
 
 
     // Filters

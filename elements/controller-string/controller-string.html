@@ -10,9 +10,12 @@
 
 <template>
 
+<link rel="stylesheet" href="../shared/controller.css">
 <link rel="stylesheet" href="controller-string.css">
 
-<input id="input" type="text" value="{{ value }}">
+<input id="input" type="text" value="{{ value }}" 
+    on-click="{{ click }}"
+    on-keydown="{{ keydown }}">
 
 </template>
 

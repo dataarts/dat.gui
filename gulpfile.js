@@ -53,7 +53,7 @@ gulp.task( 'vulcanize', [ 'css' ], function() {
 
 gulp.task( 'css', function() {
 
-    return css( 'elements/*/*.styl', 'elements' );
+    return css( 'elements/**/*.styl', 'elements' );
 
 } );
 
