@@ -11,7 +11,9 @@ var gulp    = require( 'gulp' ),
     marked  = require( 'marked' ),
     karma   = require( 'karma' );
 
-gulp.task( 'default', [ 'build' ], function() {
+gulp.task( 'default', [ 'docs', 'build' ] );
+
+gulp.task( 'watch', [ 'default' ], function() {
     
     karma.server.start( {
         frameworks: [ 'jasmine' ],
@@ -29,23 +31,23 @@ gulp.task( 'default', [ 'build' ], function() {
 gulp.task( 'build', [ 'vulcanize' ], function() {
 
     return gulp.src( 'build/gui.html' )
-        .pipe( replace( /\\/g, "\\\\" ) )
-        .pipe( replace( /'/g, "\\'" ) )
-        .pipe( replace( /^(.*)$/gm, "'$1'," ) )
-        .pipe( insert.wrap( 'document.write([', '].join("\\n"))' ) )
-        .pipe( rename( 'gui.js' ) )
-        .pipe( gulp.dest( 'build' ) );
+               .pipe( replace( /\\/g, "\\\\" ) )
+               .pipe( replace( /'/g, "\\'" ) )
+               .pipe( replace( /^(.*)$/gm, "'$1'," ) )
+               .pipe( insert.wrap( 'document.write([', '].join("\\n"))' ) )
+               .pipe( rename( 'gui.js' ) )
+               .pipe( gulp.dest( 'build' ) );
 
 } );
 
 gulp.task( 'vulcanize', [ 'css' ], function() {
 
     return gulp.src( 'gui.html' )
-        .pipe( vulcan( { 
-            dest: 'build', 
-            inline: true,
-            strip: true 
-        } ) );
+               .pipe( vulcan( { 
+                   dest: 'build', 
+                   inline: true,
+                   strip: true 
+                } ) );
 
 } );
 
@@ -63,7 +65,7 @@ gulp.task( 'docs', function() {
         readme: marked( fs.readFileSync( 'README.md', 'utf8' ) )
     };
 
-    gulp.src( 'docs/template.html' )
+    return gulp.src( 'docs/template.html' )
         .pipe( plates( content ) )
         .pipe( rename( 'index.html' ) )
         .pipe( gulp.dest( './' ) );
@@ -80,7 +82,7 @@ gulp.task( 'clean', function() {
 function css( src, dest ) {
 
     return gulp.src( src )
-        .pipe( stylus( { use: [ nib() ] } ) )
-        .pipe( gulp.dest( dest ) );
+               .pipe( stylus( { use: [ nib() ] } ) )
+               .pipe( gulp.dest( dest ) );
 
 }

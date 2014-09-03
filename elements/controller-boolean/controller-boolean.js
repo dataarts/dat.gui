@@ -13,13 +13,8 @@ Polymer( 'controller-boolean', {
 
     toggle: function() {
 
-        console.log( 'hi' );
         this.value = !this.value;
 
     }
     
-    
-    
-    
-
 });
