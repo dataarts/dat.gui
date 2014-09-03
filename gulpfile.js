@@ -1,58 +1,41 @@
-/*
-
-[ ] build without platform bundled
-
-*/
-
 var gulp    = require( 'gulp' ),
     stylus  = require( 'gulp-stylus' ),
     plates  = require( 'gulp-plates' ),
     rename  = require( 'gulp-rename' ),
     vulcan  = require( 'gulp-vulcanize' ),
+    insert  = require( 'gulp-insert' ),
+    replace = require( 'gulp-replace' ),
+    clean   = require( 'gulp-clean' ),
     nib     = require( 'nib' ),
     fs      = require( 'fs' ),
     marked  = require( 'marked' ),
-    karma   = require( 'karma' ).server;
+    karma   = require( 'karma' );
 
-var paths = {
-    main:   'gui.html',
-    css:    'elements/**/*.styl',
-    html:   'elements/**/*.html',
-    js:     'elements/**/*.js',
-};
 
 function css( src, dest ) {
 
-    gulp.src( src )
+    return gulp.src( src )
         .pipe( stylus( { use: [ nib() ] } ) )
         .pipe( gulp.dest( dest ) );
 
 }
 
-gulp.task( 'docs', function() {
-        
-    css( 'docs/*.styl', 'docs' );
+gulp.task( 'clean', function() {
 
-    var content = {
-        readme: marked( fs.readFileSync( 'README.md', 'utf8' ) )
-    }
-
-    gulp.src( 'docs/template.html' )
-        .pipe( plates( content ) )
-        .pipe( rename( 'index.html' ) )
-        .pipe( gulp.dest( './' ) );
+    return gulp.src( [ 'build/*', '**/*.css' ] )
+               .pipe( clean() );
 
 } );
 
 gulp.task( 'css', function() {
 
-    css( paths.css, 'elements' );
+    return css( 'elements/*/*.styl', 'elements' );
 
 } );
 
-gulp.task( 'vulcanize', function() {
+gulp.task( 'vulcanize', [ 'css' ], function() {
 
-    gulp.src( paths.main )
+    return gulp.src( 'gui.html' )
         .pipe( vulcan( { 
             dest: 'build', 
             inline: true,
@@ -61,50 +44,45 @@ gulp.task( 'vulcanize', function() {
 
 } );
 
-gulp.task( 'test', function( done ) {
+gulp.task( 'build', [ 'vulcanize' ], function() {
 
-    karma.start( {
-        // browsers: [ 'Chrome' ],
+    return gulp.src( 'build/gui.html' )
+        .pipe( replace( /\\/g, "\\\\" ) )
+        .pipe( replace( /'/g, "\\'" ) )
+        .pipe( replace( /^(.*)$/gm, "'$1'," ) )
+        .pipe( insert.wrap( 'document.write([', '].join("\\n"))' ) )
+        .pipe( rename( 'gui.js' ) )
+        .pipe( gulp.dest( 'build' ) );
+
+} );
+
+gulp.task( 'docs', function() {
+        
+    css( 'docs/*.styl', 'docs' );
+
+    var content = {
+        readme: marked( fs.readFileSync( 'README.md', 'utf8' ) )
+    };
+
+    gulp.src( 'docs/template.html' )
+        .pipe( plates( content ) )
+        .pipe( rename( 'index.html' ) )
+        .pipe( gulp.dest( './' ) );
+
+} );
+
+
+gulp.task( 'default', [ 'build' ], function() {
+    
+    karma.server.start( {
         frameworks: [ 'jasmine' ],
         files: [
-          '../platform/platform.js',
-          'build/gui.html',
+          'build/gui.js',
           'tests/*.js'
-        ],
-        // singleRun: true
-    }, done );
+        ]
+    } );
 
-} );
-
-gulp.task( 'build', [ 
-    'css', 
-    'vulcanize', 
-    // 'test', 
-    'docs' 
-] );
-
-
-gulp.task( 'hypervulcanize', function() {
-
-    // - styles from layout.html
-    // styles
-
-
-    // platform.js
-    // polymer.html
-        // - polymer.js
-
-} );
-
-
-gulp.task( 'default', function() {
-
-    gulp.watch( [ paths.css ], [ 'css', 'vulcanize' ] );
-    gulp.watch( [ paths.js, paths.main, paths.html ], [ 'vulcanize' ] );
-    // gulp.watch( [ 'build/gui.html', 'tests/*.js' ], [ 'test' ] );
+    gulp.watch( [ 'elements/**/*.styl', 'elements/**/*.html', 'elements/**/*.js' ], [ 'build' ] );
     gulp.watch( [ 'README.md', 'docs/*' ], [ 'docs' ] );
 
 } );
-
-
-

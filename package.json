@@ -3,8 +3,11 @@
   "version": "0.0.0",
   "devDependencies": {
     "gulp": "^3.8.7",
+    "gulp-clean": "^0.3.1",
+    "gulp-insert": "^0.4.0",
     "gulp-plates": "0.0.5",
     "gulp-rename": "^1.2.0",
+    "gulp-replace": "^0.4.0",
     "gulp-stylus": "^1.3.0",
     "gulp-vulcanize": "^1.0.0",
     "gulp-watch": "^0.6.9",
