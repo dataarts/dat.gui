@@ -1,8 +1,5 @@
-/*
-
-[ ] kill horizontal scroll when docked
-
-*/
+// [ ] scrolling when docked
+// [ ] scrolling when window short and not docked
 
 Polymer('gui-panel', {
 

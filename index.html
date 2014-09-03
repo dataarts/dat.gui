@@ -17,6 +17,12 @@
 <!-- Copied from README.md -->
 <div id="readme"><h1 id="dat-gui">dat-gui</h1>
 <p>dat-gui creates an interface that you can use to modify variables with very little code. </p>
+<p><a href="#basic-usage"> Basic Usage </a> •
+<a href="#limits"> Limits </a> •
+<a href="#colors"> Colors </a> •
+<a href="#events"> Events </a> •
+<a href="#folders"> Folders </a> •
+<a href="#saving"> Saving </a></p>
 <h3 id="basic-usage">Basic Usage</h3>
 <p>Download the <a href="todo">minified library</a> and include it in your html.</p>
 <pre><code class="lang-html">&lt;script src=&quot;gui.js&quot;&gt;&lt;/script&gt;
@@ -28,7 +34,7 @@ gui.add( object, &#39;stringProperty&#39; ); // Text box
 gui.add( object, &#39;booleanProperty&#39; ); // Check box
 gui.add( object, &#39;functionProperty&#39; ); // Button
 </code></pre>
-<h3 id="limiting-input">Limiting Input</h3>
+<h3 id="limits">Limits</h3>
 <p>You can specify limits on numbers. A number with a min and max value becomes a slider.</p>
 <pre><code class="lang-javascript">gui.add( text, &#39;growthSpeed&#39;, -5, 5 ); // Min and max
 gui.add( text, &#39;noiseStrength&#39; ).step( 5 ); // Increment amount
@@ -41,7 +47,7 @@ gui.add( text, &#39;message&#39;, [ &#39;pizza&#39;, &#39;chrome&#39;, &#39;hoor
 // Choose from named values
 gui.add( text, &#39;speed&#39;, { Stopped: 0, Slow: 0.1, Fast: 5 } );
 </code></pre>
-<h3 id="color-controllers">Color Controllers</h3>
+<h3 id="colors">Colors</h3>
 <p>dat-gui has a color selector and understands many different representations of color. The following creates color controllers for color variables of different formats.</p>
 <pre><code class="lang-javascript">text.color0 = &quot;#ffae23&quot;; // CSS string
 text.color1 = [ 0, 128, 255 ]; // RGB array
@@ -68,7 +74,7 @@ controller.onFinishChange(function(value) {
   alert(&quot;The new value is &quot; + value);
 });
 </code></pre>
-<h3 id="folders-comments">Folders &amp; Comments</h3>
+<h3 id="folders">Folders</h3>
 <p>You can nest as many dat-gui as you want. Nested dat-gui act as collapsible folders.</p>
 <pre><code class="lang-javascript">var gui = new Gui();
 
@@ -85,7 +91,7 @@ f2.open();
 <p>The comment method adds a tooltip to a controller.</p>
 <pre><code class="lang-javascript">f2.add(text, &#39;message&#39;).comment( &#39;This is the comment.&#39; );
 </code></pre>
-<h3 id="saving-values">Saving Values</h3>
+<h3 id="saving">Saving</h3>
 <p>Add a save menu to the interface by calling <code>gui.remember</code> on all the objects you&#39;ve added to the Gui.</p>
 <pre><code class="lang-javascript">var fizzyText = new FizzyText();
 var gui = new Gui();

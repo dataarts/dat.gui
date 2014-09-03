@@ -2,6 +2,13 @@
 
 dat-gui creates an interface that you can use to modify variables with very little code. 
 
+[ Basic Usage ]( #basic-usage ) •
+[ Limits ]( #limits ) •
+[ Colors ]( #colors ) •
+[ Events ]( #events ) •
+[ Folders ]( #folders ) •
+[ Saving ]( #saving )
+
 ### Basic Usage 
 
 Download the [minified library]( todo ) and include it in your html.
@@ -20,7 +27,7 @@ gui.add( object, 'booleanProperty' ); // Check box
 gui.add( object, 'functionProperty' ); // Button
 ```
 
-### Limiting Input 
+### Limits
 
 You can specify limits on numbers. A number with a min and max value becomes a slider.
 
@@ -40,7 +47,7 @@ gui.add( text, 'message', [ 'pizza', 'chrome', 'hooray' ] );
 gui.add( text, 'speed', { Stopped: 0, Slow: 0.1, Fast: 5 } );
 ```
 
-### Color Controllers 
+### Colors
 
 dat-gui has a color selector and understands many different representations of color. The following creates color controllers for color variables of different formats.
 
@@ -77,7 +84,7 @@ controller.onFinishChange(function(value) {
 });
 ```
 
-### Folders & Comments 
+### Folders
 
 You can nest as many dat-gui as you want. Nested dat-gui act as collapsible folders.
 
@@ -101,7 +108,7 @@ The comment method adds a tooltip to a controller.
 f2.add(text, 'message').comment( 'This is the comment.' );
 ```
 
-### Saving Values 
+### Saving 
 
 Add a save menu to the interface by calling `gui.remember` on all the objects you've added to the Gui.
 

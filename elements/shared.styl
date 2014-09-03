@@ -12,10 +12,12 @@ debug( color )
 // constants
 
 panel-width = 245px
-min-row-height = 30px
+
+row-height = 29px
+// row-height-touch = 44px
 
 font-color = #ECEBE0
-panel-color = #1E1E1E
+panel-color = rgba( 30, 30, 30, 0.95 );
 
 number-color = #25A0D8
 boolean-color = #864694
@@ -31,7 +33,7 @@ ease = cubic-bezier( .25, .25, 0, 1 )
 // common
 
 panel-font( color = font-color )
-    font: 11px 'Lucida Grande', sans-serif;
+    font: 10px 'Lucida Grande', sans-serif;
     color: color;
     if ( color == font-color )
         -webkit-font-smoothing: antialiased;

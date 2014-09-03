@@ -1,10 +1,37 @@
+BUILD
+
+- [x] single import
+
+DOCS
+
+- [ ] table of contents ( is going to be really long )
+
+STYLE
+
+- [ ] sharing more styles
+- [ ] css linter?
+
+- [ ] touch styles: bigger please!
+- [ ] kill hover behavior if touch
+
+CLEANLINESS
+
 - [ ] can gui-row be baked into base-controller somehow? 
 
+- [ ] strip component-slider from number-controller
+- [ ] strip component-input from number-controller, unify with string-controller
+
+PARITY
 
 - [ ] folders
-
 - [ ] function controller
 - [ ] color controller
-
 - [x] string controller
 - [x] boolean controller
+
+- [ ] remember
+    - [ ] presets
+
+NEW FEATURES
+
+- [ ] save server
