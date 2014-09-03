@@ -11,25 +11,30 @@ var gulp    = require( 'gulp' ),
     marked  = require( 'marked' ),
     karma   = require( 'karma' );
 
+gulp.task( 'default', [ 'build' ], function() {
+    
+    karma.server.start( {
+        frameworks: [ 'jasmine' ],
+        files: [
+          'build/gui.js',
+          'tests/*.js'
+        ]
+    } );
 
-function css( src, dest ) {
-
-    return gulp.src( src )
-        .pipe( stylus( { use: [ nib() ] } ) )
-        .pipe( gulp.dest( dest ) );
-
-}
-
-gulp.task( 'clean', function() {
-
-    return gulp.src( [ 'build/*', '**/*.css' ] )
-               .pipe( clean() );
+    gulp.watch( [ 'elements/**/*.styl', 'elements/**/*.html', 'elements/**/*.js', 'gui.html' ], [ 'build' ] );
+    gulp.watch( [ 'README.md', 'docs/*' ], [ 'docs' ] );
 
 } );
 
-gulp.task( 'css', function() {
+gulp.task( 'build', [ 'vulcanize' ], function() {
 
-    return css( 'elements/*/*.styl', 'elements' );
+    return gulp.src( 'build/gui.html' )
+        .pipe( replace( /\\/g, "\\\\" ) )
+        .pipe( replace( /'/g, "\\'" ) )
+        .pipe( replace( /^(.*)$/gm, "'$1'," ) )
+        .pipe( insert.wrap( 'document.write([', '].join("\\n"))' ) )
+        .pipe( rename( 'gui.js' ) )
+        .pipe( gulp.dest( 'build' ) );
 
 } );
 
@@ -44,15 +49,9 @@ gulp.task( 'vulcanize', [ 'css' ], function() {
 
 } );
 
-gulp.task( 'build', [ 'vulcanize' ], function() {
+gulp.task( 'css', function() {
 
-    return gulp.src( 'build/gui.html' )
-        .pipe( replace( /\\/g, "\\\\" ) )
-        .pipe( replace( /'/g, "\\'" ) )
-        .pipe( replace( /^(.*)$/gm, "'$1'," ) )
-        .pipe( insert.wrap( 'document.write([', '].join("\\n"))' ) )
-        .pipe( rename( 'gui.js' ) )
-        .pipe( gulp.dest( 'build' ) );
+    return css( 'elements/*/*.styl', 'elements' );
 
 } );
 
@@ -71,18 +70,17 @@ gulp.task( 'docs', function() {
 
 } );
 
+gulp.task( 'clean', function() {
 
-gulp.task( 'default', [ 'build' ], function() {
-    
-    karma.server.start( {
-        frameworks: [ 'jasmine' ],
-        files: [
-          'build/gui.js',
-          'tests/*.js'
-        ]
-    } );
-
-    gulp.watch( [ 'elements/**/*.styl', 'elements/**/*.html', 'elements/**/*.js' ], [ 'build' ] );
-    gulp.watch( [ 'README.md', 'docs/*' ], [ 'docs' ] );
+    return gulp.src( [ 'build/*', '**/*.css' ] )
+               .pipe( clean() );
 
 } );
+
+function css( src, dest ) {
+
+    return gulp.src( src )
+        .pipe( stylus( { use: [ nib() ] } ) )
+        .pipe( gulp.dest( dest ) );
+
+}
