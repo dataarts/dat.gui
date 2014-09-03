@@ -1,17 +1,9 @@
-/*
-
-[ ] comment hover behavior
-
-*/
-
 Polymer('gui-row', {
 
     comment: null,
-
     commentOpen: false,
 
     ready: function() {
-
 
     },
 

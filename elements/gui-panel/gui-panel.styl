@@ -1,98 +1,84 @@
-@import '../shared/shared';
+@import '../shared/shared'
 
-#container { 
 
-    background: panel-color;
-    transition: transform 0.4s cubic-bezier( 0, 0.8, 0, 1 );
+// redefine touch because we are the host ... 
 
-    &.autoplace-true { 
+touch( val = true )
+    { '.touch-' + val } &
+        { block }
 
-        width: panel-width;
-        position: fixed;
-        top: 0;
 
-        &.docked-false {
+#container  
 
-            right: 20px;
+    background color-panel
+    transition transform 0.4s cubic-bezier( 0, 0.8, 0, 1 )
 
-            &.open-true { 
-                
-            }
+    &.autoplace-true  
+        
+        width panel-width
+        
+        &.touch-true
+            width panel-width-touch
+        
+        position fixed
+        top 0
 
-            &.open-false { 
-
-            }
-
-        }
-
-        &.docked-true {
-            
-            right: 0;
-            bottom: 0;
-            
-            #controllers { 
-                position: absolute;
-                width: 100%;
-                bottom: 0;
-                top: 0;
-                overflow: auto;
-            }
-
-            &.open-true {
-
-            }
+        &.docked-false 
+            right 20px
     
-            &.open-false { 
-                transform: translate3d( panel-width, 0, 0 );
-            }
+        &.docked-true 
+            right 0
+            bottom 0
+            
+            #controllers  
+                position absolute
+                width 100%
+                bottom 0
+                top 0
+                overflow auto
+            
+            &.open-false  
+                transform translate3d( panel-width, 0, 0 )
 
-        }
-
-    }
-
-}
+                &.touch-true
+                    transform translate3d( panel-width-touch, 0, 0 )
 
 
-#closeButton { 
+#closeButton  
     
     panel-font()
     
-    user-select: none;
-    cursor: pointer;
-    text-align: center;
-    padding: padding * 0.75 padding;
-    background: black;
+    user-select none
+    cursor pointer
+    text-align center
+    padding padding * 0.75 padding
+    background black
 
-    &:hover { 
-        background: panel-color;
-    }
-
-}
-
-#closeButtonDocked { 
+    +hover()
+        background color-panel
     
-    position: absolute;
-    right: panel-width;
+
+#closeButtonDocked  
     
-    cursor: pointer;
+    position absolute
+    right 100%
+    
+    cursor pointer
 
-    top: 0;
-    color: black;
+    top 0
+    color black
 
-    width: 60px;
-    height: 60px;
+    width 60px
+    height 60px
 
-    padding: 10px;
-    box-sizing: border-box;
+    padding 10px
+    box-sizing border-box
 
-}
+#closeButtonDockedInner 
 
-#closeButtonDockedInner {
+    border-radius 3px
+    background #fff
 
-    border-radius: 3px;
-    background: #fff;
+    width 100%
+    height 100%
 
-    width: 100%;
-    height: 100%;
-
-}

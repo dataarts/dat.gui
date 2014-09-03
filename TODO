@@ -2,21 +2,6 @@ BUILD
 
 - [x] single import
 
-DOCS
-
-- [ ] table of contents ( is going to be really long )
-
-STYLE
-
-- [ ] touch styles: bigger please!
-- [ ] kill hover behavior if touch
-
-- [x] sharing more styles
-
-CLEANLINESS
-
-- [ ] can gui-row be baked into base-controller somehow? 
-
 PARITY
 
 - [ ] folders
@@ -31,6 +16,21 @@ PARITY
 NEW FEATURES
 
 - [ ] save server
+
+DOCS
+
+- [ ] table of contents ( is going to be really long )
+
+STYLE
+
+- [x] touch styles: bigger please!
+- [x] kill hover behavior if touch
+- [x] sharing more styles
+
+STRUCTURE
+
+- [ ] can gui-row be baked into base-controller somehow? 
+
 
 NICE TO HAVES
 

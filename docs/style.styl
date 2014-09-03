@@ -1,78 +1,67 @@
-@import '../elements/shared/shared';
+@import '../elements/shared/shared'
 
 unit = 18px
-body-padding = unit * 2;
+body-padding = unit * 2
 
-readme-margin = panel-width + body-padding;
+readme-margin = panel-width + body-padding
 
-* { 
-    margin: 0;
-}
+*  
+    margin 0
 
-body {
-    margin: body-padding;
-    line-height: 24px;
-}
+body 
+    margin body-padding
+    line-height 24px
 
 .disable-hover,
-.disable-hover * {
-    pointer-events: none !important;
-}
+.disable-hover * 
+    pointer-events none !important
 
-h1, h2, h3, h4, p, pre { 
-    margin-bottom: unit;
-}
+h1, h2, h3, h4, p, pre  
+    margin-bottom unit
 
-pre { 
-    width: 100%;
-    margin-bottom: unit * 2;
-    line-height: 20px;
-}
+pre  
+    width 100%
+    margin-bottom unit * 2
+    line-height 20px
 
-h1 { 
-    margin-bottom: unit * 3;
-}
+h1  
+    margin-bottom unit * 3
 
-h3 {
+h3 
 
-    padding: unit 0;
-    margin-bottom: unit * 2;
+    padding unit 0
+    margin-bottom unit * 2
 
-    border-bottom: 1px solid rgba( 0, 0, 0, 0.2 );
-    transition: border-color 0.2s linear, color 0.2s linear;
+    border-bottom 1px solid rgba( 0, 0, 0, 0.2 )
+    transition border-color 0.2s linear, color 0.2s linear
 
-    &.sticky {
+    &.sticky 
 
-        left: body-padding;
-        right: body-padding + readme-margin;
-        top: 0;
-        background: #fff;
+        left body-padding
+        right body-padding + readme-margin
+        top 0
+        background #fff
 
-        &.sticky-prev { 
-            color: #eee;
-            border-bottom: 1px solid rgba( 0, 0, 0, 0 );
-        }
+        &.sticky-prev  
+            color #eee
+            border-bottom 1px solid rgba( 0, 0, 0, 0 )
+        
 
-    }
+    
 
-}
+#readme 
+    margin-right readme-margin
 
-#readme {
-    margin-right: readme-margin;
-}
-
-gui-panel {
-    position: fixed;
-    width: panel-width;
-    top: 0px;
-    right: unit;
-    z-index: 9999;
-    transition: transform 0.4s cubic-bezier(.5,1,0,1);
-    transform: translate3d( 0, -200px, 0 );
-    &.sticky { 
-        transform: translate3d( 0, 0, 0 );
-        transition-delay: 400ms;
-    }
-}
-
+gui-panel 
+    position fixed
+    width panel-width
+    top 0px
+    right unit
+    z-index 9999
+    transition transform 0.4s cubic-bezier(.5,1,0,1)
+    transform translate3d( 0, -200px, 0 )
+    &.sticky  
+        transform translate3d( 0, 0, 0 )
+        transition-delay 400ms
+    
 

@@ -1,54 +1,48 @@
-@import '../shared';
+@import '../shared/shared'
 
-height = 8px;
-width = round( height * 2.5 );
-border-radius = height;
+height = 0.8em
+width = round( height * 2.5 )
+border-radius = height
 
-#container { 
-    height: 100%;
-    cursor: pointer;
-    padding-left: padding
+#container  
+    height 100%
+    cursor pointer
+    padding-left padding
 
-}
+#switch-track 
+    width width
+    height height
+    background light
+    border-radius 999px
+    transition background 0.1s linear
 
-#switch-track {
-    width: width;
-    height: height;
-    background: light;
-    border-radius: border-radius;
-    transition: background 0.1s linear;
-}
+#switch-knob 
+    height height
+    width height
+    border-radius 100%
+    background color-font
+    transition transform 0.15s ease
 
-#switch-knob {
-    height: height;
-    width: height;
-    border-radius: border-radius;
-    background: font-color;
-    transition: transform 0.15s ease;
-}
+.value-true 
+    #switch-track 
+        background color-boolean
+    #switch-knob 
+        transform translate3d( width - height, 0, 0 )
 
-.value-true {
-    #switch-track {
-        background: boolean-color;
-    }
-    #switch-knob {
-        transform: translate3d( width - height, 0, 0 );
-    }
-    &:hover #switch-knob { 
-        transform: translate3d( width - height, 0, 0 ) scale( 1.5 );
-    }
-}
+.value-false
+    +hover()
+        #switch-knob
+            transform scale( 1.5 )
 
-.value-false:hover #switch-knob { 
-    transform: scale( 1.5 );
-}
+.value-true
+    +hover()
+         #switch-knob 
+            transform translate3d( width - height, 0, 0 ) scale( 1.5 )
 
-#text { 
-    margin-left: padding;
-    .value-true & { 
-        // color: boolean-color;
-    }
-    .value-false & { 
-        color: light;
-    }
-}
+#text  
+    margin-left padding
+    .value-true &  
+        // color color-boolean
+    .value-false &  
+        color light
+    

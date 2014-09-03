@@ -1,39 +1,53 @@
-@import 'nib';
+@import 'nib'
 
-// config 
+/* sizes */
 
-support-for-ie ?= true
-use-debug = false
-
-debug( color )
-    if use-debug
-        border: 1px solid color
-
-// constants
+font-size = 10px
+touch-scale = 1.25
 
 panel-width = 245px
+panel-width-touch = 300px
 
-row-height = 29px
-// row-height-touch = 44px
+row-height = 2.9em
+row-name-width = 38%
 
-font-color = #ECEBE0
-panel-color = rgba( 30, 30, 30, 0.95 );
+padding = 8px
 
-number-color = #25A0D8
-boolean-color = #864694
-string-color = #1EBD6E
+/* colors */
+
+color-font = #ECEBE0
+color-panel = rgba( 30, 30, 30, 0.95 )
+
+color-comment = #E0CF99
+
+color-number = #25A0D8
+color-boolean = #864694
+color-string = #1EBD6E
 
 light = rgba( 255, 255, 255, 0.25 )
 lighter = rgba( 255, 255, 255, 0.05 )
 
-dark = rgba( 0, 0, 0, 0.1 );
+dark = rgba( 0, 0, 0, 0.1 )
 
-padding = 8px
+/* other */
+
 ease = cubic-bezier( .25, .25, 0, 1 )
-// common
 
-panel-font( color = font-color )
-    font: 10px 'Lucida Grande', sans-serif;
-    color: color;
-    if ( color == font-color )
-        -webkit-font-smoothing: antialiased;
+/* mixins */
+
+panel-font( color = color-font )
+    font font-size 'Lucida Grande', sans-serif
+    color color
+    if ( color == color-font )
+        -webkit-font-smoothing antialiased
+    +touch()
+        font-size font-size * touch-scale
+
+touch( val = true )
+    :host-context({ '.touch-' + val }) &
+        { block }
+
+hover()
+    +touch( false )
+        &:hover
+            { block }

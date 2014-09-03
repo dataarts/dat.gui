@@ -5,6 +5,7 @@ Polymer('gui-panel', {
 
     docked: false,
     open: true,
+    touch: 'ontouchstart' in window || !!window.DocumentTouch && document instanceof DocumentTouch,
 
     ready: function() {
 
