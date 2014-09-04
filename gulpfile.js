@@ -7,7 +7,7 @@ var gulp = require('gulp'),
     browserSync = require('browser-sync'),
     reload = browserSync.reload;
 
-gulp.task('default', ['docs', 'build']);
+gulp.task('default', ['docs', 'build'])
 
 gulp.task('watch', ['default'], function() {
 
@@ -54,13 +54,15 @@ gulp.task('jscs', function() {
     .pipe($.jscs());
 });
 
-gulp.task('lint', function() {
+gulp.task('jshint', function() {
   return gulp.src('elements/**/*.js')
     .pipe(reload({stream: true, once: true}))
-    .pipe($.jshint())
+    .pipe($.jshint('.jshintrc'))
     .pipe($.jshint.reporter('jshint-stylish'))
     .pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
 });
+
+gulp.task('lint', ['jscs', 'jshint']);
 
 gulp.task('css', function() {
 
