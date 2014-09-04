@@ -1,3 +1,6 @@
+/* globals Gui, Polymer, window */
+'use strict';
+
 /*
 
 [ ] arrow keys
@@ -34,11 +37,15 @@ Polymer('controller-number', {
     var _this = this;
 
     window.addEventListener('keydown', function(e) {
-      if (e.keyCode == 18) _this._alt = true;
+      if (e.keyCode == 18) {
+        _this._alt = true;
+      }
     }, false);
 
     window.addEventListener('keyup', function(e) {
-      if (e.keyCode == 18) _this._alt = false;
+      if (e.keyCode == 18) {
+        _this._alt = false;
+      }
     }, false);
 
     this.super();
@@ -140,7 +147,6 @@ Polymer('controller-number', {
 
   },
 
-
   // Events
   // -------------------------------
 
@@ -162,7 +168,7 @@ Polymer('controller-number', {
 
     e.preventDefault();
     this._rect = this.$.track.getBoundingClientRect();
-    if (!this._alt) this.value = this.valueFromX(e.x);
+    if (!this._alt) { this.value = this.valueFromX(e.x); }
 
   },
 
@@ -185,7 +191,7 @@ Polymer('controller-number', {
 
       var dv = this.valueFromDX(e.ddx);
 
-      if (this._alt) dv /= 10;
+      if (this._alt) { dv /= 10; }
 
       this.value += dv * this._dragFriction;
 
@@ -213,8 +219,6 @@ Polymer('controller-number', {
 
   },
 
-
-
   // Filters
   // -------------------------------
 
@@ -227,7 +231,6 @@ Polymer('controller-number', {
     }
 
   },
-
 
   // Helpers
   // -------------------------------

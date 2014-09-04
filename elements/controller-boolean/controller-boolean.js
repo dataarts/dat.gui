@@ -1,3 +1,6 @@
+/* globals Gui, Polymer */
+'use strict';
+
 Gui.register('controller-boolean', function(value) {
 
   return typeof value == 'boolean';
@@ -7,7 +10,6 @@ Gui.register('controller-boolean', function(value) {
 Polymer('controller-boolean', {
 
   ready: function() {
-
 
   },
 

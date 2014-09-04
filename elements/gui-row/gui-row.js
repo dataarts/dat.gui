@@ -1,3 +1,6 @@
+/* globals Polymer */
+'use strict';
+
 Polymer('gui-row', {
 
   comment: null,

@@ -1,3 +1,6 @@
+/* globals Gui, Polymer */
+'use strict';
+
 Gui.register('controller-string', function(value) {
 
   return typeof value == 'string';

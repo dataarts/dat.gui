@@ -1,3 +1,6 @@
+/* globals Polymer, window, document, Path, Gui */
+'use strict';
+
 // [ ] scrolling when docked
 // [ ] scrolling when window short and not docked
 
@@ -6,7 +9,7 @@ Polymer('gui-panel', {
   docked: false,
   open: true,
   touch: ('ontouchstart' in window) ||
-         (!!window.DocumentTouch && document instanceof DocumentTouch),
+         (!!window.DocumentTouch && document instanceof window.DocumentTouch),
 
   ready: function() {
 
@@ -17,14 +20,15 @@ Polymer('gui-panel', {
   },
 
   anon: function() {
+    var name;
 
     if (arguments.length == 1) {
-      var name = arguments[0];
+      name = arguments[0];
       return this.anon.values[name];
     }
 
     var initialValue = arguments[0];
-    var name = arguments[1];
+    name = arguments[1];
 
     var args = [this.anon.values, name];
     args = args.concat(Array.prototype.slice.call(arguments, 2));
@@ -41,7 +45,7 @@ Polymer('gui-panel', {
 
     var value = Path.get(path).getValueFrom(object);
 
-    if (value == null || value == undefined) {
+    if (value === null || value === undefined) {
       return Gui.error(object +
                        ' doesn\'t have a value for path "' + path + '".');
     }
@@ -79,7 +83,6 @@ Polymer('gui-panel', {
 
   },
 
-
   // Observers
   // -------------------------------
 
@@ -101,7 +104,6 @@ Polymer('gui-panel', {
 
     }
 
-
   },
 
   dockedChanged: function() {
@@ -109,7 +111,6 @@ Polymer('gui-panel', {
     this.openChanged();
 
   },
-
 
   // Events
   // -------------------------------
@@ -127,7 +128,6 @@ Polymer('gui-panel', {
   //   }
 
   // },
-
 
   // Legacy
   // -------------------------------

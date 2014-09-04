@@ -5,7 +5,7 @@
 	"camelcase": true,
 	"curly": true,
 	"immed": true,
-	"newcap": true,
+	"newcap": false,
 	"noarg": true,
 	"undef": true,
 	"unused": "vars",

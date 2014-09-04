@@ -1,3 +1,6 @@
+/* globals Gui, Polymer, PathObserver */
+'use strict';
+
 /*
 
 [ ] onChange()
@@ -17,7 +20,6 @@ Polymer('controller-base', {
 
   init: function() {},
 
-
   // Observers
   // -------------------------------
 
@@ -36,14 +38,12 @@ Polymer('controller-base', {
 
   },
 
-
   // Helpers
   // -------------------------------
 
   map: function(x, a, b, c, d) {
     return (x - a) / (b - a) * (d - c) + c;
   },
-
 
   // Legacy
   // -------------------------------
@@ -67,6 +67,5 @@ Polymer('controller-base', {
     this.value = v;
 
   }
-
 
 });

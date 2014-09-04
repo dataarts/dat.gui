@@ -1,4 +1,7 @@
+/* globals document */
+
 (function(scope) {
+  'use strict';
 
   var Gui = function(params) {
 
@@ -20,7 +23,6 @@
 
   };
 
-
   // Register custom controllers
   // -------------------------------
 
@@ -31,7 +33,6 @@
     controllers[elementName] = test;
 
   };
-
 
   // Returns a controller based on a value
   // -------------------------------
@@ -52,7 +53,6 @@
 
   };
 
-
   // Gui ready handler ... * shakes fist at polymer *
   // -------------------------------
 
@@ -72,10 +72,13 @@
 
   Gui.ready = function(fnc) {
 
-    ready ? fnc() : readyHandlers.push(fnc);
+    if (ready) {
+      fnc();
+    } else {
+      readyHandlers.push(fnc);
+    }
 
   };
-
 
   // Error
   // -------------------------------
@@ -91,7 +94,6 @@
     args.unshift('dat-gui ::');
     console.warn.apply(console, args);
   };
-
 
   // Old namespaces
   // -------------------------------
@@ -129,13 +131,10 @@
 
   }
 
-
   // Export
   // -------------------------------
 
   scope.dat = dat;
   scope.Gui = Gui;
 
-
 })(this);
-
