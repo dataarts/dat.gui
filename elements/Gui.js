@@ -1,5 +1,3 @@
-/* globals document */
-
 (function(scope) {
   'use strict';
 

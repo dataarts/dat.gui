@@ -1,4 +1,4 @@
-/* globals Polymer, window, document, Path, Gui */
+/* globals Polymer, Path, Gui */
 'use strict';
 
 // [ ] scrolling when docked

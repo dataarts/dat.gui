@@ -9,5 +9,6 @@
 	"noarg": true,
 	"undef": true,
 	"unused": "vars",
-	"strict": true
+	"strict": true,
+  "browser": true
 }

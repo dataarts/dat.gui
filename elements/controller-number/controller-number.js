@@ -1,4 +1,4 @@
-/* globals Gui, Polymer, window */
+/* globals Gui, Polymer */
 'use strict';
 
 /*
