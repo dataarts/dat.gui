@@ -164,11 +164,15 @@ Polymer( 'controller-number', {
         this._rect = this.$.track.getBoundingClientRect();
         if ( !this._alt ) this.value = this.valueFromX( e.x );
 
+        this.fire( 'sliderDown' );
+
     },
 
     up: function( e ) {
 
         // this.$.container.classList.add( 'transition' );
+
+        this.fire( 'sliderUp' );
 
     },
 

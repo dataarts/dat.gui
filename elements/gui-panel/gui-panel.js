@@ -35,7 +35,6 @@ Polymer('gui-panel', {
 
     add: function( object, path ) {
 
-
         // Make controller
 
         var value = Path.get( path ).getValueFrom( object );

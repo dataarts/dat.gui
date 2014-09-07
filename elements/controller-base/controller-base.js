@@ -4,7 +4,6 @@
 [ ] onFinishChange( )
 
 */
-
 Polymer('controller-base', {
 
     ready: function() {
@@ -26,7 +25,7 @@ Polymer('controller-base', {
         this.object = object;
         this.path = path;
 
-        this.bind('value', new PathObserver(this.object, this.path));
+        this.bind( 'value', new PathObserver( this.object, this.path ) );
 
     },
 
@@ -45,6 +44,11 @@ Polymer('controller-base', {
         return ( x - a ) / ( b - a ) * ( d - c ) + c;
     },
 
+    on: function( event, listener ) {
+        this.addEventListener( event, listener );
+        return this;
+    },
+    
 
     // Legacy
     // ------------------------------- 

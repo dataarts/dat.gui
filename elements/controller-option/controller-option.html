@@ -2,7 +2,7 @@
 
 <script src="controller-option.js"></script>
 
-<polymer-element name="controller-option" extends="controller-base" attributes="options">
+<polymer-element name="controller-option" extends="controller-base" attributes="options key">
 
 <template>
 
@@ -10,10 +10,10 @@
 
 <div id="container" horizontal layout center>
     
-    <select value="{{ value }}">
+    <select value="{{ key }}" on-change="{{ change }}">
 
-        <template repeat="{{ name in options | getKeys }}">
-            <option value="{{ options[ name ] }}">{{ name }}</option>
+        <template repeat="{{ name in options | keys }}">
+            <option value="{{ name }}">{{ name }}</option>
         </template>
 
     </select>

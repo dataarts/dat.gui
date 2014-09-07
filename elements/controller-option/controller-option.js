@@ -1,5 +1,7 @@
 Polymer( 'controller-option', {
 
+    key: null,
+
     ready: function() {
       
         this.options = {};
@@ -24,7 +26,27 @@ Polymer( 'controller-option', {
 
     },
 
-    getKeys: function( object ) {
+    valueChanged: function() {
+        
+        for ( var i in this.options ) {
+            if ( this.options[ i ] === this.value ) {
+                this.key = i;
+                break;
+            }
+        }
+
+
+        this.super();
+        
+    },
+
+    keyChanged: function() {
+
+        this.value = this.options[ this.key ];
+
+    },
+
+    keys: function( object ) {
 
         if ( object ) return Object.keys( object );
 
