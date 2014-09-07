@@ -19,6 +19,9 @@
     cursor default
     .comment-true &  
         cursor pointer
+    +touch()
+        font-size 11px
+        width 30%
     
 #nameInner 
     overflow hidden
@@ -40,10 +43,9 @@
     position absolute
     z-index 999
     pointer-events none
+    transform translate3d( 0, 20px, 0 )
     
     opacity 0
-    transform translate3d( 0, 20px, 0 )
-
     transition all 0.2s ease
 
 #comment.open-true  

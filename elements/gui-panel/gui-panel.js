@@ -9,32 +9,32 @@ Polymer('gui-panel', {
 
     ready: function() {
 
-        this.anon.values = {};
-
+        this.defined = {};
         // window.addEventListener( 'resize', this.checkHeight.bind( this ) );
 
     },
 
-    anon: function() {
+    define: function() {
 
         if ( arguments.length == 1 ) {
             var name = arguments[ 0 ];
-            return this.anon.values[ name ];
+            return this.defined[ name ];
         }
 
-        var initialValue = arguments[ 0 ];
-        var name = arguments[ 1 ];
+        var initialValue = arguments[ 1 ];
+        var name = arguments[ 0 ];
 
-        var args = [ this.anon.values, name ];
+        var args = [ this.defined, name ];
         args = args.concat( Array.prototype.slice.call( arguments, 2 ) );
 
-        this.anon.values[ name ] = initialValue;
+        this.defined[ name ] = initialValue;
 
         return this.add.apply( this, args );
 
     },
 
     add: function( object, path ) {
+
 
         // Make controller
 
@@ -45,8 +45,13 @@ Polymer('gui-panel', {
         }
 
         var args = Array.prototype.slice.call( arguments, 2 );
+        var controllers;
 
-        var controller = Gui.getController( value, args );
+        if ( args[ 0 ] instanceof Array || typeof args[ 0 ] == 'object' ) {
+            controller = document.createElement( 'controller-option' );
+        } else { 
+            controller = Gui.getController( value );
+        }
         
         if ( !controller ) {
             return Gui.error( 'Unrecognized type:', value );
@@ -87,7 +92,7 @@ Polymer('gui-panel', {
             
             // let the style sheet take care of things
 
-            this.$.container.style.transform = '';
+            this.$.panel.style.transform = '';
 
         } else { 
 
@@ -95,7 +100,7 @@ Polymer('gui-panel', {
             // wish i could pipe javascript variables into styl.
 
             var y = -this.$.controllers.offsetHeight + 'px';
-            this.$.container.style.transform = 'translate3d(0, ' + y + ', 0)';
+            this.$.panel.style.transform = 'translate3d(0, ' + y + ', 0)';
 
         }
 
@@ -112,7 +117,7 @@ Polymer('gui-panel', {
     // Events
     // ------------------------------- 
     
-    tapClose: function() {
+    toggleOpen: function() {
         this.open = !this.open;
     },
     

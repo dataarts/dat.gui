@@ -33,6 +33,7 @@ Polymer('controller-base', {
     valueChanged: function() {
         
         this.update();
+        this.fire( 'change', this.value );
 
     },
 
@@ -64,8 +65,18 @@ Polymer('controller-base', {
     setValue: function( v ) {
 
         this.value = v;
+        return this;
 
-    }
+    },
+
+    onChange: function( v ) {
+
+        this.addEventListener( 'change', function( e ) {
+            v( e.detail );
+        } );
+        return this;
+
+    },
         
 
 });

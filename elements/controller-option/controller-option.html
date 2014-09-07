@@ -1,0 +1,25 @@
+<link rel="import" href="../controller-base/controller-base.html">
+
+<script src="controller-option.js"></script>
+
+<polymer-element name="controller-option" extends="controller-base" attributes="options">
+
+<template>
+
+<link rel="stylesheet" href="controller-option.css">
+
+<div id="container" horizontal layout center>
+    
+    <select value="{{ value }}">
+
+        <template repeat="{{ name in options | getKeys }}">
+            <option value="{{ options[ name ] }}">{{ name }}</option>
+        </template>
+
+    </select>
+
+</div>
+
+</template>
+
+</polymer-element>

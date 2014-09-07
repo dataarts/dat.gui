@@ -1,84 +1,83 @@
 @import '../shared/shared'
 
-
 // redefine touch because we are the host ... 
 
 touch( val = true )
-    { '.touch-' + val } &
+     { '.touch-' + val } &
         { block }
 
+dur = 0.4s
 
-#container  
-
+#panel  
+    transition transform dur cubic-bezier( 0, 0.8, 0, 1 )
     background color-panel
-    transition transform 0.4s cubic-bezier( 0, 0.8, 0, 1 )
 
-    &.autoplace-true  
-        
+    .autoplace-true &
         width panel-width
-        
-        &.touch-true
-            width panel-width-touch
-        
         position fixed
         top 0
 
-        &.docked-false 
-            right 20px
-    
-        &.docked-true 
-            right 0
-            bottom 0
-            
-            #controllers  
-                position absolute
-                width 100%
-                bottom 0
-                top 0
-                overflow auto
-            
-            &.open-false  
-                transform translate3d( panel-width, 0, 0 )
+    .autoplace-true.touch-true &
+        width panel-width-touch
 
-                &.touch-true
-                    transform translate3d( panel-width-touch, 0, 0 )
+    .docked-false &
+        right 20px
+
+    .docked-true &
+        right 0
+        bottom 0
+        overflow auto
+        -webkit-overflow-scrolling touch
+
+    .docked-true.open-false &
+        transform translate3d( panel-width, 0, 0 )
+        overflow visible
+
+    .docked-true.open-false.touch-true &
+        transform translate3d( panel-width-touch, 0, 0 )
 
 
-#closeButton  
+#controllers  
     
     panel-font()
-    
+    .docked-true &
+        position absolute
+        width 100%
+        
+        top row-height * 1.5
+        
+
+#closeButton  
+    panel-font()
     user-select none
     cursor pointer
     text-align center
     padding padding * 0.75 padding
-    background black
 
-    +hover()
-        background color-panel
-    
 
-#closeButtonDocked  
-    
+gui-button
+    panel-font()
+    background color-panel
+    height row-height
     position absolute
-    right 100%
-    
-    cursor pointer
+    transition all dur cubic-bezier( 0, 0.8, 0, 1 )
 
-    top 0
-    color black
+    // .open-false &
+    //     transition-delay stagger * 0.5
+    .docked-true & 
+        top 0
+        right 0
+        width row-height*1.5
+        height row-height*1.5
+        box-sizing border-box
 
-    width 60px
-    height 60px
+    .docked-true.open-false &
+        transform translate3d( - panel-width, 0, 0 )
 
-    padding 10px
-    box-sizing border-box
+    .docked-true.open-false.touch-true &
+        transform translate3d( - panel-width-touch, 0, 0 )
 
-#closeButtonDockedInner 
 
-    border-radius 3px
-    background #fff
-
-    width 100%
-    height 100%
-
+    .docked-false & 
+        right 0
+        left 0
