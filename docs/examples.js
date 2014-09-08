@@ -1,20 +1,20 @@
 var examples = {};
 
 examples[ 'default' ] = function() {
- 
+
     var gui = new Gui();
-    gui.anon( 'hi', 'todo' );
+    //gui.anon( 'hi', 'todo' );
     return gui;
 
 }
 
 // "basic-usage", "limiting-input", "color-controllers", "events", "folders-comments", "saving-values", "presets", "save-to-disk", "custom-placement", "defining-custom-controllers", "publishing-custom-controllers"
 examples[ 'basic-usage' ] = function() {
-    
+
     var gui = new Gui();
 
     var object = {
-        numberProperty: 0, 
+        numberProperty: 0,
         stringProperty: 'hey',
         booleanProperty: false,
         functionProperty: function() {

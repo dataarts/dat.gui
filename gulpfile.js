@@ -12,7 +12,7 @@ gulp.task( 'default', ['docs', 'build'] )
 gulp.task( 'watch', ['default'], function() {
 
     karma.server.start( {
-        frameworks: ['jasmine'],
+        frameworks: [ 'jasmine' ],
         files: [
             'build/gui.js',
             'tests/*.js'
@@ -93,7 +93,7 @@ gulp.task( 'docs', function() {
 gulp.task( 'clean', function() {
 
     return gulp.src( ['build/*', '**/*.css'] )
-    .pipe( $.clean() );
+    .pipe( $.rimraf() );
 
 } );
 
