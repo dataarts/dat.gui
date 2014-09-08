@@ -1,6 +1,7 @@
 BUILD
 
 - [x] single import
+- [ ] browsersync
 
 PARITY
 
@@ -29,7 +30,7 @@ STYLE
 
 STRUCTURE
 
-- [ ] can gui-row be baked into base-controller somehow? 
+- [ ] can gui-row be baked into base-controller somehow?
 
 
 NICE TO HAVES

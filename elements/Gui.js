@@ -1,6 +1,6 @@
 ( function( scope ) {
 
-    /* globals Path */    
+    /* globals Path */
     'use strict';
 
     var Gui = function( params ) {
@@ -29,7 +29,7 @@
 
 
     // Instance methods
-    // ------------------------------- 
+    // -------------------------------
 
     Gui.prototype.add = function( object, path ) {
 
@@ -46,7 +46,7 @@
 
         if ( args[ 0 ] instanceof Array || typeof args[ 0 ] == 'object' ) {
             controller = document.createElement( 'controller-option' );
-        } else { 
+        } else {
             controller = Gui.getController( value );
         }
 
@@ -83,7 +83,7 @@
 
 
     };
-    
+
     Gui.prototype.define = function() {
 
         var name, initialValue, args;
@@ -165,7 +165,7 @@
 
         if ( ready ) {
             fnc();
-        } else { 
+        } else {
             readyHandlers.push( fnc );
         }
 
@@ -230,6 +230,6 @@
 
     scope.dat = dat;
     scope.Gui = Gui;
-    
+
 
 } )( this );
