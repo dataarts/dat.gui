@@ -26,6 +26,7 @@ NEW FEATURES
 DOCS
 
 - [ ] table of contents ( is going to be really long )
+- [ ] Auto generatated polymer docs
 
 STYLE
 
