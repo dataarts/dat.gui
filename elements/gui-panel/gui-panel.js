@@ -1,5 +1,5 @@
 /* globals Polymer, Path, Gui */
-'use strict';
+
 
 // [ ] scrolling when docked
 // [ ] scrolling when window short and not docked

@@ -1,5 +1,5 @@
 (function(scope) {
-  'use strict';
+  
 
   var Gui = function(params) {
 

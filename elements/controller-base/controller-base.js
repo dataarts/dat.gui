@@ -1,5 +1,5 @@
 /* globals Gui, Polymer, PathObserver */
-'use strict';
+
 
 /*
 

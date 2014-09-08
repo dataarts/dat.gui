@@ -1,5 +1,5 @@
 /* globals Gui, Polymer */
-'use strict';
+
 
 /*
 
