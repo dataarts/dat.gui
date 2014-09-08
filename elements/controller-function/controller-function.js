@@ -1,9 +1,12 @@
-Gui.register( 'controller-function', function( value ) {
-  
-    return typeof value == 'function';
+/* globals Gui, Polymer */
+'use strict';
 
-} );
+Gui.register('controller-function', function(value) {
 
-Polymer( 'controller-function', {
+  return typeof value == 'function';
 
-} );
+});
+
+Polymer('controller-function', {
+
+});

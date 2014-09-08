@@ -1,0 +1,20 @@
+{
+  "preset": "google",
+  "fileExtensions": [ ".js" ],
+
+  "requireParenthesesAroundIIFE": true,
+  "maximumLineLength": 120,
+  "validateLineBreaks": "LF",
+  "validateIndentation": 2,
+
+  "disallowKeywords": ["with"],
+  "disallowSpacesInsideObjectBrackets": null,
+  "disallowImplicitTypeConversion": ["string"],
+  "disallowMultipleVarDecl": null,
+
+  "safeContextKeyword": "_this",
+
+  "excludeFiles": [
+    "test/data/**"
+  ]
+}

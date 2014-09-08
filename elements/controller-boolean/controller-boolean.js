@@ -1,20 +1,22 @@
-Gui.register( 'controller-boolean', function( value ) {
-  
-    return typeof value == 'boolean';
+/* globals Gui, Polymer */
+'use strict';
 
-} );
+Gui.register('controller-boolean', function(value) {
 
-Polymer( 'controller-boolean', {
+  return typeof value == 'boolean';
 
-    ready: function() {
-        
+});
 
-    },
+Polymer('controller-boolean', {
 
-    toggle: function() {
+  ready: function() {
 
-        this.value = !this.value;
+  },
 
-    }
-    
+  toggle: function() {
+
+    this.value = !this.value;
+
+  }
+
 });

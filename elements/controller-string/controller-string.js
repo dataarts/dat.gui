@@ -1,23 +1,26 @@
-Gui.register( 'controller-string', function( value ) {
-  
-    return typeof value == 'string';
+/* globals Gui, Polymer */
+'use strict';
 
-} );
+Gui.register('controller-string', function(value) {
 
-Polymer( 'controller-string', {
+  return typeof value == 'string';
 
-    click: function( e ) {
+});
 
-        this.$.input.select();
+Polymer('controller-string', {
 
-    },
+  click: function(e) {
 
-    keydown: function( e ) {
+    this.$.input.select();
 
-        if ( e.keyCode == 13 ) {
-            this.$.input.blur();
-        }
+  },
 
+  keydown: function(e) {
+
+    if (e.keyCode == 13) {
+      this.$.input.blur();
     }
-    
+
+  }
+
 });
