@@ -1,3 +1,5 @@
+'use strict';
+
 Gui.ready( init );
 
 function init() {
@@ -106,7 +108,7 @@ function sticky( elements ) {
         resize();
         onScroll();
 
-    });
+    } );
 
     onScroll();
 
@@ -115,18 +117,21 @@ function sticky( elements ) {
 // Smooth scroll
 
 (function() {
-    
+
     var body = document.body, timer;
 
-window.addEventListener('scroll', function() {
-  clearTimeout(timer);
-  if(!body.classList.contains('disable-hover')) {
-    body.classList.add('disable-hover')
-  }
-  
-  timer = setTimeout(function(){
-    body.classList.remove('disable-hover')
-  }, 150);
-}, false);
+    window.addEventListener('scroll', function() {
+        
+        clearTimeout( timer );
+
+        if ( !body.classList.contains('disable-hover') ) {
+            body.classList.add('disable-hover')
+        }
+
+        timer = setTimeout(function() {
+            body.classList.remove('disable-hover')
+        }, 150);
+
+    }, false);
 
 })();

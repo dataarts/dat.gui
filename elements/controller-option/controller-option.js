@@ -1,3 +1,6 @@
+/* globals Polymer, Object, Array */
+'use strict';
+
 Polymer( 'controller-option', {
 
     key: null,
@@ -10,7 +13,7 @@ Polymer( 'controller-option', {
 
     init: function( options ) {
 
-        if ( Array.isArray( options ) ){
+        if ( Array.isArray( options ) ) {
 
             options.forEach( function( opt ) {
 
@@ -48,10 +51,13 @@ Polymer( 'controller-option', {
 
     keys: function( object ) {
 
-        if ( object ) return Object.keys( object );
+        if ( object ) {
+         
+            return Object.keys( object );
+            
+        }
 
     }
     
 
-});
-    
+} );

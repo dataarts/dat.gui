@@ -1,22 +1,22 @@
 {
-  "name": "dat.gui",
-  "version": "0.0.0",
-  "description": "Attempt at revamping dat.gui with Polymer.",
-  "keywords": [
-    "gui"
-  ],
-  "authors": [
-    "George Michael Brower"
-  ],
-  "license": "MIT",
-  "private": true,
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "tests",
-    "docs"
-  ],
-  "dependencies": {
-    "polymer": "Polymer/polymer#~0.3.5"
-  }
+    "name": "dat.gui",
+    "version": "0.0.0",
+    "description": "Attempt at revamping dat.gui with Polymer.",
+    "keywords": [
+        "gui"
+    ],
+    "authors": [
+       "George Michael Brower"
+    ],
+    "license": "MIT",
+    "private": true,
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "tests",
+        "docs"
+    ],
+    "dependencies": {
+        "polymer": "Polymer/polymer#~0.3.5"
+    }
 }

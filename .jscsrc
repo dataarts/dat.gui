@@ -1,20 +1,44 @@
 {
-  "preset": "google",
-  "fileExtensions": [ ".js" ],
 
-  "requireParenthesesAroundIIFE": true,
-  "maximumLineLength": 120,
-  "validateLineBreaks": "LF",
-  "validateIndentation": 2,
+    "fileExtensions": [".js", ".json"],
+    "excludeFiles": ["node_modules/**", "build/**"],
 
-  "disallowKeywords": ["with"],
-  "disallowSpacesInsideObjectBrackets": null,
-  "disallowImplicitTypeConversion": ["string"],
-  "disallowMultipleVarDecl": null,
+    "maximumLineLength": 120,
+    "validateLineBreaks": "LF",
+    "validateIndentation": 4,
 
-  "safeContextKeyword": "_this",
+    "requireSpaceAfterKeywords": [
+        "if",
+        "else",
+        "for",
+        "while",
+        "do",
+        "switch",
+        "return",
+        "try",
+        "catch"
+    ],
 
-  "excludeFiles": [
-    "test/data/**"
-  ]
+    "requireSpaceBeforeBlockStatements": true,
+    
+    "requireSpacesInConditionalExpression": {
+        "afterTest": true,
+        "beforeConsequent": true,
+        "afterConsequent": true,
+        "beforeAlternate": true
+    },
+
+    "requireSpacesInsideParentheses": "allButNested",
+    "requireSpacesInsideObjectBrackets": "allButNested",
+    "requireSpacesInsideArrayBrackets": "allButNested",
+
+    "requireParenthesesAroundIIFE": true,
+
+    "disallowSpacesInFunctionExpression": {
+        "beforeOpeningRoundBrace": true
+    },
+
+    "disallowKeywords": ["with"],
+    "disallowImplicitTypeConversion": ["string"]
+
 }
