@@ -38,7 +38,6 @@ Polymer( 'controller-option', {
             }
         }
 
-
         this.super();
         
     },

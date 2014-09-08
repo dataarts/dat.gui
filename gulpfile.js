@@ -30,7 +30,7 @@ gulp.task( 'build', ['vulcanize'], function() {
     return gulp.src( 'build/gui.html' )
     .pipe( $.replace( /\\/g, '\\\\' ) )
     .pipe( $.replace( /'/g, '\\\'' ) )
-    .pipe( $.replace( /^( .* )$/gm, '\'$1\',' ) )
+    .pipe( $.replace( /^(.*)$/gm, '\'$1\',' ) )
     .pipe( $.insert.wrap( 'document.write( [', '].join( "\\n" ) )' ) )
     .pipe( $.rename( 'gui.js' ) )
     .pipe( gulp.dest( 'build' ) );
