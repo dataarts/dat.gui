@@ -7,6 +7,7 @@ REFACTOR
 
 - [ ] controller-* => gui-*
 - [ ] gui.define* => gui.var*
+- [ ] Gui.js => gui-panel => dat-gui
 
 PARITY
 
