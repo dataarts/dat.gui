@@ -47,8 +47,7 @@ Polymer( 'gui-panel', {
         var value = Path.get( path ).getValueFrom( object );
 
         if ( value === null || value === undefined ) {
-            return Gui.error( object +
-            ' doesn\'t have a value for path "' + path + '".' );
+            return Gui.error( object + ' doesn\'t have a value for path "' + path + '".' );
         }
 
         var args = Array.prototype.slice.call( arguments, 2 );
@@ -135,8 +134,7 @@ Polymer( 'gui-panel', {
 
     listenAll: function() {
 
-        Gui.warn( 'controller.listenAll() is deprecated. ' +
-                  'All controllers are listened for free.' );
+        Gui.warn( 'controller.listenAll() is deprecated. All controllers are listened for free.' );
 
     }
 

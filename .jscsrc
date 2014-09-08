@@ -28,9 +28,9 @@
         "beforeAlternate": true
     },
 
-    "requireSpacesInsideParentheses": "allButNested",
-    "requireSpacesInsideObjectBrackets": "allButNested",
-    "requireSpacesInsideArrayBrackets": "allButNested",
+    "requireSpacesInsideParentheses": "all",
+    "requireSpacesInsideObjectBrackets": "all",
+    "requireSpacesInsideArrayBrackets": "all",
 
     "requireParenthesesAroundIIFE": true,
 

@@ -203,7 +203,7 @@ Polymer( 'controller-number', {
 
     tracky: function( e ) {
 
-        this._dragFriction = Math.max( 0.01, Math.min( 1, this.map( e.dy, 50, 300, 1, 0.1 )) );
+        this._dragFriction = Math.max( 0.01, Math.min( 1, this.map( e.dy, 50, 300, 1, 0.1 ) ) );
 
     },
 
@@ -240,7 +240,7 @@ Polymer( 'controller-number', {
         var str = v.toString();
         var numDecimals = str.substring( str.indexOf( '.' ) + 1 ).length;
 
-        str = v.toFixed( Math.min( numDecimals, this.decimals ));
+        str = v.toFixed( Math.min( numDecimals, this.decimals ) );
 
         for ( var z, i = 0, l = str.length; i < l; i++ ) {
             if ( str.charAt( i ) !== '0' ) {

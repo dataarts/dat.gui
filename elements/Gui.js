@@ -74,7 +74,11 @@
 
     Gui.ready = function( fnc ) {
 
-        ready ? fnc() : readyHandlers.push( fnc );
+        if ( ready ) {
+            fnc();
+        } else { 
+            readyHandlers.push( fnc );
+        }
 
     };
 

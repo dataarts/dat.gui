@@ -1,66 +1,73 @@
-var gulp = require( 'gulp' ),
-    $ = require( 'gulp-load-plugins' )(),
-    nib = require( 'nib' ),
-    fs = require( 'fs' ),
-    marked = require( 'marked' ),
-    karma = require( 'karma' ),
+'use strict';
+
+var gulp        = require( 'gulp' ),
+    nib         = require( 'nib' ),
+    fs          = require( 'fs' ),
+    marked      = require( 'marked' ),
+    karma       = require( 'karma' ),
     browserSync = require( 'browser-sync' ),
-    reload = browserSync.reload;
+    reload      = browserSync.reload,
+    $           = require( 'gulp-load-plugins' )();
 
-gulp.task( 'default', ['docs', 'build'] )
 
-gulp.task( 'watch', ['default'], function() {
+var paths = {
+    build:  [ 'elements/**/*.styl', 'elements/**/*.html', 'elements/**/*.js' , 'gui.html' ],
+    lint:   [ 'gulpfile.js', 'elements/**/*.js' ],
+    test:   [ 'build/gui.js', 'tests/*.js' ],
+    clean:  [ 'build/*', '**/*.css' ],
+    docs:   [ 'README.md', 'docs/*' ]
+};
+
+gulp.task( 'default', [ 'docs', 'lint', 'build' ] );
+
+gulp.task( 'watch', [ 'default' ], function() {
 
     karma.server.start( {
         frameworks: [ 'jasmine' ],
-        files: [
-            'build/gui.js',
-            'tests/*.js'
-        ]
+        files: paths.test
     } );
 
-    gulp.watch( ['elements/**/*.styl', 'elements/**/*.html', 'elements/**/*.js', 'gui.html'], ['build'] );
-
-    gulp.watch( ['README.md', 'docs/*'], ['docs'] );
+    gulp.watch( paths.docs, [ 'docs' ] );
+    gulp.watch( paths.lint, [ 'lint' ] );
+    gulp.watch( paths.build, [ 'build' ] );
 
 } );
 
-gulp.task( 'build', ['vulcanize'], function() {
+gulp.task( 'build', [ 'vulcanize' ], function() {
 
     return gulp.src( 'build/gui.html' )
-    .pipe( $.replace( /\\/g, '\\\\' ) )
-    .pipe( $.replace( /'/g, '\\\'' ) )
-    .pipe( $.replace( /^(.*)$/gm, '\'$1\',' ) )
-    .pipe( $.insert.wrap( 'document.write( [', '].join( "\\n" ) )' ) )
-    .pipe( $.rename( 'gui.js' ) )
-    .pipe( gulp.dest( 'build' ) );
+               .pipe( $.replace( /\\/g, '\\\\' ) )
+               .pipe( $.replace( /'/g, '\\\'' ) )
+               .pipe( $.replace( /^(.*)$/gm, '\'$1\',' ) )
+               .pipe( $.insert.wrap( 'document.write([', '].join("\\n"))' ) )
+               .pipe( $.rename( 'gui.js' ) )
+               .pipe( gulp.dest( 'build' ) );
 
 } );
 
-gulp.task( 'vulcanize', ['css'], function() {
+gulp.task( 'vulcanize', [ 'css' ], function() {
 
     return gulp.src( 'gui.html' )
     .pipe( $.vulcanize( {
-       dest: 'build',
-       inline: true,
-       strip: true
-
+        dest: 'build',
+        inline: true,
+        strip: true
     } ) );
 
 } );
 
-gulp.task( 'lint', ['jscs', 'jshint'] );
+gulp.task( 'lint', [ 'jscs', 'jshint' ] );
 
 gulp.task( 'jscs', function() {
 
-    return gulp.src( 'elements/**/*.js', '*.json', '*.js' )
-    .pipe( $.jscs() );
+    return gulp.src( paths.lint )
+               .pipe( $.jscs() );
 
 } );
 
 gulp.task( 'jshint', function() {
 
-    return gulp.src( 'elements/**/*.js', '*.json', '*.js' )
+    return gulp.src( paths.lint )
     .pipe( reload( { stream: true, once: true } ) )
     .pipe( $.jshint( '.jshintrc' ) )
     .pipe( $.jshint.reporter( 'jshint-stylish' ) )
@@ -92,7 +99,7 @@ gulp.task( 'docs', function() {
 
 gulp.task( 'clean', function() {
 
-    return gulp.src( ['build/*', '**/*.css'] )
+    return gulp.src( paths.clean )
     .pipe( $.rimraf() );
 
 } );
@@ -100,7 +107,7 @@ gulp.task( 'clean', function() {
 function css( src, dest ) {
 
     return gulp.src( src )
-    .pipe( $.stylus( { use: [nib()] } ) )
+    .pipe( $.stylus( { use: [ nib() ] } ) )
     .pipe( gulp.dest( dest ) );
 
 }

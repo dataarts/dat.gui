@@ -24,80 +24,80 @@ spacing = ( ( ( size - ph*2 ) - stroke * 3 ) / 2 )
 xlen = 11px 
  
 #container
-  // font-size 0
-  // border: 1px solid blue
-  height: 100%
-  cursor: pointer
-  
+    // font-size 0
+    // border: 1px solid blue
+    height: 100%
+    cursor: pointer
+    
 #button
-  width size
-  height size
-  box-sizing border-box
-  border-radius border-radius 
-  padding ph pw
-  position relative
-  background bg
-  margin 0 auto
+    width size
+    height size
+    box-sizing border-box
+    border-radius border-radius 
+    padding ph pw
+    position relative
+    background bg
+    margin 0 auto
 
-  &.open-true 
+    &.open-true 
 
-    .one
-      transform  translate3d(4px, 0, 0) rotate(45deg) translate3d(3.5px, 0, 0) 
-      width xlen
+        .one
+            transform translate3d(4px, 0, 0) rotate(45deg) translate3d(3.5px, 0, 0) 
+            width xlen
 
-    .three
-      transform translate3d(4px, 0, 0) rotate(-45deg) translate3d(3.5px, 0, 0) 
-      width xlen
+        .three
+            transform translate3d(4px, 0, 0) rotate(-45deg) translate3d(3.5px, 0, 0) 
+            width xlen
 
-    .two
-      width 0
+        .two
+            width 0
 
-    .slider
-        &:before
-          width 0
-          height 0
+        .slider
+                &:before
+                    width 0
+                    height 0
 
 .slider
-  width size - pw * 2
-  border-radius stroke * 2
-  height stroke
-  background fg
-  position absolute
-  transform-origin stroke * 0.5 stroke * 0.5
-  transition all dur delay ease
-
-  &:before
-    width knob
-    height knob
-    margin-top -( ( knob - stroke ) / 2 )
-    margin-left -( ( knob ) / 2 ) 
-    border-radius knob
+    width size - pw * 2
+    border-radius stroke * 2
+    height stroke
     background fg
-    display inline-block  
-    content ' '
     position absolute
-    left l
-    transition left knob-dur cubic-bezier(0, 0.5, 0, 1), width 0.001s delay, height 0.001s delay
-    
-    // #container:hover &
-    //     left r
+    transform-origin stroke * 0.5 stroke * 0.5
+    transition all dur delay ease
 
-  &.two
-    margin-top spacing + stroke
-    
     &:before
-      left r
-      transition-delay: stagger, delay, delay
-    
-      // #container:hover &
-      //   left l
+        width knob
+        height knob
+        margin-top -( ( knob - stroke ) / 2 )
+        margin-left -( ( knob ) / 2 ) 
+        border-radius knob
+        background fg
+        display inline-block    
+        content ' '
+        position absolute
+        left l
+        transition left knob-dur cubic-bezier(0, 0.5, 0, 1), width 0.001s delay, height 0.001s delay
+        
+        // #container:hover &
+        //         left r
 
-  &.three
-    margin-top spacing * 2 + stroke * 2
-    
-    &:before
-      left l
-      transition-delay: stagger * 2, delay, delay
-    
-      // #container:hover &
-      //   left r
+    &.two
+        margin-top spacing + stroke
+        
+        &:before
+            left r
+            transition-delay: stagger, delay, delay
+        
+            // #container:hover &
+            //     left l
+
+    &.three
+        margin-top spacing * 2 + stroke * 2
+        
+        &:before
+            left l
+            transition-delay: stagger * 2, delay, delay
+        
+            // #container:hover &
+            //     left r

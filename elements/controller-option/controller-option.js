@@ -1,5 +1,5 @@
 /* globals Polymer, Object, Array */
-'use strict';
+
 
 Polymer( 'controller-option', {
 

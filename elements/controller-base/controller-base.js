@@ -24,14 +24,14 @@ Polymer( 'controller-base', {
         this.object = object;
         this.path = path;
 
-        this.bind( 'value', new PathObserver( this.object, this.path ));
+        this.bind( 'value', new PathObserver( this.object, this.path ) );
 
     },
 
     valueChanged: function() {
 
-        this.update();
         this.fire( 'change', this.value );
+        this.update();
 
     },
 
