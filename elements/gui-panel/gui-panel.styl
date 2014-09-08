@@ -1,7 +1,6 @@
 @import '../shared/shared'
 
 // redefine touch because we are the host ... 
-
 touch( val = true )
      { '.touch-' + val } &
         { block }
@@ -70,6 +69,8 @@ gui-button
         width row-height*1.5
         height row-height*1.5
         box-sizing border-box
+        background color-panel
+
 
     .docked-true.open-false &
         transform translate3d( - panel-width, 0, 0 )

@@ -1,5 +1,6 @@
 ( function( scope ) {
-    
+
+    /* globals Path */    
     'use strict';
 
     var Gui = function( params ) {
@@ -10,15 +11,103 @@
 
         params = params || {};
 
-        var panel = document.createElement( 'gui-panel' );
+        // Properties
 
-        panel.autoPlace = params.autoPlace !== false;
+        this.defined = {};
+        this.localStorage = params.localStorage || false;
 
-        if ( panel.autoPlace ) {
-            document.body.appendChild( panel );
+        // Make domElement
+
+        this.panel = document.createElement( 'gui-panel' );
+        this.panel.autoPlace = params.autoPlace !== false;
+
+        if ( this.panel.autoPlace ) {
+            document.body.appendChild( this.panel );
         }
 
-        return panel;
+    };
+
+
+    // Instance methods
+    // ------------------------------- 
+
+    Gui.prototype.add = function( object, path ) {
+
+        // Make controller
+
+        var value = Path.get( path ).getValueFrom( object );
+
+        if ( value === null || value === undefined ) {
+            return Gui.error( object + ' doesn\'t have a value for path "' + path + '".' );
+        }
+
+        var args = Array.prototype.slice.call( arguments, 2 );
+        var controller;
+
+        if ( args[ 0 ] instanceof Array || typeof args[ 0 ] == 'object' ) {
+            controller = document.createElement( 'controller-option' );
+        } else { 
+            controller = Gui.getController( value );
+        }
+
+        if ( !controller ) {
+            return Gui.error( 'Unrecognized type:', value );
+        }
+
+        controller.watch( object, path );
+        controller.init.apply( controller, args );
+
+        // Make row
+
+        var row = document.createElement( 'gui-row' );
+        row.name = path;
+
+        controller.row = row;
+
+        controller.name = function( name ) {
+            row.name = name;
+        };
+
+        controller.comment = function( comment ) {
+            row.comment = comment;
+        };
+
+        row.appendChild( controller );
+        this.panel.appendChild( row );
+
+        return controller;
+
+    };
+
+    Gui.prototype.remember = function( object ) {
+
+
+    };
+    
+    Gui.prototype.define = function() {
+
+        var name, initialValue, args;
+
+        if ( arguments.length == 1 ) {
+            name = arguments[ 0 ];
+            return this.defined[ name ];
+        }
+
+        initialValue = arguments[ 1 ];
+        name = arguments[ 0 ];
+
+        args = [ this.defined, name ];
+        args = args.concat( Array.prototype.slice.call( arguments, 2 ) );
+
+        this.defined[ name ] = initialValue;
+
+        return this.add.apply( this, args );
+
+    };
+
+    Gui.prototype.listenAll = function() {
+
+        Gui.warn( 'controller.listenAll() is deprecated. All controllers are listened for free.' );
 
     };
 
@@ -83,7 +172,7 @@
     };
 
 
-    // Error
+    // Console
     // -------------------------------
 
     Gui.error = function() {

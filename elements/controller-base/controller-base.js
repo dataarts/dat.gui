@@ -54,8 +54,8 @@ Polymer( 'controller-base', {
 
     listen: function() {
 
-        Gui.warn( 'controller.listen() is deprecated. ' +
-           'All controllers are listened for free.' );
+        Gui.warn( 'controller.listen() is deprecated. All controllers are listened for free.' );
+        
         return this;
 
     },

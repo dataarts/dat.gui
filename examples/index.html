@@ -40,11 +40,11 @@
         
         gui = new Gui();
 
-        gui.docked = true;
+        gui.panel.docked = true;
 
-        gui.add( gui, 'docked' );
+        gui.add( gui, 'panel.docked' );
 
-        var r = gui.add( gui, 'open' );
+        var r = gui.add( gui, 'panel.open' );
         gui.add( r.row, 'name' );
 
         gui.add( object, 'boolean' );

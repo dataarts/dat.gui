@@ -1,12 +1,7 @@
 /* globals Gui, Polymer */
 
-
-/*
-
-[ ] arrow keys
-[ ] min() max() step() commands of yore
-
-*/
+// [ ] arrow keys
+// [ ] min() max() step() commands of yore
 
 Gui.register( 'controller-number', function( value ) {
 
