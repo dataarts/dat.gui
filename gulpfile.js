@@ -11,10 +11,11 @@ var paths = {
     lint:   [ 'gulpfile.js', 'elements/**/*.js' ],
     test:   [ 'build/gui.js', 'tests/*.js' ],
     clean:  [ 'build/*', '**/*.css' ],
-    docs:   [ 'README.md', 'docs/*' ]
+    docs:   [ 'README.md', 'docs/*' ],
+    shim:   [ 'elements/shim.js' ]
 };
 
-gulp.task( 'default', [ 'docs', 'lint', 'build' ] );
+gulp.task( 'default', [ 'docs', 'lint', 'shim', 'build' ] );
 
 gulp.task( 'watch', [ 'default' ], function() {
 
@@ -26,6 +27,7 @@ gulp.task( 'watch', [ 'default' ], function() {
     gulp.watch( paths.docs, [ 'docs' ] );
     gulp.watch( paths.lint, [ 'lint' ] );
     gulp.watch( paths.build, [ 'build' ] );
+    gulp.watch( paths.shim, [ 'shim' ] );
 
 } );
 
@@ -76,10 +78,18 @@ gulp.task( 'jshint', function() {
 
 } );
 
-
 gulp.task( 'css', function() {
 
     return css( 'elements/**/*.styl', 'elements' );
+
+} );
+
+gulp.task( 'shim', function() {
+    
+    return gulp.src( paths.shim )
+        .pipe( $.uglify() )
+        .pipe( $.rename( 'gui.shim.js' ) )
+        .pipe( gulp.dest( 'build' ) );
 
 } );
 

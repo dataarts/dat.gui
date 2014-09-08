@@ -3,6 +3,11 @@ BUILD
 - [x] single import
 - [ ] browsersync
 
+REFACTOR
+
+- [ ] controller-* => gui-*
+- [ ] gui.define* => gui.var*
+
 PARITY
 
 - [ ] folders
