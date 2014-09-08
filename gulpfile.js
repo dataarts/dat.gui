@@ -88,7 +88,7 @@ gulp.task('docs', function() {
 gulp.task('clean', function() {
 
   return gulp.src(['build/*', '**/*.css'])
-         .pipe($.clean());
+         .pipe($.rimraf());
 
 });
 
