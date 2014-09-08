@@ -2,6 +2,11 @@ BUILD
 
 - [x] single import
 
+REFACTOR
+
+- [ ] controller-* => gui-*
+- [ ] gui.define* => gui.var*
+
 PARITY
 
 - [ ] folders
