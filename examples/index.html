@@ -4,13 +4,13 @@
 
     <meta charset="utf-8">
     <title>dat-gui kitchen sink</title>
-    
-    
+
+
     <script src="../build/gui.js"></script>
     <!-- <link rel="import" href="../gui.html"> -->
 
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    
+
     <style type="text/css">
     body {
         background: #aaa;
@@ -24,7 +24,7 @@
 
     <script>
 
-    var object = { 
+    var object = {
         "boolean": false,
         "listen4Free": 332,
         "zeroTo1": 0,
@@ -35,9 +35,9 @@
         "optionController": 'a'
     };
 
-    // How do we kill polymer-ready ... 
+    // How do we kill polymer-ready ...
     Gui.ready( function() {
-        
+
         gui = new Gui();
 
         gui.panel.docked = true;
@@ -48,13 +48,13 @@
         gui.add( r.row, 'name' );
 
         gui.add( object, 'boolean' );
-        
+
         gui.add( object, 'listen4Free' );
         gui.add( object, 'listen4Free' );
         gui.add( object, 'listen4Free', 0, 1000 );
 
         gui.add( object, 'zeroTo1', 0, 1 );
-        
+
         gui.add( object, 'hasComment' ).comment( 'Hi there.' );
 
         gui.add( object, 'listen4Free' ).name( 'customName' )
@@ -65,7 +65,7 @@
 
         gui.add( object, 'maxIsNegative', -5, -2 );
 
-        gui.define( 'anonymousSlider', 0, -1, 1 ).comment( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam semper dui metus');
+        gui.var( 'anonymousSlider', 0, -1, 1 ).comment( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam semper dui metus');
 
         gui.add( object, 'optionController', { A: 'a', B: 'b', C: 'c'} );
         gui.add( object, 'optionController', [ 'a', 'b', 'c' ] )

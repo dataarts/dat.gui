@@ -32,7 +32,7 @@ describe( 'Gui', function() {
 
         expectController( 'controller-number', 1234 );
         expectController( 'controller-string', 'string value' );
-        expectController( 'controller-function', function(){} );
+        expectController( 'controller-function', function() {} );
         expectController( 'controller-boolean', true );
 
         expectController( 'controller-option', 'hey', [ 'hey', 'hi', 'ho' ] );
@@ -51,7 +51,7 @@ describe( 'Gui', function() {
 
 
     function expectController( controllerType, value ) {
-        
+
         var gui = new Gui();
 
         // test using gui.add
@@ -66,7 +66,7 @@ describe( 'Gui', function() {
 
         var controller = gui.add.apply( gui, args );
         expect( controller.nodeName.toLowerCase() ).toBe( controllerType );
-    
+
         // test using gui.anon
 
         var gui = new Gui();
@@ -75,7 +75,7 @@ describe( 'Gui', function() {
         args.unshift( value );
         args.unshift( 'name' );
 
-        controller = gui.define.apply( gui, args );
+        controller = gui.var.apply( gui, args );
         expect( controller.nodeName.toLowerCase() ).toBe( controllerType );
 
     }

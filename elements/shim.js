@@ -2,10 +2,10 @@
 ( function( scope ) {
 
     'use strict';
-    
+
     var Gui = function() {
 
-        this.defined = {};
+        this.vars = {};
 
     };
 
@@ -15,15 +15,15 @@
 
     };
 
-    Gui.prototype.define = function( name, value ) {
+    Gui.prototype.var = function( name, value ) {
 
-        this.defined[ name ] = value;
+        this.vars[ name ] = value;
         return controllerShim;
 
     };
 
     Gui.prototype.add = function( object, path ) {
-      
+
         return controllerShim;
 
     };

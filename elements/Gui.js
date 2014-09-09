@@ -13,7 +13,7 @@
 
         // Properties
 
-        this.defined = {};
+        this.vars = {};
         this.localStorage = params.localStorage || false;
 
         // Make domElement
@@ -84,22 +84,22 @@
 
     };
 
-    Gui.prototype.define = function() {
+    Gui.prototype.var = function() {
 
         var name, initialValue, args;
 
         if ( arguments.length == 1 ) {
             name = arguments[ 0 ];
-            return this.defined[ name ];
+            return this.vars[ name ];
         }
 
         initialValue = arguments[ 1 ];
         name = arguments[ 0 ];
 
-        args = [ this.defined, name ];
+        args = [ this.vars, name ];
         args = args.concat( Array.prototype.slice.call( arguments, 2 ) );
 
-        this.defined[ name ] = initialValue;
+        this.vars[ name ] = initialValue;
 
         return this.add.apply( this, args );
 

@@ -6,7 +6,7 @@ BUILD
 REFACTOR
 
 - [ ] controller-* => gui-*
-- [ ] gui.define* => gui.var*
+- [x] gui.define* => gui.var*
 - [ ] Gui.js => gui-panel => dat-gui
 
 PARITY
@@ -30,7 +30,6 @@ DOCS
 - [ ] Auto generatated polymer docs
 
 STYLE
-
 - [x] touch styles: bigger please!
 - [x] kill hover behavior if touch
 - [x] sharing more styles
