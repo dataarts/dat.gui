@@ -1,7 +1,6 @@
 ( function( scope ) {
 
     /* globals Path */
-    'use strict';
 
     var Gui = function( params ) {
 
@@ -18,7 +17,7 @@
 
         // Make domElement
 
-        this.panel = document.createElement( 'gui-panel' );
+        this.panel = document.createElement( 'dat-gui' );
         this.panel.autoPlace = params.autoPlace !== false;
 
         if ( this.panel.autoPlace ) {
@@ -45,7 +44,7 @@
         var controller;
 
         if ( args[ 0 ] instanceof Array || typeof args[ 0 ] == 'object' ) {
-            controller = document.createElement( 'controller-option' );
+            controller = document.createElement( 'dat-gui-option' );
         } else {
             controller = Gui.getController( value );
         }
@@ -204,12 +203,12 @@
     dat.dom.dom = function() {};
 
     dat.controllers = {};
-    dat.controllers.Controller          = constructor( 'controller-base' );
-    dat.controllers.NumberController    = constructor( 'controller-number' );
-    dat.controllers.FunctionController  = constructor( 'controller-function' );
-    dat.controllers.ColorController     = constructor( 'controller-color' );
-    dat.controllers.BooleanController   = constructor( 'controller-boolean' );
-    dat.controllers.OptionController    = constructor( 'controller-option' );
+    dat.controllers.Controller          = constructor( 'dat-gui-base' );
+    dat.controllers.NumberController    = constructor( 'dat-gui-number' );
+    dat.controllers.FunctionController  = constructor( 'dat-gui-function' );
+    dat.controllers.ColorController     = constructor( 'dat-gui-color' );
+    dat.controllers.BooleanController   = constructor( 'dat-gui-boolean' );
+    dat.controllers.OptionController    = constructor( 'dat-gui-option' );
 
     dat.controllers.NumberControllerBox = dat.controllers.NumberController;
     dat.controllers.NumberControllerSlider = dat.controllers.NumberController;

@@ -136,11 +136,11 @@ customContainer.appendChild(gui.domElement);
 <p>Since dat-gui is built using <a href="todo">Web Components</a>, you can also use HTML syntax to add controllers to the page.</p>
 <pre><code class="lang-html">&lt;body&gt;
 
-&lt;controller-number min=&quot;-2&quot; max=&quot;2&quot; step=&quot;1&quot; value=&quot;0&quot;&gt;&lt;/controller-number&gt;
+&lt;dat-gui-number min=&quot;-2&quot; max=&quot;2&quot; step=&quot;1&quot; value=&quot;0&quot;&gt;&lt;/dat-gui-number&gt;
 
 &lt;script&gt;
 
-var controller = document.querySelector( &#39;controller-number&#39; );
+var controller = document.querySelector( &#39;dat-gui-number&#39; );
 controller.onChange( function() {
 
     // react to UI changes ...
@@ -154,23 +154,23 @@ controller.onChange( function() {
 <h3 id="defining-custom-controllers">Defining Custom Controllers</h3>
 <p>dat-gui uses <a href="todo">Polymer</a> under the hood to define custom elements. A dat-gui controller is just a <a href="todo">Polymer element</a> with two important requirements:</p>
 <ul>
-<li>Controllers must extend <code>&lt;controller-base&gt;</code>.</li>
+<li>Controllers must extend <code>&lt;dat-gui-base&gt;</code>.</li>
 <li>Controllers must be associated with a data type.</li>
 </ul>
-<p>Take for example this (simplified) source for dat-gui&#39;s <code>&lt;controller-number&gt;</code>:</p>
-<pre><code class="lang-javascript">Polymer( &#39;controller-number&#39;, {
+<p>Take for example this (simplified) source for dat-gui&#39;s <code>&lt;dat-gui-number&gt;</code>:</p>
+<pre><code class="lang-javascript">Polymer( &#39;dat-gui-number&#39;, {
 
   // Define element ...
 
 } );
 
-Gui.register( &#39;controller-number&#39;, function( value ) {
+Gui.register( &#39;dat-gui-number&#39;, function( value ) {
 
     return typeof value == &#39;number&#39;;
 
 } );
 </code></pre>
-<p><code>Gui.register</code> takes an element name and a test function. The test function tells dat-gui to add a <code>&lt;controller-number&gt;</code> to the panel when the user adds a variable whose type is <code>&#39;number&#39;</code>.</p>
+<p><code>Gui.register</code> takes an element name and a test function. The test function tells dat-gui to add a <code>&lt;dat-gui-number&gt;</code> to the panel when the user adds a variable whose type is <code>&#39;number&#39;</code>.</p>
 <p>A test function determines if a controller is appropriate for a given value. This example registers <code>&lt;vector-controller&gt;</code> for values that have properties <code>x</code>, <code>y</code> and <code>z</code>.</p>
 <pre><code class="lang-javascript">Gui.register( &#39;vector-controller&#39;, function( value ) {
 

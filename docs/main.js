@@ -1,5 +1,3 @@
-'use strict';
-
 Gui.ready( init );
 
 function init() {

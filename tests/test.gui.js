@@ -30,13 +30,25 @@ describe( 'Gui', function() {
 
     it( 'picks the right controller for the job', function() {
 
+<<<<<<< HEAD
         expectController( 'controller-number', 1234 );
         expectController( 'controller-string', 'string value' );
         expectController( 'controller-function', function() {} );
         expectController( 'controller-boolean', true );
+||||||| merged common ancestors
+        expectController( 'controller-number', 1234 );
+        expectController( 'controller-string', 'string value' );
+        expectController( 'controller-function', function(){} );
+        expectController( 'controller-boolean', true );
+=======
+        expectController( 'dat-gui-number', 1234 );
+        expectController( 'dat-gui-string', 'string value' );
+        expectController( 'dat-gui-function', function(){} );
+        expectController( 'dat-gui-boolean', true );
+>>>>>>> 8d86460ebde6d3dda4dec6e7783f0223fca59d00
 
-        expectController( 'controller-option', 'hey', [ 'hey', 'hi', 'ho' ] );
-        expectController( 'controller-option', 'a', { a: 'a', b: 'b', c: 'c' } );
+        expectController( 'dat-gui-option', 'hey', [ 'hey', 'hi', 'ho' ] );
+        expectController( 'dat-gui-option', 'a', { a: 'a', b: 'b', c: 'c' } );
 
         // expectController( 'controller-color', '#00ff00' );
         // expectController( 'controller-color', '#aba' );
