@@ -5,7 +5,6 @@ BUILD
 
 REFACTOR
 
-- [ ] controller-* => gui-*
 - [x] gui.define* => gui.var*
 - [ ] Gui.js => gui-panel => dat-gui
 - [x] controller-* => dat-gui-*
