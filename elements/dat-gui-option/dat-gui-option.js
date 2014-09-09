@@ -1,7 +1,7 @@
 /* globals Polymer, Object, Array */
 
 
-Polymer( 'controller-option', {
+Polymer( 'dat-gui-option', {
 
     key: null,
 

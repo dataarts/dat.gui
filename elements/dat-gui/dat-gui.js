@@ -3,7 +3,7 @@
 // [ ] scrolling when docked
 // [ ] scrolling when window short and not docked
 
-Polymer( 'gui-panel', {
+Polymer( 'dat-gui', {
 
     docked: false,
     open: true,

@@ -3,13 +3,13 @@
 // [ ] arrow keys
 // [ ] min() max() step() commands of yore
 
-Gui.register( 'controller-number', function( value ) {
+Gui.register( 'dat-gui-number', function( value ) {
 
     return typeof value == 'number';
 
 } );
 
-Polymer( 'controller-number', {
+Polymer( 'dat-gui-number', {
 
     value: 0,
     decimals: 3,

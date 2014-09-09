@@ -1,13 +1,13 @@
 /* globals Gui, Polymer */
 
 
-Gui.register( 'controller-string', function( value ) {
+Gui.register( 'dat-gui-string', function( value ) {
 
     return typeof value == 'string';
 
 } );
 
-Polymer( 'controller-string', {
+Polymer( 'dat-gui-string', {
 
     click: function( e ) {
 

@@ -181,11 +181,11 @@ Since dat-gui is built using [Web Components]( todo ), you can also use HTML syn
 ```html
 <body>
   
-<controller-number min="-2" max="2" step="1" value="0"></controller-number>
+<dat-gui-number min="-2" max="2" step="1" value="0"></dat-gui-number>
 
 <script>
 
-var controller = document.querySelector( 'controller-number' );
+var controller = document.querySelector( 'dat-gui-number' );
 controller.onChange( function() {
 
     // react to UI changes ...
@@ -202,26 +202,26 @@ controller.onChange( function() {
 
 dat-gui uses [Polymer]( todo ) under the hood to define custom elements. A dat-gui controller is just a [Polymer element]( todo ) with two important requirements:
 
-- Controllers must extend `<controller-base>`.
+- Controllers must extend `<dat-gui-base>`.
 - Controllers must be associated with a data type.
 
-Take for example this (simplified) source for dat-gui's `<controller-number>`:
+Take for example this (simplified) source for dat-gui's `<dat-gui-number>`:
 
 ```javascript
-Polymer( 'controller-number', {
+Polymer( 'dat-gui-number', {
 
   // Define element ...
 
 } );
 
-Gui.register( 'controller-number', function( value ) {
+Gui.register( 'dat-gui-number', function( value ) {
 
     return typeof value == 'number';
 
 } );
 ```
 
-`Gui.register` takes an element name and a test function. The test function tells dat-gui to add a `<controller-number>` to the panel when the user adds a variable whose type is `'number'`.
+`Gui.register` takes an element name and a test function. The test function tells dat-gui to add a `<dat-gui-number>` to the panel when the user adds a variable whose type is `'number'`.
 
 A test function determines if a controller is appropriate for a given value. This example registers `<vector-controller>` for values that have properties `x`, `y` and `z`.
 

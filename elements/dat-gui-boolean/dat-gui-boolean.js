@@ -1,13 +1,13 @@
 /* globals Gui, Polymer */
 
 
-Gui.register( 'controller-boolean', function( value ) {
+Gui.register( 'dat-gui-boolean', function( value ) {
 
     return typeof value == 'boolean';
 
 } );
 
-Polymer( 'controller-boolean', {
+Polymer( 'dat-gui-boolean', {
 
     ready: function() {
 

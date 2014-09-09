@@ -3,7 +3,7 @@
 
 // [ ] onFinishChange()
 
-Polymer( 'controller-base', {
+Polymer( 'dat-gui-base', {
 
     ready: function() {
 
