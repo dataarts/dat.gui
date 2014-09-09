@@ -1,14 +1,7 @@
 // Use gui.shim.js in production when you want to use dat.gui to recall values without any of the interface.
 ( function( scope ) {
-
-<<<<<<< HEAD
     'use strict';
 
-||||||| merged common ancestors
-    'use strict';
-    
-=======
->>>>>>> 8d86460ebde6d3dda4dec6e7783f0223fca59d00
     var Gui = function() {
 
         this.vars = {};
