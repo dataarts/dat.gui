@@ -5,10 +5,10 @@ BUILD
 
 REFACTOR
 
-- [ ] kill strict
-- [ ] controller-* => dat-gui-*
 - [ ] gui.define* => gui.var*
 - [ ] Gui.js => gui-panel => dat-gui
+- [x] controller-* => dat-gui-*
+- [x] kill strict
 
 PARITY
 

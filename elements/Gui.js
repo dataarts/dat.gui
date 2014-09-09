@@ -1,7 +1,6 @@
 ( function( scope ) {
 
     /* globals Path */
-    'use strict';
 
     var Gui = function( params ) {
 
