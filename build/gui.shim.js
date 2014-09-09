@@ -1,1 +1,1 @@
-!function(n){var t=function(){this.defined={}};t.ready=function(n){n()},t.prototype.define=function(n,t){return this.defined[n]=t,e},t.prototype.add=function(){return e};var i=function(){return this},e={on:i};n.Gui=t}(this);
+!function(t){"use strict";var n=function(){this.vars={}};n.ready=function(t){t()},n.prototype.var=function(t,n){return this.vars[t]=n,i},n.prototype.add=function(){return i};var r=function(){return this},i={on:r};t.Gui=n}(this);
