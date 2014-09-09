@@ -31,6 +31,16 @@ gulp.task( 'watch', [ 'default' ], function() {
 
 } );
 
+gulp.task( 'serve', [], function() {
+    browserSync.init( null, {
+        browser: [ 'google-chrome', 'google chrome' ], // linux uses the -
+        server: {
+            baseDir: [ '..' ]
+        },
+        startPath: '/dat.gui/'
+    } );
+} );
+
 gulp.task( 'build', [ 'vulcanize' ], function() {
 
     return gulp.src( 'build/gui.html' )
@@ -51,7 +61,7 @@ gulp.task( 'vulcanize', [ 'css' ], function() {
             inline: true,
             strip: true
         } ) )
-       // clean up some vulcanize ... 
+       // clean up some vulcanize ...
        .pipe( $.replace( /\n\n/gm, '' ) )
        .pipe( $.replace( /<!-- .* -->/gm, '' ) )
        .pipe( $.replace( /^<div hidden>undefined<\/div>\n/gm, '' ) )
@@ -85,7 +95,7 @@ gulp.task( 'css', function() {
 } );
 
 gulp.task( 'shim', function() {
-    
+
     return gulp.src( paths.shim )
         .pipe( $.uglify() )
         .pipe( $.rename( 'gui.shim.js' ) )
