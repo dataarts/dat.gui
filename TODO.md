@@ -1,7 +1,7 @@
 BUILD
 
 - [x] single import
-- [ ] browsersync
+- [x] browsersync
 
 REFACTOR
 
