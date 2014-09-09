@@ -31,7 +31,25 @@ gulp.task( 'watch', [ 'default' ], function() {
 
 } );
 
-gulp.task( 'serve', [], function() {
+gulp.task( 'reload', function() {
+    browserSync.reload();
+} );
+
+gulp.task( 'dev', [ 'default', 'browser' ], function() {
+
+    karma.server.start( {
+        frameworks: [ 'jasmine' ],
+        files: paths.test
+    } );
+
+    gulp.watch( paths.docs, [ 'docs', 'reload' ] );
+    gulp.watch( paths.lint, [ 'lint', 'reload' ] );
+    gulp.watch( paths.build, [ 'build', 'reload' ] );
+    gulp.watch( paths.shim, [ 'shim', 'reload' ] );
+
+} );
+
+gulp.task( 'browser', [], function() {
     browserSync.init( null, {
         browser: [ 'google-chrome', 'google chrome' ], // linux uses the -
         server: {
