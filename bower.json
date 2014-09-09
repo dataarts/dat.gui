@@ -17,6 +17,6 @@
         "docs"
     ],
     "dependencies": {
-        "polymer": "Polymer/polymer#~0.3.5"
+        "polymer": "Polymer/polymer#>=0.3.5"
     }
 }
