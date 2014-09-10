@@ -7,9 +7,9 @@ var gulp        = require( 'gulp' ),
     $           = require( 'gulp-load-plugins' )();
 
 var paths = {
-    build:  [ 'elements/**/*.styl', 'elements/**/*.html', 'elements/**/*.js' , 'gui.html' ],
+    build:  [ 'elements/**/*.styl', 'elements/**/*.html', 'elements/**/*.js' , 'dat-gui.html' ],
     lint:   [ 'gulpfile.js', 'elements/**/*.js' ],
-    test:   [ 'build/gui.js', 'tests/*.js' ],
+    test:   [ 'build/dat-gui.js', 'tests/*.js' ],
     clean:  [ 'build/*', '**/*.css' ],
     docs:   [ 'README.md', 'docs/*' ],
     shim:   [ 'elements/shim.js' ]
@@ -61,19 +61,19 @@ gulp.task( 'browser', [], function() {
 
 gulp.task( 'build', [ 'vulcanize' ], function() {
 
-    return gulp.src( 'build/gui.html' )
+    return gulp.src( 'build/dat-gui.html' )
        .pipe( $.replace( /\\/g, '\\\\' ) )
        .pipe( $.replace( /'/g, '\\\'' ) )
        .pipe( $.replace( /^(.*)$/gm, '\'$1\',' ) )
        .pipe( $.insert.wrap( 'document.write([', '].join("\\n"))' ) )
-       .pipe( $.rename( 'gui.js' ) )
+       .pipe( $.rename( 'dat-gui.js' ) )
        .pipe( gulp.dest( 'build' ) );
 
 } );
 
 gulp.task( 'vulcanize', [ 'css' ], function() {
 
-    return gulp.src( 'gui.html' )
+    return gulp.src( 'dat-gui.html' )
         .pipe( $.vulcanize( {
             dest: 'build',
             inline: true,

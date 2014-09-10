@@ -1,1 +1,0 @@
-!function(t){"use strict";var n=function(){this.vars={}};n.ready=function(t){t()},n.prototype.var=function(t,n){return this.vars[t]=n,i},n.prototype.add=function(){return i};var r=function(){return this},i={on:r};t.Gui=n}(this);
