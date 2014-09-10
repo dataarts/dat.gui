@@ -74,6 +74,7 @@ gulp.task( 'build', [ 'vulcanize' ], function() {
 gulp.task( 'vulcanize', [ 'css' ], function() {
 
     return gulp.src( 'dat-gui.html' )
+        .pipe( $.insert.prepend( '<script src="../platform/platform.js"></script>"\n' ) )
         .pipe( $.vulcanize( {
             dest: 'build',
             inline: true,
