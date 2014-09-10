@@ -1,0 +1,81 @@
+#container {
+  height: 100%;
+}
+#track-container {
+  height: 100%;
+  padding: 0 8px;
+}
+#track {
+  width: 100%;
+  height: 1px;
+  -webkit-border-radius: 1px;
+  border-radius: 1px;
+  display: inline-block;
+  position: relative;
+  background: rgba(255,255,255,0.25);
+}
+#fill {
+  height: 1px;
+  margin-top: 0px;
+  margin-left: 1px;
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+  position: absolute;
+  background: #25a0d8;
+  pointer-events: none;
+}
+#knob {
+  width: 0.6em;
+  height: 0.6em;
+  margin-left: -0.3em;
+  margin-top: -0.3em;
+  -webkit-transition: -webkit-transform 0.1s cubic-bezier(0.25, 0.25, 0, 1);
+  -moz-transition: -moz-transform 0.1s cubic-bezier(0.25, 0.25, 0, 1);
+  -o-transition: -o-transform 0.1s cubic-bezier(0.25, 0.25, 0, 1);
+  -ms-transition: -ms-transform 0.1s cubic-bezier(0.25, 0.25, 0, 1);
+  transition: transform 0.1s cubic-bezier(0.25, 0.25, 0, 1);
+  pointer-events: none;
+  position: absolute;
+  background-color: #25a0d8;
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+}
+:host-context(.touch-false) #track-container:hover #knob {
+  -webkit-transform: scale(2);
+  -moz-transform: scale(2);
+  -o-transform: scale(2);
+  -ms-transform: scale(2);
+  transform: scale(2);
+}
+#track-container:active #knob {
+  -webkit-transform: scale(1.5);
+  -moz-transform: scale(1.5);
+  -o-transform: scale(1.5);
+  -ms-transform: scale(1.5);
+  transform: scale(1.5);
+}
+input {
+  color: #25a0d8;
+}
+input::selection {
+  background-color: rgba(255,255,255,0.25);
+}
+.slider-true input {
+  text-align: center;
+  width: 26%;
+  -webkit-transition: width 0.2s cubic-bezier(0.25, 0.25, 0, 1);
+  -moz-transition: width 0.2s cubic-bezier(0.25, 0.25, 0, 1);
+  -o-transition: width 0.2s cubic-bezier(0.25, 0.25, 0, 1);
+  -ms-transition: width 0.2s cubic-bezier(0.25, 0.25, 0, 1);
+  transition: width 0.2s cubic-bezier(0.25, 0.25, 0, 1);
+  padding: 0;
+}
+:host-context(.touch-false) .slider-true input:hover {
+  width: 35%;
+}
+.slider-true input:focus {
+  width: 50%;
+}
+.slider-false input {
+  padding-left: 8px;
+}

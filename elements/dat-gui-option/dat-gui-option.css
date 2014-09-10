@@ -1,0 +1,8 @@
+#container {
+  height: 100%;
+  cursor: pointer;
+  padding-left: 8px;
+}
+select {
+  outline: none;
+}

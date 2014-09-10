@@ -1,0 +1,31 @@
+input {
+  font: 10px 'Lucida Grande', sans-serif;
+  color: #ecebe0;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+  width: 100%;
+  display: inline-block;
+  background-color: transparent;
+  border: 0;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  padding: 0;
+  outline: none;
+  -webkit-transition: background-color 0.15s linear;
+  -moz-transition: background-color 0.15s linear;
+  -o-transition: background-color 0.15s linear;
+  -ms-transition: background-color 0.15s linear;
+  transition: background-color 0.15s linear;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+:host-context(.touch-true) input {
+  font-size: 13.5px;
+}
+input:focus {
+  background: rgba(255,255,255,0.05);
+}
+:host-context(.touch-false) input:hover {
+  background: rgba(255,255,255,0.05);
+}
