@@ -6,7 +6,7 @@ Polymer( 'dat-gui-option', {
     key: null,
 
     ready: function() {
-      
+
         this.options = {};
 
     },
@@ -22,7 +22,7 @@ Polymer( 'dat-gui-option', {
             }, this );
 
         } else {
-            
+
             this.options = options;
 
         }
@@ -30,7 +30,7 @@ Polymer( 'dat-gui-option', {
     },
 
     valueChanged: function() {
-        
+
         for ( var i in this.options ) {
             if ( this.options[ i ] === this.value ) {
                 this.key = i;
@@ -39,7 +39,7 @@ Polymer( 'dat-gui-option', {
         }
 
         this.super();
-        
+
     },
 
     keyChanged: function() {
@@ -51,12 +51,12 @@ Polymer( 'dat-gui-option', {
     keys: function( object ) {
 
         if ( object ) {
-         
+
             return Object.keys( object );
-            
+
         }
 
     }
-    
+
 
 } );

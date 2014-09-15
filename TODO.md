@@ -18,15 +18,16 @@ NEW FEATURES
 BUILD
 
 - [x] single import
-- [ ] browsersync
+- [x] browsersync
+- [x] remove platform, dependent on fix of bug in gulp-vulcanize
 
 REFACTOR
 
-- [ ] gui.define* => gui.var*
+- [x] gui.define* => gui.var*
 - [ ] Gui.js => gui-panel => dat-gui
-- [ ] bake gui-row into each controller
 - [x] controller-* => dat-gui-*
 - [x] kill strict
+- [x] Reorg gulpfile and add standardized formatting
 
 DOCS
 
@@ -34,7 +35,6 @@ DOCS
 - [ ] Auto generatated polymer docs
 
 STYLE
-
 - [x] touch styles: bigger please!
 - [x] kill hover behavior if touch
 - [x] sharing more styles

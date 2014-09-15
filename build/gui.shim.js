@@ -1,1 +1,0 @@
-!function(n){var t=function(){this.defined={}};t.ready=function(n){n()},t.prototype.define=function(n,t){return this.defined[n]=t,e},t.prototype.add=function(){return e};var i=function(){return this},e={on:i};n.Gui=t}(this);

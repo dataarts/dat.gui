@@ -17,9 +17,9 @@ function init() {
 }
 
 
-        
+
 // Sticky headers
-// ------------------------------- 
+// -------------------------------
 
 function sticky( elements ) {
 
@@ -54,7 +54,7 @@ function sticky( elements ) {
     function resize() {
 
         for ( var i = 0, l = elements.length; i < l; i++ ) {
-            
+
             measure( elements[ i ] );
 
         }
@@ -64,13 +64,13 @@ function sticky( elements ) {
     function onScroll() {
 
         for ( var el, i = 0, l = elements.length; i < l; i++ ) {
-            
+
             el = elements[ i ];
 
             var sticky = window.scrollY > el.top && window.scrollY <= el.next.top;
             el.sticky.style.visibility = sticky ? 'visible' : 'hidden';
 
-            el.example.classList.toggle( 'sticky', sticky || el.bumped );
+            el.example.panel.classList.toggle( 'sticky', sticky || el.bumped );
 
             if ( el.next ) el.next.bumped = false;
 
@@ -86,8 +86,8 @@ function sticky( elements ) {
 
                 if ( bumped ) {
 
-                    el.example.classList.remove( 'sticky' );
-                    el.next.example.classList.add( 'sticky' );
+                    el.example.panel.classList.remove( 'sticky' );
+                    el.next.example.panel.classList.add( 'sticky' );
                     el.next.bumped = true;
 
                 }
@@ -102,7 +102,7 @@ function sticky( elements ) {
 
     // should debounce
     window.addEventListener( 'resize', function() {
-     
+
         resize();
         onScroll();
 
@@ -114,22 +114,22 @@ function sticky( elements ) {
 
 // Smooth scroll
 
-(function() {
+( function() {
 
     var body = document.body, timer;
 
-    window.addEventListener('scroll', function() {
-        
+    window.addEventListener( 'scroll', function() {
+
         clearTimeout( timer );
 
-        if ( !body.classList.contains('disable-hover') ) {
-            body.classList.add('disable-hover')
+        if ( !body.classList.contains( 'disable-hover' ) ) {
+            body.classList.add( 'disable-hover' )
         }
 
-        timer = setTimeout(function() {
-            body.classList.remove('disable-hover')
-        }, 150);
+        timer = setTimeout( function() {
+            body.classList.remove( 'disable-hover' )
+        }, 150 );
 
-    }, false);
+    }, false );
 
-})();
+} )();

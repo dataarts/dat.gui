@@ -9,7 +9,7 @@ Polymer( 'dat-gui', {
     open: true,
     touch: ( 'ontouchstart' in window ) || ( !!window.DocumentTouch && document instanceof window.DocumentTouch ),
 
-    
+
     // Observers
     // -------------------------------
 

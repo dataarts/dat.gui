@@ -158,7 +158,9 @@ Polymer( 'dat-gui-number', {
 
         e.preventDefault();
         this._rect = this.$.track.getBoundingClientRect();
-        if ( !this._alt ) { this.value = this.valueFromX( e.x ); }
+        if ( !this._alt ) {
+            this.value = this.valueFromX( e.x );
+        }
 
         this.fire( 'sliderDown' );
 
@@ -184,7 +186,9 @@ Polymer( 'dat-gui-number', {
 
             var dv = this.valueFromDX( e.ddx );
 
-            if ( this._alt ) { dv /= 10; }
+            if ( this._alt ) {
+                dv /= 10;
+            }
 
             this.value += dv * this._dragFriction;
 
