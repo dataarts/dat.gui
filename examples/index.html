@@ -43,11 +43,11 @@
 
         var gui = new Gui();
 
-        gui.panel.docked = true;
+        gui.docked = true;
 
-        gui.add( gui, 'panel.docked' );
+        gui.add( gui, 'docked' );
 
-        var r = gui.add( gui, 'panel.open' );
+        var r = gui.add( gui, 'open' );
         gui.add( r.row, 'name' );
 
         gui.add( object, 'boolean' );

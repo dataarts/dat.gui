@@ -31,7 +31,7 @@ var gulp = require( 'gulp' );
 
 gulp.task( 'default', [ 'dev' ] );
 
-gulp.task( 'build', [ 'readme', 'lint', 'vulcanize', 'shim' ], function() {
+gulp.task( 'build', [ 'readme', 'vulcanize', 'shim' ], function() {
     return gulp.src( 'build/dat-gui.html' )
         .pipe( $.replace( /\\/g, '\\\\' ) )
         .pipe( $.replace( /'/g, '\\\'' ) )
@@ -42,7 +42,7 @@ gulp.task( 'build', [ 'readme', 'lint', 'vulcanize', 'shim' ], function() {
 
 } );
 
-gulp.task( 'dev', [ 'watch', 'test', 'serve' ] );
+gulp.task( 'dev', [ 'watch', 'serve' ] );
 
 gulp.task( 'docs', [ 'style', 'readme' ] );
 
@@ -59,16 +59,16 @@ gulp.task( 'test', function() {
 
 } );
 
-gulp.task( 'watch', [ 'build' ], function() {
+gulp.task( 'watch', [ 'build', 'test' ], function() {
     // watches and builds all tasks
-    // gulp.watch( paths.html.concat(paths.styl).concat(paths.js).concat(paths.shim), [ 'build' ] );
 
+    gulp.watch( paths.build, [ 'build' ] );
     gulp.watch( paths.docs, [ 'readme' ] );
     gulp.watch( paths.styl, [ 'style' ] );
 
-    gulp.watch( paths.html.concat( paths.styl )
-        .concat( paths.js ).concat( paths.shim )
-        .concat( paths.docs ), [ 'reload' ] );
+    // gulp.watch( paths.html.concat( paths.styl )
+    //     .concat( paths.js ).concat( paths.shim )
+    //     .concat( paths.docs ), [ 'reload' ] );
 
     // fmt
     $.watch( paths.js, {
@@ -76,6 +76,7 @@ gulp.task( 'watch', [ 'build' ], function() {
     } )
         .pipe( $.esformatter( formattingOptions ) )
         .pipe( gulp.dest( './' ) );
+
 } );
 
 ////////////////////////////////////////////////
@@ -196,6 +197,12 @@ var paths = {
     styl: [ 'docs/*.styl', 'elements/**/*.styl' ],
     test: [ 'build/dat-gui.js', 'tests/*.js' ]
 };
+
+paths.build = []
+    .concat( paths.html )
+    .concat( paths.styl )
+    .concat( paths.js )
+    .concat( paths.shim );
 
 var formattingOptions = {
     'preset': 'jquery',

@@ -24,7 +24,7 @@ BUILD
 REFACTOR
 
 - [x] gui.define* => gui.var*
-- [ ] Gui.js => gui-panel => dat-gui
+- [x] Gui.js => gui-panel => dat-gui
 - [x] controller-* => dat-gui-*
 - [x] kill strict
 - [x] Reorg gulpfile and add standardized formatting
