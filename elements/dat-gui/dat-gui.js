@@ -12,6 +12,7 @@ Polymer( 'dat-gui', {
     ready: function() {
 
         this.vars = {};
+        this.domElement = this; // legacy
 
     },
 
@@ -124,6 +125,8 @@ Polymer( 'dat-gui', {
 
         }
 
+        this.asyncFire( 'resize' );
+
     },
 
     dockedChanged: function() {
@@ -215,25 +218,43 @@ Gui.getController = function( value ) {
 
 var ready = false;
 var readyHandlers = [];
+var readyPromise;
+
+function readyResolve( resolve ) {
+
+    readyHandlers.forEach( function( fnc ) {
+        fnc();
+    } );
+
+    if ( resolve !== undefined ) {
+        resolve();
+    }
+
+}
+
 
 document.addEventListener( 'polymer-ready', function() {
 
     ready = true;
-    readyHandlers.forEach( function( fnc ) {
-
-        fnc();
-
-    } );
+    if ( !readyPromise ) {
+        readyResolve();
+    }
 
 } );
 
 Gui.ready = function( fnc ) {
+
+    if ( window.Promise && arguments.length === 0 ) {
+        readyPromise = new Promise( readyResolve );
+        return readyPromise;
+    }
 
     if ( ready ) {
         fnc();
     } else {
         readyHandlers.push( fnc );
     }
+
 
 };
 

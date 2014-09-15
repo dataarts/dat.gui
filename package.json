@@ -23,7 +23,6 @@
     "gulp-watch": "^1.0.3",
     "gulp-wrap": "^0.3.0",
     "highlight.js": "^8.2.0",
-    "jshint-stylish": "^0.4.0",
     "karma": "^0.12.23",
     "karma-jasmine": "^0.1.5",
     "nib": "^1.0.3",

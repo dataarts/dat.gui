@@ -66,6 +66,16 @@
 .touch-true #closeButton {
   font-size: 13.5px;
 }
+#dockedContent:not(:empty) {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 245px;
+}
+.open-false #dockedContent:not(:empty) {
+  right: 0;
+}
 gui-button {
   font: 10px 'Lucida Grande', sans-serif;
   color: #ecebe0;
