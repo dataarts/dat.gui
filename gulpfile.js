@@ -4,7 +4,7 @@ Main Gulp tasks
 -----------------
 
     * default - dev
-    
+
     * build - create a vulcanized compiled version after linting and formatting
     * dev - launch server, watch for code changes, lint, format
     * docs - compile the docs and update gh-pages
@@ -59,7 +59,7 @@ gulp.task( 'test', function() {
 
 } );
 
-gulp.task( 'watch', [ 'build', 'test' ], function() {
+gulp.task( 'watch', [ 'lint', 'build', 'test' ], function() {
     // watches and builds all tasks
 
     gulp.watch( paths.build, [ 'build' ] );
@@ -75,7 +75,10 @@ gulp.task( 'watch', [ 'build', 'test' ], function() {
         base: './'
     } )
         .pipe( $.esformatter( formattingOptions ) )
-        .pipe( gulp.dest( './' ) );
+        .pipe( gulp.dest( './' ) )
+        .pipe( $.jshint( '.jshintrc' ) )
+        .pipe( $.jshint.reporter( 'jshint-stylish' ) )
+        .pipe( $.jshint.reporter( 'fail' ) );
 
 } );
 
