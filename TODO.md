@@ -1,15 +1,3 @@
-BUILD
-
-- [x] single import
-- [ ] browsersync
-
-REFACTOR
-
-- [ ] gui.define* => gui.var*
-- [ ] Gui.js => gui-panel => dat-gui
-- [x] controller-* => dat-gui-*
-- [x] kill strict
-
 PARITY
 
 - [ ] folders
@@ -23,7 +11,22 @@ PARITY
 
 NEW FEATURES
 
-- [ ] save server
+- [ ] dividers
+- [ ] save server !!
+- [ ] * disable * listen
+
+BUILD
+
+- [x] single import
+- [ ] browsersync
+
+REFACTOR
+
+- [ ] gui.define* => gui.var*
+- [ ] Gui.js => gui-panel => dat-gui
+- [ ] bake gui-row into each controller
+- [x] controller-* => dat-gui-*
+- [x] kill strict
 
 DOCS
 
@@ -36,13 +39,9 @@ STYLE
 - [x] kill hover behavior if touch
 - [x] sharing more styles
 
-STRUCTURE
-
-- [ ] can gui-row be baked into base-controller somehow?
-
 
 NICE TO HAVES
 
 - [ ] css linter?
-- [ ] strip component-slider from number-controller
+- [ ] strip component-slider from number-controller, for use in custom components
 - [ ] strip component-input from number-controller, unify with string-controller
