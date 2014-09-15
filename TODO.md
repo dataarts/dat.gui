@@ -2,6 +2,7 @@ BUILD
 
 - [x] single import
 - [x] browsersync
+- [ ] remove platform, dependent on fix of bug in gulp-vulcanize
 
 REFACTOR
 
@@ -9,6 +10,7 @@ REFACTOR
 - [ ] Gui.js => gui-panel => dat-gui
 - [x] controller-* => dat-gui-*
 - [x] kill strict
+- [x] Reorg gulpfile and add standardized formatting
 
 PARITY
 

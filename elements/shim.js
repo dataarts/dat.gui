@@ -1,38 +1,40 @@
 // Use gui.shim.js in production when you want to use dat.gui to recall values without any of the interface.
 ( function( scope ) {
-    'use strict';
+'use strict';
 
-    var Gui = function() {
+var Gui = function() {
 
-        this.vars = {};
+    this.vars = {};
 
-    };
+};
 
-    Gui.ready = function( fnc ) {
+Gui.ready = function( fnc ) {
 
-        fnc();
+    fnc();
 
-    };
+};
 
-    Gui.prototype.var = function( name, value ) {
+Gui.prototype.var = function( name, value ) {
 
-        this.vars[ name ] = value;
-        return controllerShim;
+    this.vars[ name ] = value;
+    return controllerShim;
 
-    };
+};
 
-    Gui.prototype.add = function( object, path ) {
+Gui.prototype.add = function( object, path ) {
 
-        return controllerShim;
+    return controllerShim;
 
-    };
+};
 
-    var identity = function() { return this; };
+var identity = function() {
+    return this;
+};
 
-    var controllerShim = {
-        on: identity
-    };
+var controllerShim = {
+    on: identity
+};
 
-    scope.Gui = Gui;
+scope.Gui = Gui;
 
-} )( this );
+})( this );

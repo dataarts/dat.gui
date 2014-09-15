@@ -20,7 +20,7 @@ Polymer( 'dat-gui-string', {
         if ( e.keyCode == 13 ) {
 
             this.$.input.blur();
-            
+
         }
 
     }

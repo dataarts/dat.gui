@@ -20,5 +20,10 @@
   "dependencies": {
     "polymer": "Polymer/polymer#>=0.4.0",
     "platform": "Polymer/platform#>=0.4.0"
+  },
+  "resolutions": {
+    "core-action-icons": "0.2.4",
+    "platform": ">=0.4.0 <1.0.0",
+    "core-component-page": ">=0.4.0 <1.0.0"
   }
 }

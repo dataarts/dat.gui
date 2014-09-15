@@ -7,7 +7,7 @@
 
     <script src="../build/dat-gui.js"></script>
     <!--
-    <script src="../platform/platform.js"></script>
+    <script src="../../platform/platform.js"></script>
     <link rel="import" href="../dat-gui.html">
     -->
 
@@ -25,6 +25,7 @@
     body content.
 
     <script>
+    /* globals Gui */
 
     var object = {
         "boolean": false,
@@ -40,7 +41,7 @@
     // How do we kill polymer-ready ...
     Gui.ready( function() {
 
-        gui = new Gui();
+        var gui = new Gui();
 
         gui.panel.docked = true;
 

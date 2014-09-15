@@ -47,7 +47,7 @@ Polymer( 'dat-gui-base', {
     map: function( x, a, b, c, d ) {
         return ( x - a ) / ( b - a ) * ( d - c ) + c;
     },
-    
+
 
     // Legacy
     // -------------------------------
@@ -55,7 +55,7 @@ Polymer( 'dat-gui-base', {
     listen: function() {
 
         Gui.warn( 'controller.listen() is deprecated. All controllers are listened for free.' );
-        
+
         return this;
 
     },
@@ -76,7 +76,7 @@ Polymer( 'dat-gui-base', {
     onChange: function( v ) {
 
         this.addEventListener( 'change', function( e ) {
-            
+
             v( e.detail );
 
         } );

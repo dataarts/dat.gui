@@ -5,9 +5,7 @@ Polymer( 'gui-row', {
     comment: null,
     commentOpen: false,
 
-    ready: function() {
-
-    },
+    ready: function() {},
 
     openComment: function() {
         this.commentOpen = true;

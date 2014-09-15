@@ -9,9 +9,7 @@ Gui.register( 'dat-gui-boolean', function( value ) {
 
 Polymer( 'dat-gui-boolean', {
 
-    ready: function() {
-
-    },
+    ready: function() {},
 
     toggle: function() {
 
