@@ -2,7 +2,7 @@ BUILD
 
 - [x] single import
 - [x] browsersync
-- [ ] remove platform, dependent on fix of bug in gulp-vulcanize
+- [x] remove platform, dependent on fix of bug in gulp-vulcanize
 
 REFACTOR
 
