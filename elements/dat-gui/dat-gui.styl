@@ -39,6 +39,7 @@ dur = 0.4s
 #controllers  
     
     panel-font()
+    
     .docked-true &
         position absolute
         width 100%
@@ -52,6 +53,20 @@ dur = 0.4s
     cursor pointer
     text-align center
     padding padding * 0.75 padding
+
+
+#dockedContent:not(:empty)
+    position: fixed
+    top: 0
+    left: 0
+    bottom: 0
+
+    // needs to be dynamic if we do panel resizing again
+    right: panel-width
+        
+    .open-false &
+        right: 0
+    
 
 
 gui-button

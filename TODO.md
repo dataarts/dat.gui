@@ -14,6 +14,8 @@ NEW FEATURES
 - [ ] dividers
 - [ ] save server !!
 - [ ] * disable * listen
+- [ ] override gui.var initialValues with url.js
+- [x] docked container
 
 BUILD
 

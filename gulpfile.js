@@ -77,7 +77,7 @@ gulp.task( 'watch', [ 'lint', 'build', 'test' ], function() {
         .pipe( $.esformatter( formattingOptions ) )
         .pipe( gulp.dest( './' ) )
         .pipe( $.jshint( '.jshintrc' ) )
-        .pipe( $.jshint.reporter( 'jshint-stylish' ) )
+        .pipe( $.jshint.reporter( 'default' ) )
         .pipe( $.jshint.reporter( 'fail' ) );
 
 } );
@@ -122,7 +122,7 @@ gulp.task( 'lint', [ 'fmt' ], function() {
             once: true
         } ) )
         .pipe( $.jshint( '.jshintrc' ) )
-        .pipe( $.jshint.reporter( 'jshint-stylish' ) )
+        .pipe( $.jshint.reporter( 'default' ) )
         .pipe( $.if( !browserSync.active, $.jshint.reporter( 'fail' ) ) );
 
 } );
