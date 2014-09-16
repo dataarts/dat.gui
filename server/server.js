@@ -15,15 +15,15 @@ http.createServer(function (req, res) {
                 res.end();
                 return
             }
-            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.writeHead(200, {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost'});
             res.end(fs.readFileSync(filename, 'utf8'));
             break;
         case 'POST':
             var data = '';
             req.on('data', function(d) {data += d;})
             req.on('end', function() {
+                res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost'});
                 fs.writeFileSync(filename, data);
-                res.writeHead(200);
                 res.end();
             })
             break;
@@ -31,4 +31,4 @@ http.createServer(function (req, res) {
             res.writeHead(404);
             res.end();
     }
-}).listen(8080);
+}).listen(7999);

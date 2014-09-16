@@ -3,33 +3,32 @@ PARITY
 - [ ] folders
 - [ ] function controller
 - [ ] color controller
-- [x] string controller
-- [x] boolean controller
 
 - [ ] remember
+    
+    - [ ] remember option controller
+    - [ ] remember gui.vars
+    - [ ] debounce save
     - [ ] presets
+
 
 NEW FEATURES
 
 - [ ] dividers
 - [ ] save server !!
+    - [ ] acknowledges save
+
 - [ ] * disable * listen
 - [ ] override gui.var initialValues with url.js
-- [x] docked container
 
 BUILD
 
-- [x] single import
-- [x] browsersync
-- [x] remove platform, dependent on fix of bug in gulp-vulcanize
+- [ ] gulp breaks on invalid js save
+- [ ] marked needs to pipe down. 
 
 REFACTOR
 
-- [x] gui.define* => gui.var*
-- [x] Gui.js => gui-panel => dat-gui
-- [x] controller-* => dat-gui-*
-- [x] kill strict
-- [x] Reorg gulpfile and add standardized formatting
+- [ ] dat-gui-base => dat-gui-controller
 
 DOCS
 
@@ -37,9 +36,6 @@ DOCS
 - [ ] Auto generatated polymer docs
 
 STYLE
-- [x] touch styles: bigger please!
-- [x] kill hover behavior if touch
-- [x] sharing more styles
 
 
 NICE TO HAVES
@@ -47,3 +43,21 @@ NICE TO HAVES
 - [ ] css linter?
 - [ ] strip component-slider from number-controller, for use in custom components
 - [ ] strip component-input from number-controller, unify with string-controller
+
+
+BONEYARD
+
+- [x] gui.define* => gui.var*
+- [x] Gui.js => gui-panel => dat-gui
+- [x] controller-* => dat-gui-*
+- [x] kill strict
+- [x] Reorg gulpfile and add standardized formatting
+- [x] string controller
+- [x] docked container
+- [x] boolean controller
+- [x] single import
+- [x] browsersync
+- [x] touch styles: bigger please!
+- [x] kill hover behavior if touch
+- [x] sharing more styles
+- [x] remove platform, dependent on fix of bug in gulp-vulcanize

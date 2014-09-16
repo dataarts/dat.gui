@@ -1,8 +1,5 @@
 /* globals Gui, Polymer, PathObserver */
 
-
-// [ ] onFinishChange()
-
 Polymer( 'dat-gui-base', {
 
     ready: function() {
@@ -11,13 +8,39 @@ Polymer( 'dat-gui-base', {
 
     },
 
+
+    // Overrides
+    // ------------------------------- 
+
+    // Update the UI
     update: function() {},
 
+    // Process arguments from gui.add
     init: function() {},
+
+    // Return a valid JSON representation of value
+    serialize: function() {
+
+        return JSON.stringify( this.value );
+
+    },
+
+    // Parse and set JSON representation of value;
+    unserialize: function( obj ) {
+
+        this.value = JSON.parse( obj );
+
+    },
 
 
     // Observers
     // -------------------------------
+
+    ignore: function() {
+
+        // todo: makes the data binding one way
+
+    },
 
     watch: function( object, path ) {
 
@@ -40,12 +63,16 @@ Polymer( 'dat-gui-base', {
     // -------------------------------
 
     on: function( event, listener ) {
+
         this.addEventListener( event, listener );
         return this;
+
     },
 
     map: function( x, a, b, c, d ) {
+
         return ( x - a ) / ( b - a ) * ( d - c ) + c;
+
     },
 
 
@@ -82,6 +109,12 @@ Polymer( 'dat-gui-base', {
         } );
 
         return this;
+
+    },
+
+    onFinishChange: function( v ) {
+
+        return this.onChange( v );
 
     },
 

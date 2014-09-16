@@ -6,8 +6,7 @@
     <title>dat-gui kitchen sink</title>
 
     <!-- // <script src="../build/dat-gui.js"></script> -->
-    
-    <script src="../../platform/platform.js"></script>
+    // <script src="../../platform/platform.js"></script>
     <link rel="import" href="../dat-gui.html">
     
 
@@ -25,7 +24,8 @@
     body content.
 
     <script>
-    /* globals Gui */
+
+    var gui;
 
     var object = {
         "boolean": false,
@@ -41,14 +41,14 @@
     // How do we kill polymer-ready ...
     Gui.ready( function() {
 
-        var gui = new Gui();
+        gui = new Gui( { localStorage: true } );
 
         gui.docked = true;
 
-        gui.add( gui, 'docked' );
+        // gui.add( gui, 'docked' );
 
-        var r = gui.add( gui, 'open' );
-        gui.add( r.row, 'name' );
+        // var r = gui.add( gui, 'open' );
+        // gui.add( r.row, 'name' );
 
         gui.add( object, 'boolean' );
 

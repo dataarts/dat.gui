@@ -4,7 +4,7 @@
 
 <polymer-element 
     name="dat-gui"
-    attributes="docked autoplace open">
+    attributes="docked autoplace open localStorage">
 
 <template>
 
@@ -12,10 +12,7 @@
 
 <div id="container" class="docked-{{ docked }} autoplace-{{ autoPlace }} open-{{ open }} touch-{{ touch }}" >
 
-    <div id="dockedContent">
-        
-
-    </div>
+    <div id="dockedContent"></div>
 
     <div id="panel">
 
@@ -33,6 +30,7 @@
 
 </template>
 
+<script src="static.js"></script>
 <script src="dat-gui.js"></script>
 
 </polymer-element>

@@ -29,6 +29,20 @@ Polymer( 'dat-gui-option', {
 
     },
 
+    // Return a valid JSON representation of value
+    serialize: function() {
+
+        return JSON.stringify( this.key );
+
+    },
+
+    // Parse and set JSON representation of value;
+    unserialize: function( obj ) {
+
+        this.value = this.options[ JSON.parse( obj ) ];
+
+    },
+
     valueChanged: function() {
 
         for ( var i in this.options ) {

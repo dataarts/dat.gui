@@ -7,16 +7,20 @@ Polymer( 'dat-gui', {
 
     docked: false,
     open: true,
+    localStorage: false,
     touch: ( 'ontouchstart' in window ) || ( !!window.DocumentTouch && document instanceof window.DocumentTouch ),
 
     ready: function() {
 
         this.vars = {};
+
+        this._controllersByObject = {};
+
         this.domElement = this; // legacy
 
     },
 
-    // "Public" API
+    // 
     // ------------------------------- 
 
     add: function( object, path ) {
@@ -45,7 +49,7 @@ Polymer( 'dat-gui', {
         controller.watch( object, path );
         controller.init.apply( controller, args );
 
-        // Make row
+        // Make row ( todo: put row in controllers )
 
         var row = document.createElement( 'gui-row' );
         row.name = path;
@@ -63,23 +67,43 @@ Polymer( 'dat-gui', {
         row.appendChild( controller );
         this.appendChild( row );
 
+        // Remember
+
+        if ( object !== this.vars ) {
+
+            var objectKey = Gui.serialize( object );
+            var objectControllers = this._controllersByObject[ objectKey ];
+
+            if ( !objectControllers ) {
+                objectControllers = {};
+                this._controllersByObject[ objectKey ] = objectControllers;
+            }
+
+            objectControllers[ controller.path ] = controller;
+
+        }
+
         return controller;
 
     },
 
-    var: function() {
+    remove: function( controller ) {
 
-        var name, initialValue, args;
+        this.removeChild( controller );
 
-        if ( arguments.length == 1 ) {
-            name = arguments[ 0 ];
-            return this.vars[ name ];
-        }
+        // Forget
 
-        initialValue = arguments[ 1 ];
-        name = arguments[ 0 ];
+        var objectKey = Gui.serialize( controller.object );
+        controller.objectKey = objectKey;
 
-        args = [ this.vars, name ];
+        var objectControllers = this._controllersByObject[ objectKey ];
+        objectControllers.splice( objectControllers.indexOf( controller ), 1 );
+
+    },
+
+    var: function( name, initialValue ) {
+
+        var args = [ this.vars, name ];
         args = args.concat( Array.prototype.slice.call( arguments, 2 ) );
 
         this.vars[ name ] = initialValue;
@@ -88,19 +112,74 @@ Polymer( 'dat-gui', {
 
     },
 
-    remember: function( object ) {
+    save: function() {
 
-        // todo
+        if ( this.localStorage && window.localStorage ) {
+
+            var data = JSON.stringify( this.serialize() );
+            localStorage.setItem( Gui.LOCAL_STORAGE_KEY, data );
+
+        } else {
+
+            // todo: success
+            Gui.postJSON( this.savePath, this.serialize(), function() {}, Gui.error );
+
+        }
 
     },
 
+    unserialize: function( data ) {
+
+        for ( var objectKey in this._controllersByObject ) {
+
+            for ( var path in data.values[ objectKey ] ) {
+
+                var value = data.values[ objectKey ][ path ];
+                this._controllersByObject[ objectKey ][ path ].unserialize( value );
+
+            }
+
+        }
+
+    },
+
+    serialize: function() {
+
+        // todo: return json of every controller's serialize.
+
+        var data = {
+            values: {},
+            vars: {}, // todo
+        };
+
+        for ( var objectKey in this._controllersByObject ) {
+
+            data.values[ objectKey ] = {};
+
+            var controllers = this._controllersByObject[ objectKey ];
+
+            for ( var path in controllers ) {
+                data.values[ objectKey ][ path ] = controllers[ path ].serialize();
+            }
+
+        }
+
+        return data;
+
+    },
 
     // Legacy
     // ------------------------------- 
 
-    listAll: function() {
+    remember: function( object ) {
 
-        Gui.warn( 'controller.listenAll() is deprecated. All controllers are listened for free.' );
+        Gui.warn( 'gui.remember() is deprecated. You don\'t need to do it anymore. See Gui.serialize.' );
+
+    },
+
+    listenAll: function() {
+
+        Gui.warn( 'gui.listenAll() is deprecated. All controllers are listened for free.' );
 
     },
 
@@ -148,175 +227,3 @@ Polymer( 'dat-gui', {
     }
 
 } );
-
-( function( scope ) {
-
-/* globals Path */
-
-var Gui = function( params ) {
-
-
-    if ( !ready ) {
-        Gui.error( 'Gui not ready. Put your code inside Gui.ready()' );
-    }
-
-    params = params || {};
-
-    // Properties
-
-    this.localStorage = params.localStorage || false;
-
-    // Make domElement
-
-    var panel = document.createElement( 'dat-gui' );
-
-    panel.autoPlace = params.autoPlace !== false;
-
-    if ( panel.autoPlace ) {
-        document.body.appendChild( panel );
-    }
-
-    return panel;
-
-};
-
-
-// Register custom controllers
-// -------------------------------
-
-var controllers = {};
-
-Gui.register = function( elementName, test ) {
-
-    controllers[ elementName ] = test;
-
-};
-
-
-// Returns a controller based on a value
-// -------------------------------
-
-Gui.getController = function( value ) {
-
-    for ( var type in controllers ) {
-
-        var test = controllers[ type ];
-
-        if ( test( value ) ) {
-
-            return document.createElement( type );
-
-        }
-
-    }
-
-};
-
-
-// Gui ready handler ... * shakes fist at polymer *
-// -------------------------------
-
-var ready = false;
-var readyHandlers = [];
-var readyPromise;
-
-function readyResolve( resolve ) {
-
-    readyHandlers.forEach( function( fnc ) {
-        fnc();
-    } );
-
-    if ( resolve !== undefined ) {
-        resolve();
-    }
-
-}
-
-
-document.addEventListener( 'polymer-ready', function() {
-
-    ready = true;
-    if ( !readyPromise ) {
-        readyResolve();
-    }
-
-} );
-
-Gui.ready = function( fnc ) {
-
-    if ( window.Promise && arguments.length === 0 ) {
-        readyPromise = new Promise( readyResolve );
-        return readyPromise;
-    }
-
-    if ( ready ) {
-        fnc();
-    } else {
-        readyHandlers.push( fnc );
-    }
-
-
-};
-
-
-// Console
-// -------------------------------
-
-Gui.error = function() {
-    var args = Array.prototype.slice.apply( arguments );
-    args.unshift( 'dat-gui ::' );
-    console.error.apply( console, args );
-};
-
-Gui.warn = function() {
-    var args = Array.prototype.slice.apply( arguments );
-    args.unshift( 'dat-gui ::' );
-    console.warn.apply( console, args );
-};
-
-
-// Old namespaces
-// -------------------------------
-
-var dat = {};
-
-dat.gui = {};
-dat.gui.GUI = Gui;
-dat.GUI = dat.gui.GUI;
-
-dat.color = {};
-dat.color.Color = function() {};
-
-dat.dom = {};
-dat.dom.dom = function() {};
-
-dat.controllers = {};
-dat.controllers.Controller = constructor( 'dat-gui-base' );
-dat.controllers.NumberController = constructor( 'dat-gui-number' );
-dat.controllers.FunctionController = constructor( 'dat-gui-function' );
-dat.controllers.ColorController = constructor( 'dat-gui-color' );
-dat.controllers.BooleanController = constructor( 'dat-gui-boolean' );
-dat.controllers.OptionController = constructor( 'dat-gui-option' );
-
-dat.controllers.NumberControllerBox = dat.controllers.NumberController;
-dat.controllers.NumberControllerSlider = dat.controllers.NumberController;
-
-function constructor( elementName ) {
-
-    return function( object, path ) {
-        var el = document.createElement( elementName );
-        el.watch( object, path );
-        return el;
-    };
-
-}
-
-
-// Export
-// -------------------------------
-
-scope.dat = dat;
-scope.Gui = Gui;
-
-
-})( this );
