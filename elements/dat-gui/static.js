@@ -28,16 +28,15 @@ Gui.constructor = function( params ) {
 
     this.localStorage = scope.localStorage && ( params.localStorage || false );
 
-    this.autoSave = params.autoSave || this.localStorage;
     this.savePath = params.savePath || Gui.DEFAULT_SAVE_PATH;
 
-    if ( this.autoSave ) {
+    if ( params.save ) {
 
         this.addEventListener( 'change', Gui.debounce( this.save, this, 50 ) );
 
     }
 
-    if ( params.autoSave && !this.localStorage ) {
+    if ( params.save && !this.localStorage ) {
 
         Gui.getJSON( this.savePath, this.unserialize, this );
 

@@ -6,17 +6,18 @@ PARITY
 
 - [ ] remember
     
-    - [ ] remember option controller
+    - [ ] save server !!
+        - [ ] acknowledges save
+        - [ ] dat-gui server npm install -g ?
     - [ ] remember gui.vars
-    - [ ] debounce save
     - [ ] presets
+    - [x] remember option controller
+    - [x] debounce save
 
 
 NEW FEATURES
 
 - [ ] dividers
-- [ ] save server !!
-    - [ ] acknowledges save
 
 - [ ] * disable * listen
 - [ ] override gui.var initialValues with url.js
