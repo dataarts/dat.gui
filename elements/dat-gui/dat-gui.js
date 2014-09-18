@@ -18,6 +18,14 @@ Polymer( 'dat-gui', {
 
         this.domElement = this; // legacy
 
+
+        // this winds up triggering like all the time? 
+
+        // var _this = this;
+        // window.addEventListener( 'resize', function() {
+        //     _this.asyncFire( 'resize' );
+        // }, false );
+
     },
 
     // 
@@ -122,9 +130,22 @@ Polymer( 'dat-gui', {
         } else {
 
             // todo: success
-            Gui.postJSON( this.savePath, this.serialize(), function() {}, Gui.error );
+            Gui.postJSON( this.savePath, this.serialize(), this.saveSuccess, this.saveError, this );
 
         }
+
+    },
+
+    saveSuccess: function() {
+
+        Gui.log( 'Saved data to ' + this.savePath );
+
+    },
+
+    saveError: function( error ) {
+
+        Gui.warn( 'Failed to save data to ' + this.savePath + '. Disabling automatic save.' );
+        this.removeEventListener( 'change', this._debouncedSave, false );
 
     },
 

@@ -1,13 +1,5 @@
 ( function( scope ) {
 
-// {
-//     autoPlace: true,
-//     localStorage: false,
-//     autoSave: false,
-//     savePath: Gui.DEFAULT_SAVE_PATH,
-//     load: {},
-// }
-
 var Gui = function( params ) {
 
     if ( !ready ) {
@@ -22,29 +14,44 @@ var Gui = function( params ) {
 
 Gui.constructor = function( params ) {
 
+    var _this = this;
+
     params = params || {};
 
     // Saving
 
     this.localStorage = scope.localStorage && ( params.localStorage || false );
 
+    this.loadPath = params.loadPath || params.savePath || Gui.DEFAULT_LOAD_PATH;
     this.savePath = params.savePath || Gui.DEFAULT_SAVE_PATH;
+
+    params.load = params.save || false;
+
+    // Bind save listener
 
     if ( params.save ) {
 
-        this.addEventListener( 'change', Gui.debounce( this.save, this, 50 ) );
+        this._debouncedSave = Gui.debounce( this.save, this, 50 );
+        this.addEventListener( 'change', this._debouncedSave, false );
 
     }
 
-    if ( params.save && !this.localStorage ) {
+    // Load initial data
 
-        Gui.getJSON( this.savePath, this.unserialize, this );
+    if ( params.load && !this.localStorage ) {
+
+        Gui.getJSON( this.loadPath, this.unserialize, function( error ) {
+
+            Gui.warn( 'Failed to load save data from ' + this.loadPath + ': "' + error + '"' );
+
+        }, this );
 
     }
 
-    if ( this.localStorage && scope.localStorage ) {
+    // Get local storage, if that's your thing.
 
-        var _this = this;
+    if ( this.localStorage ) {
+
         setTimeout( function() {
 
             var data = localStorage.getItem( Gui.LOCAL_STORAGE_KEY );
@@ -53,7 +60,6 @@ Gui.constructor = function( params ) {
         }, 0 );
 
     }
-
 
     // Autoplace
 
@@ -65,14 +71,6 @@ Gui.constructor = function( params ) {
 
     }
 
-    // Load
-
-    if ( params.load ) {
-
-        this.load( params.load );
-
-    }
-
 
 };
 
@@ -81,6 +79,7 @@ Gui.constructor = function( params ) {
 // ------------------------------- 
 
 Gui.DEFAULT_SAVE_PATH = 'http://localhost:7999/';
+Gui.DEFAULT_LOAD_PATH = 'dat-gui.json';
 
 Gui.serialize = function( object ) {
 
@@ -108,15 +107,27 @@ Gui.serialize = function( object ) {
 
 };
 
-Gui.getJSON = function( path, callback, scope ) {
+Gui.getJSON = function( path, success, error, scope ) {
 
     var xhr = new XMLHttpRequest();
     xhr.open( 'GET', path, true );
 
     xhr.onreadystatechange = function() {
 
-        if ( xhr.readyState == 4 && xhr.status == 200 ) {
-            callback.call( scope, JSON.parse( xhr.responseText ) );
+        if ( xhr.readyState == 4 ) {
+
+            if ( xhr.status == 200 ) {
+
+                try {
+                    success.call( scope, JSON.parse( xhr.responseText ) );
+                } catch (e) {
+                    error.call( scope, e );
+                }
+
+            } else {
+                error.call( scope, xhr.statusText );
+            }
+
         }
 
     };
@@ -125,20 +136,27 @@ Gui.getJSON = function( path, callback, scope ) {
 
 };
 
-Gui.postJSON = function( path, data, callback, scope ) {
+Gui.postJSON = function( path, data, success, error, scope ) {
 
     var xhr = new XMLHttpRequest();
     xhr.open( 'POST', path, true );
 
     xhr.onreadystatechange = function() {
 
-        if ( xhr.readyState == 4 && xhr.status == 200 ) {
-            callback.call( scope, xhr.responseText );
+        if ( xhr.readyState == 4 ) {
+
+            if ( xhr.status == 200 ) {
+                success.call( scope, xhr.responseText );
+            } else {
+                error.call( scope, xhr.statusText );
+            }
+
         }
 
     };
 
     xhr.send( JSON.stringify( data ) );
+
 };
 
 Gui.debounce = function( func, scope, wait ) {
@@ -250,6 +268,12 @@ Gui.warn = function() {
     var args = Array.prototype.slice.apply( arguments );
     args.unshift( 'dat-gui ::' );
     console.warn.apply( console, args );
+};
+
+Gui.log = function() {
+    var args = Array.prototype.slice.apply( arguments );
+    args.unshift( 'dat-gui ::' );
+    console.log.apply( console, args );
 };
 
 
