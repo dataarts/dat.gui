@@ -71,14 +71,14 @@ gulp.task( 'watch', [ 'lint', 'build', 'test' ], function() {
     //     .concat( paths.docs ), [ 'reload' ] );
 
     // fmt
-    $.watch( paths.js, {
-        base: './'
-    } )
-        .pipe( $.esformatter( formattingOptions ) )
-        .pipe( gulp.dest( './' ) )
-        .pipe( $.jshint( '.jshintrc' ) )
-        .pipe( $.jshint.reporter( 'default' ) )
-        .pipe( $.jshint.reporter( 'fail' ) );
+    // $.watch( paths.js, {
+    //     base: './'
+    // } )
+    //     .pipe( $.esformatter( formattingOptions ) )
+    //     .pipe( gulp.dest( './' ) )
+    //     .pipe( $.jshint( '.jshintrc' ) )
+    //     .pipe( $.jshint.reporter( 'default' ) )
+    //     .pipe( $.jshint.reporter( 'fail' ) );
 
 } );
 
@@ -106,24 +106,24 @@ gulp.task( 'style', function() {
 
 gulp.task( 'fmt', function() {
 
-    return gulp.src( paths.js, {
-        base: './'
-    } )
-        .pipe( $.esformatter( formattingOptions ) )
-        .pipe( gulp.dest( './' ) );
+    // return gulp.src( paths.js, {
+    //     base: './'
+    // } )
+    //     .pipe( $.esformatter( formattingOptions ) )
+    //     .pipe( gulp.dest( './' ) );
 
 } );
 
 gulp.task( 'lint', [ 'fmt' ], function() {
 
-    return gulp.src( paths.js )
-        .pipe( browserSync.reload( {
-            stream: true,
-            once: true
-        } ) )
-        .pipe( $.jshint( '.jshintrc' ) )
-        .pipe( $.jshint.reporter( 'default' ) )
-        .pipe( $.if( !browserSync.active, $.jshint.reporter( 'fail' ) ) );
+    // return gulp.src( paths.js )
+    //     .pipe( browserSync.reload( {
+    //         stream: true,
+    //         once: true
+    //     } ) )
+    //     .pipe( $.jshint( '.jshintrc' ) )
+    //     .pipe( $.jshint.reporter( 'default' ) )
+    //     .pipe( $.if( !browserSync.active, $.jshint.reporter( 'fail' ) ) );
 
 } );
 

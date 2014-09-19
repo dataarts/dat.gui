@@ -144,7 +144,7 @@ Polymer( 'dat-gui', {
 
     saveError: function( error ) {
 
-        Gui.warn( 'Failed to save data to ' + this.savePath + '. Disabling automatic save.' );
+        Gui.warn( 'Failed to post data to ' + this.savePath + '. Disabling save.' );
         this.removeEventListener( 'change', this._debouncedSave, false );
 
     },

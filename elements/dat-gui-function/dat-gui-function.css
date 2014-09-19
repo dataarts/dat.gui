@@ -1,0 +1,7 @@
+#container {
+  height: 100%;
+  padding-left: 8px;
+}
+button {
+  cursor: pointer;
+}

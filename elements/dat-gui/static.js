@@ -40,11 +40,16 @@ Gui.constructor = function( params ) {
 
     if ( params.load && !this.localStorage ) {
 
-        Gui.getJSON( this.loadPath, this.unserialize, function( error ) {
+        Gui.getJSON( this.loadPath, function( data ) {
 
-            Gui.warn( 'Failed to load save data from ' + this.loadPath + ': "' + error + '"' );
+            Gui.log( 'Loaded data from ' + this.loadPath );
+            this.unserialize( data );
 
-        }, this );
+        }, function( error ) {
+
+                Gui.warn( 'Failed to load save data from ' + this.loadPath + ': "' + error + '"' );
+
+            }, this );
 
     }
 
@@ -79,7 +84,7 @@ Gui.constructor = function( params ) {
 // ------------------------------- 
 
 Gui.DEFAULT_SAVE_PATH = 'http://localhost:7999/';
-Gui.DEFAULT_LOAD_PATH = 'dat-gui.json';
+Gui.DEFAULT_LOAD_PATH = './dat-gui.json';
 
 Gui.serialize = function( object ) {
 

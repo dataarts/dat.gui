@@ -7,6 +7,12 @@ Gui.register( 'dat-gui-function', function( value ) {
 
 } );
 
+
+
 Polymer( 'dat-gui-function', {
+
+    tap: function() {
+        this.value.apply( this.object );
+    }
 
 } );
