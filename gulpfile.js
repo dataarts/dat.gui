@@ -82,7 +82,7 @@ gulp.task( 'watch', [ 'lint', 'build', 'test' ], function() {
 
 } );
 
-////////////////////////////////////////////////
+
 
 gulp.task( 'clean', function() {
     return gulp.src( 'build/*' )
@@ -185,6 +185,10 @@ gulp.task( 'vulcanize', [ 'style' ], function() {
         .pipe( gulp.dest( 'build' ) );
 
 } );
+
+        
+// Config
+// ------------------------------- 
 
 var nib = require( 'nib' ),
     highlight = require( 'highlight.js' ),

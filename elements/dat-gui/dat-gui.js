@@ -199,11 +199,8 @@ Polymer( 'dat-gui', {
 
     serialize: function() {
 
-        // todo: return json of every controller's serialize.
-
         var data = {
-            values: {},
-            vars: {}, // todo
+            values: {}
         };
 
         for ( var objectKey in this._controllersByObject ) {
