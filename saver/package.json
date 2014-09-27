@@ -1,0 +1,9 @@
+{
+  "name": "dat-gui-saver",
+  "version": "0.0.0",
+  "bin": {
+    "saver": "saver.js"
+  },
+  "main": "saver.js",
+  "preferGlobal": "true"
+}
