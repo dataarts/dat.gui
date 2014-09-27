@@ -38,7 +38,7 @@ Polymer( 'dat-gui', {
         var value = Path.get( path ).getValueFrom( object );
 
         if ( value === null || value === undefined ) {
-            return Gui.error( object + ' doesn\'t have a value for path "' + path + '".' );
+            return Gui.error( 'Object doesn\'t have a value for path "' + path + '".', object );
         }
 
         var args = Array.prototype.slice.call( arguments, 2 );
@@ -77,19 +77,16 @@ Polymer( 'dat-gui', {
 
         // Remember
 
-        if ( object !== this.vars ) {
+        var objectKey = this._hash( object );
+        var objectControllers = this._controllersByObject[ objectKey ];
 
-            var objectKey = Gui.serialize( object );
-            var objectControllers = this._controllersByObject[ objectKey ];
-
-            if ( !objectControllers ) {
-                objectControllers = {};
-                this._controllersByObject[ objectKey ] = objectControllers;
-            }
-
-            objectControllers[ controller.path ] = controller;
-
+        if ( !objectControllers ) {
+            objectControllers = {};
+            this._controllersByObject[ objectKey ] = objectControllers;
         }
+
+        objectControllers[ controller.path ] = controller;
+
 
         return controller;
 
@@ -101,7 +98,7 @@ Polymer( 'dat-gui', {
 
         // Forget
 
-        var objectKey = Gui.serialize( controller.object );
+        var objectKey = this._hash( object );
         controller.objectKey = objectKey;
 
         var objectControllers = this._controllersByObject[ objectKey ];
@@ -133,6 +130,42 @@ Polymer( 'dat-gui', {
             Gui.postJSON( this.savePath, this.serialize(), this.saveSuccess, this.saveError, this );
 
         }
+
+    },
+
+    _hash: function( object ) {
+        
+        if ( object == this.vars ) {
+            return 'vars';
+        }
+
+        return this.hash( object );
+
+    },
+
+    hash: function( object ) {
+        
+        // "shallow" stringify
+        var data = {};
+
+        for ( var i in object ) {
+
+            var val;
+
+            try {
+                val = JSON.stringify( object[ i ] );
+                val = object[ i ];
+            } catch (e) {}
+
+            if ( val !== undefined ) {
+
+                data[ i ] = val;
+
+            }
+
+        }
+
+        return JSON.stringify( data );
 
     },
 

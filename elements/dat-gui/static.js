@@ -25,7 +25,6 @@ Gui.constructor = function( params ) {
     this.loadPath = params.loadPath || params.savePath || Gui.DEFAULT_LOAD_PATH;
     this.savePath = params.savePath || Gui.DEFAULT_SAVE_PATH;
 
-    params.load = params.save || false;
 
     // Bind save listener
 
@@ -86,32 +85,6 @@ Gui.constructor = function( params ) {
 Gui.DEFAULT_SAVE_PATH = 'http://localhost:7999/';
 Gui.DEFAULT_LOAD_PATH = './dat-gui.json';
 
-Gui.serialize = function( object ) {
-
-    // "shallow" stringify
-    var data = {};
-
-    for ( var i in object ) {
-
-        var val;
-
-        try {
-            val = JSON.stringify( object[ i ] );
-            val = object[ i ];
-        } catch (e) {}
-
-        if ( val !== undefined ) {
-
-            data[ i ] = val;
-
-        }
-
-    }
-
-    return JSON.stringify( data );
-
-};
-
 Gui.getJSON = function( path, success, error, scope ) {
 
     var xhr = new XMLHttpRequest();
@@ -160,7 +133,7 @@ Gui.postJSON = function( path, data, success, error, scope ) {
 
     };
 
-    xhr.send( JSON.stringify( data ) );
+    xhr.send( JSON.stringify( data, null, 4 ) );
 
 };
 
