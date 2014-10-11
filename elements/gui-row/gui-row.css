@@ -1,8 +1,13 @@
+#container.disabled-true {
+  opacity: 0.4;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";
+  filter: alpha(opacity=40);
+  pointer-events: none;
+}
 #row {
   font: 10px 'Lucida Grande', sans-serif;
   color: #ecebe0;
-  -webkit-font-smoothing: antialiased;
-  height: 2.9em;
+  height: 3em;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -13,6 +18,7 @@
   -ms-transition: background-color 0.2s linear;
   transition: background-color 0.2s linear;
   border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding: 0 9px;
 }
 :host-context(.touch-true) #row {
   font-size: 13.5px;
@@ -21,12 +27,13 @@
   height: 100%;
 }
 #name {
-  padding: 0 8px;
+  padding-right: 9px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   width: 38%;
   cursor: default;
+  -webkit-font-smoothing: antialiased;
 }
 .comment-true #name {
   cursor: pointer;
@@ -43,7 +50,6 @@
 #comment {
   font: 10px 'Lucida Grande', sans-serif;
   color: #ecebe0;
-  -webkit-font-smoothing: antialiased;
   line-height: 1.6em;
   background: #e0cf99;
   color: #333;
@@ -94,7 +100,7 @@
   transition-delay: 200ms;
 }
 #commentInner {
-  padding: 8px;
+  padding: 9px;
 }
 .comment-true #nameInner {
   display: inline-block;

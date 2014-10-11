@@ -1,7 +1,6 @@
 input {
   font: 10px 'Lucida Grande', sans-serif;
   color: #ecebe0;
-  -webkit-font-smoothing: antialiased;
   height: 100%;
   width: 100%;
   display: inline-block;
@@ -22,10 +21,4 @@ input {
 }
 :host-context(.touch-true) input {
   font-size: 13.5px;
-}
-input:focus {
-  background: rgba(255,255,255,0.05);
-}
-:host-context(.touch-false) input:hover {
-  background: rgba(255,255,255,0.05);
 }

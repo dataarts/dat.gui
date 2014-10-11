@@ -10,7 +10,7 @@ dur = 0.4s
 #panel  
     transition transform dur cubic-bezier( 0, 0.8, 0, 1 )
     background color-panel
-
+    
     .autoplace-true &
         width panel-width
         position fixed
@@ -44,8 +44,6 @@ dur = 0.4s
         position absolute
         width 100%
         
-        top row-height * 1.5
-        
 
 #closeButton  
     panel-font()
@@ -56,10 +54,10 @@ dur = 0.4s
 
 
 #dockedContent:not(:empty)
-    position: fixed
-    top: 0
-    left: 0
-    bottom: 0
+    position fixed
+    top 0
+    left 0
+    bottom 0
 
     // needs to be dynamic if we do panel resizing again
     right: panel-width

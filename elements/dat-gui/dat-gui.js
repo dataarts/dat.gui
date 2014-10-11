@@ -66,10 +66,12 @@ Polymer( 'dat-gui', {
 
         controller.name = function( name ) {
             row.name = name;
+            return controller;
         };
 
         controller.comment = function( comment ) {
             row.comment = comment;
+            return controller;
         };
 
         row.appendChild( controller );
@@ -87,8 +89,21 @@ Polymer( 'dat-gui', {
 
         objectControllers[ controller.path ] = controller;
 
-
         return controller;
+
+    },
+
+    folder: function( name, open ) {
+
+        var folder = document.createElement( 'dat-gui-folder' );
+        
+        folder.name = name;
+        folder.open = open === undefined ? true : open;
+        folder.parent = this;
+
+        this.appendChild( folder );
+
+        return folder;
 
     },
 

@@ -4,6 +4,7 @@ Polymer( 'gui-row', {
 
     comment: null,
     commentOpen: false,
+    disabled: false,
 
     ready: function() {},
 

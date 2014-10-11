@@ -1,23 +1,21 @@
 PARITY
 
-- [ ] folders
-- [ ] function controller
+- [x] folders
+- [x] function controller
 - [ ] color controller
 
 - [ ] remember
-    
-    - [ ] save server !!
-        - [ ] acknowledges save
-        - [ ] dat-gui server npm install -g ?
-    - [ ] remember gui.vars
-    - [ ] presets
+
+    - [ ] presets    
+    - [x] save server !!
+        - [x] acknowledges save
+        - [x] dat-gui server npm install -g ?
+    - [x] remember gui.vars
     - [x] remember option controller
     - [x] debounce save
 
 
 NEW FEATURES
-
-- [ ] dividers
 
 - [ ] * disable * listen
 - [ ] override gui.var initialValues with url.js

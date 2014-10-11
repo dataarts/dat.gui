@@ -9,7 +9,18 @@
 <link rel="stylesheet" href="dat-gui-option.css">
 
 <div id="container" horizontal layout center>
-    
+
+    <div class="key">
+
+        <svg viewBox="0 0 10 24">
+            <polygon points="0,9.5 5,0.9 10,9.5 "></polygon>
+            <polygon points="10,16.75 5,24.7 0,16.75 "></polygon>
+        </svg>
+
+        <span>{{ key }}</span>
+
+    </div>
+
     <select value="{{ key }}" on-change="{{ change }}">
 
         <template repeat="{{ name in options | keys }}">
@@ -17,6 +28,7 @@
         </template>
 
     </select>
+
 
 </div>
 

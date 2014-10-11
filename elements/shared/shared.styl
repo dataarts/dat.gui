@@ -8,10 +8,10 @@ touch-scale = 1.35
 panel-width = 245px
 panel-width-touch = 320px
 
-row-height = 2.9em
+row-height = 3em
 row-name-width = 38%
 
-padding = 8px
+padding = 9px
 
 /* colors */
 
@@ -38,8 +38,6 @@ ease = cubic-bezier( .25, .25, 0, 1 )
 panel-font( color = color-font )
     font font-size 'Lucida Grande', sans-serif
     color color
-    if ( color == color-font )
-        -webkit-font-smoothing antialiased
     +touch()
         font-size font-size * touch-scale
 

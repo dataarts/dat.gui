@@ -1,0 +1,15 @@
+#name {
+  padding: 9px;
+  padding-top: 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.25);
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.open-false #controllers {
+  display: none;
+}

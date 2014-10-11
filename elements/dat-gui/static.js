@@ -75,6 +75,10 @@ Gui.constructor = function( params ) {
 
     }
 
+    // Docked
+
+    this.docked = params.docked || false;
+
 
 };
 

@@ -1,12 +1,12 @@
 <link rel="import" href="../../../polymer/polymer.html">
 
-<polymer-element name="gui-row" attributes="name comment">
+<polymer-element name="gui-row" attributes="name comment disabled">
 
 <template>
 
-<div>
+<link rel="stylesheet" href="gui-row.css">
 
-    <link rel="stylesheet" href="gui-row.css">
+<div id="container" class="disabled-{{ disabled }}">
 
     <div id="row" class="comment-{{ comment != null }}" layout horizontal>
         

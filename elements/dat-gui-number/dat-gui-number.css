@@ -3,7 +3,7 @@
 }
 #track-container {
   height: 100%;
-  padding: 0 8px;
+  padding-right: 9px;
 }
 #track {
   width: 100%;
@@ -71,11 +71,11 @@ input::selection {
   padding: 0;
 }
 :host-context(.touch-false) .slider-true input:hover {
-  width: 35%;
+  width: 50%;
 }
 .slider-true input:focus {
   width: 50%;
 }
 .slider-false input {
-  padding-left: 8px;
+  padding-left: 9px;
 }

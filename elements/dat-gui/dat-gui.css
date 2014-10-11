@@ -41,7 +41,6 @@
 #controllers {
   font: 10px 'Lucida Grande', sans-serif;
   color: #ecebe0;
-  -webkit-font-smoothing: antialiased;
 }
 .touch-true #controllers {
   font-size: 13.5px;
@@ -49,19 +48,17 @@
 .docked-true #controllers {
   position: absolute;
   width: 100%;
-  top: 4.35em;
 }
 #closeButton {
   font: 10px 'Lucida Grande', sans-serif;
   color: #ecebe0;
-  -webkit-font-smoothing: antialiased;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   cursor: pointer;
   text-align: center;
-  padding: 6px 8px;
+  padding: 6.75px 9px;
 }
 .touch-true #closeButton {
   font-size: 13.5px;
@@ -79,9 +76,8 @@
 gui-button {
   font: 10px 'Lucida Grande', sans-serif;
   color: #ecebe0;
-  -webkit-font-smoothing: antialiased;
   background: #282828;
-  height: 2.9em;
+  height: 3em;
   position: absolute;
   -webkit-transition: all 0.4s cubic-bezier(0, 0.8, 0, 1);
   -moz-transition: all 0.4s cubic-bezier(0, 0.8, 0, 1);
@@ -95,8 +91,8 @@ gui-button {
 .docked-true gui-button {
   top: 0;
   right: 0;
-  width: 4.35em;
-  height: 4.35em;
+  width: 4.5em;
+  height: 4.5em;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;

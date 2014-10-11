@@ -59,6 +59,12 @@ Gui.prototype.var = function( name, value ) {
 
 };
 
+Gui.prototype.folder = function( name ) {
+
+    return this;
+
+};
+
 Gui.prototype.add = function( object, path ) {
 
     return controllerShim;
@@ -70,7 +76,9 @@ var identity = function() {
 };
 
 var controllerShim = {
-    on: identity
+    on: identity,
+    onChange: identity,
+    disable: identity
 };
 
 scope.Gui = Gui;

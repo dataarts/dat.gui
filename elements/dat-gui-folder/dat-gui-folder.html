@@ -1,0 +1,23 @@
+<polymer-element 
+    name="dat-gui-folder"
+    attributes="name open parent">
+
+<template>
+
+<link rel="stylesheet" href="dat-gui-folder.css">
+
+<div id="container" class="open-{{ open }}" >
+
+    <div id="name" on-tap="{{ tap }}">{{ name }}</div>
+
+    <div id="controllers">
+        <content></content>
+    </div>
+    
+</div>
+
+</template>
+
+<script src="dat-gui-folder.js"></script>
+
+</polymer-element>

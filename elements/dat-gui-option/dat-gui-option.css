@@ -1,8 +1,37 @@
 #container {
   height: 100%;
-  cursor: pointer;
-  padding-left: 8px;
 }
 select {
   outline: none;
+  opacity: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
+  width: 100%;
+  cursor: pointer;
+}
+.key {
+  pointer-events: none;
+  color: #1ebd6e;
+  position: absolute;
+  margin-top: 7px;
+}
+.key span {
+  vertical-align: middle;
+  margin-top: 2px;
+  display: inline-block;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+}
+svg {
+  width: 4px;
+  margin-right: 8px;
+  vertical-align: middle;
+  margin-top: 1px;
+}
+svg polygon {
+  fill: rgba(255,255,255,0.25);
+}
+:host-context(.touch-false) #container:hover svg polygon {
+  fill: #ecebe0;
 }

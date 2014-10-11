@@ -3,8 +3,36 @@
 
 #container  
     height 100%
-    cursor pointer
-    padding-left padding
 
 select
     outline none
+    opacity 0
+    width 100%
+    cursor pointer
+
+.key
+    pointer-events none
+    color color-string
+    position absolute
+    margin-top 7px
+    span
+        vertical-align middle
+        margin-top 2px
+        display inline-block
+        overflow hidden
+        text-overflow ellipsis
+
+
+svg 
+    width 4px
+    margin-right 8px
+    vertical-align middle
+    margin-top 1px
+    polygon
+        fill light
+
+#container
+    +hover()
+        svg
+            polygon
+                fill color-font

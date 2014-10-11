@@ -1,22 +1,28 @@
 @import '../shared/shared'
 
+#container.disabled-true
+    opacity 0.4
+    pointer-events none
+
 #row 
     panel-font()
     height row-height
     user-select none
     transition background-color 0.2s linear
     border-bottom 1px solid lighter
-
+    padding 0 padding
+    // overflow hidden
 
 #controller 
     height 100%
 
 #name 
     // overflow hidden
-    padding 0 padding
+    padding-right padding
     box-sizing border-box
     width row-name-width
     cursor default
+    -webkit-font-smoothing antialiased
     .comment-true &  
         cursor pointer
     +touch()

@@ -1,7 +1,6 @@
 #container {
   height: 100%;
   cursor: pointer;
-  padding-left: 8px;
 }
 #switch-track {
   width: 2em;
@@ -50,7 +49,7 @@
   transform: translate3d(1.2em, 0, 0) scale(1.5);
 }
 #text {
-  margin-left: 8px;
+  margin-left: 9px;
 }
 .value-false #text {
   color: rgba(255,255,255,0.25);

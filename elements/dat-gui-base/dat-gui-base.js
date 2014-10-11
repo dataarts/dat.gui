@@ -53,7 +53,11 @@ Polymer( 'dat-gui-base', {
 
     valueChanged: function() {
 
-        this.fire( 'change', this.value );
+        if ( this.__firstChange ) {
+            this.fire( 'change', this.value );
+        }
+        this.__firstChange = true;
+
         this.update();
 
     },
@@ -102,6 +106,8 @@ Polymer( 'dat-gui-base', {
 
     onChange: function( v ) {
 
+        var _this = this;
+
         this.addEventListener( 'change', function( e ) {
 
             v( e.detail );
@@ -117,5 +123,17 @@ Polymer( 'dat-gui-base', {
         return this.onChange( v );
 
     },
+
+    disable: function( disabled ) {
+        
+        if ( disabled === undefined ) {
+            disabled = true;
+        }
+
+        this.row.disabled = disabled;
+
+        return this;
+
+    }
 
 } );
