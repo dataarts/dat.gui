@@ -7,7 +7,7 @@
   <script type="text/javascript" src="qunit.js"></script>
   <script type="text/javascript" src="jquery.js"></script>
   
-  <script type="text/javascript" src="../build/dat.gui.min.js"></script>
+  <script type="text/javascript" src="../build/dat.gui.js"></script>
   <script type="text/javascript">
 
   $.noConflict();
@@ -21,6 +21,7 @@
     var BooleanController = dat.controllers.BooleanController;
     var OptionController = dat.controllers.OptionController;
     var StringController = dat.controllers.StringController;
+    var ArrayController = dat.controllers.ArrayController;
     var NumberController = dat.controllers.NumberController;
     var NumberControllerBox = dat.controllers.NumberControllerBox;
     var NumberControllerSlider = dat.controllers.NumberControllerSlider;
@@ -444,6 +445,7 @@
       return {
         numberProperty: 10,
         stringProperty: 'foo',
+        arrayProperty: [0, 0, 0],
         booleanProperty: false,
         functionProperty: function() {
           // do something
@@ -657,6 +659,30 @@ console.log(c2.__checkbox.getAttribute('checked'));
 
       equal(newVal, object.stringProperty);
 
+    });
+
+    module("ArrayController");
+
+    test("Acknowledges original value", function() {
+      var object = initObject();
+      var c1 = new ArrayController(object, 'arrayProperty');
+
+      equal($(c1.__input).val(), object.arrayProperty);
+
+    });
+
+    test("Modifies values", function() {
+      var object = initObject();
+      var c1 = new ArrayController(object, 'arrayProperty');
+
+      var newVal = '1,a,true';
+
+      var elem = $(c1.__input).val(newVal)[0];
+      dom.fakeEvent(elem, 'change');
+
+      equal(1, object.arrayProperty[0]);
+      equal('a', object.arrayProperty[1]);
+      equal(true, object.arrayProperty[2]);
     });
 
     module("NumberController");
