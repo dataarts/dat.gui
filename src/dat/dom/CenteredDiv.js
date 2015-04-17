@@ -11,107 +11,102 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-define([
-  'dat/dom/dom',
-  'dat/utils/common'
-], function(dom, common) {
+var common = require('../utils/common.js');
+var dom = require('./dom.js');
+
+module.exports = CenteredDiv;
+
+function CenteredDiv() {
+
+  this.backgroundElement = document.createElement('div');
+  common.extend(this.backgroundElement.style, {
+    backgroundColor: 'rgba(0,0,0,0.8)',
+    top: 0,
+    left: 0,
+    display: 'none',
+    zIndex: '1000',
+    opacity: 0,
+    WebkitTransition: 'opacity 0.2s linear',
+    transition: 'opacity 0.2s linear'
+  });
+
+  dom.makeFullscreen(this.backgroundElement);
+  this.backgroundElement.style.position = 'fixed';
+
+  this.domElement = document.createElement('div');
+  common.extend(this.domElement.style, {
+    position: 'fixed',
+    display: 'none',
+    zIndex: '1001',
+    opacity: 0,
+    WebkitTransition: '-webkit-transform 0.2s ease-out, opacity 0.2s linear',
+    transition: 'transform 0.2s ease-out, opacity 0.2s linear'
+  });
 
 
-  var CenteredDiv = function() {
+  document.body.appendChild(this.backgroundElement);
+  document.body.appendChild(this.domElement);
 
-    this.backgroundElement = document.createElement('div');
-    common.extend(this.backgroundElement.style, {
-      backgroundColor: 'rgba(0,0,0,0.8)',
-      top: 0,
-      left: 0,
-      display: 'none',
-      zIndex: '1000',
-      opacity: 0,
-      WebkitTransition: 'opacity 0.2s linear',
-      transition: 'opacity 0.2s linear'
-    });
-
-    dom.makeFullscreen(this.backgroundElement);
-    this.backgroundElement.style.position = 'fixed';
-
-    this.domElement = document.createElement('div');
-    common.extend(this.domElement.style, {
-      position: 'fixed',
-      display: 'none',
-      zIndex: '1001',
-      opacity: 0,
-      WebkitTransition: '-webkit-transform 0.2s ease-out, opacity 0.2s linear',
-      transition: 'transform 0.2s ease-out, opacity 0.2s linear'
-    });
+  var _this = this;
+  dom.bind(this.backgroundElement, 'click', function() {
+    _this.hide();
+  });
 
 
-    document.body.appendChild(this.backgroundElement);
-    document.body.appendChild(this.domElement);
+};
 
-    var _this = this;
-    dom.bind(this.backgroundElement, 'click', function() {
-      _this.hide();
-    });
+CenteredDiv.prototype.show = function() {
 
+  var _this = this;
 
-  };
+  this.backgroundElement.style.display = 'block';
 
-  CenteredDiv.prototype.show = function() {
+  this.domElement.style.display = 'block';
+  this.domElement.style.opacity = 0;
+  //    this.domElement.style.top = '52%';
+  this.domElement.style.webkitTransform = 'scale(1.1)';
 
-    var _this = this;
+  this.layout();
 
-    this.backgroundElement.style.display = 'block';
+  common.defer(function() {
+    _this.backgroundElement.style.opacity = 1;
+    _this.domElement.style.opacity = 1;
+    _this.domElement.style.webkitTransform = 'scale(1)';
+  });
 
-    this.domElement.style.display = 'block';
-    this.domElement.style.opacity = 0;
-//    this.domElement.style.top = '52%';
-    this.domElement.style.webkitTransform = 'scale(1.1)';
+};
 
-    this.layout();
+CenteredDiv.prototype.hide = function() {
 
-    common.defer(function() {
-      _this.backgroundElement.style.opacity = 1;
-      _this.domElement.style.opacity = 1;
-      _this.domElement.style.webkitTransform = 'scale(1)';
-    });
+  var _this = this;
 
-  };
+  var hide = function() {
 
-  CenteredDiv.prototype.hide = function() {
+    _this.domElement.style.display = 'none';
+    _this.backgroundElement.style.display = 'none';
 
-    var _this = this;
-
-    var hide = function() {
-
-      _this.domElement.style.display = 'none';
-      _this.backgroundElement.style.display = 'none';
-
-      dom.unbind(_this.domElement, 'webkitTransitionEnd', hide);
-      dom.unbind(_this.domElement, 'transitionend', hide);
-      dom.unbind(_this.domElement, 'oTransitionEnd', hide);
-
-    };
-
-    dom.bind(this.domElement, 'webkitTransitionEnd', hide);
-    dom.bind(this.domElement, 'transitionend', hide);
-    dom.bind(this.domElement, 'oTransitionEnd', hide);
-
-    this.backgroundElement.style.opacity = 0;
-//    this.domElement.style.top = '48%';
-    this.domElement.style.opacity = 0;
-    this.domElement.style.webkitTransform = 'scale(1.1)';
+    dom.unbind(_this.domElement, 'webkitTransitionEnd', hide);
+    dom.unbind(_this.domElement, 'transitionend', hide);
+    dom.unbind(_this.domElement, 'oTransitionEnd', hide);
 
   };
 
-  CenteredDiv.prototype.layout = function() {
-    this.domElement.style.left = window.innerWidth/2 - dom.getWidth(this.domElement) / 2 + 'px';
-    this.domElement.style.top = window.innerHeight/2 - dom.getHeight(this.domElement) / 2 + 'px';
-  };
-  
-  function lockScroll(e) {
-    console.log(e);
-  }
+  dom.bind(this.domElement, 'webkitTransitionEnd', hide);
+  dom.bind(this.domElement, 'transitionend', hide);
+  dom.bind(this.domElement, 'oTransitionEnd', hide);
 
-  return CenteredDiv;
+  this.backgroundElement.style.opacity = 0;
+  //    this.domElement.style.top = '48%';
+  this.domElement.style.opacity = 0;
+  this.domElement.style.webkitTransform = 'scale(1.1)';
 
-});
+};
+
+CenteredDiv.prototype.layout = function() {
+  this.domElement.style.left = window.innerWidth / 2 - dom.getWidth(this.domElement) / 2 + 'px';
+  this.domElement.style.top = window.innerHeight / 2 - dom.getHeight(this.domElement) / 2 + 'px';
+};
+
+function lockScroll(e) {
+  console.log(e);
+}

@@ -1,68 +1,65 @@
-#dat.GUI
+# UI Controller (dat.gui ported to commonjs)
+
 A lightweight graphical user interface for changing variables in JavaScript. 
 
 Get started with dat.GUI by reading the tutorial at http://workshop.chromeexperiments.com/examples/gui.
 
-----
+## Packaged Builds
 
-##Packaged Builds
 The easiest way to use dat.GUI in your code is by using the built source at `build/dat.gui.min.js`. These built JavaScript files bundle all the necessary dependencies to run dat.GUI.
 
 In your `head` tag, include the following code:
-```
+
+``` html
 <script type="text/javascript" src="dat.gui.min.js"></script>
 ```
 
-----
+## As commonjs module
 
-##Using dat.GUI with require.js
-Internally, dat.GUI uses [require.js](http://requirejs.org/) to handle dependency management. If you're making changes to the source and want to see the effects of your changes without building, use require js.
+Install the module:
 
-In your `head` tag, include the following code:
 ```
-<script data-main="path/to/main" src="path/to/requirejs/require.js"></script>
+npm install dat.gui
 ```
 
-Then, in `path/to/main.js`:
-```
-require([
-  'path/to/gui/module/GUI'
-], function(GUI) {
+Use it:
 
-  // No namespace necessary 
-  var gui = new GUI();
+``` js
+var dat = require('dat.gui');
+var obj = { x: 5 };
+var gui = new dat.GUI();
 
+gui.add(obj, 'x').onChange(function() {
+  // obj.x will now have updated value
 });
 ```
 
-----
 
-##Directory Contents
- * build: Concatenated source code.
- * src: Modular code in [require.js](http://requirejs.org/) format. Also includes css, [scss](http://sass-lang.com/), and html, some of which is included during build.
+
+## Directory Contents
+
+ * build: Concatenated source code for browsers.
+ * src: source code in commonjs format.
  * tests: [QUnit](https://github.com/jquery/qunit) test suite.
- * utils: [node.js](http://nodejs.org/) utility scripts for compiling source.
 
-----
-
-##Building your own dat.GUI
+## Building your own dat.GUI
 
 In the terminal, enter the following:
 
 ```
-$ cd utils
-$ node build_gui.js
+npm start
 ```
 
-This will create a namespaced, unminified build of dat.GUI at `build/dat.gui.js`
+This will create a browserified build of dat.GUI at `build/dat.gui.js` and its
+minified version at `build/dat.gui.min.js`.
 
-_To export minified source using Closure Compiler, open `utils/build_gui.js` and set the `minify` parameter to `true`._
+## Change log
 
-----
+### Pending version number
+ * Moved to commonjs, made it browserify friendly.
+ * Back to GitHub.
 
-##Change log
-
-###0.5
+### 0.5
  * Moved to requirejs for dependency management.
  * Changed global namespace from *DAT* to *dat* (lowercase).
  * Added support for color controllers. See [Color Controllers](http://workshop.chromeexperiments.com/examples/gui/#4--Color-Controllers).
@@ -81,9 +78,10 @@ _To export minified source using Closure Compiler, open `utils/build_gui.js` and
 
 ----
 
-##Thanks
+## Thanks
 The following libraries / open-source projects were used in the development of dat.GUI:
- * [require.js](http://requirejs.org/)
+
+ * [browserify](http://browserify.org/)
  * [Sass](http://sass-lang.com/)
  * [node.js](http://nodejs.org/)
  * [QUnit](https://github.com/jquery/qunit) / [jquery](http://jquery.com/)
