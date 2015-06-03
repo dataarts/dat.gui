@@ -704,7 +704,7 @@ dat.controllers.NumberController = (function (Controller, common) {
         this.__impliedStep = 1; // What are we, psychics?
       } else {
         // Hey Doug, check this out.
-        this.__impliedStep = Math.pow(10, Math.floor(Math.log(this.initialValue)/Math.LN10))/10;
+        this.__impliedStep = Math.pow(10, Math.floor(Math.log(Math.abs(this.initialValue))/Math.LN10))/10;
       }
 
     } else {
@@ -3556,7 +3556,8 @@ dat.utils.requestAnimationFrame = (function () {
    * http://paulirish.com/2011/requestanimationframe-for-smart-animating/
    */
 
-  return window.webkitRequestAnimationFrame ||
+  return window.requestAnimationFrame ||
+      window.webkitRequestAnimationFrame ||
       window.mozRequestAnimationFrame ||
       window.oRequestAnimationFrame ||
       window.msRequestAnimationFrame ||
