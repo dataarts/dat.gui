@@ -11,64 +11,58 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-define([
-    'dat/controllers/Controller',
-    'dat/dom/dom',
-    'dat/utils/common'
-], function(Controller, dom, common) {
+var Controller = require('./Controller.js');
+var common = require('../utils/common.js');
+var dom = require('../dom/dom.js');
 
-  /**
-   * @class Provides a GUI interface to fire a specified method, a property of an object.
-   *
-   * @extends dat.controllers.Controller
-   *
-   * @param {Object} object The object to be manipulated
-   * @param {string} property The name of the property to be manipulated
-   *
-   * @member dat.controllers
-   */
-  var FunctionController = function(object, property, text) {
+module.exports = FunctionController;
 
-    FunctionController.superclass.call(this, object, property);
+/**
+ * @class Provides a GUI interface to fire a specified method, a property of an object.
+ *
+ * @extends dat.controllers.Controller
+ *
+ * @param {Object} object The object to be manipulated
+ * @param {string} property The name of the property to be manipulated
+ *
+ * @member dat.controllers
+ */
+function FunctionController(object, property, text) {
 
-    var _this = this;
+  FunctionController.superclass.call(this, object, property);
 
-    this.__button = document.createElement('div');
-    this.__button.innerHTML = text === undefined ? 'Fire' : text;
-    dom.bind(this.__button, 'click', function(e) {
-      e.preventDefault();
-      _this.fire();
-      return false;
-    });
+  var _this = this;
 
-    dom.addClass(this.__button, 'button');
+  this.__button = document.createElement('div');
+  this.__button.innerHTML = text === undefined ? 'Fire' : text;
+  dom.bind(this.__button, 'click', function(e) {
+    e.preventDefault();
+    _this.fire();
+    return false;
+  });
 
-    this.domElement.appendChild(this.__button);
+  dom.addClass(this.__button, 'button');
 
+  this.domElement.appendChild(this.__button);
 
-  };
+}
 
-  FunctionController.superclass = Controller;
+FunctionController.superclass = Controller;
 
-  common.extend(
+common.extend(
 
-      FunctionController.prototype,
-      Controller.prototype,
-      {
-        
-        fire: function() {
-          if (this.__onChange) {
-            this.__onChange.call(this);
-          }
-          this.getValue().call(this.object);
-          if (this.__onFinishChange) {
-            this.__onFinishChange.call(this, this.getValue());
-          }
-        }
+  FunctionController.prototype,
+  Controller.prototype, {
+
+    fire: function() {
+      if (this.__onChange) {
+        this.__onChange.call(this);
       }
+      this.getValue().call(this.object);
+      if (this.__onFinishChange) {
+        this.__onFinishChange.call(this, this.getValue());
+      }
+    }
+  }
 
-  );
-
-  return FunctionController;
-
-});
+);

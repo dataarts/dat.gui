@@ -1,9 +1,10 @@
 {
   "name": "dat-gui",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "homepage": "https://github.com/dataarts/dat.gui",
   "authors": [
-    "Google Data Arts Team <dataarts@google.com>"
+    "Google Data Arts Team <dataarts@google.com>",
+    "Andrei Kashcha <anvaka@gmail.com>"
   ],
   "description": "dat.gui is a lightweight controller library for JavaScript.",
   "main": "./build/dat.gui.js",

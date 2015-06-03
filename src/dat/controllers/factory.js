@@ -10,56 +10,55 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  */
+var OptionController = require('./OptionController.js');
+var NumberControllerBox = require('./NumberControllerBox.js');
+var NumberControllerSlider = require('./NumberControllerSlider.js');
+var StringController = require('./StringController.js');
+var FunctionController = require('./FunctionController.js');
+var BooleanController = require('./BooleanController.js');
+var common = require('../utils/common.js');
 
-define([
-  'dat/controllers/OptionController',
-  'dat/controllers/NumberControllerBox',
-  'dat/controllers/NumberControllerSlider',
-  'dat/controllers/StringController',
-  'dat/controllers/FunctionController',
-  'dat/controllers/BooleanController',
-  'dat/utils/common'
-],
-    function(OptionController, NumberControllerBox, NumberControllerSlider, StringController, FunctionController, BooleanController, common) {
+module.exports = factory;
 
-      return function(object, property) {
+function factory(object, property) {
 
-        var initialValue = object[property];
+  var initialValue = object[property];
 
-        // Providing options?
-        if (common.isArray(arguments[2]) || common.isObject(arguments[2])) {
-          return new OptionController(object, property, arguments[2]);
-        }
+  // Providing options?
+  if (common.isArray(arguments[2]) || common.isObject(arguments[2])) {
+    return new OptionController(object, property, arguments[2]);
+  }
 
-        // Providing a map?
+  // Providing a map?
 
-        if (common.isNumber(initialValue)) {
+  if (common.isNumber(initialValue)) {
 
-          if (common.isNumber(arguments[2]) && common.isNumber(arguments[3])) {
+    if (common.isNumber(arguments[2]) && common.isNumber(arguments[3])) {
 
-            // Has min and max.
-            return new NumberControllerSlider(object, property, arguments[2], arguments[3]);
+      // Has min and max.
+      return new NumberControllerSlider(object, property, arguments[2], arguments[3]);
 
-          } else {
+    } else {
 
-            return new NumberControllerBox(object, property, { min: arguments[2], max: arguments[3] });
+      return new NumberControllerBox(object, property, {
+        min: arguments[2],
+        max: arguments[3]
+      });
 
-          }
+    }
 
-        }
+  }
 
-        if (common.isString(initialValue)) {
-          return new StringController(object, property);
-        }
+  if (common.isString(initialValue)) {
+    return new StringController(object, property);
+  }
 
-        if (common.isFunction(initialValue)) {
-          return new FunctionController(object, property, '');
-        }
+  if (common.isFunction(initialValue)) {
+    return new FunctionController(object, property, '');
+  }
 
-        if (common.isBoolean(initialValue)) {
-          return new BooleanController(object, property);
-        }
+  if (common.isBoolean(initialValue)) {
+    return new BooleanController(object, property);
+  }
 
-      }
-
-    });
+}

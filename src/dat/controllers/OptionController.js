@@ -11,93 +11,88 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-define([
-    'dat/controllers/Controller',
-    'dat/dom/dom',
-    'dat/utils/common'
-],
-function(Controller, dom, common) {
+var Controller = require('./Controller.js');
+var dom = require('../dom/dom.js');
+var common = require('../utils/common.js');
+
+module.exports = OptionController;
+
+/**
+ * @class Provides a select input to alter the property of an object, using a
+ * list of accepted values.
+ *
+ * @extends dat.controllers.Controller
+ *
+ * @param {Object} object The object to be manipulated
+ * @param {string} property The name of the property to be manipulated
+ * @param {Object|string[]} options A map of labels to acceptable values, or
+ * a list of acceptable string values.
+ *
+ * @member dat.controllers
+ */
+function OptionController(object, property, options) {
+
+  OptionController.superclass.call(this, object, property);
+
+  var _this = this;
 
   /**
-   * @class Provides a select input to alter the property of an object, using a
-   * list of accepted values.
-   *
-   * @extends dat.controllers.Controller
-   *
-   * @param {Object} object The object to be manipulated
-   * @param {string} property The name of the property to be manipulated
-   * @param {Object|string[]} options A map of labels to acceptable values, or
-   * a list of acceptable string values.
-   *
-   * @member dat.controllers
+   * The drop down menu
+   * @ignore
    */
-  var OptionController = function(object, property, options) {
+  this.__select = document.createElement('select');
 
-    OptionController.superclass.call(this, object, property);
+  if (common.isArray(options)) {
+    var map = {};
+    common.each(options, function(element) {
+      map[element] = element;
+    });
+    options = map;
+  }
 
-    var _this = this;
+  common.each(options, function(value, key) {
 
-    /**
-     * The drop down menu
-     * @ignore
-     */
-    this.__select = document.createElement('select');
+    var opt = document.createElement('option');
+    opt.innerHTML = key;
+    opt.setAttribute('value', value);
+    _this.__select.appendChild(opt);
 
-    if (common.isArray(options)) {
-      var map = {};
-      common.each(options, function(element) {
-        map[element] = element;
-      });
-      options = map;
+  });
+
+  // Acknowledge original value
+  this.updateDisplay();
+
+  dom.bind(this.__select, 'change', function() {
+    var desiredValue = this.options[this.selectedIndex].value;
+    _this.setValue(desiredValue);
+  });
+
+  this.domElement.appendChild(this.__select);
+
+}
+
+OptionController.superclass = Controller;
+
+common.extend(
+
+  OptionController.prototype,
+  Controller.prototype,
+
+  {
+
+    setValue: function(v) {
+      var toReturn = OptionController.superclass.prototype.setValue.call(this, v);
+      if (this.__onFinishChange) {
+        this.__onFinishChange.call(this, this.getValue());
+      }
+      return toReturn;
+    },
+
+    updateDisplay: function() {
+      this.__select.value = this.getValue();
+      return OptionController.superclass.prototype.updateDisplay.call(this);
     }
 
-    common.each(options, function(value, key) {
+  }
 
-      var opt = document.createElement('option');
-      opt.innerHTML = key;
-      opt.setAttribute('value', value);
-      _this.__select.appendChild(opt);
-
-    });
-
-    // Acknowledge original value
-    this.updateDisplay();
-
-    dom.bind(this.__select, 'change', function() {
-      var desiredValue = this.options[this.selectedIndex].value;
-      _this.setValue(desiredValue);
-    });
-
-    this.domElement.appendChild(this.__select);
-
-  };
-
-  OptionController.superclass = Controller;
-
-  common.extend(
-
-      OptionController.prototype,
-      Controller.prototype,
-
-      {
-
-        setValue: function(v) {
-          var toReturn = OptionController.superclass.prototype.setValue.call(this, v);
-          if (this.__onFinishChange) {
-            this.__onFinishChange.call(this, this.getValue());
-          }
-          return toReturn;
-        },
-
-        updateDisplay: function() {
-          this.__select.value = this.getValue();
-          return OptionController.superclass.prototype.updateDisplay.call(this);
-        }
-
-      }
-
-  );
-
-  return OptionController;
-
-});
+);

@@ -1,0 +1,32 @@
+{
+  "name": "dat.gui",
+  "version": "0.5.1",
+  "main": "src/index.js",
+  "scripts": {
+    "browser": "browserify -s dat src/index.js > build/dat.gui.js",
+    "minify": "uglifyjs --comments -- ./build/dat.gui.js > ./build/dat.gui.min.js",
+    "release": "npm run browser && npm run minify",
+    "start": "npm run release"
+  },
+  "browserify": {
+    "transform": [
+      "brfs"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dataarts/dat.gui"
+  },
+  "author": [
+    "Data Arts Team, Google Creative Lab",
+    "Andrei Kashcha"
+  ],
+  "license": "Apache 2.0",
+  "dependencies": {
+    "brfs": "^1.4.0"
+  },
+  "devDependencies": {
+    "browserify": "^9.0.8",
+    "uglify-js": "^2.4.20"
+  }
+}

@@ -11,9 +11,9 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-define([
+module.exports = math();
 
-], function() {
+function math() {
 
   var tmpComponent;
 
@@ -47,9 +47,9 @@ define([
     rgb_to_hsv: function(r, g, b) {
 
       var min = Math.min(r, g, b),
-          max = Math.max(r, g, b),
-          delta = max - min,
-          h, s;
+        max = Math.max(r, g, b),
+        delta = max - min,
+        h, s;
 
       if (max != 0) {
         s = delta / max;
@@ -92,9 +92,8 @@ define([
     },
 
     hex_with_component: function(hex, componentIndex, value) {
-      return value << (tmpComponent = componentIndex * 8) | (hex & ~ (0xFF << tmpComponent));
+      return value << (tmpComponent = componentIndex * 8) | (hex & ~(0xFF << tmpComponent));
     }
 
-  }
-
-});
+  };
+}

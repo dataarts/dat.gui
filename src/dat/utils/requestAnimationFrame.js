@@ -10,9 +10,9 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  */
+module.exports = raf();
 
-define([
-], function() {
+function raf() {
 
   /**
    * requirejs version of Paul Irish's RequestAnimationFrame
@@ -28,4 +28,4 @@ define([
         window.setTimeout(callback, 1000 / 60);
 
       };
-});
+}

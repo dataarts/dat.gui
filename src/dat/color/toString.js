@@ -11,27 +11,25 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-define([
-  'dat/utils/common'
-], function(common) {
+var common = require('../utils/common.js');
 
-  return function(color) {
+module.exports = toString;
 
-    if (color.a == 1 || common.isUndefined(color.a)) {
+function toString(color) {
 
-      var s = color.hex.toString(16);
-      while (s.length < 6) {
-        s = '0' + s;
-      }
+  if (color.a == 1 || common.isUndefined(color.a)) {
 
-      return '#' + s;
-
-    } else {
-
-      return 'rgba(' + Math.round(color.r) + ',' + Math.round(color.g) + ',' + Math.round(color.b) + ',' + color.a + ')';
-
+    var s = color.hex.toString(16);
+    while (s.length < 6) {
+      s = '0' + s;
     }
+
+    return '#' + s;
+
+  } else {
+
+    return 'rgba(' + Math.round(color.r) + ',' + Math.round(color.g) + ',' + Math.round(color.b) + ',' + color.a + ')';
 
   }
 
-});
+}

@@ -10,9 +10,9 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  */
+module.exports = css();
 
-define([],
-function() {
+function css() {
   return {
     load: function (url, doc) {
       doc = doc || document;
@@ -29,5 +29,5 @@ function() {
       injected.innerHTML = css;
       doc.getElementsByTagName('head')[0].appendChild(injected);
     }
-  }
-});
+  };
+}
