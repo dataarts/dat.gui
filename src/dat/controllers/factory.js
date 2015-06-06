@@ -16,11 +16,12 @@ define([
   'dat/controllers/NumberControllerBox',
   'dat/controllers/NumberControllerSlider',
   'dat/controllers/StringController',
+  'dat/controllers/ArrayController',
   'dat/controllers/FunctionController',
   'dat/controllers/BooleanController',
   'dat/utils/common'
 ],
-    function(OptionController, NumberControllerBox, NumberControllerSlider, StringController, FunctionController, BooleanController, common) {
+    function(OptionController, NumberControllerBox, NumberControllerSlider, StringController, ArrayController, FunctionController, BooleanController, common) {
 
       return function(object, property) {
 
@@ -58,6 +59,10 @@ define([
 
         if (common.isBoolean(initialValue)) {
           return new BooleanController(object, property);
+        }
+
+        if(common.isArray(initialValue)) {
+          return new ArrayController(object, property);
         }
 
       }
