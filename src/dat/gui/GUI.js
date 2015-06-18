@@ -464,8 +464,7 @@ define([
 
     hide = !hide;
     common.each(hideable_guis, function(gui) {
-      gui.domElement.style.zIndex = hide ? -999 : 999;
-      gui.domElement.style.opacity = hide ? 0 : 1;
+      gui.domElement.style.display = hide ? 'none' : 'fixed';
     });
   };
 
