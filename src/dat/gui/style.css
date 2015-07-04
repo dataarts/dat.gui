@@ -273,7 +273,8 @@
     background: #303030;
     cursor: ew-resize; }
   .dg .c .slider-fg {
-    background: #2fa1d6; }
+    background: #2fa1d6;
+    max-width: 100%; }
   .dg .c .slider:hover {
     background: #3c3c3c; }
     .dg .c .slider:hover .slider-fg {
