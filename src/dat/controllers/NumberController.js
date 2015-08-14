@@ -11,26 +11,25 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-define([
-    'dat/controllers/Controller',
-    'dat/utils/common'
-], function(Controller, common) {
+var Controller = require('./Controller'),
+    common = require('../utils/common');
 
-  /**
-   * @class Represents a given property of an object that is a number.
-   *
-   * @extends dat.controllers.Controller
-   *
-   * @param {Object} object The object to be manipulated
-   * @param {string} property The name of the property to be manipulated
-   * @param {Object} [params] Optional parameters
-   * @param {Number} [params.min] Minimum allowed value
-   * @param {Number} [params.max] Maximum allowed value
-   * @param {Number} [params.step] Increment by which to change value
-   *
-   * @member dat.controllers
-   */
-  var NumberController = function(object, property, params) {
+
+/**
+ * @class Represents a given property of an object that is a number.
+ *
+ * @extends dat.controllers.Controller
+ *
+ * @param {Object} object The object to be manipulated
+ * @param {string} property The name of the property to be manipulated
+ * @param {Object} [params] Optional parameters
+ * @param {Number} [params.min] Minimum allowed value
+ * @param {Number} [params.max] Maximum allowed value
+ * @param {Number} [params.step] Increment by which to change value
+ *
+ * @member dat.controllers
+ */
+var NumberController = function(object, property, params) {
 
     NumberController.superclass.call(this, object, property);
 
@@ -42,47 +41,44 @@ define([
 
     if (common.isUndefined(this.__step)) {
 
-      if (this.initialValue == 0) {
-        this.__impliedStep = 1; // What are we, psychics?
-      } else {
-        // Hey Doug, check this out.
-        this.__impliedStep = Math.pow(10, Math.floor(Math.log(Math.abs(this.initialValue))/Math.LN10))/10;
-      }
+        if (this.initialValue == 0) {
+            this.__impliedStep = 1; // What are we, psychics?
+        } else {
+            // Hey Doug, check this out.
+            this.__impliedStep = Math.pow(10, Math.floor(Math.log(Math.abs(this.initialValue))/Math.LN10))/10;
+        }
 
     } else {
 
-    	this.__impliedStep = this.__step;
-
+        this.__impliedStep = this.__step;
     }
 
     this.__precision = numDecimals(this.__impliedStep);
+};
 
+NumberController.superclass = Controller;
 
-  };
+common.extend(
 
-  NumberController.superclass = Controller;
+    NumberController.prototype,
+    Controller.prototype,
 
-  common.extend(
-
-      NumberController.prototype,
-      Controller.prototype,
-
-      /** @lends dat.controllers.NumberController.prototype */
-      {
+    /** @lends dat.controllers.NumberController.prototype */
+    {
 
         setValue: function(v) {
 
-          if (this.__min !== undefined && v < this.__min) {
-            v = this.__min;
-          } else if (this.__max !== undefined && v > this.__max) {
-            v = this.__max;
-          }
+            if (this.__min !== undefined && v < this.__min) {
+                v = this.__min;
+            } else if (this.__max !== undefined && v > this.__max) {
+                v = this.__max;
+            }
 
-          if (this.__step !== undefined && v % this.__step != 0) {
-            v = Math.round(v / this.__step) * this.__step;
-          }
+            if (this.__step !== undefined && v % this.__step != 0) {
+                v = Math.round(v / this.__step) * this.__step;
+            }
 
-          return NumberController.superclass.prototype.setValue.call(this, v);
+            return NumberController.superclass.prototype.setValue.call(this, v);
 
         },
 
@@ -94,8 +90,8 @@ define([
          * @returns {dat.controllers.NumberController} this
          */
         min: function(v) {
-          this.__min = v;
-          return this;
+            this.__min = v;
+            return this;
         },
 
         /**
@@ -106,8 +102,8 @@ define([
          * @returns {dat.controllers.NumberController} this
          */
         max: function(v) {
-          this.__max = v;
-          return this;
+            this.__max = v;
+            return this;
         },
 
         /**
@@ -121,25 +117,23 @@ define([
          * @returns {dat.controllers.NumberController} this
          */
         step: function(v) {
-          this.__step = v;
-          this.__impliedStep = v;
-          this.__precision = numDecimals(v);
-          return this;
+            this.__step = v;
+            this.__impliedStep = v;
+            this.__precision = numDecimals(v);
+            return this;
         }
 
-      }
+    }
 
-  );
+);
 
-  function numDecimals(x) {
+function numDecimals(x) {
     x = x.toString();
     if (x.indexOf('.') > -1) {
-      return x.length - x.indexOf('.') - 1;
+        return x.length - x.indexOf('.') - 1;
     } else {
-      return 0;
+        return 0;
     }
-  }
+}
 
-  return NumberController;
-
-});
+module.exports = NumberController;

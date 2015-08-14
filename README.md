@@ -10,32 +10,11 @@ The easiest way to use dat.GUI in your code is by using the built source at `bui
 
 In your `head` tag, include the following code:
 ```
-<script type="text/javascript" src="dat.gui.min.js"></script>
+<script type="text/javascript" src="dat.gui.main.js"></script>
 ```
 
 ----
 
-##Using dat.GUI with require.js
-Internally, dat.GUI uses [require.js](http://requirejs.org/) to handle dependency management. If you're making changes to the source and want to see the effects of your changes without building, use require js.
-
-In your `head` tag, include the following code:
-```
-<script data-main="path/to/main" src="path/to/requirejs/require.js"></script>
-```
-
-Then, in `path/to/main.js`:
-```
-require([
-  'path/to/gui/module/GUI'
-], function(GUI) {
-
-  // No namespace necessary 
-  var gui = new GUI();
-
-});
-```
-
-----
 
 ##Directory Contents
  * build: Concatenated source code.
@@ -50,19 +29,20 @@ require([
 In the terminal, enter the following:
 
 ```
-$ cd utils
-$ node build_gui.js
+$ npm run build
 ```
 
-This will create a namespaced, unminified build of dat.GUI at `build/dat.gui.js`
-
-_To export minified source using Closure Compiler, open `utils/build_gui.js` and set the `minify` parameter to `true`._
+This will create a namespaced, unminified build of dat.GUI at `build/dat.gui.main.js`
 
 ----
 
 ##Change log
 
-###0.5
+### 0.6.0
+ * Using common.js
+ * Using webpack for build
+
+### 0.5
  * Moved to requirejs for dependency management.
  * Changed global namespace from *DAT* to *dat* (lowercase).
  * Added support for color controllers. See [Color Controllers](http://workshop.chromeexperiments.com/examples/gui/#4--Color-Controllers).
@@ -75,7 +55,7 @@ _To export minified source using Closure Compiler, open `utils/build_gui.js` and
  * Made Controller code completely agnostic of GUI. Controllers can easily be created independent of a GUI panel.
 
 
-#0.4
+### 0.4
 
  * Migrated from GitHub to Google Code.
 

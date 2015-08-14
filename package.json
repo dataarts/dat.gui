@@ -1,0 +1,30 @@
+{
+  "name": "dat.gui",
+  "version": "0.6.0",
+  "description": "A lightweight graphical user interface for changing variables in JavaScript.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack && webpack --config ./webpack.config.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dataarts/dat.gui.git"
+  },
+  "author": "Data Arts Team, Google Creative Lab",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/dataarts/dat.gui/issues"
+  },
+  "homepage": "https://github.com/dataarts/dat.gui#readme",
+  "devDependencies": {
+    "css-loader": "^0.16.0",
+    "extend": "^3.0.0",
+    "html-loader": "^0.3.0",
+    "style-loader": "^0.12.3",
+    "webpack": "^1.11.0"
+  }
+}
