@@ -825,7 +825,11 @@ function add(gui, object, property, params) {
     var li = addRow(gui, container, params.before);
 
     dom.addClass(li, GUI.CLASS_CONTROLLER_ROW);
-    dom.addClass(li, typeof controller.getValue());
+    if (controller instanceof ColorController) {
+      dom.addClass(li, "color");
+    } else {
+      dom.addClass(li, typeof controller.getValue());
+    }
 
     augmentController(gui, li, controller);
 

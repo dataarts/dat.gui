@@ -249,6 +249,8 @@
     background-image: url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlGIWqMCbWAEAOw==); }
   .dg .cr.boolean {
     border-left: 3px solid #806787; }
+  .dg .cr.color {
+    border-left: 3px solid; }
   .dg .cr.function {
     border-left: 3px solid #e61d5f; }
   .dg .cr.number {

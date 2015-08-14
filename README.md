@@ -41,6 +41,7 @@ This will create a namespaced, unminified build of dat.GUI at `build/dat.gui.mai
 ### 0.6.0
  * Using common.js
  * Using webpack for build
+ * Fixed an issue with colors based on arrays - https://github.com/dataarts/dat.gui/pull/57
 
 ### 0.5
  * Moved to requirejs for dependency management.
