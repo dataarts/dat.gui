@@ -11,13 +11,16 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-module.exports = function () {
+export default function() {
+  function requestAnimationFrame(callback) {
+    // TODO: Get rid of window
+    window.setTimeout(callback, 1000 / 60);
+  }
+
   return window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
     window.mozRequestAnimationFrame ||
     window.oRequestAnimationFrame ||
     window.msRequestAnimationFrame ||
-    function (callback, element) {
-      window.setTimeout(callback, 1000 / 60);
-    };
-};
+    requestAnimationFrame;
+}
