@@ -10,7 +10,7 @@ The easiest way to use dat.GUI in your code is by using the built source at `bui
 
 In your `head` tag, include the following code:
 ```
-<script type="text/javascript" src="dat.gui.main.js"></script>
+<script type="text/javascript" src="dat.gui.js"></script>
 ```
 
 ----
