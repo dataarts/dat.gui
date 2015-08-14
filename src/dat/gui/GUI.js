@@ -21,7 +21,6 @@ import BooleanController from '../controllers/BooleanController';
 import FunctionController from '../controllers/FunctionController';
 import NumberControllerBox from '../controllers/NumberControllerBox';
 import NumberControllerSlider from '../controllers/NumberControllerSlider';
-import OptionController from '../controllers/OptionController';
 import ColorController from '../controllers/ColorController';
 import requestAnimationFrame from '../utils/requestAnimationFrame';
 import CenteredDiv from '../dom/CenteredDiv';
@@ -31,36 +30,36 @@ import common from '../utils/common';
 css.inject(styleSheet);
 
 /** Outer-most className for GUI's */
-var CSS_NAMESPACE = 'dg';
+const CSS_NAMESPACE = 'dg';
 
-var HIDE_KEY_CODE = 72;
+const HIDE_KEY_CODE = 72;
 
 /** The only value shared between the JS and SCSS. Use caution. */
-var CLOSE_BUTTON_HEIGHT = 20;
+const CLOSE_BUTTON_HEIGHT = 20;
 
-var DEFAULT_DEFAULT_PRESET_NAME = 'Default';
+const DEFAULT_DEFAULT_PRESET_NAME = 'Default';
 
-var SUPPORTS_LOCAL_STORAGE = (function() {
+const SUPPORTS_LOCAL_STORAGE = (function() {
   try {
-    return 'localStorage' in window && window['localStorage'] !== null;
+    return 'localStorage' in window && window.localStorage !== null;
   } catch (e) {
     return false;
   }
 })();
 
-var SAVE_DIALOGUE;
+let SAVE_DIALOGUE;
 
 /** Have we yet to create an autoPlace GUI? */
-var auto_place_virgin = true;
+let autoPlaceVirgin = true;
 
 /** Fixed position div that auto place GUI's go inside */
-var auto_place_container;
+let autoPlaceContainer;
 
 /** Are we hiding the GUI's ? */
-var hide = false;
+let hide = false;
 
 /** GUI's which should be hidden */
-var hideable_guis = [];
+const hideableGuis = [];
 
 /**
  * A lightweight controller library for JavaScript. It allows you to easily
@@ -77,8 +76,10 @@ var hideable_guis = [];
  * @param {dat.gui.GUI} [params.parent] The GUI I'm nested in.
  * @param {Boolean} [params.closed] If true, starts closed
  */
-var GUI = function(params) {
-  var _this = this;
+const GUI = function(pars) {
+  const _this = this;
+
+  let params = pars || {};
 
   /**
    * Outermost DOM Element
@@ -126,8 +127,6 @@ var GUI = function(params) {
 
   this.__listening = [];
 
-  params = params || {};
-
   // Default parameters
   params = common.defaults(params, {
     autoPlace: true,
@@ -149,7 +148,7 @@ var GUI = function(params) {
   }
 
   if (common.isUndefined(params.parent) && params.hideable) {
-    hideable_guis.push(this);
+    hideableGuis.push(this);
   }
 
   // Only root level GUI's are resizable.
@@ -162,11 +161,11 @@ var GUI = function(params) {
 
   // Not part of params because I don't want people passing this in via
   // constructor. Should be a 'remembered' value.
-  var use_local_storage =
+  let useLocalStorage =
     SUPPORTS_LOCAL_STORAGE &&
     localStorage.getItem(getLocalStorageHash(this, 'isLocal')) === 'true';
 
-  var saveToLocalStorage;
+  let saveToLocalStorage;
 
   Object.defineProperties(this,
     /** @lends dat.gui.GUI.prototype */
@@ -205,9 +204,9 @@ var GUI = function(params) {
         get: function() {
           if (_this.parent) {
             return _this.getRoot().preset;
-          } else {
-            return params.load.preset;
           }
+
+          return params.load.preset;
         },
 
         set: function(v) {
@@ -247,8 +246,8 @@ var GUI = function(params) {
         set: function(v) {
           // TODO Check for collisions among sibling folders
           params.name = v;
-          if (title_row_name) {
-            title_row_name.innerHTML = params.name;
+          if (titleRowName) {
+            titleRowName.innerHTML = params.name;
           }
         }
       },
@@ -297,11 +296,11 @@ var GUI = function(params) {
       useLocalStorage: {
 
         get: function() {
-          return use_local_storage;
+          return useLocalStorage;
         },
         set: function(bool) {
           if (SUPPORTS_LOCAL_STORAGE) {
-            use_local_storage = bool;
+            useLocalStorage = bool;
             if (bool) {
               dom.bind(window, 'unload', saveToLocalStorage);
             } else {
@@ -315,7 +314,6 @@ var GUI = function(params) {
 
   // Are we a root level GUI?
   if (common.isUndefined(params.parent)) {
-
     params.closed = false;
 
     dom.addClass(this.domElement, GUI.CLASS_MAIN);
@@ -323,13 +321,13 @@ var GUI = function(params) {
 
     // Are we supposed to be loading locally?
     if (SUPPORTS_LOCAL_STORAGE) {
-      if (use_local_storage) {
+      if (useLocalStorage) {
         _this.useLocalStorage = true;
 
-        var saved_gui = localStorage.getItem(getLocalStorageHash(this, 'gui'));
+        const savedGui = localStorage.getItem(getLocalStorageHash(this, 'gui'));
 
-        if (saved_gui) {
-          params.load = JSON.parse(saved_gui);
+        if (savedGui) {
+          params.load = JSON.parse(savedGui);
         }
       }
     }
@@ -348,12 +346,12 @@ var GUI = function(params) {
       params.closed = true;
     }
 
-    var title_row_name = document.createTextNode(params.name);
-    dom.addClass(title_row_name, 'controller-name');
+    const titleRowName = document.createTextNode(params.name);
+    dom.addClass(titleRowName, 'controller-name');
 
-    var title_row = addRow(_this, title_row_name);
+    const titleRow = addRow(_this, titleRowName);
 
-    var on_click_title = function(e) {
+    const onClickTitle = function(e) {
       e.preventDefault();
       _this.closed = !_this.closed;
       return false;
@@ -361,8 +359,8 @@ var GUI = function(params) {
 
     dom.addClass(this.__ul, GUI.CLASS_CLOSED);
 
-    dom.addClass(title_row, 'title');
-    dom.bind(title_row, 'click', on_click_title);
+    dom.addClass(titleRow, 'title');
+    dom.bind(titleRow, 'click', onClickTitle);
 
     if (!params.closed) {
       this.closed = false;
@@ -371,16 +369,16 @@ var GUI = function(params) {
 
   if (params.autoPlace) {
     if (common.isUndefined(params.parent)) {
-      if (auto_place_virgin) {
-        auto_place_container = document.createElement('div');
-        dom.addClass(auto_place_container, CSS_NAMESPACE);
-        dom.addClass(auto_place_container, GUI.CLASS_AUTO_PLACE_CONTAINER);
-        document.body.appendChild(auto_place_container);
-        auto_place_virgin = false;
+      if (autoPlaceVirgin) {
+        autoPlaceContainer = document.createElement('div');
+        dom.addClass(autoPlaceContainer, CSS_NAMESPACE);
+        dom.addClass(autoPlaceContainer, GUI.CLASS_AUTO_PLACE_CONTAINER);
+        document.body.appendChild(autoPlaceContainer);
+        autoPlaceVirgin = false;
       }
 
       // Put it in the dom for you.
-      auto_place_container.appendChild(this.domElement);
+      autoPlaceContainer.appendChild(this.domElement);
 
       // Apply the auto styles
       dom.addClass(this.domElement, GUI.CLASS_AUTO_PLACE);
@@ -394,16 +392,16 @@ var GUI = function(params) {
   }
 
   dom.bind(window, 'resize', function() {
-    _this.onResize()
+    _this.onResize();
   });
   dom.bind(this.__ul, 'webkitTransitionEnd', function() {
     _this.onResize();
   });
   dom.bind(this.__ul, 'transitionend', function() {
-    _this.onResize()
+    _this.onResize();
   });
   dom.bind(this.__ul, 'oTransitionEnd', function() {
-    _this.onResize()
+    _this.onResize();
   });
   this.onResize();
 
@@ -420,10 +418,8 @@ var GUI = function(params) {
   // expose this method publicly
   this.saveToLocalStorageIfPossible = saveToLocalStorage;
 
-  var root = _this.getRoot();
-
   function resetWidth() {
-    var root = _this.getRoot();
+    const root = _this.getRoot();
     root.width += 1;
     common.defer(function() {
       root.width -= 1;
@@ -437,7 +433,7 @@ var GUI = function(params) {
 
 GUI.toggleHide = function() {
   hide = !hide;
-  common.each(hideable_guis, function(gui) {
+  common.each(hideableGuis, function(gui) {
     gui.domElement.style.zIndex = hide ? -999 : 999;
     gui.domElement.style.opacity = hide ? 0 : 1;
   });
@@ -458,7 +454,7 @@ GUI.TEXT_OPEN = 'Open Controls';
 
 dom.bind(window, 'keydown', function(e) {
   if (document.activeElement.type !== 'text' &&
-    (e.which === HIDE_KEY_CODE || e.keyCode == HIDE_KEY_CODE)) {
+    (e.which === HIDE_KEY_CODE || e.keyCode === HIDE_KEY_CODE)) {
     GUI.toggleHide();
   }
 }, false);
@@ -511,7 +507,7 @@ common.extend(
       // TODO listening?
       this.__ul.removeChild(controller.__li);
       this.__controllers.splice(this.__controllers.indexOf(controller), 1);
-      var _this = this;
+      const _this = this;
       common.defer(function() {
         _this.onResize();
       });
@@ -519,7 +515,7 @@ common.extend(
 
     destroy: function() {
       if (this.autoPlace) {
-        auto_place_container.removeChild(this.domElement);
+        autoPlaceContainer.removeChild(this.domElement);
       }
     },
 
@@ -538,12 +534,12 @@ common.extend(
           ' name "' + name + '"');
       }
 
-      var new_gui_params = {name: name, parent: this};
+      const newGuiParams = {name: name, parent: this};
 
       // We need to pass down the autoPlace trait so that we can
       // attach event listeners to open/close folder actions to
       // ensure that a scrollbar appears if the window is too short.
-      new_gui_params.autoPlace = this.autoPlace;
+      newGuiParams.autoPlace = this.autoPlace;
 
       // Do we have saved appearance data for this folder?
 
@@ -552,17 +548,16 @@ common.extend(
         this.load.folders[name]) { // Did daddy remember me?
 
         // Start me closed if I was closed
-        new_gui_params.closed = this.load.folders[name].closed;
+        newGuiParams.closed = this.load.folders[name].closed;
 
         // Pass down the loaded data
-        new_gui_params.load = this.load.folders[name];
-
+        newGuiParams.load = this.load.folders[name];
       }
 
-      var gui = new GUI(new_gui_params);
+      const gui = new GUI(newGuiParams);
       this.__folders[name] = gui;
 
-      var li = addRow(this, gui.domElement);
+      const li = addRow(this, gui.domElement);
       dom.addClass(li, 'folder');
       return gui;
     },
@@ -576,14 +571,15 @@ common.extend(
     },
 
     onResize: function() {
-      var root = this.getRoot();
+      const root = this.getRoot();
       if (root.scrollable) {
-        var top = dom.getOffset(root.__ul).top;
-        var h = 0;
+        const top = dom.getOffset(root.__ul).top;
+        let h = 0;
 
         common.each(root.__ul.childNodes, function(node) {
-          if (!(root.autoPlace && node === root.__save_row))
+          if (!(root.autoPlace && node === root.__save_row)) {
             h += dom.getHeight(node);
+          }
         });
 
         if (window.innerHeight - top - CLOSE_BUTTON_HEIGHT < h) {
@@ -622,16 +618,16 @@ common.extend(
       }
 
       if (this.parent) {
-        throw new Error("You can only call remember on a top level GUI.");
+        throw new Error('You can only call remember on a top level GUI.');
       }
 
-      var _this = this;
+      const _this = this;
 
       common.each(Array.prototype.slice.call(arguments), function(object) {
-        if (_this.__rememberedObjects.length == 0) {
+        if (_this.__rememberedObjects.length === 0) {
           addSaveMenu(_this);
         }
-        if (_this.__rememberedObjects.indexOf(object) == -1) {
+        if (_this.__rememberedObjects.indexOf(object) === -1) {
           _this.__rememberedObjects.push(object);
         }
       });
@@ -647,7 +643,7 @@ common.extend(
      * @instance
      */
     getRoot: function() {
-      var gui = this;
+      let gui = this;
       while (gui.parent) {
         gui = gui.parent;
       }
@@ -660,7 +656,7 @@ common.extend(
      * @instance
      */
     getSaveObject: function() {
-      var toReturn = this.load;
+      const toReturn = this.load;
       toReturn.closed = this.closed;
 
       // Am I remembering any values?
@@ -725,9 +721,11 @@ common.extend(
     },
 
     listen: function(controller) {
-      var init = this.__listening.length == 0;
+      const init = this.__listening.length === 0;
       this.__listening.push(controller);
-      if (init) updateDisplays(this.__listening);
+      if (init) {
+        updateDisplays(this.__listening);
+      }
     }
   }
 );
@@ -1008,7 +1006,7 @@ function addPresetOption(gui, name, setSelected) {
   }
 }
 
-function showHideExplain(explain) {
+function showHideExplain(gui, explain) {
   explain.style.display = gui.useLocalStorage ? 'block' : 'none';
 }
 
@@ -1076,12 +1074,12 @@ function addSaveMenu(gui) {
       localStorageCheckBox.setAttribute('checked', 'checked');
     }
 
-    showHideExplain(explain);
+    showHideExplain(gui, explain);
 
     // TODO: Use a boolean controller, fool!
     dom.bind(localStorageCheckBox, 'change', function() {
       gui.useLocalStorage = !gui.useLocalStorage;
-      showHideExplain(explain);
+      showHideExplain(gui, explain);
     });
   }
 
