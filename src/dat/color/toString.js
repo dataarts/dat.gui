@@ -23,4 +23,4 @@ export default function(color) {
   }
 
   return 'rgba(' + Math.round(color.r) + ',' + Math.round(color.g) + ',' + Math.round(color.b) + ',' + color.a + ')';
-};
+}

@@ -21,7 +21,7 @@ class Color {
     this.__state = interpret.apply(this, arguments);
 
     if (this.__state === false) {
-      throw 'Failed to interpret color arguments';
+      throw new Error('Failed to interpret color arguments');
     }
 
     this.__state.a = this.__state.a || 1;
@@ -42,12 +42,12 @@ Color.recalculateRGB = function(color, component, componentHexIndex) {
   } else if (color.__state.space === 'HSV') {
     common.extend(color.__state, math.hsv_to_rgb(color.__state.h, color.__state.s, color.__state.v));
   } else {
-    throw 'Corrupted color state';
+    throw new Error('Corrupted color state');
   }
 };
 
 Color.recalculateHSV = function(color) {
-  var result = math.rgb_to_hsv(color.r, color.g, color.b);
+  const result = math.rgb_to_hsv(color.r, color.g, color.b);
 
   common.extend(color.__state,
     {
@@ -74,17 +74,17 @@ defineHSVComponent(Color.prototype, 's');
 defineHSVComponent(Color.prototype, 'v');
 
 Object.defineProperty(Color.prototype, 'a', {
-  get: function () {
+  get: function() {
     return this.__state.a;
   },
 
-  set: function (v) {
+  set: function(v) {
     this.__state.a = v;
   }
 });
 
 Object.defineProperty(Color.prototype, 'hex', {
-  get: function () {
+  get: function() {
     if (!this.__state.space !== 'HEX') {
       this.__state.hex = math.rgb_to_hex(this.r, this.g, this.b);
     }
@@ -92,7 +92,7 @@ Object.defineProperty(Color.prototype, 'hex', {
     return this.__state.hex;
   },
 
-  set: function (v) {
+  set: function(v) {
     this.__state.space = 'HEX';
     this.__state.hex = v;
   }
@@ -100,7 +100,7 @@ Object.defineProperty(Color.prototype, 'hex', {
 
 function defineRGBComponent(target, component, componentHexIndex) {
   Object.defineProperty(target, component, {
-    get: function () {
+    get: function() {
       if (this.__state.space === 'RGB') {
         return this.__state[component];
       }
@@ -110,7 +110,7 @@ function defineRGBComponent(target, component, componentHexIndex) {
       return this.__state[component];
     },
 
-    set: function (v) {
+    set: function(v) {
       if (this.__state.space !== 'RGB') {
         Color.recalculateRGB(this, component, componentHexIndex);
         this.__state.space = 'RGB';
@@ -123,7 +123,7 @@ function defineRGBComponent(target, component, componentHexIndex) {
 
 function defineHSVComponent(target, component) {
   Object.defineProperty(target, component, {
-    get: function () {
+    get: function() {
       if (this.__state.space === 'HSV') {
         return this.__state[component];
       }
@@ -131,10 +131,9 @@ function defineHSVComponent(target, component) {
       Color.recalculateHSV(this);
 
       return this.__state[component];
-
     },
 
-    set: function (v) {
+    set: function(v) {
       if (this.__state.space !== 'HSV') {
         Color.recalculateHSV(this);
         this.__state.space = 'HSV';

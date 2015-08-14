@@ -11,19 +11,18 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-var tmpComponent;
+let tmpComponent;
 
-var ColorMath = {
+const ColorMath = {
+  hsv_to_rgb: function(h, s, v) {
+    const hi = Math.floor(h / 60) % 6;
 
-  hsv_to_rgb: function (h, s, v) {
+    const f = h / 60 - Math.floor(h / 60);
+    const p = v * (1.0 - s);
+    const q = v * (1.0 - (f * s));
+    const t = v * (1.0 - ((1.0 - f) * s));
 
-    var hi = Math.floor(h / 60) % 6;
-
-    var f = h / 60 - Math.floor(h / 60);
-    var p = v * (1.0 - s);
-    var q = v * (1.0 - (f * s));
-    var t = v * (1.0 - ((1.0 - f) * s));
-    var c = [
+    const c = [
       [v, t, p],
       [q, v, p],
       [p, v, t],
@@ -37,17 +36,16 @@ var ColorMath = {
       g: c[1] * 255,
       b: c[2] * 255
     };
-
   },
 
-  rgb_to_hsv: function (r, g, b) {
+  rgb_to_hsv: function(r, g, b) {
+    const min = Math.min(r, g, b);
+    const max = Math.max(r, g, b);
+    const delta = max - min;
+    let h;
+    let s;
 
-    var min = Math.min(r, g, b),
-      max = Math.max(r, g, b),
-      delta = max - min,
-      h, s;
-
-    if (max != 0) {
+    if (max !== 0) {
       s = delta / max;
     } else {
       return {
@@ -57,9 +55,9 @@ var ColorMath = {
       };
     }
 
-    if (r == max) {
+    if (r === max) {
       h = (g - b) / delta;
-    } else if (g == max) {
+    } else if (g === max) {
       h = 2 + (b - r) / delta;
     } else {
       h = 4 + (r - g) / delta;
@@ -76,20 +74,20 @@ var ColorMath = {
     };
   },
 
-  rgb_to_hex: function (r, g, b) {
-    var hex = this.hex_with_component(0, 2, r);
+  rgb_to_hex: function(r, g, b) {
+    let hex = this.hex_with_component(0, 2, r);
     hex = this.hex_with_component(hex, 1, g);
     hex = this.hex_with_component(hex, 0, b);
     return hex;
   },
 
-  component_from_hex: function (hex, componentIndex) {
+  component_from_hex: function(hex, componentIndex) {
     return (hex >> (componentIndex * 8)) & 0xFF;
   },
 
-  hex_with_component: function (hex, componentIndex, value) {
+  hex_with_component: function(hex, componentIndex, value) {
     return value << (tmpComponent = componentIndex * 8) | (hex & ~(0xFF << tmpComponent));
   }
-}
+};
 
 export default ColorMath;
