@@ -16,18 +16,14 @@ import common from '../utils/common';
 
 var result, toReturn;
 
-var interpret = function() {
-
+var interpret = function () {
   toReturn = false;
 
   var original = arguments.length > 1 ? common.toArray(arguments) : arguments[0];
-
-  common.each(INTERPRETATIONS, function(family) {
+  common.each(INTERPRETATIONS, function (family) {
 
     if (family.litmus(original)) {
-
-      common.each(family.conversions, function(conversion, conversionName) {
-
+      common.each(family.conversions, function (conversion, conversionName) {
         result = conversion.read(original);
 
         if (toReturn === false && result !== false) {
@@ -35,33 +31,23 @@ var interpret = function() {
           result.conversionName = conversionName;
           result.conversion = conversion;
           return common.BREAK;
-
         }
-
       });
 
       return common.BREAK;
-
     }
-
   });
 
   return toReturn;
-
 };
 
 var INTERPRETATIONS = [
-
   // Strings
   {
-
     litmus: common.isString,
-
     conversions: {
-
       THREE_CHAR_HEX: {
-
-        read: function(original) {
+        read: function (original) {
 
           var test = original.match(/^#([A-F0-9])([A-F0-9])([A-F0-9])$/i);
           if (test === null) return false;
@@ -69,21 +55,19 @@ var INTERPRETATIONS = [
           return {
             space: 'HEX',
             hex: parseInt(
-                '0x' +
-                test[1].toString() + test[1].toString() +
-                test[2].toString() + test[2].toString() +
-                test[3].toString() + test[3].toString())
+              '0x' +
+              test[1].toString() + test[1].toString() +
+              test[2].toString() + test[2].toString() +
+              test[3].toString() + test[3].toString())
           };
 
         },
 
         write: toString
-
       },
 
       SIX_CHAR_HEX: {
-
-        read: function(original) {
+        read: function (original) {
 
           var test = original.match(/^#([A-F0-9]{6})$/i);
           if (test === null) return false;
@@ -96,12 +80,10 @@ var INTERPRETATIONS = [
         },
 
         write: toString
-
       },
 
       CSS_RGB: {
-
-        read: function(original) {
+        read: function (original) {
 
           var test = original.match(/^rgb\(\s*(.+)\s*,\s*(.+)\s*,\s*(.+)\s*\)/);
           if (test === null) return false;
@@ -116,12 +98,10 @@ var INTERPRETATIONS = [
         },
 
         write: toString
-
       },
 
       CSS_RGBA: {
-
-        read: function(original) {
+        read: function (original) {
 
           var test = original.match(/^rgba\(\s*(.+)\s*,\s*(.+)\s*,\s*(.+)\s*\,\s*(.+)\s*\)/);
           if (test === null) return false;
@@ -133,26 +113,21 @@ var INTERPRETATIONS = [
             b: parseFloat(test[3]),
             a: parseFloat(test[4])
           };
-
         },
 
         write: toString
-
       }
-
     }
-
   },
 
   // Numbers
   {
-
     litmus: common.isNumber,
 
     conversions: {
 
       HEX: {
-        read: function(original) {
+        read: function (original) {
           return {
             space: 'HEX',
             hex: original,
@@ -160,7 +135,7 @@ var INTERPRETATIONS = [
           }
         },
 
-        write: function(color) {
+        write: function (color) {
           return color.hex;
         }
       }
@@ -171,13 +146,11 @@ var INTERPRETATIONS = [
 
   // Arrays
   {
-
     litmus: common.isArray,
-
     conversions: {
 
       RGB_ARRAY: {
-        read: function(original) {
+        read: function (original) {
           if (original.length != 3) return false;
           return {
             space: 'RGB',
@@ -187,14 +160,13 @@ var INTERPRETATIONS = [
           };
         },
 
-        write: function(color) {
+        write: function (color) {
           return [color.r, color.g, color.b];
         }
-
       },
 
       RGBA_ARRAY: {
-        read: function(original) {
+        read: function (original) {
           if (original.length != 4) return false;
           return {
             space: 'RGB',
@@ -205,14 +177,11 @@ var INTERPRETATIONS = [
           };
         },
 
-        write: function(color) {
+        write: function (color) {
           return [color.r, color.g, color.b, color.a];
         }
-
       }
-
     }
-
   },
 
   // Objects
@@ -223,11 +192,11 @@ var INTERPRETATIONS = [
     conversions: {
 
       RGBA_OBJ: {
-        read: function(original) {
+        read: function (original) {
           if (common.isNumber(original.r) &&
-              common.isNumber(original.g) &&
-              common.isNumber(original.b) &&
-              common.isNumber(original.a)) {
+            common.isNumber(original.g) &&
+            common.isNumber(original.b) &&
+            common.isNumber(original.a)) {
             return {
               space: 'RGB',
               r: original.r,
@@ -239,7 +208,7 @@ var INTERPRETATIONS = [
           return false;
         },
 
-        write: function(color) {
+        write: function (color) {
           return {
             r: color.r,
             g: color.g,
@@ -250,10 +219,10 @@ var INTERPRETATIONS = [
       },
 
       RGB_OBJ: {
-        read: function(original) {
+        read: function (original) {
           if (common.isNumber(original.r) &&
-              common.isNumber(original.g) &&
-              common.isNumber(original.b)) {
+            common.isNumber(original.g) &&
+            common.isNumber(original.b)) {
             return {
               space: 'RGB',
               r: original.r,
@@ -264,7 +233,7 @@ var INTERPRETATIONS = [
           return false;
         },
 
-        write: function(color) {
+        write: function (color) {
           return {
             r: color.r,
             g: color.g,
@@ -274,11 +243,11 @@ var INTERPRETATIONS = [
       },
 
       HSVA_OBJ: {
-        read: function(original) {
+        read: function (original) {
           if (common.isNumber(original.h) &&
-              common.isNumber(original.s) &&
-              common.isNumber(original.v) &&
-              common.isNumber(original.a)) {
+            common.isNumber(original.s) &&
+            common.isNumber(original.v) &&
+            common.isNumber(original.a)) {
             return {
               space: 'HSV',
               h: original.h,
@@ -290,7 +259,7 @@ var INTERPRETATIONS = [
           return false;
         },
 
-        write: function(color) {
+        write: function (color) {
           return {
             h: color.h,
             s: color.s,
@@ -301,10 +270,10 @@ var INTERPRETATIONS = [
       },
 
       HSV_OBJ: {
-        read: function(original) {
+        read: function (original) {
           if (common.isNumber(original.h) &&
-              common.isNumber(original.s) &&
-              common.isNumber(original.v)) {
+            common.isNumber(original.s) &&
+            common.isNumber(original.v)) {
             return {
               space: 'HSV',
               h: original.h,
@@ -315,21 +284,16 @@ var INTERPRETATIONS = [
           return false;
         },
 
-        write: function(color) {
+        write: function (color) {
           return {
             h: color.h,
             s: color.s,
             v: color.v
           }
         }
-
       }
-
     }
-
   }
-
-
 ];
 
 export default interpret;

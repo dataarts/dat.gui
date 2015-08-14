@@ -15,6 +15,11 @@ import NumberController from './NumberController';
 import dom from '../dom/dom';
 import common from '../utils/common';
 
+function roundToDecimal(value, decimals) {
+  var tenTo = Math.pow(10, decimals);
+  return Math.round(value * tenTo) / tenTo;
+}
+
 /**
  * @class Represents a given property of an object that is a number and
  * provides an input element with which to manipulate it.
@@ -31,99 +36,81 @@ import common from '../utils/common';
  *
  * @member dat.controllers
  */
-var NumberControllerBox = function(object, property, params) {
+class NumberControllerBox extends NumberController {
+  constructor(object, property, params) {
+    super(object, property, params);
 
-  this.__truncationSuspended = false;
+    this.__truncationSuspended = false;
 
-  NumberControllerBox.superclass.call(this, object, property, params);
+    var _this = this;
 
-  var _this = this;
+    /**
+     * {Number} Previous mouse y position
+     * @ignore
+     */
+    var prev_y;
 
-  /**
-   * {Number} Previous mouse y position
-   * @ignore
-   */
-  var prev_y;
+    this.__input = document.createElement('input');
+    this.__input.setAttribute('type', 'text');
 
-  this.__input = document.createElement('input');
-  this.__input.setAttribute('type', 'text');
+    // Makes it so manually specified values are not truncated.
 
-  // Makes it so manually specified values are not truncated.
+    dom.bind(this.__input, 'change', onChange);
+    dom.bind(this.__input, 'blur', onBlur);
+    dom.bind(this.__input, 'mousedown', onMouseDown);
+    dom.bind(this.__input, 'keydown', function (e) {
 
-  dom.bind(this.__input, 'change', onChange);
-  dom.bind(this.__input, 'blur', onBlur);
-  dom.bind(this.__input, 'mousedown', onMouseDown);
-  dom.bind(this.__input, 'keydown', function(e) {
-
-    // When pressing entire, you can be as precise as you want.
-    if (e.keyCode === 13) {
-      _this.__truncationSuspended = true;
-      this.blur();
-      _this.__truncationSuspended = false;
-    }
-
-  });
-
-  function onChange() {
-    var attempted = parseFloat(_this.__input.value);
-    if (!common.isNaN(attempted)) _this.setValue(attempted);
-  }
-
-  function onBlur() {
-    onChange();
-    if (_this.__onFinishChange) {
-      _this.__onFinishChange.call(_this, _this.getValue());
-    }
-  }
-
-  function onMouseDown(e) {
-    dom.bind(window, 'mousemove', onMouseDrag);
-    dom.bind(window, 'mouseup', onMouseUp);
-    prev_y = e.clientY;
-  }
-
-  function onMouseDrag(e) {
-
-    var diff = prev_y - e.clientY;
-    _this.setValue(_this.getValue() + diff * _this.__impliedStep);
-
-    prev_y = e.clientY;
-
-  }
-
-  function onMouseUp() {
-    dom.unbind(window, 'mousemove', onMouseDrag);
-    dom.unbind(window, 'mouseup', onMouseUp);
-  }
-
-  this.updateDisplay();
-
-  this.domElement.appendChild(this.__input);
-
-};
-
-NumberControllerBox.superclass = NumberController;
-
-common.extend(
-
-    NumberControllerBox.prototype,
-    NumberController.prototype,
-
-    {
-
-      updateDisplay: function() {
-
-        this.__input.value = this.__truncationSuspended ? this.getValue() : roundToDecimal(this.getValue(), this.__precision);
-        return NumberControllerBox.superclass.prototype.updateDisplay.call(this);
+      // When pressing entire, you can be as precise as you want.
+      if (e.keyCode === 13) {
+        _this.__truncationSuspended = true;
+        this.blur();
+        _this.__truncationSuspended = false;
       }
 
+    });
+
+    function onChange() {
+      var attempted = parseFloat(_this.__input.value);
+      if (!common.isNaN(attempted)) _this.setValue(attempted);
     }
 
-);
+    function onBlur() {
+      onChange();
+      if (_this.__onFinishChange) {
+        _this.__onFinishChange.call(_this, _this.getValue());
+      }
+    }
 
-function roundToDecimal(value, decimals) {
-  var tenTo = Math.pow(10, decimals);
-  return Math.round(value * tenTo) / tenTo;
+    function onMouseDown(e) {
+      dom.bind(window, 'mousemove', onMouseDrag);
+      dom.bind(window, 'mouseup', onMouseUp);
+      prev_y = e.clientY;
+    }
+
+    function onMouseDrag(e) {
+
+      var diff = prev_y - e.clientY;
+      _this.setValue(_this.getValue() + diff * _this.__impliedStep);
+
+      prev_y = e.clientY;
+
+    }
+
+    function onMouseUp() {
+      dom.unbind(window, 'mousemove', onMouseDrag);
+      dom.unbind(window, 'mouseup', onMouseUp);
+    }
+
+    this.updateDisplay();
+
+    this.domElement.appendChild(this.__input);
+  }
+
+  updateDisplay() {
+
+    this.__input.value = this.__truncationSuspended ? this.getValue() : roundToDecimal(this.getValue(), this.__precision);
+    return super.updateDisplay();
+  }
 }
 
 export default NumberControllerBox;

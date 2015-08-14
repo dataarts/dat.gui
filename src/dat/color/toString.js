@@ -13,7 +13,7 @@
 
 import common from '../utils/common';
 
-var toString = function (color) {
+var colorToString = function (color) {
   if (color.a == 1 || common.isUndefined(color.a)) {
     var s = color.hex.toString(16);
     while (s.length < 6) {
@@ -26,4 +26,4 @@ var toString = function (color) {
   }
 };
 
-export default toString;
+export default colorToString;

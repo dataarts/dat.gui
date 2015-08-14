@@ -28,9 +28,9 @@ import common from '../utils/common';
  *
  * @member dat.controllers
  */
-var OptionController = function(object, property, options) {
-
-    OptionController.superclass.call(this, object, property);
+class OptionController extends Controller{
+  constructor(object, property, options) {
+    super(object, property);
 
     var _this = this;
 
@@ -41,58 +41,46 @@ var OptionController = function(object, property, options) {
     this.__select = document.createElement('select');
 
     if (common.isArray(options)) {
-        var map = {};
-        common.each(options, function(element) {
-            map[element] = element;
-        });
-        options = map;
+      var map = {};
+      common.each(options, function (element) {
+        map[element] = element;
+      });
+      options = map;
     }
 
-    common.each(options, function(value, key) {
+    common.each(options, function (value, key) {
 
-        var opt = document.createElement('option');
-        opt.innerHTML = key;
-        opt.setAttribute('value', value);
-        _this.__select.appendChild(opt);
+      var opt = document.createElement('option');
+      opt.innerHTML = key;
+      opt.setAttribute('value', value);
+      _this.__select.appendChild(opt);
 
     });
 
     // Acknowledge original value
     this.updateDisplay();
 
-    dom.bind(this.__select, 'change', function() {
-        var desiredValue = this.options[this.selectedIndex].value;
-        _this.setValue(desiredValue);
+    dom.bind(this.__select, 'change', function () {
+      var desiredValue = this.options[this.selectedIndex].value;
+      _this.setValue(desiredValue);
     });
 
     this.domElement.appendChild(this.__select);
+  }
 
-};
+  setValue (v) {
+    var toReturn = super.setValue(v);
 
-OptionController.superclass = Controller;
-
-common.extend(
-
-    OptionController.prototype,
-    Controller.prototype,
-
-    {
-
-        setValue: function(v) {
-            var toReturn = OptionController.superclass.prototype.setValue.call(this, v);
-            if (this.__onFinishChange) {
-                this.__onFinishChange.call(this, this.getValue());
-            }
-            return toReturn;
-        },
-
-        updateDisplay: function() {
-            this.__select.value = this.getValue();
-            return OptionController.superclass.prototype.updateDisplay.call(this);
-        }
-
+    if (this.__onFinishChange) {
+      this.__onFinishChange.call(this, this.getValue());
     }
+    return toReturn;
+  }
 
-);
+  updateDisplay() {
+    this.__select.value = this.getValue();
+    return super.updateDisplay();
+  }
+}
 
 export default OptionController;

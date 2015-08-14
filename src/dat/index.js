@@ -1,29 +1,29 @@
 module.exports = {
-    color: {
-        Color: require('./color/Color'),
-        math: require('./color/math'),
-        interpret: require('./color/interpret')
-    },
+  color: {
+    Color: require('./color/Color'),
+    math: require('./color/math'),
+    interpret: require('./color/interpret')
+  },
 
-    controllers: {
-        Controller: require('./controllers/Controller'),
-        BooleanController: require('./controllers/BooleanController'),
-        OptionController: require('./controllers/OptionController'),
-        StringController: require('./controllers/StringController'),
-        NumberController: require('./controllers/NumberController'),
-        NumberControllerBox: require('./controllers/NumberControllerBox'),
-        NumberControllerSlider: require('./controllers/NumberControllerSlider'),
-        FunctionController: require('./controllers/FunctionController'),
-        ColorController: require('./controllers/ColorController')
-    },
+  controllers: {
+    Controller: require('./controllers/Controller'),
+    BooleanController: require('./controllers/BooleanController'),
+    OptionController: require('./controllers/OptionController'),
+    StringController: require('./controllers/StringController'),
+    NumberController: require('./controllers/NumberController'),
+    NumberControllerBox: require('./controllers/NumberControllerBox'),
+    NumberControllerSlider: require('./controllers/NumberControllerSlider'),
+    FunctionController: require('./controllers/FunctionController'),
+    ColorController: require('./controllers/ColorController')
+  },
 
-    dom: {
-        dom: require('./dom/dom')
-    },
+  dom: {
+    dom: require('./dom/dom')
+  },
 
-    gui: {
-        GUI: require('./gui/GUI')
-    },
-
+  gui: {
     GUI: require('./gui/GUI')
+  },
+
+  GUI: require('./gui/GUI')
 };

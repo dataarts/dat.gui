@@ -25,46 +25,34 @@ import common from '../utils/common';
  *
  * @member dat.controllers
  */
-var FunctionController = function(object, property, text) {
-
-    FunctionController.superclass.call(this, object, property);
+class FunctionController extends Controller{
+  constructor(object, property, text) {
+    super(object, property);
 
     var _this = this;
 
     this.__button = document.createElement('div');
     this.__button.innerHTML = text === undefined ? 'Fire' : text;
-    dom.bind(this.__button, 'click', function(e) {
-        e.preventDefault();
-        _this.fire();
-        return false;
+    dom.bind(this.__button, 'click', function (e) {
+      e.preventDefault();
+      _this.fire();
+      return false;
     });
 
     dom.addClass(this.__button, 'button');
 
     this.domElement.appendChild(this.__button);
+  }
 
-
-};
-
-FunctionController.superclass = Controller;
-
-common.extend(
-
-    FunctionController.prototype,
-    Controller.prototype,
-    {
-
-        fire: function() {
-            if (this.__onChange) {
-                this.__onChange.call(this);
-            }
-            this.getValue().call(this.object);
-            if (this.__onFinishChange) {
-                this.__onFinishChange.call(this, this.getValue());
-            }
-        }
+  fire() {
+    if (this.__onChange) {
+      this.__onChange.call(this);
     }
-
-);
+    this.getValue().call(this.object);
+    if (this.__onFinishChange) {
+      this.__onFinishChange.call(this, this.getValue());
+    }
+  }
+}
 
 export default FunctionController;
