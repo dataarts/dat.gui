@@ -11,16 +11,15 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-var OptionController = require('./OptionController'),
-    NumberControllerBox = require('./NumberControllerBox'),
-    NumberControllerSlider = require('./NumberControllerSlider'),
-    StringController = require('./StringController'),
-    FunctionController = require('./FunctionController'),
-    BooleanController = require('./BooleanController'),
-    common = require('../utils/common');
+import OptionController from './OptionController';
+import NumberControllerBox from './NumberControllerBox';
+import NumberControllerSlider from './NumberControllerSlider';
+import StringController from './StringController';
+import FunctionController from './FunctionController';
+import BooleanController from './BooleanController';
+import common from '../utils/common';
 
-module.exports = function (object, property) {
-
+var ControllerFactory = function (object, property) {
     var initialValue = object[property];
 
     // Providing options?
@@ -29,23 +28,20 @@ module.exports = function (object, property) {
     }
 
     // Providing a map?
-
     if (common.isNumber(initialValue)) {
 
         if (common.isNumber(arguments[2]) && common.isNumber(arguments[3])) {
-
             // Has min and max.
             if (common.isNumber(arguments[4])) // has step
+            {
                 return new NumberControllerSlider(object, property, arguments[2], arguments[3], arguments[4]);
-            else
+            }
+            else {
                 return new NumberControllerSlider(object, property, arguments[2], arguments[3]);
-
+            }
         } else {
-
             return new NumberControllerBox(object, property, {min: arguments[2], max: arguments[3]});
-
         }
-
     }
 
     if (common.isString(initialValue)) {
@@ -59,5 +55,6 @@ module.exports = function (object, property) {
     if (common.isBoolean(initialValue)) {
         return new BooleanController(object, property);
     }
-
 };
+
+export default ControllerFactory;

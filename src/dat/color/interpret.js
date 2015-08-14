@@ -11,8 +11,8 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-var toString = require('./toString'),
-    common = require('../utils/common');
+import * as toString from './toString';
+import common from '../utils/common';
 
 var result, toReturn;
 
@@ -332,4 +332,4 @@ var INTERPRETATIONS = [
 
 ];
 
-module.exports = interpret;
+export default interpret;

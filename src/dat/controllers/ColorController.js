@@ -11,11 +11,11 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-var Controller = require('./Controller'),
-    dom = require('../dom/dom'),
-    Color = require('../color/Color'),
-    interpret = require('../color/interpret'),
-    common = require('../utils/common');
+import Controller from './Controller';
+import dom from '../dom/dom';
+import Color from '../color/Color';
+import interpret from '../color/interpret';
+import common from '../utils/common';
 
 var ColorController = function(object, property) {
   ColorController.superclass.call(this, object, property);
@@ -57,7 +57,7 @@ var ColorController = function(object, property) {
 
   dom.bind(this.__input, 'blur', onBlur);
 
-  dom.bind(this.__selector, 'mousedown', function(e) {
+  dom.bind(this.__selector, 'mousedown', function (_e) {
 
     dom
         .addClass(this, 'drag')
@@ -308,12 +308,12 @@ function linearGradient(elem, x, a, b) {
 
 function hueGradient(elem) {
   elem.style.background = '';
-  elem.style.cssText += 'background: -moz-linear-gradient(top,  #ff0000 0%, #ff00ff 17%, #0000ff 34%, #00ffff 50%, #00ff00 67%, #ffff00 84%, #ff0000 100%);'
-  elem.style.cssText += 'background: -webkit-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);'
-  elem.style.cssText += 'background: -o-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);'
-  elem.style.cssText += 'background: -ms-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);'
-  elem.style.cssText += 'background: linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);'
+  elem.style.cssText += 'background: -moz-linear-gradient(top,  #ff0000 0%, #ff00ff 17%, #0000ff 34%, #00ffff 50%, #00ff00 67%, #ffff00 84%, #ff0000 100%);';
+  elem.style.cssText += 'background: -webkit-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+  elem.style.cssText += 'background: -o-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+  elem.style.cssText += 'background: -ms-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+  elem.style.cssText += 'background: linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
 }
 
 
-module.exports = ColorController;
+export default ColorController;

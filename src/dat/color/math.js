@@ -92,4 +92,4 @@ var ColorMath = {
     }
 }
 
-module.exports = ColorMath;
+export default ColorMath;

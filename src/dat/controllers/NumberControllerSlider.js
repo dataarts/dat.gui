@@ -11,11 +11,11 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-var NumberController = require('./NumberController'),
-    dom = require('../dom/dom'),
-    css = require('../utils/css'),
-    common = require('../utils/common'),
-    styleSheet = require('./NumberControllerSlider.css');
+import NumberController from './NumberController';
+import dom from '../dom/dom';
+import css from '../utils/css';
+import common from '../utils/common';
+import styleSheet from '!style!css!sass!./NumberControllerSlider.scss';
 
 /**
  * @class Represents a given property of an object that is a number, contains
@@ -121,4 +121,4 @@ function map(v, i1, i2, o1, o2) {
   return o1 + (o2 - o1) * ((v - i1) / (i2 - i1));
 }
 
-module.exports = NumberControllerSlider;
+export default NumberControllerSlider;

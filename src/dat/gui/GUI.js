@@ -11,21 +11,21 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-var css = require('../utils/css'),
-    saveDialogueContents = require('html!./saveDialogue.html'),
-    styleSheet = require('./style.css'),
-    controllerFactory = require('../controllers/factory'),
-    Controller = require('../controllers/Controller'),
-    BooleanController = require('../controllers/BooleanController'),
-    FunctionController = require('../controllers/FunctionController'),
-    NumberControllerBox = require('../controllers/NumberControllerBox'),
-    NumberControllerSlider = require('../controllers/NumberControllerSlider'),
-    OptionController = require('../controllers/OptionController'),
-    ColorController = require('../controllers/ColorController'),
-    requestAnimationFrame = require('../utils/requestAnimationFrame'),
-    CenteredDiv = require('../dom/CenteredDiv'),
-    dom = require('../dom/dom'),
-    common = require('../utils/common');
+import css from '../utils/css';
+import saveDialogueContents from 'html!./saveDialogue.html';
+import styleSheet from '!style!css!sass!./style.scss';
+import ControllerFactory from '../controllers/ControllerFactory';
+import Controller from '../controllers/Controller';
+import BooleanController from '../controllers/BooleanController';
+import FunctionController from '../controllers/FunctionController';
+import NumberControllerBox from '../controllers/NumberControllerBox';
+import NumberControllerSlider from '../controllers/NumberControllerSlider';
+import OptionController from '../controllers/OptionController';
+import ColorController from '../controllers/ColorController';
+import requestAnimationFrame from '../utils/requestAnimationFrame';
+import CenteredDiv from '../dom/CenteredDiv';
+import dom from '../dom/dom';
+import common from '../utils/common';
 
 css.inject(styleSheet);
 
@@ -802,7 +802,7 @@ function add(gui, object, property, params) {
     } else {
 
         var factoryArgs = [object,property].concat(params.factoryArgs);
-        controller = controllerFactory.apply(gui, factoryArgs);
+        controller = ControllerFactory.apply(gui, factoryArgs);
 
     }
 

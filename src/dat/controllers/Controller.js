@@ -11,7 +11,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-var common = require('../utils/common');
+import common from '../utils/common';
 
 /**
  * @class An "abstract" class that represents a given property of an object.
@@ -134,4 +134,4 @@ common.extend(
     }
 );
 
-module.exports = Controller;
+export default Controller;

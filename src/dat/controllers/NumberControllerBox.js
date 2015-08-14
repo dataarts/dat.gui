@@ -11,10 +11,9 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-var Controller = require('./Controller'),
-    NumberController = require('./NumberController'),
-    dom = require('../dom/dom'),
-    common = require('../utils/common');
+import NumberController from './NumberController';
+import dom from '../dom/dom';
+import common from '../utils/common';
 
 /**
  * @class Represents a given property of an object that is a number and
@@ -127,6 +126,6 @@ function roundToDecimal(value, decimals) {
   return Math.round(value * tenTo) / tenTo;
 }
 
-module.exports = NumberControllerBox;
+export default NumberControllerBox;
 
 

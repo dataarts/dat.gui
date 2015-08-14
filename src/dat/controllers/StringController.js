@@ -11,9 +11,9 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-var Controller = require('./Controller'),
-    dom = require('../dom/dom'),
-    common = require('../utils/common');
+import Controller from './Controller';
+import dom from '../dom/dom';
+import common from '../utils/common';
 
 /**
  * @class Provides a text input to alter the string property of an object.
@@ -82,4 +82,4 @@ common.extend(
 
 );
 
-module.exports = StringController;
+export default StringController;

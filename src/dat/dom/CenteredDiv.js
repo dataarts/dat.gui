@@ -11,8 +11,8 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-var dom = require('../dom/dom'),
-    common = require('../utils/common');
+import dom from '../dom/dom';
+import common from '../utils/common';
 
 var CenteredDiv = function() {
 
@@ -109,4 +109,4 @@ function lockScroll(e) {
     console.log(e);
 }
 
-module.exports = CenteredDiv;
+export default CenteredDiv;

@@ -14,7 +14,7 @@ module.exports = {
         NumberControllerBox: require('./controllers/NumberControllerBox'),
         NumberControllerSlider: require('./controllers/NumberControllerSlider'),
         FunctionController: require('./controllers/FunctionController'),
-        ColorController: require('./controllers/ColorController'),
+        ColorController: require('./controllers/ColorController')
     },
 
     dom: {
@@ -23,5 +23,7 @@ module.exports = {
 
     gui: {
         GUI: require('./gui/GUI')
-    }
+    },
+
+    GUI: require('./gui/GUI')
 };

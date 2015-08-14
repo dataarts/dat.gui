@@ -11,9 +11,9 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-var Controller = require('./Controller'),
-    dom = require('../dom/dom'),
-    common = require('../utils/common');
+import Controller from './Controller';
+import dom from '../dom/dom';
+import common from '../utils/common';
 
 /**
  * @class Provides a checkbox input to alter the boolean property of an object.
@@ -84,4 +84,4 @@ common.extend(
 
 );
 
-module.exports = BooleanController;
+export default BooleanController;

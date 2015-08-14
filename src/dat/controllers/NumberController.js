@@ -11,9 +11,8 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-var Controller = require('./Controller'),
-    common = require('../utils/common');
-
+import Controller from './Controller';
+import common from '../utils/common';
 
 /**
  * @class Represents a given property of an object that is a number.
@@ -136,4 +135,4 @@ function numDecimals(x) {
     }
 }
 
-module.exports = NumberController;
+export default NumberController;

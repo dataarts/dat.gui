@@ -11,10 +11,10 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-var interpret = require('./interpret'),
-    math = require('./math'),
-    toString = require('./toString'),
-    common = require('../utils/common');
+import interpret from './interpret';
+import math from './math';
+import toString from './toString';
+import common from '../utils/common';
 
 var Color = function () {
 
@@ -179,4 +179,4 @@ function recalculateHSV(color) {
 
 }
 
-module.exports = Color;
+export default Color;

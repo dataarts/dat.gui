@@ -11,7 +11,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-var common = require('../utils/common');
+import common from '../utils/common';
 
 var EVENT_MAP = {
     'HTMLEvents': ['change'],
@@ -280,4 +280,4 @@ var dom = {
 
 };
 
-module.exports = dom;
+export default dom;
