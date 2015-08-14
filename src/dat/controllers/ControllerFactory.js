@@ -19,8 +19,8 @@ import FunctionController from './FunctionController';
 import BooleanController from './BooleanController';
 import common from '../utils/common';
 
-var ControllerFactory = function (object, property) {
-  var initialValue = object[property];
+const ControllerFactory = function(object, property) {
+  const initialValue = object[property];
 
   // Providing options?
   if (common.isArray(arguments[2]) || common.isObject(arguments[2])) {
@@ -29,19 +29,15 @@ var ControllerFactory = function (object, property) {
 
   // Providing a map?
   if (common.isNumber(initialValue)) {
-
     if (common.isNumber(arguments[2]) && common.isNumber(arguments[3])) {
       // Has min and max.
-      if (common.isNumber(arguments[4])) // has step
-      {
+      if (common.isNumber(arguments[4])) { // has step
         return new NumberControllerSlider(object, property, arguments[2], arguments[3], arguments[4]);
       }
-      else {
-        return new NumberControllerSlider(object, property, arguments[2], arguments[3]);
-      }
-    } else {
-      return new NumberControllerBox(object, property, {min: arguments[2], max: arguments[3]});
+
+      return new NumberControllerSlider(object, property, arguments[2], arguments[3]);
     }
+    return new NumberControllerBox(object, property, {min: arguments[2], max: arguments[3]});
   }
 
   if (common.isString(initialValue)) {

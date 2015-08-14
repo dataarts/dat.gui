@@ -14,7 +14,6 @@
 import NumberController from './NumberController';
 import dom from '../dom/dom';
 import css from '../utils/css';
-import common from '../utils/common';
 import styleSheet from '!style!css!sass!./NumberControllerSlider.scss';
 
 function map(v, i1, i2, o1, o2) {
@@ -43,7 +42,7 @@ class NumberControllerSlider extends NumberController {
   constructor(object, property, min, max, step) {
     super(object, property, {min: min, max: max, step: step});
 
-    var _this = this;
+    const _this = this;
 
     this.__background = document.createElement('div');
     this.__foreground = document.createElement('div');
@@ -55,7 +54,6 @@ class NumberControllerSlider extends NumberController {
     dom.addClass(this.__foreground, 'slider-fg');
 
     function onMouseDown(e) {
-
       dom.bind(window, 'mousemove', onMouseDrag);
       dom.bind(window, 'mouseup', onMouseUp);
 
@@ -63,18 +61,16 @@ class NumberControllerSlider extends NumberController {
     }
 
     function onMouseDrag(e) {
-
       e.preventDefault();
 
-      var offset = dom.getOffset(_this.__background);
-      var width = dom.getWidth(_this.__background);
+      const offset = dom.getOffset(_this.__background);
+      const width = dom.getWidth(_this.__background);
 
       _this.setValue(
         map(e.clientX, offset.left, offset.left + width, _this.__min, _this.__max)
       );
 
       return false;
-
     }
 
     function onMouseUp() {
@@ -92,7 +88,7 @@ class NumberControllerSlider extends NumberController {
   }
 
   updateDisplay() {
-    var pct = (this.getValue() - this.__min) / (this.__max - this.__min);
+    const pct = (this.getValue() - this.__min) / (this.__max - this.__min);
     this.__foreground.style.width = pct * 100 + '%';
     return super.updateDisplay();
   }
@@ -101,7 +97,7 @@ class NumberControllerSlider extends NumberController {
 /**
  * Injects default stylesheet for slider elements.
  */
-NumberControllerSlider.useDefaultStyles = function () {
+NumberControllerSlider.useDefaultStyles = function() {
   css.inject(styleSheet);
 };
 

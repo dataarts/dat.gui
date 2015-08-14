@@ -13,7 +13,6 @@
 
 import Controller from './Controller';
 import dom from '../dom/dom';
-import common from '../utils/common';
 
 /**
  * @class Provides a text input to alter the string property of an object.
@@ -29,7 +28,7 @@ class StringController extends Controller {
   constructor(object, property) {
     super(object, property);
 
-    var _this = this;
+    const _this = this;
 
     this.__input = document.createElement('input');
     this.__input.setAttribute('type', 'text');
@@ -37,7 +36,7 @@ class StringController extends Controller {
     dom.bind(this.__input, 'keyup', onChange);
     dom.bind(this.__input, 'change', onChange);
     dom.bind(this.__input, 'blur', onBlur);
-    dom.bind(this.__input, 'keydown', function (e) {
+    dom.bind(this.__input, 'keydown', function(e) {
       if (e.keyCode === 13) {
         this.blur();
       }

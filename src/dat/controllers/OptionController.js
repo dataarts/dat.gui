@@ -28,11 +28,13 @@ import common from '../utils/common';
  *
  * @member dat.controllers
  */
-class OptionController extends Controller{
-  constructor(object, property, options) {
+class OptionController extends Controller {
+  constructor(object, property, opts) {
     super(object, property);
 
-    var _this = this;
+    let options = opts;
+
+    const _this = this;
 
     /**
      * The drop down menu
@@ -41,35 +43,33 @@ class OptionController extends Controller{
     this.__select = document.createElement('select');
 
     if (common.isArray(options)) {
-      var map = {};
-      common.each(options, function (element) {
+      const map = {};
+      common.each(options, function(element) {
         map[element] = element;
       });
       options = map;
     }
 
-    common.each(options, function (value, key) {
-
-      var opt = document.createElement('option');
+    common.each(options, function(value, key) {
+      const opt = document.createElement('option');
       opt.innerHTML = key;
       opt.setAttribute('value', value);
       _this.__select.appendChild(opt);
-
     });
 
     // Acknowledge original value
     this.updateDisplay();
 
-    dom.bind(this.__select, 'change', function () {
-      var desiredValue = this.options[this.selectedIndex].value;
+    dom.bind(this.__select, 'change', function() {
+      const desiredValue = this.options[this.selectedIndex].value;
       _this.setValue(desiredValue);
     });
 
     this.domElement.appendChild(this.__select);
   }
 
-  setValue (v) {
-    var toReturn = super.setValue(v);
+  setValue(v) {
+    const toReturn = super.setValue(v);
 
     if (this.__onFinishChange) {
       this.__onFinishChange.call(this, this.getValue());

@@ -13,7 +13,6 @@
 
 import Controller from './Controller';
 import dom from '../dom/dom';
-import common from '../utils/common';
 
 /**
  * @class Provides a checkbox input to alter the boolean property of an object.
@@ -28,7 +27,7 @@ class BooleanController extends Controller {
   constructor(object, property) {
     super(object, property);
 
-    var _this = this;
+    const _this = this;
     this.__prev = this.getValue();
 
     this.__checkbox = document.createElement('input');
@@ -47,7 +46,7 @@ class BooleanController extends Controller {
   }
 
   setValue(v) {
-    var toReturn = super.setValue(v);
+    const toReturn = super.setValue(v);
     if (this.__onFinishChange) {
       this.__onFinishChange.call(this, this.getValue());
     }

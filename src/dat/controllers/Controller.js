@@ -11,8 +11,6 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-import common from '../utils/common';
-
 /**
  * @class An "abstract" class that represents a given property of an object.
  *
@@ -122,7 +120,7 @@ class Controller {
    * @returns {Boolean} true if the value has deviated from initialValue
    */
   isModified() {
-    return this.initialValue !== this.getValue()
+    return this.initialValue !== this.getValue();
   }
 }
 

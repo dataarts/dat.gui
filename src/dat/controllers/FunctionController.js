@@ -13,7 +13,6 @@
 
 import Controller from './Controller';
 import dom from '../dom/dom';
-import common from '../utils/common';
 
 /**
  * @class Provides a GUI interface to fire a specified method, a property of an object.
@@ -25,16 +24,16 @@ import common from '../utils/common';
  *
  * @member dat.controllers
  */
-class FunctionController extends Controller{
+class FunctionController extends Controller {
   constructor(object, property, text) {
     super(object, property);
 
-    var _this = this;
+    const _this = this;
 
     this.__button = document.createElement('div');
     this.__button.innerHTML = text === undefined ? 'Fire' : text;
 
-    dom.bind(this.__button, 'click', function (e) {
+    dom.bind(this.__button, 'click', function(e) {
       e.preventDefault();
       _this.fire();
       return false;

@@ -142,7 +142,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.__state = _interpret2['default'].apply(this, arguments);
 	
 	    if (this.__state === false) {
-	      throw 'Failed to interpret color arguments';
+	      throw new Error('Failed to interpret color arguments');
 	    }
 	
 	    this.__state.a = this.__state.a || 1;
@@ -165,7 +165,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } else if (color.__state.space === 'HSV') {
 	    _utilsCommon2['default'].extend(color.__state, _math2['default'].hsv_to_rgb(color.__state.h, color.__state.s, color.__state.v));
 	  } else {
-	    throw 'Corrupted color state';
+	    throw new Error('Corrupted color state');
 	  }
 	};
 	
@@ -609,7 +609,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return 'rgba(' + Math.round(color.r) + ',' + Math.round(color.g) + ',' + Math.round(color.b) + ',' + color.a + ')';
 	};
 	
-	;
 	module.exports = exports['default'];
 
 /***/ },
@@ -784,18 +783,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	
 	exports.__esModule = true;
-	var tmpComponent;
+	var tmpComponent = undefined;
 	
 	var ColorMath = {
-	
 	  hsv_to_rgb: function hsv_to_rgb(h, s, v) {
-	
 	    var hi = Math.floor(h / 60) % 6;
 	
 	    var f = h / 60 - Math.floor(h / 60);
 	    var p = v * (1.0 - s);
 	    var q = v * (1.0 - f * s);
 	    var t = v * (1.0 - (1.0 - f) * s);
+	
 	    var c = [[v, t, p], [q, v, p], [p, v, t], [p, q, v], [t, p, v], [v, p, q]][hi];
 	
 	    return {
@@ -806,14 +804,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	
 	  rgb_to_hsv: function rgb_to_hsv(r, g, b) {
+	    var min = Math.min(r, g, b);
+	    var max = Math.max(r, g, b);
+	    var delta = max - min;
+	    var h = undefined;
+	    var s = undefined;
 	
-	    var min = Math.min(r, g, b),
-	        max = Math.max(r, g, b),
-	        delta = max - min,
-	        h,
-	        s;
-	
-	    if (max != 0) {
+	    if (max !== 0) {
 	      s = delta / max;
 	    } else {
 	      return {
@@ -823,9 +820,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      };
 	    }
 	
-	    if (r == max) {
+	    if (r === max) {
 	      h = (g - b) / delta;
-	    } else if (g == max) {
+	    } else if (g === max) {
 	      h = 2 + (b - r) / delta;
 	    } else {
 	      h = 4 + (r - g) / delta;
@@ -863,7 +860,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 7 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	/**
 	 * dat-gui JavaScript Controller Library
@@ -878,18 +875,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * http://www.apache.org/licenses/LICENSE-2.0
 	 */
 	
-	'use strict';
-	
-	exports.__esModule = true;
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	var _utilsCommon = __webpack_require__(5);
-	
-	var _utilsCommon2 = _interopRequireDefault(_utilsCommon);
-	
 	/**
 	 * @class An "abstract" class that represents a given property of an object.
 	 *
@@ -898,6 +883,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * @member dat.controllers
 	 */
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
 	var Controller = (function () {
 	  function Controller(object, property) {
@@ -1052,10 +1042,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _domDom2 = _interopRequireDefault(_domDom);
 	
-	var _utilsCommon = __webpack_require__(5);
-	
-	var _utilsCommon2 = _interopRequireDefault(_utilsCommon);
-	
 	/**
 	 * @class Provides a checkbox input to alter the boolean property of an object.
 	 * @extends dat.controllers.Controller
@@ -1161,8 +1147,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var CSS_VALUE_PIXELS = /(\d+(\.\d+)?)px/;
 	
 	function cssValueToPixels(val) {
-	
-	  if (val === '0' || _utilsCommon2['default'].isUndefined(val)) return 0;
+	  if (val === '0' || _utilsCommon2['default'].isUndefined(val)) {
+	    return 0;
+	  }
 	
 	  var match = val.match(CSS_VALUE_PIXELS);
 	
@@ -1187,7 +1174,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param selectable
 	   */
 	  makeSelectable: function makeSelectable(elem, selectable) {
-	
 	    if (elem === undefined || elem.style === undefined) return;
 	
 	    elem.onselectstart = selectable ? function () {
@@ -1203,12 +1189,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	   *
 	   * @param elem
 	   * @param horizontal
-	   * @param vertical
+	   * @param vert
 	   */
-	  makeFullscreen: function makeFullscreen(elem, horizontal, vertical) {
+	  makeFullscreen: function makeFullscreen(elem, hor, vert) {
+	    var vertical = vert;
+	    var horizontal = hor;
 	
-	    if (_utilsCommon2['default'].isUndefined(horizontal)) horizontal = true;
-	    if (_utilsCommon2['default'].isUndefined(vertical)) vertical = true;
+	    if (_utilsCommon2['default'].isUndefined(horizontal)) {
+	      horizontal = true;
+	    }
+	
+	    if (_utilsCommon2['default'].isUndefined(vertical)) {
+	      vertical = true;
+	    }
 	
 	    elem.style.position = 'absolute';
 	
@@ -1228,8 +1221,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param eventType
 	   * @param params
 	   */
-	  fakeEvent: function fakeEvent(elem, eventType, params, aux) {
-	    params = params || {};
+	  fakeEvent: function fakeEvent(elem, eventType, pars, aux) {
+	    var params = pars || {};
 	    var className = EVENT_MAP_INV[eventType];
 	    if (!className) {
 	      throw new Error('Event type ' + eventType + ' not supported.');
@@ -1237,30 +1230,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var evt = document.createEvent(className);
 	    switch (className) {
 	      case 'MouseEvents':
-	        var clientX = params.x || params.clientX || 0;
-	        var clientY = params.y || params.clientY || 0;
-	        evt.initMouseEvent(eventType, params.bubbles || false, params.cancelable || true, window, params.clickCount || 1, 0, //screen X
-	        0, //screen Y
-	        clientX, //client X
-	        clientY, //client Y
-	        false, false, false, false, 0, null);
-	        break;
+	        {
+	          var clientX = params.x || params.clientX || 0;
+	          var clientY = params.y || params.clientY || 0;
+	          evt.initMouseEvent(eventType, params.bubbles || false, params.cancelable || true, window, params.clickCount || 1, 0, // screen X
+	          0, // screen Y
+	          clientX, // client X
+	          clientY, // client Y
+	          false, false, false, false, 0, null);
+	          break;
+	        }
 	      case 'KeyboardEvents':
-	        var init = evt.initKeyboardEvent || evt.initKeyEvent; // webkit || moz
-	        _utilsCommon2['default'].defaults(params, {
-	          cancelable: true,
-	          ctrlKey: false,
-	          altKey: false,
-	          shiftKey: false,
-	          metaKey: false,
-	          keyCode: undefined,
-	          charCode: undefined
-	        });
-	        init(eventType, params.bubbles || false, params.cancelable, window, params.ctrlKey, params.altKey, params.shiftKey, params.metaKey, params.keyCode, params.charCode);
-	        break;
+	        {
+	          var init = evt.initKeyboardEvent || evt.initKeyEvent; // webkit || moz
+	          _utilsCommon2['default'].defaults(params, {
+	            cancelable: true,
+	            ctrlKey: false,
+	            altKey: false,
+	            shiftKey: false,
+	            metaKey: false,
+	            keyCode: undefined,
+	            charCode: undefined
+	          });
+	          init(eventType, params.bubbles || false, params.cancelable, window, params.ctrlKey, params.altKey, params.shiftKey, params.metaKey, params.keyCode, params.charCode);
+	          break;
+	        }
 	      default:
-	        evt.initEvent(eventType, params.bubbles || false, params.cancelable || true);
-	        break;
+	        {
+	          evt.initEvent(eventType, params.bubbles || false, params.cancelable || true);
+	          break;
+	        }
 	    }
 	    _utilsCommon2['default'].defaults(evt, aux);
 	    elem.dispatchEvent(evt);
@@ -1273,9 +1272,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param func
 	   * @param bool
 	   */
-	  bind: function bind(elem, event, func, bool) {
-	    bool = bool || false;
-	    if (elem.addEventListener) elem.addEventListener(event, func, bool);else if (elem.attachEvent) elem.attachEvent('on' + event, func);
+	  bind: function bind(elem, event, func, newBool) {
+	    var bool = newBool || false;
+	    if (elem.addEventListener) {
+	      elem.addEventListener(event, func, bool);
+	    } else if (elem.attachEvent) {
+	      elem.attachEvent('on' + event, func);
+	    }
 	    return dom;
 	  },
 	
@@ -1286,9 +1289,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param func
 	   * @param bool
 	   */
-	  unbind: function unbind(elem, event, func, bool) {
-	    bool = bool || false;
-	    if (elem.removeEventListener) elem.removeEventListener(event, func, bool);else if (elem.detachEvent) elem.detachEvent('on' + event, func);
+	  unbind: function unbind(elem, event, func, newBool) {
+	    var bool = newBool || false;
+	    if (elem.removeEventListener) {
+	      elem.removeEventListener(event, func, bool);
+	    } else if (elem.detachEvent) {
+	      elem.detachEvent('on' + event, func);
+	    }
 	    return dom;
 	  },
 	
@@ -1302,7 +1309,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      elem.className = className;
 	    } else if (elem.className !== className) {
 	      var classes = elem.className.split(/ +/);
-	      if (classes.indexOf(className) == -1) {
+	      if (classes.indexOf(className) === -1) {
 	        classes.push(className);
 	        elem.className = classes.join(' ').replace(/^\s+/, '').replace(/\s+$/, '');
 	      }
@@ -1317,18 +1324,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  removeClass: function removeClass(elem, className) {
 	    if (className) {
-	      if (elem.className === undefined) {
-	        // elem.className = className;
-	      } else if (elem.className === className) {
-	          elem.removeAttribute('class');
-	        } else {
-	          var classes = elem.className.split(/ +/);
-	          var index = classes.indexOf(className);
-	          if (index != -1) {
-	            classes.splice(index, 1);
-	            elem.className = classes.join(' ');
-	          }
+	      if (elem.className === className) {
+	        elem.removeAttribute('class');
+	      } else {
+	        var classes = elem.className.split(/ +/);
+	        var index = classes.indexOf(className);
+	        if (index !== -1) {
+	          classes.splice(index, 1);
+	          elem.className = classes.join(' ');
 	        }
+	      }
 	    } else {
 	      elem.className = undefined;
 	    }
@@ -1344,10 +1349,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param elem
 	   */
 	  getWidth: function getWidth(elem) {
-	
 	    var style = getComputedStyle(elem);
 	
-	    return cssValueToPixels(style['border-left-width']) + cssValueToPixels(style['border-right-width']) + cssValueToPixels(style['padding-left']) + cssValueToPixels(style['padding-right']) + cssValueToPixels(style['width']);
+	    return cssValueToPixels(style['border-left-width']) + cssValueToPixels(style['border-right-width']) + cssValueToPixels(style['padding-left']) + cssValueToPixels(style['padding-right']) + cssValueToPixels(style.width);
 	  },
 	
 	  /**
@@ -1355,23 +1359,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param elem
 	   */
 	  getHeight: function getHeight(elem) {
-	
 	    var style = getComputedStyle(elem);
 	
-	    return cssValueToPixels(style['border-top-width']) + cssValueToPixels(style['border-bottom-width']) + cssValueToPixels(style['padding-top']) + cssValueToPixels(style['padding-bottom']) + cssValueToPixels(style['height']);
+	    return cssValueToPixels(style['border-top-width']) + cssValueToPixels(style['border-bottom-width']) + cssValueToPixels(style['padding-top']) + cssValueToPixels(style['padding-bottom']) + cssValueToPixels(style.height);
 	  },
 	
 	  /**
 	   *
-	   * @param elem
+	   * @param el
 	   */
-	  getOffset: function getOffset(elem) {
+	  getOffset: function getOffset(el) {
+	    var elem = el;
 	    var offset = { left: 0, top: 0 };
 	    if (elem.offsetParent) {
 	      do {
 	        offset.left += elem.offsetLeft;
 	        offset.top += elem.offsetTop;
-	      } while (elem = elem.offsetParent);
+	        elem = elem.offsetParent;
+	      } while (elem);
 	    }
 	    return offset;
 	  },
@@ -1446,10 +1451,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	var OptionController = (function (_Controller) {
 	  _inherits(OptionController, _Controller);
 	
-	  function OptionController(object, property, options) {
+	  function OptionController(object, property, opts) {
 	    _classCallCheck(this, OptionController);
 	
 	    _Controller.call(this, object, property);
+	
+	    var options = opts;
 	
 	    var _this = this;
 	
@@ -1460,15 +1467,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.__select = document.createElement('select');
 	
 	    if (_utilsCommon2['default'].isArray(options)) {
-	      var map = {};
-	      _utilsCommon2['default'].each(options, function (element) {
-	        map[element] = element;
-	      });
-	      options = map;
+	      (function () {
+	        var map = {};
+	        _utilsCommon2['default'].each(options, function (element) {
+	          map[element] = element;
+	        });
+	        options = map;
+	      })();
 	    }
 	
 	    _utilsCommon2['default'].each(options, function (value, key) {
-	
 	      var opt = document.createElement('option');
 	      opt.innerHTML = key;
 	      opt.setAttribute('value', value);
@@ -1540,10 +1548,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _domDom = __webpack_require__(9);
 	
 	var _domDom2 = _interopRequireDefault(_domDom);
-	
-	var _utilsCommon = __webpack_require__(5);
-	
-	var _utilsCommon2 = _interopRequireDefault(_utilsCommon);
 	
 	/**
 	 * @class Provides a text input to alter the string property of an object.
@@ -1644,12 +1648,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _utilsCommon2 = _interopRequireDefault(_utilsCommon);
 	
 	function numDecimals(x) {
-	  x = x.toString();
-	  if (x.indexOf('.') > -1) {
-	    return x.length - x.indexOf('.') - 1;
-	  } else {
-	    return 0;
+	  var _x = x.toString();
+	  if (_x.indexOf('.') > -1) {
+	    return _x.length - _x.indexOf('.') - 1;
 	  }
+	
+	  return 0;
 	}
 	
 	/**
@@ -1675,22 +1679,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _Controller.call(this, object, property);
 	
-	    params = params || {};
+	    var _params = params || {};
 	
-	    this.__min = params.min;
-	    this.__max = params.max;
-	    this.__step = params.step;
+	    this.__min = _params.min;
+	    this.__max = _params.max;
+	    this.__step = _params.step;
 	
 	    if (_utilsCommon2['default'].isUndefined(this.__step)) {
-	
-	      if (this.initialValue == 0) {
+	      if (this.initialValue === 0) {
 	        this.__impliedStep = 1; // What are we, psychics?
 	      } else {
 	          // Hey Doug, check this out.
 	          this.__impliedStep = Math.pow(10, Math.floor(Math.log(Math.abs(this.initialValue)) / Math.LN10)) / 10;
 	        }
 	    } else {
-	
 	      this.__impliedStep = this.__step;
 	    }
 	
@@ -1698,17 +1700,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	
 	  NumberController.prototype.setValue = function setValue(v) {
-	    if (this.__min !== undefined && v < this.__min) {
-	      v = this.__min;
-	    } else if (this.__max !== undefined && v > this.__max) {
-	      v = this.__max;
+	    var _v = v;
+	
+	    if (this.__min !== undefined && _v < this.__min) {
+	      _v = this.__min;
+	    } else if (this.__max !== undefined && _v > this.__max) {
+	      _v = this.__max;
 	    }
 	
-	    if (this.__step !== undefined && v % this.__step != 0) {
-	      v = Math.round(v / this.__step) * this.__step;
+	    if (this.__step !== undefined && _v % this.__step !== 0) {
+	      _v = Math.round(_v / this.__step) * this.__step;
 	    }
 	
-	    return _Controller.prototype.setValue.call(this, v);
+	    return _Controller.prototype.setValue.call(this, _v);
 	  };
 	
 	  /**
@@ -1838,7 +1842,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * {Number} Previous mouse y position
 	     * @ignore
 	     */
-	    var prev_y;
+	    var prevY = undefined;
 	
 	    this.__input = document.createElement('input');
 	    this.__input.setAttribute('type', 'text');
@@ -1849,7 +1853,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _domDom2['default'].bind(this.__input, 'blur', onBlur);
 	    _domDom2['default'].bind(this.__input, 'mousedown', onMouseDown);
 	    _domDom2['default'].bind(this.__input, 'keydown', function (e) {
-	
 	      // When pressing entire, you can be as precise as you want.
 	      if (e.keyCode === 13) {
 	        _this.__truncationSuspended = true;
@@ -1860,7 +1863,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    function onChange() {
 	      var attempted = parseFloat(_this.__input.value);
-	      if (!_utilsCommon2['default'].isNaN(attempted)) _this.setValue(attempted);
+	      if (!_utilsCommon2['default'].isNaN(attempted)) {
+	        _this.setValue(attempted);
+	      }
 	    }
 	
 	    function onBlur() {
@@ -1873,15 +1878,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function onMouseDown(e) {
 	      _domDom2['default'].bind(window, 'mousemove', onMouseDrag);
 	      _domDom2['default'].bind(window, 'mouseup', onMouseUp);
-	      prev_y = e.clientY;
+	      prevY = e.clientY;
 	    }
 	
 	    function onMouseDrag(e) {
-	
-	      var diff = prev_y - e.clientY;
+	      var diff = prevY - e.clientY;
 	      _this.setValue(_this.getValue() + diff * _this.__impliedStep);
 	
-	      prev_y = e.clientY;
+	      prevY = e.clientY;
 	    }
 	
 	    function onMouseUp() {
@@ -1895,7 +1899,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	
 	  NumberControllerBox.prototype.updateDisplay = function updateDisplay() {
-	
 	    this.__input.value = this.__truncationSuspended ? this.getValue() : roundToDecimal(this.getValue(), this.__precision);
 	    return _NumberController.prototype.updateDisplay.call(this);
 	  };
@@ -1945,10 +1948,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _utilsCss2 = _interopRequireDefault(_utilsCss);
 	
-	var _utilsCommon = __webpack_require__(5);
-	
-	var _utilsCommon2 = _interopRequireDefault(_utilsCommon);
-	
 	var _styleCssSassNumberControllerSliderScss = __webpack_require__(16);
 	
 	var _styleCssSassNumberControllerSliderScss2 = _interopRequireDefault(_styleCssSassNumberControllerSliderScss);
@@ -1995,7 +1994,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _domDom2['default'].addClass(this.__foreground, 'slider-fg');
 	
 	    function onMouseDown(e) {
-	
 	      _domDom2['default'].bind(window, 'mousemove', onMouseDrag);
 	      _domDom2['default'].bind(window, 'mouseup', onMouseUp);
 	
@@ -2003,7 +2001,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    function onMouseDrag(e) {
-	
 	      e.preventDefault();
 	
 	      var offset = _domDom2['default'].getOffset(_this.__background);
@@ -2442,10 +2439,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _domDom2 = _interopRequireDefault(_domDom);
 	
-	var _utilsCommon = __webpack_require__(5);
-	
-	var _utilsCommon2 = _interopRequireDefault(_utilsCommon);
-	
 	/**
 	 * @class Provides a GUI interface to fire a specified method, a property of an object.
 	 *
@@ -2590,14 +2583,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _domDom2['default'].bind(this.__input, 'blur', onBlur);
 	
-	    _domDom2['default'].bind(this.__selector, 'mousedown', function (_e) {
-	
-	      _domDom2['default'].addClass(this, 'drag').bind(window, 'mouseup', function (e) {
+	    _domDom2['default'].bind(this.__selector, 'mousedown', function () /* e */{
+	      _domDom2['default'].addClass(this, 'drag').bind(window, 'mouseup', function () /* e */{
 	        _domDom2['default'].removeClass(_this.__selector, 'drag');
 	      });
 	    });
 	
-	    var value_field = document.createElement('div');
+	    var valueField = document.createElement('div');
 	
 	    _utilsCommon2['default'].extend(this.__selector.style, {
 	      width: '122px',
@@ -2611,7 +2603,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      position: 'absolute',
 	      width: '12px',
 	      height: '12px',
-	      border: this.__field_knob_border + (this.__color.v < .5 ? '#fff' : '#000'),
+	      border: this.__field_knob_border + (this.__color.v < 0.5 ? '#fff' : '#000'),
 	      boxShadow: '0px 1px 3px rgba(0,0,0,0.5)',
 	      borderRadius: '12px',
 	      zIndex: 1
@@ -2634,13 +2626,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      cursor: 'pointer'
 	    });
 	
-	    _utilsCommon2['default'].extend(value_field.style, {
+	    _utilsCommon2['default'].extend(valueField.style, {
 	      width: '100%',
 	      height: '100%',
 	      background: 'none'
 	    });
 	
-	    linearGradient(value_field, 'top', 'rgba(0,0,0,0)', '#000');
+	    linearGradient(valueField, 'top', 'rgba(0,0,0,0)', '#000');
 	
 	    _utilsCommon2['default'].extend(this.__hue_field.style, {
 	      width: '15px',
@@ -2701,7 +2693,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      _domDom2['default'].unbind(window, 'mouseup', unbindH);
 	    }
 	
-	    this.__saturation_field.appendChild(value_field);
+	    this.__saturation_field.appendChild(valueField);
 	    this.__selector.appendChild(this.__field_knob);
 	    this.__selector.appendChild(this.__saturation_field);
 	    this.__selector.appendChild(this.__hue_field);
@@ -2713,7 +2705,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.updateDisplay();
 	
 	    function setSV(e) {
-	
 	      e.preventDefault();
 	
 	      var w = _domDom2['default'].getWidth(_this.__saturation_field);
@@ -2721,9 +2712,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var s = (e.clientX - o.left + document.body.scrollLeft) / w;
 	      var v = 1 - (e.clientY - o.top + document.body.scrollTop) / w;
 	
-	      if (v > 1) v = 1;else if (v < 0) v = 0;
+	      if (v > 1) {
+	        v = 1;
+	      } else if (v < 0) {
+	        v = 0;
+	      }
 	
-	      if (s > 1) s = 1;else if (s < 0) s = 0;
+	      if (s > 1) {
+	        s = 1;
+	      } else if (s < 0) {
+	        s = 0;
+	      }
 	
 	      _this.__color.v = v;
 	      _this.__color.s = s;
@@ -2734,14 +2733,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    function setH(e) {
-	
 	      e.preventDefault();
 	
 	      var s = _domDom2['default'].getHeight(_this.__hue_field);
 	      var o = _domDom2['default'].getOffset(_this.__hue_field);
 	      var h = 1 - (e.clientY - o.top + document.body.scrollTop) / s;
 	
-	      if (h > 1) h = 1;else if (h < 0) h = 0;
+	      if (h > 1) {
+	        h = 1;
+	      } else if (h < 0) {
+	        h = 0;
+	      }
 	
 	      _this.__color.h = h * 360;
 	
@@ -2755,7 +2757,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var i = _colorInterpret2['default'](this.getValue());
 	
 	    if (i !== false) {
-	
 	      var mismatch = false;
 	
 	      // Check for mismatch on the interpreted value.
@@ -2778,7 +2779,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.__temp.a = 1;
 	
-	    var flip = this.__color.v < .5 || this.__color.s > .5 ? 255 : 0;
+	    var flip = this.__color.v < 0.5 || this.__color.s > 0.5 ? 255 : 0;
 	    var _flip = 255 - flip;
 	
 	    _utilsCommon2['default'].extend(this.__field_knob.style, {
@@ -2883,10 +2884,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _controllersNumberControllerSlider2 = _interopRequireDefault(_controllersNumberControllerSlider);
 	
-	var _controllersOptionController = __webpack_require__(10);
-	
-	var _controllersOptionController2 = _interopRequireDefault(_controllersOptionController);
-	
 	var _controllersColorController = __webpack_require__(21);
 	
 	var _controllersColorController2 = _interopRequireDefault(_controllersColorController);
@@ -2921,25 +2918,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var SUPPORTS_LOCAL_STORAGE = (function () {
 	  try {
-	    return 'localStorage' in window && window['localStorage'] !== null;
+	    return 'localStorage' in window && window.localStorage !== null;
 	  } catch (e) {
 	    return false;
 	  }
 	})();
 	
-	var SAVE_DIALOGUE;
+	var SAVE_DIALOGUE = undefined;
 	
 	/** Have we yet to create an autoPlace GUI? */
-	var auto_place_virgin = true;
+	var autoPlaceVirgin = true;
 	
 	/** Fixed position div that auto place GUI's go inside */
-	var auto_place_container;
+	var autoPlaceContainer = undefined;
 	
 	/** Are we hiding the GUI's ? */
 	var hide = false;
 	
 	/** GUI's which should be hidden */
-	var hideable_guis = [];
+	var hideableGuis = [];
 	
 	/**
 	 * A lightweight controller library for JavaScript. It allows you to easily
@@ -2956,8 +2953,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {dat.gui.GUI} [params.parent] The GUI I'm nested in.
 	 * @param {Boolean} [params.closed] If true, starts closed
 	 */
-	var GUI = function GUI(params) {
+	var GUI = function GUI(pars) {
 	  var _this = this;
+	
+	  var params = pars || {};
 	
 	  /**
 	   * Outermost DOM Element
@@ -3005,8 +3004,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  this.__listening = [];
 	
-	  params = params || {};
-	
 	  // Default parameters
 	  params = _utilsCommon2['default'].defaults(params, {
 	    autoPlace: true,
@@ -3028,7 +3025,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	
 	  if (_utilsCommon2['default'].isUndefined(params.parent) && params.hideable) {
-	    hideable_guis.push(this);
+	    hideableGuis.push(this);
 	  }
 	
 	  // Only root level GUI's are resizable.
@@ -3041,9 +3038,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  // Not part of params because I don't want people passing this in via
 	  // constructor. Should be a 'remembered' value.
-	  var use_local_storage = SUPPORTS_LOCAL_STORAGE && localStorage.getItem(getLocalStorageHash(this, 'isLocal')) === 'true';
+	  var useLocalStorage = SUPPORTS_LOCAL_STORAGE && localStorage.getItem(getLocalStorageHash(this, 'isLocal')) === 'true';
 	
-	  var saveToLocalStorage;
+	  var saveToLocalStorage = undefined;
 	
 	  Object.defineProperties(this,
 	  /** @lends dat.gui.GUI.prototype */
@@ -3082,9 +3079,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      get: function get() {
 	        if (_this.parent) {
 	          return _this.getRoot().preset;
-	        } else {
-	          return params.load.preset;
 	        }
+	
+	        return params.load.preset;
 	      },
 	
 	      set: function set(v) {
@@ -3124,8 +3121,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      set: function set(v) {
 	        // TODO Check for collisions among sibling folders
 	        params.name = v;
-	        if (title_row_name) {
-	          title_row_name.innerHTML = params.name;
+	        if (titleRowName) {
+	          titleRowName.innerHTML = params.name;
 	        }
 	      }
 	    },
@@ -3174,11 +3171,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    useLocalStorage: {
 	
 	      get: function get() {
-	        return use_local_storage;
+	        return useLocalStorage;
 	      },
 	      set: function set(bool) {
 	        if (SUPPORTS_LOCAL_STORAGE) {
-	          use_local_storage = bool;
+	          useLocalStorage = bool;
 	          if (bool) {
 	            _domDom2['default'].bind(window, 'unload', saveToLocalStorage);
 	          } else {
@@ -3192,7 +3189,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  // Are we a root level GUI?
 	  if (_utilsCommon2['default'].isUndefined(params.parent)) {
-	
 	    params.closed = false;
 	
 	    _domDom2['default'].addClass(this.domElement, GUI.CLASS_MAIN);
@@ -3200,13 +3196,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    // Are we supposed to be loading locally?
 	    if (SUPPORTS_LOCAL_STORAGE) {
-	      if (use_local_storage) {
+	      if (useLocalStorage) {
 	        _this.useLocalStorage = true;
 	
-	        var saved_gui = localStorage.getItem(getLocalStorageHash(this, 'gui'));
+	        var savedGui = localStorage.getItem(getLocalStorageHash(this, 'gui'));
 	
-	        if (saved_gui) {
-	          params.load = JSON.parse(saved_gui);
+	        if (savedGui) {
+	          params.load = JSON.parse(savedGui);
 	        }
 	      }
 	    }
@@ -3225,12 +3221,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        params.closed = true;
 	      }
 	
-	      var title_row_name = document.createTextNode(params.name);
-	      _domDom2['default'].addClass(title_row_name, 'controller-name');
+	      var _titleRowName = document.createTextNode(params.name);
+	      _domDom2['default'].addClass(_titleRowName, 'controller-name');
 	
-	      var title_row = addRow(_this, title_row_name);
+	      var titleRow = addRow(_this, _titleRowName);
 	
-	      var on_click_title = function on_click_title(e) {
+	      var onClickTitle = function onClickTitle(e) {
 	        e.preventDefault();
 	        _this.closed = !_this.closed;
 	        return false;
@@ -3238,8 +3234,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      _domDom2['default'].addClass(this.__ul, GUI.CLASS_CLOSED);
 	
-	      _domDom2['default'].addClass(title_row, 'title');
-	      _domDom2['default'].bind(title_row, 'click', on_click_title);
+	      _domDom2['default'].addClass(titleRow, 'title');
+	      _domDom2['default'].bind(titleRow, 'click', onClickTitle);
 	
 	      if (!params.closed) {
 	        this.closed = false;
@@ -3248,16 +3244,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  if (params.autoPlace) {
 	    if (_utilsCommon2['default'].isUndefined(params.parent)) {
-	      if (auto_place_virgin) {
-	        auto_place_container = document.createElement('div');
-	        _domDom2['default'].addClass(auto_place_container, CSS_NAMESPACE);
-	        _domDom2['default'].addClass(auto_place_container, GUI.CLASS_AUTO_PLACE_CONTAINER);
-	        document.body.appendChild(auto_place_container);
-	        auto_place_virgin = false;
+	      if (autoPlaceVirgin) {
+	        autoPlaceContainer = document.createElement('div');
+	        _domDom2['default'].addClass(autoPlaceContainer, CSS_NAMESPACE);
+	        _domDom2['default'].addClass(autoPlaceContainer, GUI.CLASS_AUTO_PLACE_CONTAINER);
+	        document.body.appendChild(autoPlaceContainer);
+	        autoPlaceVirgin = false;
 	      }
 	
 	      // Put it in the dom for you.
-	      auto_place_container.appendChild(this.domElement);
+	      autoPlaceContainer.appendChild(this.domElement);
 	
 	      // Apply the auto styles
 	      _domDom2['default'].addClass(this.domElement, GUI.CLASS_AUTO_PLACE);
@@ -3296,8 +3292,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // expose this method publicly
 	  this.saveToLocalStorageIfPossible = saveToLocalStorage;
 	
-	  var root = _this.getRoot();
-	
 	  function resetWidth() {
 	    var root = _this.getRoot();
 	    root.width += 1;
@@ -3313,7 +3307,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	GUI.toggleHide = function () {
 	  hide = !hide;
-	  _utilsCommon2['default'].each(hideable_guis, function (gui) {
+	  _utilsCommon2['default'].each(hideableGuis, function (gui) {
 	    gui.domElement.style.zIndex = hide ? -999 : 999;
 	    gui.domElement.style.opacity = hide ? 0 : 1;
 	  });
@@ -3333,7 +3327,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	GUI.TEXT_OPEN = 'Open Controls';
 	
 	_domDom2['default'].bind(window, 'keydown', function (e) {
-	  if (document.activeElement.type !== 'text' && (e.which === HIDE_KEY_CODE || e.keyCode == HIDE_KEY_CODE)) {
+	  if (document.activeElement.type !== 'text' && (e.which === HIDE_KEY_CODE || e.keyCode === HIDE_KEY_CODE)) {
 	    GUI.toggleHide();
 	  }
 	}, false);
@@ -3393,7 +3387,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  destroy: function destroy() {
 	    if (this.autoPlace) {
-	      auto_place_container.removeChild(this.domElement);
+	      autoPlaceContainer.removeChild(this.domElement);
 	    }
 	  },
 	
@@ -3411,12 +3405,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      throw new Error('You already have a folder in this GUI by the' + ' name "' + name + '"');
 	    }
 	
-	    var new_gui_params = { name: name, parent: this };
+	    var newGuiParams = { name: name, parent: this };
 	
 	    // We need to pass down the autoPlace trait so that we can
 	    // attach event listeners to open/close folder actions to
 	    // ensure that a scrollbar appears if the window is too short.
-	    new_gui_params.autoPlace = this.autoPlace;
+	    newGuiParams.autoPlace = this.autoPlace;
 	
 	    // Do we have saved appearance data for this folder?
 	
@@ -3426,13 +3420,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // Did daddy remember me?
 	
 	      // Start me closed if I was closed
-	      new_gui_params.closed = this.load.folders[name].closed;
+	      newGuiParams.closed = this.load.folders[name].closed;
 	
 	      // Pass down the loaded data
-	      new_gui_params.load = this.load.folders[name];
+	      newGuiParams.load = this.load.folders[name];
 	    }
 	
-	    var gui = new GUI(new_gui_params);
+	    var gui = new GUI(newGuiParams);
 	    this.__folders[name] = gui;
 	
 	    var li = addRow(this, gui.domElement);
@@ -3451,16 +3445,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  onResize: function onResize() {
 	    var root = this.getRoot();
 	    if (root.scrollable) {
-	      var top = _domDom2['default'].getOffset(root.__ul).top;
+	      var _top = _domDom2['default'].getOffset(root.__ul).top;
 	      var h = 0;
 	
 	      _utilsCommon2['default'].each(root.__ul.childNodes, function (node) {
-	        if (!(root.autoPlace && node === root.__save_row)) h += _domDom2['default'].getHeight(node);
+	        if (!(root.autoPlace && node === root.__save_row)) {
+	          h += _domDom2['default'].getHeight(node);
+	        }
 	      });
 	
-	      if (window.innerHeight - top - CLOSE_BUTTON_HEIGHT < h) {
+	      if (window.innerHeight - _top - CLOSE_BUTTON_HEIGHT < h) {
 	        _domDom2['default'].addClass(root.domElement, GUI.CLASS_TOO_TALL);
-	        root.__ul.style.height = window.innerHeight - top - CLOSE_BUTTON_HEIGHT + 'px';
+	        root.__ul.style.height = window.innerHeight - _top - CLOSE_BUTTON_HEIGHT + 'px';
 	      } else {
 	        _domDom2['default'].removeClass(root.domElement, GUI.CLASS_TOO_TALL);
 	        root.__ul.style.height = 'auto';
@@ -3494,16 +3490,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    if (this.parent) {
-	      throw new Error("You can only call remember on a top level GUI.");
+	      throw new Error('You can only call remember on a top level GUI.');
 	    }
 	
 	    var _this = this;
 	
 	    _utilsCommon2['default'].each(Array.prototype.slice.call(arguments), function (object) {
-	      if (_this.__rememberedObjects.length == 0) {
+	      if (_this.__rememberedObjects.length === 0) {
 	        addSaveMenu(_this);
 	      }
-	      if (_this.__rememberedObjects.indexOf(object) == -1) {
+	      if (_this.__rememberedObjects.indexOf(object) === -1) {
 	        _this.__rememberedObjects.push(object);
 	      }
 	    });
@@ -3597,9 +3593,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	
 	  listen: function listen(controller) {
-	    var init = this.__listening.length == 0;
+	    var init = this.__listening.length === 0;
 	    this.__listening.push(controller);
-	    if (init) updateDisplays(this.__listening);
+	    if (init) {
+	      updateDisplays(this.__listening);
+	    }
 	  }
 	});
 	
@@ -3865,7 +3863,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	}
 	
-	function showHideExplain(explain) {
+	function showHideExplain(gui, explain) {
 	  explain.style.display = gui.useLocalStorage ? 'block' : 'none';
 	}
 	
@@ -3934,12 +3932,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        localStorageCheckBox.setAttribute('checked', 'checked');
 	      }
 	
-	      showHideExplain(explain);
+	      showHideExplain(gui, explain);
 	
 	      // TODO: Use a boolean controller, fool!
 	      _domDom2['default'].bind(localStorageCheckBox, 'change', function () {
 	        gui.useLocalStorage = !gui.useLocalStorage;
-	        showHideExplain(explain);
+	        showHideExplain(gui, explain);
 	      });
 	    })();
 	  }
@@ -4190,18 +4188,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  // Providing a map?
 	  if (_utilsCommon2['default'].isNumber(initialValue)) {
-	
 	    if (_utilsCommon2['default'].isNumber(arguments[2]) && _utilsCommon2['default'].isNumber(arguments[3])) {
 	      // Has min and max.
-	      if (_utilsCommon2['default'].isNumber(arguments[4])) // has step
-	        {
-	          return new _NumberControllerSlider2['default'](object, property, arguments[2], arguments[3], arguments[4]);
-	        } else {
-	        return new _NumberControllerSlider2['default'](object, property, arguments[2], arguments[3]);
+	      if (_utilsCommon2['default'].isNumber(arguments[4])) {
+	        // has step
+	        return new _NumberControllerSlider2['default'](object, property, arguments[2], arguments[3], arguments[4]);
 	      }
-	    } else {
-	      return new _NumberControllerBox2['default'](object, property, { min: arguments[2], max: arguments[3] });
+	
+	      return new _NumberControllerSlider2['default'](object, property, arguments[2], arguments[3]);
 	    }
+	    return new _NumberControllerBox2['default'](object, property, { min: arguments[2], max: arguments[3] });
 	  }
 	
 	  if (_utilsCommon2['default'].isString(initialValue)) {
@@ -4350,7 +4346,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var _this = this;
 	
 	    var hide = function hide() {
-	
 	      _this.domElement.style.display = 'none';
 	      _this.backgroundElement.style.display = 'none';
 	
@@ -4376,10 +4371,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  return CenteredDiv;
 	})();
-	
-	function lockScroll(e) {
-	  console.log(e);
-	}
 	
 	exports['default'] = CenteredDiv;
 	module.exports = exports['default'];

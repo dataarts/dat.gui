@@ -15,12 +15,12 @@ import Controller from './Controller';
 import common from '../utils/common';
 
 function numDecimals(x) {
-  x = x.toString();
-  if (x.indexOf('.') > -1) {
-    return x.length - x.indexOf('.') - 1;
-  } else {
-    return 0;
+  const _x = x.toString();
+  if (_x.indexOf('.') > -1) {
+    return _x.length - _x.indexOf('.') - 1;
   }
+
+  return 0;
 }
 
 /**
@@ -41,23 +41,20 @@ class NumberController extends Controller {
   constructor(object, property, params) {
     super(object, property);
 
-    params = params || {};
+    const _params = params || {};
 
-    this.__min = params.min;
-    this.__max = params.max;
-    this.__step = params.step;
+    this.__min = _params.min;
+    this.__max = _params.max;
+    this.__step = _params.step;
 
     if (common.isUndefined(this.__step)) {
-
-      if (this.initialValue == 0) {
+      if (this.initialValue === 0) {
         this.__impliedStep = 1; // What are we, psychics?
       } else {
         // Hey Doug, check this out.
         this.__impliedStep = Math.pow(10, Math.floor(Math.log(Math.abs(this.initialValue)) / Math.LN10)) / 10;
       }
-
     } else {
-
       this.__impliedStep = this.__step;
     }
 
@@ -65,18 +62,19 @@ class NumberController extends Controller {
   }
 
   setValue(v) {
-    if (this.__min !== undefined && v < this.__min) {
-      v = this.__min;
-    } else if (this.__max !== undefined && v > this.__max) {
-      v = this.__max;
+    let _v = v;
+
+    if (this.__min !== undefined && _v < this.__min) {
+      _v = this.__min;
+    } else if (this.__max !== undefined && _v > this.__max) {
+      _v = this.__max;
     }
 
-    if (this.__step !== undefined && v % this.__step != 0) {
-      v = Math.round(v / this.__step) * this.__step;
+    if (this.__step !== undefined && _v % this.__step !== 0) {
+      _v = Math.round(_v / this.__step) * this.__step;
     }
 
-    return super.setValue(v);
-
+    return super.setValue(_v);
   }
 
   /**

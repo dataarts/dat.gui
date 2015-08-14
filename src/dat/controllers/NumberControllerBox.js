@@ -16,7 +16,7 @@ import dom from '../dom/dom';
 import common from '../utils/common';
 
 function roundToDecimal(value, decimals) {
-  var tenTo = Math.pow(10, decimals);
+  const tenTo = Math.pow(10, decimals);
   return Math.round(value * tenTo) / tenTo;
 }
 
@@ -42,13 +42,13 @@ class NumberControllerBox extends NumberController {
 
     this.__truncationSuspended = false;
 
-    var _this = this;
+    const _this = this;
 
     /**
      * {Number} Previous mouse y position
      * @ignore
      */
-    var prev_y;
+    let prevY;
 
     this.__input = document.createElement('input');
     this.__input.setAttribute('type', 'text');
@@ -58,20 +58,20 @@ class NumberControllerBox extends NumberController {
     dom.bind(this.__input, 'change', onChange);
     dom.bind(this.__input, 'blur', onBlur);
     dom.bind(this.__input, 'mousedown', onMouseDown);
-    dom.bind(this.__input, 'keydown', function (e) {
-
+    dom.bind(this.__input, 'keydown', function(e) {
       // When pressing entire, you can be as precise as you want.
       if (e.keyCode === 13) {
         _this.__truncationSuspended = true;
         this.blur();
         _this.__truncationSuspended = false;
       }
-
     });
 
     function onChange() {
-      var attempted = parseFloat(_this.__input.value);
-      if (!common.isNaN(attempted)) _this.setValue(attempted);
+      const attempted = parseFloat(_this.__input.value);
+      if (!common.isNaN(attempted)) {
+        _this.setValue(attempted);
+      }
     }
 
     function onBlur() {
@@ -84,16 +84,14 @@ class NumberControllerBox extends NumberController {
     function onMouseDown(e) {
       dom.bind(window, 'mousemove', onMouseDrag);
       dom.bind(window, 'mouseup', onMouseUp);
-      prev_y = e.clientY;
+      prevY = e.clientY;
     }
 
     function onMouseDrag(e) {
-
-      var diff = prev_y - e.clientY;
+      const diff = prevY - e.clientY;
       _this.setValue(_this.getValue() + diff * _this.__impliedStep);
 
-      prev_y = e.clientY;
-
+      prevY = e.clientY;
     }
 
     function onMouseUp() {
@@ -107,7 +105,6 @@ class NumberControllerBox extends NumberController {
   }
 
   updateDisplay() {
-
     this.__input.value = this.__truncationSuspended ? this.getValue() : roundToDecimal(this.getValue(), this.__precision);
     return super.updateDisplay();
   }
