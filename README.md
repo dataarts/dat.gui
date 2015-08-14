@@ -38,6 +38,9 @@ This will create a namespaced, unminified build of dat.GUI at `build/dat.gui.mai
 
 ##Change log
 
+### 0.6.1
+ * Fixed all eslint issues
+ 
 ### 0.6.0
  * Using common.js
  * Using webpack for build
