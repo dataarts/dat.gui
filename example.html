@@ -50,7 +50,8 @@
     gui.add(obj.example, 'message').onFinishChange(function(value) {
       // Fires when a controller loses focus.
       console.log("obj.example.message = " + value);
-    });;
+    });
+
     gui.add(obj.example, 'speed', -5, 5);
     gui.add(obj.example, 'displayOutline');
     gui.add(obj.example, 'explode');

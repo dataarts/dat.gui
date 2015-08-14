@@ -16,11 +16,9 @@ module.exports = {
         exclude: /(node_modules|bower_components)/,
         loader: 'babel'
       },
-      /*
       {
         test: /\.js$/, loader: 'eslint-loader', exclude: /node_modules/
       },
-      //*/
       {
         test: /\.css$/,
         loader: 'style-loader!css-loader'
