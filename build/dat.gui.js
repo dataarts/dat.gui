@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  controllers: {
 	    Controller: __webpack_require__(7),
 	    BooleanController: __webpack_require__(8),
-	    OptionController: __webpack_require__(9),
+	    OptionController: __webpack_require__(10),
 	    StringController: __webpack_require__(11),
 	    NumberController: __webpack_require__(12),
 	    NumberControllerBox: __webpack_require__(13),
@@ -84,7 +84,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	
 	  dom: {
-	    dom: __webpack_require__(10)
+	    dom: __webpack_require__(9)
 	  },
 	
 	  gui: {
@@ -113,11 +113,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	'use strict';
 	
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	exports.__esModule = true;
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
@@ -152,17 +148,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.__state.a = this.__state.a || 1;
 	  }
 	
-	  _createClass(Color, [{
-	    key: 'toString',
-	    value: function toString() {
-	      return (0, _toString2['default'])(this);
-	    }
-	  }, {
-	    key: 'toOriginal',
-	    value: function toOriginal() {
-	      return this.__state.conversion.write(this);
-	    }
-	  }]);
+	  Color.prototype.toString = function toString() {
+	    return _toString2['default'](this);
+	  };
+	
+	  Color.prototype.toOriginal = function toOriginal() {
+	    return this.__state.conversion.write(this);
+	  };
 	
 	  return Color;
 	})();
@@ -203,7 +195,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	defineHSVComponent(Color.prototype, 'v');
 	
 	Object.defineProperty(Color.prototype, 'a', {
-	
 	  get: function get() {
 	    return this.__state.a;
 	  },
@@ -229,7 +220,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	
 	function defineRGBComponent(target, component, componentHexIndex) {
-	
 	  Object.defineProperty(target, component, {
 	    get: function get() {
 	      if (this.__state.space === 'RGB') {
@@ -255,7 +245,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	function defineHSVComponent(target, component) {
 	  Object.defineProperty(target, component, {
 	    get: function get() {
-	      if (this.__state.space === 'HSV') return this.__state[component];
+	      if (this.__state.space === 'HSV') {
+	        return this.__state[component];
+	      }
 	
 	      Color.recalculateHSV(this);
 	
@@ -295,48 +287,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	'use strict';
 	
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
+	exports.__esModule = true;
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
-	
 	var _toString = __webpack_require__(4);
 	
-	var toString = _interopRequireWildcard(_toString);
+	var _toString2 = _interopRequireDefault(_toString);
 	
 	var _utilsCommon = __webpack_require__(5);
 	
 	var _utilsCommon2 = _interopRequireDefault(_utilsCommon);
-	
-	var result, toReturn;
-	
-	var interpret = function interpret() {
-	  toReturn = false;
-	
-	  var original = arguments.length > 1 ? _utilsCommon2['default'].toArray(arguments) : arguments[0];
-	  _utilsCommon2['default'].each(INTERPRETATIONS, function (family) {
-	
-	    if (family.litmus(original)) {
-	      _utilsCommon2['default'].each(family.conversions, function (conversion, conversionName) {
-	        result = conversion.read(original);
-	
-	        if (toReturn === false && result !== false) {
-	          toReturn = result;
-	          result.conversionName = conversionName;
-	          result.conversion = conversion;
-	          return _utilsCommon2['default'].BREAK;
-	        }
-	      });
-	
-	      return _utilsCommon2['default'].BREAK;
-	    }
-	  });
-	
-	  return toReturn;
-	};
 	
 	var INTERPRETATIONS = [
 	// Strings
@@ -345,39 +306,42 @@ return /******/ (function(modules) { // webpackBootstrap
 	  conversions: {
 	    THREE_CHAR_HEX: {
 	      read: function read(original) {
-	
 	        var test = original.match(/^#([A-F0-9])([A-F0-9])([A-F0-9])$/i);
-	        if (test === null) return false;
+	        if (test === null) {
+	          return false;
+	        }
 	
 	        return {
 	          space: 'HEX',
-	          hex: parseInt('0x' + test[1].toString() + test[1].toString() + test[2].toString() + test[2].toString() + test[3].toString() + test[3].toString())
+	          hex: parseInt('0x' + test[1].toString() + test[1].toString() + test[2].toString() + test[2].toString() + test[3].toString() + test[3].toString(), 0)
 	        };
 	      },
 	
-	      write: toString
+	      write: _toString2['default']
 	    },
 	
 	    SIX_CHAR_HEX: {
 	      read: function read(original) {
-	
 	        var test = original.match(/^#([A-F0-9]{6})$/i);
-	        if (test === null) return false;
+	        if (test === null) {
+	          return false;
+	        }
 	
 	        return {
 	          space: 'HEX',
-	          hex: parseInt('0x' + test[1].toString())
+	          hex: parseInt('0x' + test[1].toString(), 0)
 	        };
 	      },
 	
-	      write: toString
+	      write: _toString2['default']
 	    },
 	
 	    CSS_RGB: {
 	      read: function read(original) {
-	
 	        var test = original.match(/^rgb\(\s*(.+)\s*,\s*(.+)\s*,\s*(.+)\s*\)/);
-	        if (test === null) return false;
+	        if (test === null) {
+	          return false;
+	        }
 	
 	        return {
 	          space: 'RGB',
@@ -387,14 +351,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 	      },
 	
-	      write: toString
+	      write: _toString2['default']
 	    },
 	
 	    CSS_RGBA: {
 	      read: function read(original) {
-	
 	        var test = original.match(/^rgba\(\s*(.+)\s*,\s*(.+)\s*,\s*(.+)\s*\,\s*(.+)\s*\)/);
-	        if (test === null) return false;
+	        if (test === null) {
+	          return false;
+	        }
 	
 	        return {
 	          space: 'RGB',
@@ -405,7 +370,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 	      },
 	
-	      write: toString
+	      write: _toString2['default']
 	    }
 	  }
 	},
@@ -438,10 +403,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	{
 	  litmus: _utilsCommon2['default'].isArray,
 	  conversions: {
-	
 	    RGB_ARRAY: {
 	      read: function read(original) {
-	        if (original.length != 3) return false;
+	        if (original.length !== 3) {
+	          return false;
+	        }
+	
 	        return {
 	          space: 'RGB',
 	          r: original[0],
@@ -457,7 +424,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    RGBA_ARRAY: {
 	      read: function read(original) {
-	        if (original.length != 4) return false;
+	        if (original.length !== 4) return false;
 	        return {
 	          space: 'RGB',
 	          r: original[0],
@@ -476,9 +443,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	// Objects
 	{
-	
 	  litmus: _utilsCommon2['default'].isObject,
-	
 	  conversions: {
 	
 	    RGBA_OBJ: {
@@ -575,6 +540,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	}];
 	
+	var result = undefined;
+	var toReturn = undefined;
+	
+	var interpret = function interpret() {
+	  toReturn = false;
+	
+	  var original = arguments.length > 1 ? _utilsCommon2['default'].toArray(arguments) : arguments[0];
+	  _utilsCommon2['default'].each(INTERPRETATIONS, function (family) {
+	    if (family.litmus(original)) {
+	      _utilsCommon2['default'].each(family.conversions, function (conversion, conversionName) {
+	        result = conversion.read(original);
+	
+	        if (toReturn === false && result !== false) {
+	          toReturn = result;
+	          result.conversionName = conversionName;
+	          result.conversion = conversion;
+	          return _utilsCommon2['default'].BREAK;
+	        }
+	      });
+	
+	      return _utilsCommon2['default'].BREAK;
+	    }
+	  });
+	
+	  return toReturn;
+	};
+	
 	exports['default'] = interpret;
 	module.exports = exports['default'];
 
@@ -597,9 +589,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	'use strict';
 	
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
+	exports.__esModule = true;
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
@@ -607,20 +597,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _utilsCommon2 = _interopRequireDefault(_utilsCommon);
 	
-	var colorToString = function colorToString(color) {
-	  if (color.a == 1 || _utilsCommon2['default'].isUndefined(color.a)) {
+	exports['default'] = function (color) {
+	  if (color.a === 1 || _utilsCommon2['default'].isUndefined(color.a)) {
 	    var s = color.hex.toString(16);
 	    while (s.length < 6) {
 	      s = '0' + s;
 	    }
-	
 	    return '#' + s;
-	  } else {
-	    return 'rgba(' + Math.round(color.r) + ',' + Math.round(color.g) + ',' + Math.round(color.b) + ',' + color.a + ')';
 	  }
+	
+	  return 'rgba(' + Math.round(color.r) + ',' + Math.round(color.g) + ',' + Math.round(color.b) + ',' + color.a + ')';
 	};
 	
-	exports['default'] = colorToString;
+	;
 	module.exports = exports['default'];
 
 /***/ },
@@ -642,6 +631,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	'use strict';
 	
+	exports.__esModule = true;
 	var ARR_EACH = Array.prototype.forEach;
 	var ARR_SLICE = Array.prototype.slice;
 	
@@ -652,24 +642,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	
 	var Common = {
-	
 	  BREAK: {},
 	
 	  extend: function extend(target) {
-	
 	    this.each(ARR_SLICE.call(arguments, 1), function (obj) {
-	
-	      for (var key in obj) if (!this.isUndefined(obj[key])) target[key] = obj[key];
+	      for (var key in obj) {
+	        if (!this.isUndefined(obj[key])) {
+	          target[key] = obj[key];
+	        }
+	      }
 	    }, this);
 	
 	    return target;
 	  },
 	
 	  defaults: function defaults(target) {
-	
 	    this.each(ARR_SLICE.call(arguments, 1), function (obj) {
-	
-	      for (var key in obj) if (this.isUndefined(target[key])) target[key] = obj[key];
+	      for (var key in obj) {
+	        if (this.isUndefined(target[key])) {
+	          target[key] = obj[key];
+	        }
+	      }
 	    }, this);
 	
 	    return target;
@@ -687,19 +680,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	
 	  each: function each(obj, itr, scope) {
-	
-	    if (!obj) return;
+	    if (!obj) {
+	      return;
+	    }
 	
 	    if (ARR_EACH && obj.forEach && obj.forEach === ARR_EACH) {
-	
 	      obj.forEach(itr, scope);
 	    } else if (obj.length === obj.length + 0) {
 	      // Is number but not NaN
-	
-	      for (var key = 0, l = obj.length; key < l; key++) if (key in obj && itr.call(scope, obj[key], key) === this.BREAK) return;
+	      var key = undefined;
+	      var l = undefined;
+	      for (key = 0, l = obj.length; key < l; key++) {
+	        if (key in obj && itr.call(scope, obj[key], key) === this.BREAK) {
+	          return;
+	        }
+	      }
 	    } else {
-	
-	      for (var key in obj) if (itr.call(scope, obj[key], key) === this.BREAK) return;
+	      for (var key in obj) {
+	        if (itr.call(scope, obj[key], key) === this.BREAK) {
+	          return;
+	        }
+	      }
 	    }
 	  },
 	
@@ -720,9 +721,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return obj === null;
 	  },
 	
-	  isNaN: function isNaN(obj) {
-	    return obj !== obj;
-	  },
+	  isNaN: (function (_isNaN) {
+	    function isNaN(_x) {
+	      return _isNaN.apply(this, arguments);
+	    }
+	
+	    isNaN.toString = function () {
+	      return _isNaN.toString();
+	    };
+	
+	    return isNaN;
+	  })(function (obj) {
+	    return isNaN(obj);
+	  }),
 	
 	  isArray: Array.isArray || function (obj) {
 	    return obj.constructor === Array;
@@ -750,7 +761,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	};
 	
-	module.exports = Common;
+	exports['default'] = Common;
+	module.exports = exports['default'];
 
 /***/ },
 /* 6 */
@@ -771,9 +783,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	"use strict";
 	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
+	exports.__esModule = true;
 	var tmpComponent;
 	
 	var ColorMath = {
@@ -870,11 +880,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	'use strict';
 	
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	exports.__esModule = true;
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
@@ -938,79 +944,72 @@ return /******/ (function(modules) { // webpackBootstrap
 	   *
 	   * @param {Function} fnc This function will be called whenever the value
 	   * is modified via this Controller.
-	   * @returns {dat.controllers.Controller} this
+	   * @returns {Controller} this
 	   */
 	
-	  _createClass(Controller, [{
-	    key: 'onChange',
-	    value: function onChange(fnc) {
-	      this.__onChange = fnc;
-	      return this;
+	  Controller.prototype.onChange = function onChange(fnc) {
+	    this.__onChange = fnc;
+	    return this;
+	  };
+	
+	  /**
+	   * Specify that a function fire every time someone "finishes" changing
+	   * the value wih this Controller. Useful for values that change
+	   * incrementally like numbers or strings.
+	   *
+	   * @param {Function} fnc This function will be called whenever
+	   * someone "finishes" changing the value via this Controller.
+	   * @returns {Controller} this
+	   */
+	
+	  Controller.prototype.onFinishChange = function onFinishChange(fnc) {
+	    this.__onFinishChange = fnc;
+	    return this;
+	  };
+	
+	  /**
+	   * Change the value of <code>object[property]</code>
+	   *
+	   * @param {Object} newValue The new value of <code>object[property]</code>
+	   */
+	
+	  Controller.prototype.setValue = function setValue(newValue) {
+	    this.object[this.property] = newValue;
+	    if (this.__onChange) {
+	      this.__onChange.call(this, newValue);
 	    }
 	
-	    /**
-	     * Specify that a function fire every time someone "finishes" changing
-	     * the value wih this Controller. Useful for values that change
-	     * incrementally like numbers or strings.
-	     *
-	     * @param {Function} fnc This function will be called whenever
-	     * someone "finishes" changing the value via this Controller.
-	     * @returns {dat.controllers.Controller} this
-	     */
-	  }, {
-	    key: 'onFinishChange',
-	    value: function onFinishChange(fnc) {
-	      this.__onFinishChange = fnc;
-	      return this;
-	    }
+	    this.updateDisplay();
+	    return this;
+	  };
 	
-	    /**
-	     * Change the value of <code>object[property]</code>
-	     *
-	     * @param {Object} newValue The new value of <code>object[property]</code>
-	     */
-	  }, {
-	    key: 'setValue',
-	    value: function setValue(newValue) {
-	      this.object[this.property] = newValue;
-	      if (this.__onChange) {
-	        this.__onChange.call(this, newValue);
-	      }
-	      this.updateDisplay();
-	      return this;
-	    }
+	  /**
+	   * Gets the value of <code>object[property]</code>
+	   *
+	   * @returns {Object} The current value of <code>object[property]</code>
+	   */
 	
-	    /**
-	     * Gets the value of <code>object[property]</code>
-	     *
-	     * @returns {Object} The current value of <code>object[property]</code>
-	     */
-	  }, {
-	    key: 'getValue',
-	    value: function getValue() {
-	      return this.object[this.property];
-	    }
+	  Controller.prototype.getValue = function getValue() {
+	    return this.object[this.property];
+	  };
 	
-	    /**
-	     * Refreshes the visual display of a Controller in order to keep sync
-	     * with the object's current value.
-	     * @returns {dat.controllers.Controller} this
-	     */
-	  }, {
-	    key: 'updateDisplay',
-	    value: function updateDisplay() {
-	      return this;
-	    }
+	  /**
+	   * Refreshes the visual display of a Controller in order to keep sync
+	   * with the object's current value.
+	   * @returns {Controller} this
+	   */
 	
-	    /**
-	     * @returns {Boolean} true if the value has deviated from initialValue
-	     */
-	  }, {
-	    key: 'isModified',
-	    value: function isModified() {
-	      return this.initialValue !== this.getValue();
-	    }
-	  }]);
+	  Controller.prototype.updateDisplay = function updateDisplay() {
+	    return this;
+	  };
+	
+	  /**
+	   * @returns {Boolean} true if the value has deviated from initialValue
+	   */
+	
+	  Controller.prototype.isModified = function isModified() {
+	    return this.initialValue !== this.getValue();
+	  };
 	
 	  return Controller;
 	})();
@@ -1037,13 +1036,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	'use strict';
 	
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	exports.__esModule = true;
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
@@ -1055,7 +1048,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _Controller3 = _interopRequireDefault(_Controller2);
 	
-	var _domDom = __webpack_require__(10);
+	var _domDom = __webpack_require__(9);
 	
 	var _domDom2 = _interopRequireDefault(_domDom);
 	
@@ -1079,7 +1072,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function BooleanController(object, property) {
 	    _classCallCheck(this, BooleanController);
 	
-	    _get(Object.getPrototypeOf(BooleanController.prototype), 'constructor', this).call(this, object, property);
+	    _Controller.call(this, object, property);
 	
 	    var _this = this;
 	    this.__prev = this.getValue();
@@ -1099,29 +1092,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.updateDisplay();
 	  }
 	
-	  _createClass(BooleanController, [{
-	    key: 'setValue',
-	    value: function setValue(v) {
-	      var toReturn = _get(Object.getPrototypeOf(BooleanController.prototype), 'setValue', this).call(this, v);
-	      if (this.__onFinishChange) {
-	        this.__onFinishChange.call(this, this.getValue());
-	      }
-	      this.__prev = this.getValue();
-	      return toReturn;
+	  BooleanController.prototype.setValue = function setValue(v) {
+	    var toReturn = _Controller.prototype.setValue.call(this, v);
+	    if (this.__onFinishChange) {
+	      this.__onFinishChange.call(this, this.getValue());
 	    }
-	  }, {
-	    key: 'updateDisplay',
-	    value: function updateDisplay() {
-	      if (this.getValue() === true) {
-	        this.__checkbox.setAttribute('checked', 'checked');
-	        this.__checkbox.checked = true;
-	      } else {
-	        this.__checkbox.checked = false;
-	      }
+	    this.__prev = this.getValue();
+	    return toReturn;
+	  };
 	
-	      return _get(Object.getPrototypeOf(BooleanController.prototype), 'updateDisplay', this).call(this);
+	  BooleanController.prototype.updateDisplay = function updateDisplay() {
+	    if (this.getValue() === true) {
+	      this.__checkbox.setAttribute('checked', 'checked');
+	      this.__checkbox.checked = true;
+	    } else {
+	      this.__checkbox.checked = false;
 	    }
-	  }]);
+	
+	    return _Controller.prototype.updateDisplay.call(this);
+	  };
 	
 	  return BooleanController;
 	})(_Controller3['default']);
@@ -1148,135 +1137,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	'use strict';
 	
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var _Controller2 = __webpack_require__(7);
-	
-	var _Controller3 = _interopRequireDefault(_Controller2);
-	
-	var _domDom = __webpack_require__(10);
-	
-	var _domDom2 = _interopRequireDefault(_domDom);
-	
-	var _utilsCommon = __webpack_require__(5);
-	
-	var _utilsCommon2 = _interopRequireDefault(_utilsCommon);
-	
-	/**
-	 * @class Provides a select input to alter the property of an object, using a
-	 * list of accepted values.
-	 *
-	 * @extends dat.controllers.Controller
-	 *
-	 * @param {Object} object The object to be manipulated
-	 * @param {string} property The name of the property to be manipulated
-	 * @param {Object|string[]} options A map of labels to acceptable values, or
-	 * a list of acceptable string values.
-	 *
-	 * @member dat.controllers
-	 */
-	
-	var OptionController = (function (_Controller) {
-	  _inherits(OptionController, _Controller);
-	
-	  function OptionController(object, property, options) {
-	    _classCallCheck(this, OptionController);
-	
-	    _get(Object.getPrototypeOf(OptionController.prototype), 'constructor', this).call(this, object, property);
-	
-	    var _this = this;
-	
-	    /**
-	     * The drop down menu
-	     * @ignore
-	     */
-	    this.__select = document.createElement('select');
-	
-	    if (_utilsCommon2['default'].isArray(options)) {
-	      var map = {};
-	      _utilsCommon2['default'].each(options, function (element) {
-	        map[element] = element;
-	      });
-	      options = map;
-	    }
-	
-	    _utilsCommon2['default'].each(options, function (value, key) {
-	
-	      var opt = document.createElement('option');
-	      opt.innerHTML = key;
-	      opt.setAttribute('value', value);
-	      _this.__select.appendChild(opt);
-	    });
-	
-	    // Acknowledge original value
-	    this.updateDisplay();
-	
-	    _domDom2['default'].bind(this.__select, 'change', function () {
-	      var desiredValue = this.options[this.selectedIndex].value;
-	      _this.setValue(desiredValue);
-	    });
-	
-	    this.domElement.appendChild(this.__select);
-	  }
-	
-	  _createClass(OptionController, [{
-	    key: 'setValue',
-	    value: function setValue(v) {
-	      var toReturn = _get(Object.getPrototypeOf(OptionController.prototype), 'setValue', this).call(this, v);
-	
-	      if (this.__onFinishChange) {
-	        this.__onFinishChange.call(this, this.getValue());
-	      }
-	      return toReturn;
-	    }
-	  }, {
-	    key: 'updateDisplay',
-	    value: function updateDisplay() {
-	      this.__select.value = this.getValue();
-	      return _get(Object.getPrototypeOf(OptionController.prototype), 'updateDisplay', this).call(this);
-	    }
-	  }]);
-	
-	  return OptionController;
-	})(_Controller3['default']);
-	
-	exports['default'] = OptionController;
-	module.exports = exports['default'];
-
-/***/ },
-/* 10 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * dat-gui JavaScript Controller Library
-	 * http://code.google.com/p/dat-gui
-	 *
-	 * Copyright 2011 Data Arts Team, Google Creative Lab
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 */
-	
-	'use strict';
-	
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
+	exports.__esModule = true;
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
@@ -1530,6 +1391,122 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * dat-gui JavaScript Controller Library
+	 * http://code.google.com/p/dat-gui
+	 *
+	 * Copyright 2011 Data Arts Team, Google Creative Lab
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 */
+	
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var _Controller2 = __webpack_require__(7);
+	
+	var _Controller3 = _interopRequireDefault(_Controller2);
+	
+	var _domDom = __webpack_require__(9);
+	
+	var _domDom2 = _interopRequireDefault(_domDom);
+	
+	var _utilsCommon = __webpack_require__(5);
+	
+	var _utilsCommon2 = _interopRequireDefault(_utilsCommon);
+	
+	/**
+	 * @class Provides a select input to alter the property of an object, using a
+	 * list of accepted values.
+	 *
+	 * @extends dat.controllers.Controller
+	 *
+	 * @param {Object} object The object to be manipulated
+	 * @param {string} property The name of the property to be manipulated
+	 * @param {Object|string[]} options A map of labels to acceptable values, or
+	 * a list of acceptable string values.
+	 *
+	 * @member dat.controllers
+	 */
+	
+	var OptionController = (function (_Controller) {
+	  _inherits(OptionController, _Controller);
+	
+	  function OptionController(object, property, options) {
+	    _classCallCheck(this, OptionController);
+	
+	    _Controller.call(this, object, property);
+	
+	    var _this = this;
+	
+	    /**
+	     * The drop down menu
+	     * @ignore
+	     */
+	    this.__select = document.createElement('select');
+	
+	    if (_utilsCommon2['default'].isArray(options)) {
+	      var map = {};
+	      _utilsCommon2['default'].each(options, function (element) {
+	        map[element] = element;
+	      });
+	      options = map;
+	    }
+	
+	    _utilsCommon2['default'].each(options, function (value, key) {
+	
+	      var opt = document.createElement('option');
+	      opt.innerHTML = key;
+	      opt.setAttribute('value', value);
+	      _this.__select.appendChild(opt);
+	    });
+	
+	    // Acknowledge original value
+	    this.updateDisplay();
+	
+	    _domDom2['default'].bind(this.__select, 'change', function () {
+	      var desiredValue = this.options[this.selectedIndex].value;
+	      _this.setValue(desiredValue);
+	    });
+	
+	    this.domElement.appendChild(this.__select);
+	  }
+	
+	  OptionController.prototype.setValue = function setValue(v) {
+	    var toReturn = _Controller.prototype.setValue.call(this, v);
+	
+	    if (this.__onFinishChange) {
+	      this.__onFinishChange.call(this, this.getValue());
+	    }
+	    return toReturn;
+	  };
+	
+	  OptionController.prototype.updateDisplay = function updateDisplay() {
+	    this.__select.value = this.getValue();
+	    return _Controller.prototype.updateDisplay.call(this);
+	  };
+	
+	  return OptionController;
+	})(_Controller3['default']);
+	
+	exports['default'] = OptionController;
+	module.exports = exports['default'];
+
+/***/ },
 /* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -1548,13 +1525,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	'use strict';
 	
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	exports.__esModule = true;
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
@@ -1566,7 +1537,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _Controller3 = _interopRequireDefault(_Controller2);
 	
-	var _domDom = __webpack_require__(10);
+	var _domDom = __webpack_require__(9);
 	
 	var _domDom2 = _interopRequireDefault(_domDom);
 	
@@ -1591,7 +1562,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function StringController(object, property) {
 	    _classCallCheck(this, StringController);
 	
-	    _get(Object.getPrototypeOf(StringController.prototype), 'constructor', this).call(this, object, property);
+	    _Controller.call(this, object, property);
 	
 	    var _this = this;
 	
@@ -1622,17 +1593,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.domElement.appendChild(this.__input);
 	  }
 	
-	  _createClass(StringController, [{
-	    key: 'updateDisplay',
-	    value: function updateDisplay() {
-	      // Stops the caret from moving on account of:
-	      // keyup -> setValue -> updateDisplay
-	      if (!_domDom2['default'].isActive(this.__input)) {
-	        this.__input.value = this.getValue();
-	      }
-	      return _get(Object.getPrototypeOf(StringController.prototype), 'updateDisplay', this).call(this);
+	  StringController.prototype.updateDisplay = function updateDisplay() {
+	    // Stops the caret from moving on account of:
+	    // keyup -> setValue -> updateDisplay
+	    if (!_domDom2['default'].isActive(this.__input)) {
+	      this.__input.value = this.getValue();
 	    }
-	  }]);
+	    return _Controller.prototype.updateDisplay.call(this);
+	  };
 	
 	  return StringController;
 	})(_Controller3['default']);
@@ -1659,13 +1627,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	'use strict';
 	
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	exports.__esModule = true;
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
@@ -1711,7 +1673,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function NumberController(object, property, params) {
 	    _classCallCheck(this, NumberController);
 	
-	    _get(Object.getPrototypeOf(NumberController.prototype), 'constructor', this).call(this, object, property);
+	    _Controller.call(this, object, property);
 	
 	    params = params || {};
 	
@@ -1735,69 +1697,63 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.__precision = numDecimals(this.__impliedStep);
 	  }
 	
-	  _createClass(NumberController, [{
-	    key: 'setValue',
-	    value: function setValue(v) {
-	      if (this.__min !== undefined && v < this.__min) {
-	        v = this.__min;
-	      } else if (this.__max !== undefined && v > this.__max) {
-	        v = this.__max;
-	      }
-	
-	      if (this.__step !== undefined && v % this.__step != 0) {
-	        v = Math.round(v / this.__step) * this.__step;
-	      }
-	
-	      return _get(Object.getPrototypeOf(NumberController.prototype), 'setValue', this).call(this, v);
+	  NumberController.prototype.setValue = function setValue(v) {
+	    if (this.__min !== undefined && v < this.__min) {
+	      v = this.__min;
+	    } else if (this.__max !== undefined && v > this.__max) {
+	      v = this.__max;
 	    }
 	
-	    /**
-	     * Specify a minimum value for <code>object[property]</code>.
-	     *
-	     * @param {Number} minValue The minimum value for
-	     * <code>object[property]</code>
-	     * @returns {dat.controllers.NumberController} this
-	     */
-	  }, {
-	    key: 'min',
-	    value: function min(v) {
-	      this.__min = v;
-	      return this;
+	    if (this.__step !== undefined && v % this.__step != 0) {
+	      v = Math.round(v / this.__step) * this.__step;
 	    }
 	
-	    /**
-	     * Specify a maximum value for <code>object[property]</code>.
-	     *
-	     * @param {Number} maxValue The maximum value for
-	     * <code>object[property]</code>
-	     * @returns {dat.controllers.NumberController} this
-	     */
-	  }, {
-	    key: 'max',
-	    value: function max(v) {
-	      this.__max = v;
-	      return this;
-	    }
+	    return _Controller.prototype.setValue.call(this, v);
+	  };
 	
-	    /**
-	     * Specify a step value that dat.controllers.NumberController
-	     * increments by.
-	     *
-	     * @param {Number} stepValue The step value for
-	     * dat.controllers.NumberController
-	     * @default if minimum and maximum specified increment is 1% of the
-	     * difference otherwise stepValue is 1
-	     * @returns {dat.controllers.NumberController} this
-	     */
-	  }, {
-	    key: 'step',
-	    value: function step(v) {
-	      this.__step = v;
-	      this.__impliedStep = v;
-	      this.__precision = numDecimals(v);
-	      return this;
-	    }
-	  }]);
+	  /**
+	   * Specify a minimum value for <code>object[property]</code>.
+	   *
+	   * @param {Number} minValue The minimum value for
+	   * <code>object[property]</code>
+	   * @returns {dat.controllers.NumberController} this
+	   */
+	
+	  NumberController.prototype.min = function min(v) {
+	    this.__min = v;
+	    return this;
+	  };
+	
+	  /**
+	   * Specify a maximum value for <code>object[property]</code>.
+	   *
+	   * @param {Number} maxValue The maximum value for
+	   * <code>object[property]</code>
+	   * @returns {dat.controllers.NumberController} this
+	   */
+	
+	  NumberController.prototype.max = function max(v) {
+	    this.__max = v;
+	    return this;
+	  };
+	
+	  /**
+	   * Specify a step value that dat.controllers.NumberController
+	   * increments by.
+	   *
+	   * @param {Number} stepValue The step value for
+	   * dat.controllers.NumberController
+	   * @default if minimum and maximum specified increment is 1% of the
+	   * difference otherwise stepValue is 1
+	   * @returns {dat.controllers.NumberController} this
+	   */
+	
+	  NumberController.prototype.step = function step(v) {
+	    this.__step = v;
+	    this.__impliedStep = v;
+	    this.__precision = numDecimals(v);
+	    return this;
+	  };
 	
 	  return NumberController;
 	})(_Controller3['default']);
@@ -1824,13 +1780,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	'use strict';
 	
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	exports.__esModule = true;
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
@@ -1842,7 +1792,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _NumberController3 = _interopRequireDefault(_NumberController2);
 	
-	var _domDom = __webpack_require__(10);
+	var _domDom = __webpack_require__(9);
 	
 	var _domDom2 = _interopRequireDefault(_domDom);
 	
@@ -1878,7 +1828,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function NumberControllerBox(object, property, params) {
 	    _classCallCheck(this, NumberControllerBox);
 	
-	    _get(Object.getPrototypeOf(NumberControllerBox.prototype), 'constructor', this).call(this, object, property, params);
+	    _NumberController.call(this, object, property, params);
 	
 	    this.__truncationSuspended = false;
 	
@@ -1944,14 +1894,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.domElement.appendChild(this.__input);
 	  }
 	
-	  _createClass(NumberControllerBox, [{
-	    key: 'updateDisplay',
-	    value: function updateDisplay() {
+	  NumberControllerBox.prototype.updateDisplay = function updateDisplay() {
 	
-	      this.__input.value = this.__truncationSuspended ? this.getValue() : roundToDecimal(this.getValue(), this.__precision);
-	      return _get(Object.getPrototypeOf(NumberControllerBox.prototype), 'updateDisplay', this).call(this);
-	    }
-	  }]);
+	    this.__input.value = this.__truncationSuspended ? this.getValue() : roundToDecimal(this.getValue(), this.__precision);
+	    return _NumberController.prototype.updateDisplay.call(this);
+	  };
 	
 	  return NumberControllerBox;
 	})(_NumberController3['default']);
@@ -1978,13 +1925,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	'use strict';
 	
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	exports.__esModule = true;
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
@@ -1996,7 +1937,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _NumberController3 = _interopRequireDefault(_NumberController2);
 	
-	var _domDom = __webpack_require__(10);
+	var _domDom = __webpack_require__(9);
 	
 	var _domDom2 = _interopRequireDefault(_domDom);
 	
@@ -2041,7 +1982,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function NumberControllerSlider(object, property, min, max, step) {
 	    _classCallCheck(this, NumberControllerSlider);
 	
-	    _get(Object.getPrototypeOf(NumberControllerSlider.prototype), 'constructor', this).call(this, object, property, { min: min, max: max, step: step });
+	    _NumberController.call(this, object, property, { min: min, max: max, step: step });
 	
 	    var _this = this;
 	
@@ -2091,14 +2032,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Injects default stylesheet for slider elements.
 	   */
 	
-	  _createClass(NumberControllerSlider, [{
-	    key: 'updateDisplay',
-	    value: function updateDisplay() {
-	      var pct = (this.getValue() - this.__min) / (this.__max - this.__min);
-	      this.__foreground.style.width = pct * 100 + '%';
-	      return _get(Object.getPrototypeOf(NumberControllerSlider.prototype), 'updateDisplay', this).call(this);
-	    }
-	  }]);
+	  NumberControllerSlider.prototype.updateDisplay = function updateDisplay() {
+	    var pct = (this.getValue() - this.__min) / (this.__max - this.__min);
+	    this.__foreground.style.width = pct * 100 + '%';
+	    return _NumberController.prototype.updateDisplay.call(this);
+	  };
 	
 	  return NumberControllerSlider;
 	})(_NumberController3['default']);
@@ -2130,16 +2068,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 	
 	module.exports = {
-	  load: function load(url, doc) {
-	    doc = doc || document;
+	  load: function load(url, indoc) {
+	    var doc = indoc || document;
 	    var link = doc.createElement('link');
 	    link.type = 'text/css';
 	    link.rel = 'stylesheet';
 	    link.href = url;
 	    doc.getElementsByTagName('head')[0].appendChild(link);
 	  },
-	  inject: function inject(css, doc) {
-	    doc = doc || document;
+	
+	  inject: function inject(css, indoc) {
+	    var doc = indoc || document;
 	    var injected = document.createElement('style');
 	    injected.type = 'text/css';
 	    injected.innerHTML = css;
@@ -2487,13 +2426,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	'use strict';
 	
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	exports.__esModule = true;
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
@@ -2505,7 +2438,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _Controller3 = _interopRequireDefault(_Controller2);
 	
-	var _domDom = __webpack_require__(10);
+	var _domDom = __webpack_require__(9);
 	
 	var _domDom2 = _interopRequireDefault(_domDom);
 	
@@ -2530,12 +2463,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function FunctionController(object, property, text) {
 	    _classCallCheck(this, FunctionController);
 	
-	    _get(Object.getPrototypeOf(FunctionController.prototype), 'constructor', this).call(this, object, property);
+	    _Controller.call(this, object, property);
 	
 	    var _this = this;
 	
 	    this.__button = document.createElement('div');
 	    this.__button.innerHTML = text === undefined ? 'Fire' : text;
+	
 	    _domDom2['default'].bind(this.__button, 'click', function (e) {
 	      e.preventDefault();
 	      _this.fire();
@@ -2547,18 +2481,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.domElement.appendChild(this.__button);
 	  }
 	
-	  _createClass(FunctionController, [{
-	    key: 'fire',
-	    value: function fire() {
-	      if (this.__onChange) {
-	        this.__onChange.call(this);
-	      }
-	      this.getValue().call(this.object);
-	      if (this.__onFinishChange) {
-	        this.__onFinishChange.call(this, this.getValue());
-	      }
+	  FunctionController.prototype.fire = function fire() {
+	    if (this.__onChange) {
+	      this.__onChange.call(this);
 	    }
-	  }]);
+	    this.getValue().call(this.object);
+	    if (this.__onFinishChange) {
+	      this.__onFinishChange.call(this, this.getValue());
+	    }
+	  };
 	
 	  return FunctionController;
 	})(_Controller3['default']);
@@ -2585,13 +2516,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	'use strict';
 	
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	exports.__esModule = true;
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
@@ -2603,7 +2528,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _Controller3 = _interopRequireDefault(_Controller2);
 	
-	var _domDom = __webpack_require__(10);
+	var _domDom = __webpack_require__(9);
 	
 	var _domDom2 = _interopRequireDefault(_domDom);
 	
@@ -2625,7 +2550,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function ColorController(object, property) {
 	    _classCallCheck(this, ColorController);
 	
-	    _get(Object.getPrototypeOf(ColorController.prototype), 'constructor', this).call(this, object, property);
+	    _Controller.call(this, object, property);
 	
 	    this.__color = new _colorColor2['default'](this.getValue());
 	    this.__temp = new _colorColor2['default'](0);
@@ -2762,7 +2687,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    function onBlur() {
-	      var i = (0, _colorInterpret2['default'])(this.value);
+	      var i = _colorInterpret2['default'](this.value);
 	      if (i !== false) {
 	        _this.__color.__state = i;
 	        _this.setValue(_this.__color.toOriginal());
@@ -2826,59 +2751,56 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }
 	
-	  _createClass(ColorController, [{
-	    key: 'updateDisplay',
-	    value: function updateDisplay() {
-	      var i = (0, _colorInterpret2['default'])(this.getValue());
+	  ColorController.prototype.updateDisplay = function updateDisplay() {
+	    var i = _colorInterpret2['default'](this.getValue());
 	
-	      if (i !== false) {
+	    if (i !== false) {
 	
-	        var mismatch = false;
+	      var mismatch = false;
 	
-	        // Check for mismatch on the interpreted value.
+	      // Check for mismatch on the interpreted value.
 	
-	        _utilsCommon2['default'].each(_colorColor2['default'].COMPONENTS, function (component) {
-	          if (!_utilsCommon2['default'].isUndefined(i[component]) && !_utilsCommon2['default'].isUndefined(this.__color.__state[component]) && i[component] !== this.__color.__state[component]) {
-	            mismatch = true;
-	            return {}; // break
-	          }
-	        }, this);
-	
-	        // If nothing diverges, we keep our previous values
-	        // for statefulness, otherwise we recalculate fresh
-	        if (mismatch) {
-	          _utilsCommon2['default'].extend(this.__color.__state, i);
+	      _utilsCommon2['default'].each(_colorColor2['default'].COMPONENTS, function (component) {
+	        if (!_utilsCommon2['default'].isUndefined(i[component]) && !_utilsCommon2['default'].isUndefined(this.__color.__state[component]) && i[component] !== this.__color.__state[component]) {
+	          mismatch = true;
+	          return {}; // break
 	        }
+	      }, this);
+	
+	      // If nothing diverges, we keep our previous values
+	      // for statefulness, otherwise we recalculate fresh
+	      if (mismatch) {
+	        _utilsCommon2['default'].extend(this.__color.__state, i);
 	      }
-	
-	      _utilsCommon2['default'].extend(this.__temp.__state, this.__color.__state);
-	
-	      this.__temp.a = 1;
-	
-	      var flip = this.__color.v < .5 || this.__color.s > .5 ? 255 : 0;
-	      var _flip = 255 - flip;
-	
-	      _utilsCommon2['default'].extend(this.__field_knob.style, {
-	        marginLeft: 100 * this.__color.s - 7 + 'px',
-	        marginTop: 100 * (1 - this.__color.v) - 7 + 'px',
-	        backgroundColor: this.__temp.toString(),
-	        border: this.__field_knob_border + 'rgb(' + flip + ',' + flip + ',' + flip + ')'
-	      });
-	
-	      this.__hue_knob.style.marginTop = (1 - this.__color.h / 360) * 100 + 'px';
-	
-	      this.__temp.s = 1;
-	      this.__temp.v = 1;
-	
-	      linearGradient(this.__saturation_field, 'left', '#fff', this.__temp.toString());
-	
-	      _utilsCommon2['default'].extend(this.__input.style, {
-	        backgroundColor: this.__input.value = this.__color.toString(),
-	        color: 'rgb(' + flip + ',' + flip + ',' + flip + ')',
-	        textShadow: this.__input_textShadow + 'rgba(' + _flip + ',' + _flip + ',' + _flip + ',.7)'
-	      });
 	    }
-	  }]);
+	
+	    _utilsCommon2['default'].extend(this.__temp.__state, this.__color.__state);
+	
+	    this.__temp.a = 1;
+	
+	    var flip = this.__color.v < .5 || this.__color.s > .5 ? 255 : 0;
+	    var _flip = 255 - flip;
+	
+	    _utilsCommon2['default'].extend(this.__field_knob.style, {
+	      marginLeft: 100 * this.__color.s - 7 + 'px',
+	      marginTop: 100 * (1 - this.__color.v) - 7 + 'px',
+	      backgroundColor: this.__temp.toString(),
+	      border: this.__field_knob_border + 'rgb(' + flip + ',' + flip + ',' + flip + ')'
+	    });
+	
+	    this.__hue_knob.style.marginTop = (1 - this.__color.h / 360) * 100 + 'px';
+	
+	    this.__temp.s = 1;
+	    this.__temp.v = 1;
+	
+	    linearGradient(this.__saturation_field, 'left', '#fff', this.__temp.toString());
+	
+	    _utilsCommon2['default'].extend(this.__input.style, {
+	      backgroundColor: this.__input.value = this.__color.toString(),
+	      color: 'rgb(' + flip + ',' + flip + ',' + flip + ')',
+	      textShadow: this.__input_textShadow + 'rgba(' + _flip + ',' + _flip + ',' + _flip + ',.7)'
+	    });
+	  };
 	
 	  return ColorController;
 	})(_Controller3['default']);
@@ -2961,7 +2883,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _controllersNumberControllerSlider2 = _interopRequireDefault(_controllersNumberControllerSlider);
 	
-	var _controllersOptionController = __webpack_require__(9);
+	var _controllersOptionController = __webpack_require__(10);
 	
 	var _controllersOptionController2 = _interopRequireDefault(_controllersOptionController);
 	
@@ -2977,7 +2899,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _domCenteredDiv2 = _interopRequireDefault(_domCenteredDiv);
 	
-	var _domDom = __webpack_require__(10);
+	var _domDom = __webpack_require__(9);
 	
 	var _domDom2 = _interopRequireDefault(_domDom);
 	
@@ -3035,7 +2957,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {Boolean} [params.closed] If true, starts closed
 	 */
 	var GUI = function GUI(params) {
-	
 	  var _this = this;
 	
 	  /**
@@ -3098,11 +3019,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	
 	  if (!_utilsCommon2['default'].isUndefined(params.load)) {
-	
 	    // Explicit preset
-	    if (params.preset) params.load.preset = params.preset;
+	    if (params.preset) {
+	      params.load.preset = params.preset;
+	    }
 	  } else {
-	
 	    params.load = { preset: DEFAULT_DEFAULT_PRESET_NAME };
 	  }
 	
@@ -3125,10 +3046,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var saveToLocalStorage;
 	
 	  Object.defineProperties(this,
-	
 	  /** @lends dat.gui.GUI.prototype */
 	  {
-	
 	    /**
 	     * The parent <code>GUI</code>
 	     * @type dat.gui.GUI
@@ -3160,7 +3079,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @type String
 	     */
 	    preset: {
-	
 	      get: function get() {
 	        if (_this.parent) {
 	          return _this.getRoot().preset;
@@ -3178,7 +3096,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        setPresetSelectIndex(this);
 	        _this.revert();
 	      }
-	
 	    },
 	
 	    /**
@@ -3270,9 +3187,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          localStorage.setItem(getLocalStorageHash(_this, 'isLocal'), bool);
 	        }
 	      }
-	
 	    }
-	
 	  });
 	
 	  // Are we a root level GUI?
@@ -3285,9 +3200,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    // Are we supposed to be loading locally?
 	    if (SUPPORTS_LOCAL_STORAGE) {
-	
 	      if (use_local_storage) {
-	
 	        _this.useLocalStorage = true;
 	
 	        var saved_gui = localStorage.getItem(getLocalStorageHash(this, 'gui'));
@@ -3304,13 +3217,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.domElement.appendChild(this.__closeButton);
 	
 	    _domDom2['default'].bind(this.__closeButton, 'click', function () {
-	
 	      _this.closed = !_this.closed;
 	    });
-	
 	    // Oh, you're a nested GUI!
 	  } else {
-	
 	      if (params.closed === undefined) {
 	        params.closed = true;
 	      }
@@ -3337,9 +3247,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	  if (params.autoPlace) {
-	
 	    if (_utilsCommon2['default'].isUndefined(params.parent)) {
-	
 	      if (auto_place_virgin) {
 	        auto_place_container = document.createElement('div');
 	        _domDom2['default'].addClass(auto_place_container, CSS_NAMESPACE);
@@ -3356,7 +3264,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    // Make it not elastic.
-	    if (!this.parent) setWidth(_this, params.width);
+	    if (!this.parent) {
+	      setWidth(_this, params.width);
+	    }
 	  }
 	
 	  _domDom2['default'].bind(window, 'resize', function () {
@@ -3402,7 +3312,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	
 	GUI.toggleHide = function () {
-	
 	  hide = !hide;
 	  _utilsCommon2['default'].each(hideable_guis, function (gui) {
 	    gui.domElement.style.zIndex = hide ? -999 : 999;
@@ -3424,7 +3333,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	GUI.TEXT_OPEN = 'Open Controls';
 	
 	_domDom2['default'].bind(window, 'keydown', function (e) {
-	
 	  if (document.activeElement.type !== 'text' && (e.which === HIDE_KEY_CODE || e.keyCode == HIDE_KEY_CODE)) {
 	    GUI.toggleHide();
 	  }
@@ -3452,7 +3360,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    return add;
 	  })(function (object, property) {
-	
 	    return add(this, object, property, {
 	      factoryArgs: Array.prototype.slice.call(arguments, 2)
 	    });
@@ -3465,7 +3372,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @instance
 	   */
 	  addColor: function addColor(object, property) {
-	
 	    return add(this, object, property, {
 	      color: true
 	    });
@@ -3476,7 +3382,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @instance
 	   */
 	  remove: function remove(controller) {
-	
 	    // TODO listening?
 	    this.__ul.removeChild(controller.__li);
 	    this.__controllers.splice(this.__controllers.indexOf(controller), 1);
@@ -3487,7 +3392,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	
 	  destroy: function destroy() {
-	
 	    if (this.autoPlace) {
 	      auto_place_container.removeChild(this.domElement);
 	    }
@@ -3501,7 +3405,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @instance
 	   */
 	  addFolder: function addFolder(name) {
-	
 	    // We have to prevent collisions on names in order to have a key
 	    // by which to remember saved values
 	    if (this.__folders[name] !== undefined) {
@@ -3546,11 +3449,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	
 	  onResize: function onResize() {
-	
 	    var root = this.getRoot();
-	
 	    if (root.scrollable) {
-	
 	      var top = _domDom2['default'].getOffset(root.__ul).top;
 	      var h = 0;
 	
@@ -3588,7 +3488,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @instance
 	   */
 	  remember: function remember() {
-	
 	    if (_utilsCommon2['default'].isUndefined(SAVE_DIALOGUE)) {
 	      SAVE_DIALOGUE = new _domCenteredDiv2['default']();
 	      SAVE_DIALOGUE.domElement.innerHTML = _htmlSaveDialogueHtml2['default'];
@@ -3633,14 +3532,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @instance
 	   */
 	  getSaveObject: function getSaveObject() {
-	
 	    var toReturn = this.load;
-	
 	    toReturn.closed = this.closed;
 	
 	    // Am I remembering any values?
 	    if (this.__rememberedObjects.length > 0) {
-	
 	      toReturn.preset = this.preset;
 	
 	      if (!toReturn.remembered) {
@@ -3659,7 +3555,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	
 	  save: function save() {
-	
 	    if (!this.load.remembered) {
 	      this.load.remembered = {};
 	    }
@@ -3670,9 +3565,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	
 	  saveAs: function saveAs(presetName) {
-	
 	    if (!this.load.remembered) {
-	
 	      // Retain default values upon first save
 	      this.load.remembered = {};
 	      this.load.remembered[DEFAULT_DEFAULT_PRESET_NAME] = getCurrentPreset(this, true);
@@ -3685,7 +3578,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	
 	  revert: function revert(gui) {
-	
 	    _utilsCommon2['default'].each(this.__controllers, function (controller) {
 	      // Make revert work on Default.
 	      if (!this.getRoot().load.remembered) {
@@ -3705,73 +3597,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	
 	  listen: function listen(controller) {
-	
 	    var init = this.__listening.length == 0;
 	    this.__listening.push(controller);
 	    if (init) updateDisplays(this.__listening);
 	  }
-	
 	});
-	
-	function add(gui, object, property, params) {
-	
-	  if (object[property] === undefined) {
-	    throw new Error("Object " + object + " has no property \"" + property + "\"");
-	  }
-	
-	  var controller;
-	
-	  if (params.color) {
-	
-	    controller = new _controllersColorController2['default'](object, property);
-	  } else {
-	
-	    var factoryArgs = [object, property].concat(params.factoryArgs);
-	    controller = _controllersControllerFactory2['default'].apply(gui, factoryArgs);
-	  }
-	
-	  if (params.before instanceof _controllersController2['default']) {
-	    params.before = params.before.__li;
-	  }
-	
-	  recallSavedValue(gui, controller);
-	
-	  _domDom2['default'].addClass(controller.domElement, 'c');
-	
-	  var name = document.createElement('span');
-	  _domDom2['default'].addClass(name, 'property-name');
-	  name.innerHTML = controller.property;
-	
-	  var container = document.createElement('div');
-	  container.appendChild(name);
-	  container.appendChild(controller.domElement);
-	
-	  var li = addRow(gui, container, params.before);
-	
-	  _domDom2['default'].addClass(li, GUI.CLASS_CONTROLLER_ROW);
-	  if (controller instanceof _controllersColorController2['default']) {
-	    _domDom2['default'].addClass(li, "color");
-	  } else {
-	    _domDom2['default'].addClass(li, typeof controller.getValue());
-	  }
-	
-	  augmentController(gui, li, controller);
-	
-	  gui.__controllers.push(controller);
-	
-	  return controller;
-	}
 	
 	/**
 	 * Add a row to the end of the GUI or before another row.
 	 *
 	 * @param gui
-	 * @param [dom] If specified, inserts the dom content in the new row
+	 * @param [newDom] If specified, inserts the dom content in the new row
 	 * @param [liBefore] If specified, places the new row before another row
 	 */
-	function addRow(gui, dom, liBefore) {
+	function addRow(gui, newDom, liBefore) {
 	  var li = document.createElement('li');
-	  if (dom) li.appendChild(dom);
+	  if (newDom) {
+	    li.appendChild(newDom);
+	  }
+	
 	  if (liBefore) {
 	    gui.__ul.insertBefore(li, params.before);
 	  } else {
@@ -3781,15 +3625,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return li;
 	}
 	
-	function augmentController(gui, li, controller) {
+	function markPresetModified(gui, modified) {
+	  var opt = gui.__preset_select[gui.__preset_select.selectedIndex];
 	
+	  // console.log('mark', modified, opt);
+	  if (modified) {
+	    opt.innerHTML = opt.value + '*';
+	  } else {
+	    opt.innerHTML = opt.value;
+	  }
+	}
+	
+	function augmentController(gui, li, controller) {
 	  controller.__li = li;
 	  controller.__gui = gui;
 	
 	  _utilsCommon2['default'].extend(controller, {
-	
 	    options: function options(_options) {
-	
 	      if (arguments.length > 1) {
 	        controller.remove();
 	
@@ -3823,33 +3675,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	      controller.__gui.remove(controller);
 	      return controller;
 	    }
-	
 	  });
 	
 	  // All sliders should be accompanied by a box.
 	  if (controller instanceof _controllersNumberControllerSlider2['default']) {
+	    (function () {
+	      var box = new _controllersNumberControllerBox2['default'](controller.object, controller.property, { min: controller.__min, max: controller.__max, step: controller.__step });
 	
-	    var box = new _controllersNumberControllerBox2['default'](controller.object, controller.property, { min: controller.__min, max: controller.__max, step: controller.__step });
+	      _utilsCommon2['default'].each(['updateDisplay', 'onChange', 'onFinishChange'], function (method) {
+	        var pc = controller[method];
+	        var pb = box[method];
+	        controller[method] = box[method] = function () {
+	          var args = Array.prototype.slice.call(arguments);
+	          pc.apply(controller, args);
+	          return pb.apply(box, args);
+	        };
+	      });
 	
-	    _utilsCommon2['default'].each(['updateDisplay', 'onChange', 'onFinishChange'], function (method) {
-	      var pc = controller[method];
-	      var pb = box[method];
-	      controller[method] = box[method] = function () {
-	        var args = Array.prototype.slice.call(arguments);
-	        pc.apply(controller, args);
-	        return pb.apply(box, args);
-	      };
-	    });
-	
-	    _domDom2['default'].addClass(li, 'has-slider');
-	    controller.domElement.insertBefore(box.domElement, controller.domElement.firstElementChild);
+	      _domDom2['default'].addClass(li, 'has-slider');
+	      controller.domElement.insertBefore(box.domElement, controller.domElement.firstElementChild);
+	    })();
 	  } else if (controller instanceof _controllersNumberControllerBox2['default']) {
-	
 	    var r = function r(returned) {
-	
 	      // Have we defined both boundaries?
 	      if (_utilsCommon2['default'].isNumber(controller.__min) && _utilsCommon2['default'].isNumber(controller.__max)) {
-	
 	        // Well, then lets just replace this with a slider.
 	        controller.remove();
 	        return add(gui, controller.object, controller.property, {
@@ -3864,7 +3713,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    controller.min = _utilsCommon2['default'].compose(r, controller.min);
 	    controller.max = _utilsCommon2['default'].compose(r, controller.max);
 	  } else if (controller instanceof _controllersBooleanController2['default']) {
-	
 	    _domDom2['default'].bind(li, 'click', function () {
 	      _domDom2['default'].fakeEvent(controller.__checkbox, 'click');
 	    });
@@ -3873,7 +3721,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      e.stopPropagation(); // Prevents double-toggle
 	    });
 	  } else if (controller instanceof _controllersFunctionController2['default']) {
-	
 	      _domDom2['default'].bind(li, 'click', function () {
 	        _domDom2['default'].fakeEvent(controller.__button, 'click');
 	      });
@@ -3886,79 +3733,68 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _domDom2['default'].removeClass(controller.__button, 'hover');
 	      });
 	    } else if (controller instanceof _controllersColorController2['default']) {
-	
 	      _domDom2['default'].addClass(li, 'color');
-	      controller.updateDisplay = _utilsCommon2['default'].compose(function (r) {
+	      controller.updateDisplay = _utilsCommon2['default'].compose(function (val) {
 	        li.style.borderLeftColor = controller.__color.toString();
-	        return r;
+	        return val;
 	      }, controller.updateDisplay);
 	
 	      controller.updateDisplay();
 	    }
 	
-	  controller.setValue = _utilsCommon2['default'].compose(function (r) {
+	  controller.setValue = _utilsCommon2['default'].compose(function (val) {
 	    if (gui.getRoot().__preset_select && controller.isModified()) {
 	      markPresetModified(gui.getRoot(), true);
 	    }
-	    return r;
+	
+	    return val;
 	  }, controller.setValue);
 	}
 	
 	function recallSavedValue(gui, controller) {
-	
 	  // Find the topmost GUI, that's where remembered objects live.
 	  var root = gui.getRoot();
 	
 	  // Does the object we're controlling match anything we've been told to
 	  // remember?
-	  var matched_index = root.__rememberedObjects.indexOf(controller.object);
+	  var matchedIndex = root.__rememberedObjects.indexOf(controller.object);
 	
 	  // Why yes, it does!
-	  if (matched_index != -1) {
-	
+	  if (matchedIndex !== -1) {
 	    // Let me fetch a map of controllers for thcommon.isObject.
-	    var controller_map = root.__rememberedObjectIndecesToControllers[matched_index];
+	    var controllerMap = root.__rememberedObjectIndecesToControllers[matchedIndex];
 	
 	    // Ohp, I believe this is the first controller we've created for this
 	    // object. Lets make the map fresh.
-	    if (controller_map === undefined) {
-	      controller_map = {};
-	      root.__rememberedObjectIndecesToControllers[matched_index] = controller_map;
+	    if (controllerMap === undefined) {
+	      controllerMap = {};
+	      root.__rememberedObjectIndecesToControllers[matchedIndex] = controllerMap;
 	    }
 	
 	    // Keep track of this controller
-	    controller_map[controller.property] = controller;
+	    controllerMap[controller.property] = controller;
 	
 	    // Okay, now have we saved any values for this controller?
 	    if (root.load && root.load.remembered) {
-	
-	      var preset_map = root.load.remembered;
+	      var presetMap = root.load.remembered;
 	
 	      // Which preset are we trying to load?
-	      var preset;
+	      var preset = undefined;
 	
-	      if (preset_map[gui.preset]) {
-	
-	        preset = preset_map[gui.preset];
-	      } else if (preset_map[DEFAULT_DEFAULT_PRESET_NAME]) {
-	
+	      if (presetMap[gui.preset]) {
+	        preset = presetMap[gui.preset];
+	      } else if (presetMap[DEFAULT_DEFAULT_PRESET_NAME]) {
 	        // Uhh, you can have the default instead?
-	        preset = preset_map[DEFAULT_DEFAULT_PRESET_NAME];
+	        preset = presetMap[DEFAULT_DEFAULT_PRESET_NAME];
 	      } else {
-	
 	        // Nada.
-	
 	        return;
 	      }
 	
-	      // Did the loaded object remember thcommon.isObject?
-	      if (preset[matched_index] &&
-	
-	      // Did we remember this particular property?
-	      preset[matched_index][controller.property] !== undefined) {
-	
+	      // Did the loaded object remember thcommon.isObject? &&  Did we remember this particular property?
+	      if (preset[matchedIndex] && preset[matchedIndex][controller.property] !== undefined) {
 	        // We did remember something for this guy ...
-	        var value = preset[matched_index][controller.property];
+	        var value = preset[matchedIndex][controller.property];
 	
 	        // And that's what it is.
 	        controller.initialValue = value;
@@ -3968,13 +3804,72 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	}
 	
+	function add(gui, object, property, params) {
+	  if (object[property] === undefined) {
+	    throw new Error('Object "' + object + '" has no property "' + property + '"');
+	  }
+	
+	  var controller = undefined;
+	
+	  if (params.color) {
+	    controller = new _controllersColorController2['default'](object, property);
+	  } else {
+	    var factoryArgs = [object, property].concat(params.factoryArgs);
+	    controller = _controllersControllerFactory2['default'].apply(gui, factoryArgs);
+	  }
+	
+	  if (params.before instanceof _controllersController2['default']) {
+	    params.before = params.before.__li;
+	  }
+	
+	  recallSavedValue(gui, controller);
+	
+	  _domDom2['default'].addClass(controller.domElement, 'c');
+	
+	  var name = document.createElement('span');
+	  _domDom2['default'].addClass(name, 'property-name');
+	  name.innerHTML = controller.property;
+	
+	  var container = document.createElement('div');
+	  container.appendChild(name);
+	  container.appendChild(controller.domElement);
+	
+	  var li = addRow(gui, container, params.before);
+	
+	  _domDom2['default'].addClass(li, GUI.CLASS_CONTROLLER_ROW);
+	  if (controller instanceof _controllersColorController2['default']) {
+	    _domDom2['default'].addClass(li, 'color');
+	  } else {
+	    _domDom2['default'].addClass(li, typeof controller.getValue());
+	  }
+	
+	  augmentController(gui, li, controller);
+	
+	  gui.__controllers.push(controller);
+	
+	  return controller;
+	}
+	
 	function getLocalStorageHash(gui, key) {
 	  // TODO how does this deal with multiple GUI's?
 	  return document.location.href + '.' + key;
 	}
 	
-	function addSaveMenu(gui) {
+	function addPresetOption(gui, name, setSelected) {
+	  var opt = document.createElement('option');
+	  opt.innerHTML = name;
+	  opt.value = name;
+	  gui.__preset_select.appendChild(opt);
+	  if (setSelected) {
+	    gui.__preset_select.selectedIndex = gui.__preset_select.length - 1;
+	  }
+	}
 	
+	function showHideExplain(explain) {
+	  explain.style.display = gui.useLocalStorage ? 'block' : 'none';
+	}
+	
+	function addSaveMenu(gui) {
 	  var div = gui.__save_row = document.createElement('li');
 	
 	  _domDom2['default'].addClass(gui.domElement, 'has-save');
@@ -4006,16 +3901,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var select = gui.__preset_select = document.createElement('select');
 	
 	  if (gui.load && gui.load.remembered) {
-	
 	    _utilsCommon2['default'].each(gui.load.remembered, function (value, key) {
-	      addPresetOption(gui, key, key == gui.preset);
+	      addPresetOption(gui, key, key === gui.preset);
 	    });
 	  } else {
 	    addPresetOption(gui, DEFAULT_DEFAULT_PRESET_NAME, false);
 	  }
 	
 	  _domDom2['default'].bind(select, 'change', function () {
-	
 	    for (var index = 0; index < gui.__preset_select.length; index++) {
 	      gui.__preset_select[index].innerHTML = gui.__preset_select[index].value;
 	    }
@@ -4030,32 +3923,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	  div.appendChild(button3);
 	
 	  if (SUPPORTS_LOCAL_STORAGE) {
-	    var saveLocally;
-	    var explain;
-	    var localStorageCheckBox;
-	
 	    (function () {
-	      var showHideExplain = function showHideExplain() {
-	        explain.style.display = gui.useLocalStorage ? 'block' : 'none';
-	      };
-	
-	      saveLocally = document.getElementById('dg-save-locally');
-	      explain = document.getElementById('dg-local-explain');
+	      var explain = document.getElementById('dg-local-explain');
+	      var localStorageCheckBox = document.getElementById('dg-local-storage');
+	      var saveLocally = document.getElementById('dg-save-locally');
 	
 	      saveLocally.style.display = 'block';
-	
-	      localStorageCheckBox = document.getElementById('dg-local-storage');
 	
 	      if (localStorage.getItem(getLocalStorageHash(gui, 'isLocal')) === 'true') {
 	        localStorageCheckBox.setAttribute('checked', 'checked');
 	      }
 	
-	      showHideExplain();
+	      showHideExplain(explain);
 	
 	      // TODO: Use a boolean controller, fool!
 	      _domDom2['default'].bind(localStorageCheckBox, 'change', function () {
 	        gui.useLocalStorage = !gui.useLocalStorage;
-	        showHideExplain();
+	        showHideExplain(explain);
 	      });
 	    })();
 	  }
@@ -4063,7 +3947,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var newConstructorTextArea = document.getElementById('dg-new-constructor');
 	
 	  _domDom2['default'].bind(newConstructorTextArea, 'keydown', function (e) {
-	    if (e.metaKey && (e.which === 67 || e.keyCode == 67)) {
+	    if (e.metaKey && (e.which === 67 || e.keyCode === 67)) {
 	      SAVE_DIALOGUE.hide();
 	    }
 	  });
@@ -4081,17 +3965,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  _domDom2['default'].bind(button2, 'click', function () {
 	    var presetName = prompt('Enter a new preset name.');
-	    if (presetName) gui.saveAs(presetName);
+	    if (presetName) {
+	      gui.saveAs(presetName);
+	    }
 	  });
 	
 	  _domDom2['default'].bind(button3, 'click', function () {
 	    gui.revert();
 	  });
 	
-	  //    div.appendChild(button2);
+	  // div.appendChild(button2);
 	}
 	
 	function addResizeHandle(gui) {
+	  var pmouseX = undefined;
 	
 	  gui.__resize_handle = document.createElement('div');
 	
@@ -4102,19 +3989,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	    height: '200px',
 	    cursor: 'ew-resize',
 	    position: 'absolute'
-	    //      border: '1px solid blue'
+	    // border: '1px solid blue'
 	
 	  });
 	
-	  var pmouseX;
+	  function drag(e) {
+	    e.preventDefault();
 	
-	  _domDom2['default'].bind(gui.__resize_handle, 'mousedown', dragStart);
-	  _domDom2['default'].bind(gui.__closeButton, 'mousedown', dragStart);
+	    gui.width += pmouseX - e.clientX;
+	    gui.onResize();
+	    pmouseX = e.clientX;
 	
-	  gui.domElement.insertBefore(gui.__resize_handle, gui.domElement.firstElementChild);
+	    return false;
+	  }
+	
+	  function dragStop() {
+	    _domDom2['default'].removeClass(gui.__closeButton, GUI.CLASS_DRAG);
+	    _domDom2['default'].unbind(window, 'mousemove', drag);
+	    _domDom2['default'].unbind(window, 'mouseup', dragStop);
+	  }
 	
 	  function dragStart(e) {
-	
 	    e.preventDefault();
 	
 	    pmouseX = e.clientX;
@@ -4126,23 +4021,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return false;
 	  }
 	
-	  function drag(e) {
+	  _domDom2['default'].bind(gui.__resize_handle, 'mousedown', dragStart);
+	  _domDom2['default'].bind(gui.__closeButton, 'mousedown', dragStart);
 	
-	    e.preventDefault();
-	
-	    gui.width += pmouseX - e.clientX;
-	    gui.onResize();
-	    pmouseX = e.clientX;
-	
-	    return false;
-	  }
-	
-	  function dragStop() {
-	
-	    _domDom2['default'].removeClass(gui.__closeButton, GUI.CLASS_DRAG);
-	    _domDom2['default'].unbind(window, 'mousemove', drag);
-	    _domDom2['default'].unbind(window, 'mouseup', dragStop);
-	  }
+	  gui.domElement.insertBefore(gui.__resize_handle, gui.domElement.firstElementChild);
 	}
 	
 	function setWidth(gui, w) {
@@ -4158,62 +4040,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	
 	function getCurrentPreset(gui, useInitialValues) {
-	
 	  var toReturn = {};
 	
 	  // For each object I'm remembering
 	  _utilsCommon2['default'].each(gui.__rememberedObjects, function (val, index) {
-	
-	    var saved_values = {};
+	    var savedValues = {};
 	
 	    // The controllers I've made for thcommon.isObject by property
-	    var controller_map = gui.__rememberedObjectIndecesToControllers[index];
+	    var controllerMap = gui.__rememberedObjectIndecesToControllers[index];
 	
 	    // Remember each value for each property
-	    _utilsCommon2['default'].each(controller_map, function (controller, property) {
-	      saved_values[property] = useInitialValues ? controller.initialValue : controller.getValue();
+	    _utilsCommon2['default'].each(controllerMap, function (controller, property) {
+	      savedValues[property] = useInitialValues ? controller.initialValue : controller.getValue();
 	    });
 	
 	    // Save the values for thcommon.isObject
-	    toReturn[index] = saved_values;
+	    toReturn[index] = savedValues;
 	  });
 	
 	  return toReturn;
 	}
 	
-	function addPresetOption(gui, name, setSelected) {
-	  var opt = document.createElement('option');
-	  opt.innerHTML = name;
-	  opt.value = name;
-	  gui.__preset_select.appendChild(opt);
-	  if (setSelected) {
-	    gui.__preset_select.selectedIndex = gui.__preset_select.length - 1;
-	  }
-	}
-	
 	function setPresetSelectIndex(gui) {
 	  for (var index = 0; index < gui.__preset_select.length; index++) {
-	    if (gui.__preset_select[index].value == gui.preset) {
+	    if (gui.__preset_select[index].value === gui.preset) {
 	      gui.__preset_select.selectedIndex = index;
 	    }
 	  }
 	}
 	
-	function markPresetModified(gui, modified) {
-	  var opt = gui.__preset_select[gui.__preset_select.selectedIndex];
-	  //    console.log('mark', modified, opt);
-	  if (modified) {
-	    opt.innerHTML = opt.value + "*";
-	  } else {
-	    opt.innerHTML = opt.value;
-	  }
-	}
-	
 	function updateDisplays(controllerArray) {
-	
-	  if (controllerArray.length != 0) {
-	
-	    (0, _utilsRequestAnimationFrame2['default'])(function () {
+	  if (controllerArray.length !== 0) {
+	    _utilsRequestAnimationFrame2['default'](function () {
 	      updateDisplays(controllerArray);
 	    });
 	  }
@@ -4290,13 +4148,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	'use strict';
 	
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
+	exports.__esModule = true;
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _OptionController = __webpack_require__(9);
+	var _OptionController = __webpack_require__(10);
 	
 	var _OptionController2 = _interopRequireDefault(_OptionController);
 	
@@ -4383,11 +4239,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	"use strict";
 	
-	module.exports = function () {
-	  return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (callback, element) {
+	exports.__esModule = true;
+	
+	exports["default"] = function () {
+	  function requestAnimationFrame(callback) {
+	    // TODO: Get rid of window
 	    window.setTimeout(callback, 1000 / 60);
-	  };
+	  }
+	
+	  return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || requestAnimationFrame;
 	};
+	
+	module.exports = exports["default"];
 
 /***/ },
 /* 28 */
@@ -4408,13 +4271,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	'use strict';
 	
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
+	exports.__esModule = true;
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _domDom = __webpack_require__(10);
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	var _domDom = __webpack_require__(9);
 	
 	var _domDom2 = _interopRequireDefault(_domDom);
 	
@@ -4422,90 +4285,97 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _utilsCommon2 = _interopRequireDefault(_utilsCommon);
 	
-	var CenteredDiv = function CenteredDiv() {
+	var CenteredDiv = (function () {
+	  function CenteredDiv() {
+	    _classCallCheck(this, CenteredDiv);
 	
-	  this.backgroundElement = document.createElement('div');
-	  _utilsCommon2['default'].extend(this.backgroundElement.style, {
-	    backgroundColor: 'rgba(0,0,0,0.8)',
-	    top: 0,
-	    left: 0,
-	    display: 'none',
-	    zIndex: '1000',
-	    opacity: 0,
-	    WebkitTransition: 'opacity 0.2s linear',
-	    transition: 'opacity 0.2s linear'
-	  });
+	    this.backgroundElement = document.createElement('div');
+	    _utilsCommon2['default'].extend(this.backgroundElement.style, {
+	      backgroundColor: 'rgba(0,0,0,0.8)',
+	      top: 0,
+	      left: 0,
+	      display: 'none',
+	      zIndex: '1000',
+	      opacity: 0,
+	      WebkitTransition: 'opacity 0.2s linear',
+	      transition: 'opacity 0.2s linear'
+	    });
 	
-	  _domDom2['default'].makeFullscreen(this.backgroundElement);
-	  this.backgroundElement.style.position = 'fixed';
+	    _domDom2['default'].makeFullscreen(this.backgroundElement);
+	    this.backgroundElement.style.position = 'fixed';
 	
-	  this.domElement = document.createElement('div');
-	  _utilsCommon2['default'].extend(this.domElement.style, {
-	    position: 'fixed',
-	    display: 'none',
-	    zIndex: '1001',
-	    opacity: 0,
-	    WebkitTransition: '-webkit-transform 0.2s ease-out, opacity 0.2s linear',
-	    transition: 'transform 0.2s ease-out, opacity 0.2s linear'
-	  });
+	    this.domElement = document.createElement('div');
+	    _utilsCommon2['default'].extend(this.domElement.style, {
+	      position: 'fixed',
+	      display: 'none',
+	      zIndex: '1001',
+	      opacity: 0,
+	      WebkitTransition: '-webkit-transform 0.2s ease-out, opacity 0.2s linear',
+	      transition: 'transform 0.2s ease-out, opacity 0.2s linear'
+	    });
 	
-	  document.body.appendChild(this.backgroundElement);
-	  document.body.appendChild(this.domElement);
+	    document.body.appendChild(this.backgroundElement);
+	    document.body.appendChild(this.domElement);
 	
-	  var _this = this;
-	  _domDom2['default'].bind(this.backgroundElement, 'click', function () {
-	    _this.hide();
-	  });
-	};
+	    var _this = this;
+	    _domDom2['default'].bind(this.backgroundElement, 'click', function () {
+	      _this.hide();
+	    });
+	  }
 	
-	CenteredDiv.prototype.show = function () {
+	  CenteredDiv.prototype.show = function show() {
+	    var _this = this;
 	
-	  var _this = this;
+	    this.backgroundElement.style.display = 'block';
 	
-	  this.backgroundElement.style.display = 'block';
+	    this.domElement.style.display = 'block';
+	    this.domElement.style.opacity = 0;
+	    //    this.domElement.style.top = '52%';
+	    this.domElement.style.webkitTransform = 'scale(1.1)';
 	
-	  this.domElement.style.display = 'block';
-	  this.domElement.style.opacity = 0;
-	  //    this.domElement.style.top = '52%';
-	  this.domElement.style.webkitTransform = 'scale(1.1)';
+	    this.layout();
 	
-	  this.layout();
-	
-	  _utilsCommon2['default'].defer(function () {
-	    _this.backgroundElement.style.opacity = 1;
-	    _this.domElement.style.opacity = 1;
-	    _this.domElement.style.webkitTransform = 'scale(1)';
-	  });
-	};
-	
-	CenteredDiv.prototype.hide = function () {
-	
-	  var _this = this;
-	
-	  var hide = function hide() {
-	
-	    _this.domElement.style.display = 'none';
-	    _this.backgroundElement.style.display = 'none';
-	
-	    _domDom2['default'].unbind(_this.domElement, 'webkitTransitionEnd', hide);
-	    _domDom2['default'].unbind(_this.domElement, 'transitionend', hide);
-	    _domDom2['default'].unbind(_this.domElement, 'oTransitionEnd', hide);
+	    _utilsCommon2['default'].defer(function () {
+	      _this.backgroundElement.style.opacity = 1;
+	      _this.domElement.style.opacity = 1;
+	      _this.domElement.style.webkitTransform = 'scale(1)';
+	    });
 	  };
 	
-	  _domDom2['default'].bind(this.domElement, 'webkitTransitionEnd', hide);
-	  _domDom2['default'].bind(this.domElement, 'transitionend', hide);
-	  _domDom2['default'].bind(this.domElement, 'oTransitionEnd', hide);
+	  /**
+	   * Hide centered div
+	   */
 	
-	  this.backgroundElement.style.opacity = 0;
-	  //    this.domElement.style.top = '48%';
-	  this.domElement.style.opacity = 0;
-	  this.domElement.style.webkitTransform = 'scale(1.1)';
-	};
+	  CenteredDiv.prototype.hide = function hide() {
+	    var _this = this;
 	
-	CenteredDiv.prototype.layout = function () {
-	  this.domElement.style.left = window.innerWidth / 2 - _domDom2['default'].getWidth(this.domElement) / 2 + 'px';
-	  this.domElement.style.top = window.innerHeight / 2 - _domDom2['default'].getHeight(this.domElement) / 2 + 'px';
-	};
+	    var hide = function hide() {
+	
+	      _this.domElement.style.display = 'none';
+	      _this.backgroundElement.style.display = 'none';
+	
+	      _domDom2['default'].unbind(_this.domElement, 'webkitTransitionEnd', hide);
+	      _domDom2['default'].unbind(_this.domElement, 'transitionend', hide);
+	      _domDom2['default'].unbind(_this.domElement, 'oTransitionEnd', hide);
+	    };
+	
+	    _domDom2['default'].bind(this.domElement, 'webkitTransitionEnd', hide);
+	    _domDom2['default'].bind(this.domElement, 'transitionend', hide);
+	    _domDom2['default'].bind(this.domElement, 'oTransitionEnd', hide);
+	
+	    this.backgroundElement.style.opacity = 0;
+	    //    this.domElement.style.top = '48%';
+	    this.domElement.style.opacity = 0;
+	    this.domElement.style.webkitTransform = 'scale(1.1)';
+	  };
+	
+	  CenteredDiv.prototype.layout = function layout() {
+	    this.domElement.style.left = window.innerWidth / 2 - _domDom2['default'].getWidth(this.domElement) / 2 + 'px';
+	    this.domElement.style.top = window.innerHeight / 2 - _domDom2['default'].getHeight(this.domElement) / 2 + 'px';
+	  };
+	
+	  return CenteredDiv;
+	})();
 	
 	function lockScroll(e) {
 	  console.log(e);

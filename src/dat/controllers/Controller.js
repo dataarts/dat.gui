@@ -64,7 +64,7 @@ class Controller {
    *
    * @param {Function} fnc This function will be called whenever the value
    * is modified via this Controller.
-   * @returns {dat.controllers.Controller} this
+   * @returns {Controller} this
    */
   onChange(fnc) {
     this.__onChange = fnc;
@@ -78,7 +78,7 @@ class Controller {
    *
    * @param {Function} fnc This function will be called whenever
    * someone "finishes" changing the value via this Controller.
-   * @returns {dat.controllers.Controller} this
+   * @returns {Controller} this
    */
   onFinishChange(fnc) {
     this.__onFinishChange = fnc;
@@ -95,6 +95,7 @@ class Controller {
     if (this.__onChange) {
       this.__onChange.call(this, newValue);
     }
+
     this.updateDisplay();
     return this;
   }
@@ -111,7 +112,7 @@ class Controller {
   /**
    * Refreshes the visual display of a Controller in order to keep sync
    * with the object's current value.
-   * @returns {dat.controllers.Controller} this
+   * @returns {Controller} this
    */
   updateDisplay() {
     return this;

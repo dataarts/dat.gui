@@ -67,6 +67,7 @@ const Common = {
       obj.forEach(itr, scope);
     } else if (obj.length === obj.length + 0) { // Is number but not NaN
       let key;
+      let l;
       for (key = 0, l = obj.length; key < l; key++) {
         if (key in obj && itr.call(scope, obj[key], key) === this.BREAK) {
           return;

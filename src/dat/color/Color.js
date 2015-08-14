@@ -74,7 +74,6 @@ defineHSVComponent(Color.prototype, 's');
 defineHSVComponent(Color.prototype, 'v');
 
 Object.defineProperty(Color.prototype, 'a', {
-
   get: function () {
     return this.__state.a;
   },
@@ -100,7 +99,6 @@ Object.defineProperty(Color.prototype, 'hex', {
 });
 
 function defineRGBComponent(target, component, componentHexIndex) {
-
   Object.defineProperty(target, component, {
     get: function () {
       if (this.__state.space === 'RGB') {
@@ -126,8 +124,9 @@ function defineRGBComponent(target, component, componentHexIndex) {
 function defineHSVComponent(target, component) {
   Object.defineProperty(target, component, {
     get: function () {
-      if (this.__state.space === 'HSV')
+      if (this.__state.space === 'HSV') {
         return this.__state[component];
+      }
 
       Color.recalculateHSV(this);
 

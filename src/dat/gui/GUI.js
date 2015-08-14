@@ -11,6 +11,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
+
 import css from '../utils/css';
 import saveDialogueContents from 'html!./saveDialogue.html';
 import styleSheet from '!style!css!sass!./style.scss';
@@ -39,7 +40,7 @@ var CLOSE_BUTTON_HEIGHT = 20;
 
 var DEFAULT_DEFAULT_PRESET_NAME = 'Default';
 
-var SUPPORTS_LOCAL_STORAGE = (function () {
+var SUPPORTS_LOCAL_STORAGE = (function() {
   try {
     return 'localStorage' in window && window['localStorage'] !== null;
   } catch (e) {
@@ -76,8 +77,7 @@ var hideable_guis = [];
  * @param {dat.gui.GUI} [params.parent] The GUI I'm nested in.
  * @param {Boolean} [params.closed] If true, starts closed
  */
-var GUI = function (params) {
-
+var GUI = function(params) {
   var _this = this;
 
   /**
@@ -139,16 +139,13 @@ var GUI = function (params) {
     hideable: params.autoPlace
   });
 
-
   if (!common.isUndefined(params.load)) {
-
     // Explicit preset
-    if (params.preset) params.load.preset = params.preset;
-
+    if (params.preset) {
+      params.load.preset = params.preset;
+    }
   } else {
-
     params.load = {preset: DEFAULT_DEFAULT_PRESET_NAME};
-
   }
 
   if (common.isUndefined(params.parent) && params.hideable) {
@@ -157,7 +154,6 @@ var GUI = function (params) {
 
   // Only root level GUI's are resizable.
   params.resizable = common.isUndefined(params.parent) && params.resizable;
-
 
   if (params.autoPlace && common.isUndefined(params.scrollable)) {
     params.scrollable = true;
@@ -173,22 +169,20 @@ var GUI = function (params) {
   var saveToLocalStorage;
 
   Object.defineProperties(this,
-
     /** @lends dat.gui.GUI.prototype */
     {
-
       /**
        * The parent <code>GUI</code>
        * @type dat.gui.GUI
        */
       parent: {
-        get: function () {
+        get: function() {
           return params.parent;
         }
       },
 
       scrollable: {
-        get: function () {
+        get: function() {
           return params.scrollable;
         }
       },
@@ -198,7 +192,7 @@ var GUI = function (params) {
        * @type Boolean
        */
       autoPlace: {
-        get: function () {
+        get: function() {
           return params.autoPlace;
         }
       },
@@ -208,8 +202,7 @@ var GUI = function (params) {
        * @type String
        */
       preset: {
-
-        get: function () {
+        get: function() {
           if (_this.parent) {
             return _this.getRoot().preset;
           } else {
@@ -217,7 +210,7 @@ var GUI = function (params) {
           }
         },
 
-        set: function (v) {
+        set: function(v) {
           if (_this.parent) {
             _this.getRoot().preset = v;
           } else {
@@ -226,7 +219,6 @@ var GUI = function (params) {
           setPresetSelectIndex(this);
           _this.revert();
         }
-
       },
 
       /**
@@ -234,10 +226,10 @@ var GUI = function (params) {
        * @type Number
        */
       width: {
-        get: function () {
+        get: function() {
           return params.width;
         },
-        set: function (v) {
+        set: function(v) {
           params.width = v;
           setWidth(_this, v);
         }
@@ -249,10 +241,10 @@ var GUI = function (params) {
        * @type String
        */
       name: {
-        get: function () {
+        get: function() {
           return params.name;
         },
-        set: function (v) {
+        set: function(v) {
           // TODO Check for collisions among sibling folders
           params.name = v;
           if (title_row_name) {
@@ -266,10 +258,10 @@ var GUI = function (params) {
        * @type Boolean
        */
       closed: {
-        get: function () {
+        get: function() {
           return params.closed;
         },
-        set: function (v) {
+        set: function(v) {
           params.closed = v;
           if (params.closed) {
             dom.addClass(_this.__ul, GUI.CLASS_CLOSED);
@@ -292,7 +284,7 @@ var GUI = function (params) {
        * @type Object
        */
       load: {
-        get: function () {
+        get: function() {
           return params.load;
         }
       },
@@ -304,10 +296,10 @@ var GUI = function (params) {
        */
       useLocalStorage: {
 
-        get: function () {
+        get: function() {
           return use_local_storage;
         },
-        set: function (bool) {
+        set: function(bool) {
           if (SUPPORTS_LOCAL_STORAGE) {
             use_local_storage = bool;
             if (bool) {
@@ -318,9 +310,7 @@ var GUI = function (params) {
             localStorage.setItem(getLocalStorageHash(_this, 'isLocal'), bool);
           }
         }
-
       }
-
     });
 
   // Are we a root level GUI?
@@ -333,9 +323,7 @@ var GUI = function (params) {
 
     // Are we supposed to be loading locally?
     if (SUPPORTS_LOCAL_STORAGE) {
-
       if (use_local_storage) {
-
         _this.useLocalStorage = true;
 
         var saved_gui = localStorage.getItem(getLocalStorageHash(this, 'gui'));
@@ -343,9 +331,7 @@ var GUI = function (params) {
         if (saved_gui) {
           params.load = JSON.parse(saved_gui);
         }
-
       }
-
     }
 
     this.__closeButton = document.createElement('div');
@@ -353,17 +339,11 @@ var GUI = function (params) {
     dom.addClass(this.__closeButton, GUI.CLASS_CLOSE_BUTTON);
     this.domElement.appendChild(this.__closeButton);
 
-    dom.bind(this.__closeButton, 'click', function () {
-
+    dom.bind(this.__closeButton, 'click', function() {
       _this.closed = !_this.closed;
-
-
     });
-
-
     // Oh, you're a nested GUI!
   } else {
-
     if (params.closed === undefined) {
       params.closed = true;
     }
@@ -373,7 +353,7 @@ var GUI = function (params) {
 
     var title_row = addRow(_this, title_row_name);
 
-    var on_click_title = function (e) {
+    var on_click_title = function(e) {
       e.preventDefault();
       _this.closed = !_this.closed;
       return false;
@@ -387,13 +367,10 @@ var GUI = function (params) {
     if (!params.closed) {
       this.closed = false;
     }
-
   }
 
   if (params.autoPlace) {
-
     if (common.isUndefined(params.parent)) {
-
       if (auto_place_virgin) {
         auto_place_container = document.createElement('div');
         dom.addClass(auto_place_container, CSS_NAMESPACE);
@@ -407,39 +384,38 @@ var GUI = function (params) {
 
       // Apply the auto styles
       dom.addClass(this.domElement, GUI.CLASS_AUTO_PLACE);
-
     }
 
 
     // Make it not elastic.
-    if (!this.parent) setWidth(_this, params.width);
-
+    if (!this.parent)  {
+      setWidth(_this, params.width);
+    }
   }
 
-  dom.bind(window, 'resize', function () {
+  dom.bind(window, 'resize', function() {
     _this.onResize()
   });
-  dom.bind(this.__ul, 'webkitTransitionEnd', function () {
+  dom.bind(this.__ul, 'webkitTransitionEnd', function() {
     _this.onResize();
   });
-  dom.bind(this.__ul, 'transitionend', function () {
+  dom.bind(this.__ul, 'transitionend', function() {
     _this.onResize()
   });
-  dom.bind(this.__ul, 'oTransitionEnd', function () {
+  dom.bind(this.__ul, 'oTransitionEnd', function() {
     _this.onResize()
   });
   this.onResize();
-
 
   if (params.resizable) {
     addResizeHandle(this);
   }
 
-  saveToLocalStorage = function () {
+  saveToLocalStorage = function() {
     if (SUPPORTS_LOCAL_STORAGE && localStorage.getItem(getLocalStorageHash(_this, 'isLocal')) === 'true') {
       localStorage.setItem(getLocalStorageHash(_this, 'gui'), JSON.stringify(_this.getSaveObject()));
     }
-  }
+  };
 
   // expose this method publicly
   this.saveToLocalStorageIfPossible = saveToLocalStorage;
@@ -449,7 +425,7 @@ var GUI = function (params) {
   function resetWidth() {
     var root = _this.getRoot();
     root.width += 1;
-    common.defer(function () {
+    common.defer(function() {
       root.width -= 1;
     });
   }
@@ -457,13 +433,11 @@ var GUI = function (params) {
   if (!params.parent) {
     resetWidth();
   }
-
 };
 
-GUI.toggleHide = function () {
-
+GUI.toggleHide = function() {
   hide = !hide;
-  common.each(hideable_guis, function (gui) {
+  common.each(hideable_guis, function(gui) {
     gui.domElement.style.zIndex = hide ? -999 : 999;
     gui.domElement.style.opacity = hide ? 0 : 1;
   });
@@ -482,13 +456,11 @@ GUI.DEFAULT_WIDTH = 245;
 GUI.TEXT_CLOSED = 'Close Controls';
 GUI.TEXT_OPEN = 'Open Controls';
 
-dom.bind(window, 'keydown', function (e) {
-
+dom.bind(window, 'keydown', function(e) {
   if (document.activeElement.type !== 'text' &&
     (e.which === HIDE_KEY_CODE || e.keyCode == HIDE_KEY_CODE)) {
     GUI.toggleHide();
   }
-
 }, false);
 
 common.extend(
@@ -503,8 +475,7 @@ common.extend(
      * @returns {dat.controllers.Controller} The new controller that was added.
      * @instance
      */
-    add: function (object, property) {
-
+    add: function(object, property) {
       return add(
         this,
         object,
@@ -513,7 +484,6 @@ common.extend(
           factoryArgs: Array.prototype.slice.call(arguments, 2)
         }
       );
-
     },
 
     /**
@@ -522,8 +492,7 @@ common.extend(
      * @returns {dat.controllers.ColorController} The new controller that was added.
      * @instance
      */
-    addColor: function (object, property) {
-
+    addColor: function(object, property) {
       return add(
         this,
         object,
@@ -532,31 +501,26 @@ common.extend(
           color: true
         }
       );
-
     },
 
     /**
      * @param controller
      * @instance
      */
-    remove: function (controller) {
-
+    remove: function(controller) {
       // TODO listening?
       this.__ul.removeChild(controller.__li);
       this.__controllers.splice(this.__controllers.indexOf(controller), 1);
       var _this = this;
-      common.defer(function () {
+      common.defer(function() {
         _this.onResize();
       });
-
     },
 
-    destroy: function () {
-
+    destroy: function() {
       if (this.autoPlace) {
         auto_place_container.removeChild(this.domElement);
       }
-
     },
 
     /**
@@ -566,8 +530,7 @@ common.extend(
      * name
      * @instance
      */
-    addFolder: function (name) {
-
+    addFolder: function(name) {
       // We have to prevent collisions on names in order to have a key
       // by which to remember saved values
       if (this.__folders[name] !== undefined) {
@@ -602,27 +565,23 @@ common.extend(
       var li = addRow(this, gui.domElement);
       dom.addClass(li, 'folder');
       return gui;
-
     },
 
-    open: function () {
+    open: function() {
       this.closed = false;
     },
 
-    close: function () {
+    close: function() {
       this.closed = true;
     },
 
-    onResize: function () {
-
+    onResize: function() {
       var root = this.getRoot();
-
       if (root.scrollable) {
-
         var top = dom.getOffset(root.__ul).top;
         var h = 0;
 
-        common.each(root.__ul.childNodes, function (node) {
+        common.each(root.__ul.childNodes, function(node) {
           if (!(root.autoPlace && node === root.__save_row))
             h += dom.getHeight(node);
         });
@@ -634,11 +593,10 @@ common.extend(
           dom.removeClass(root.domElement, GUI.CLASS_TOO_TALL);
           root.__ul.style.height = 'auto';
         }
-
       }
 
       if (root.__resize_handle) {
-        common.defer(function () {
+        common.defer(function() {
           root.__resize_handle.style.height = root.__ul.offsetHeight + 'px';
         });
       }
@@ -646,7 +604,6 @@ common.extend(
       if (root.__closeButton) {
         root.__closeButton.style.width = root.width + 'px';
       }
-
     },
 
     /**
@@ -658,8 +615,7 @@ common.extend(
      * @throws {Error} if not called on a top level GUI.
      * @instance
      */
-    remember: function () {
-
+    remember: function() {
       if (common.isUndefined(SAVE_DIALOGUE)) {
         SAVE_DIALOGUE = new CenteredDiv();
         SAVE_DIALOGUE.domElement.innerHTML = saveDialogueContents;
@@ -671,7 +627,7 @@ common.extend(
 
       var _this = this;
 
-      common.each(Array.prototype.slice.call(arguments), function (object) {
+      common.each(Array.prototype.slice.call(arguments), function(object) {
         if (_this.__rememberedObjects.length == 0) {
           addSaveMenu(_this);
         }
@@ -684,14 +640,13 @@ common.extend(
         // Set save row width
         setWidth(this, this.width);
       }
-
     },
 
     /**
      * @returns {dat.gui.GUI} the topmost parent GUI of a nested GUI.
      * @instance
      */
-    getRoot: function () {
+    getRoot: function() {
       var gui = this;
       while (gui.parent) {
         gui = gui.parent;
@@ -704,15 +659,12 @@ common.extend(
      * this GUI as well as its remembered properties.
      * @instance
      */
-    getSaveObject: function () {
-
+    getSaveObject: function() {
       var toReturn = this.load;
-
       toReturn.closed = this.closed;
 
       // Am I remembering any values?
       if (this.__rememberedObjects.length > 0) {
-
         toReturn.preset = this.preset;
 
         if (!toReturn.remembered) {
@@ -720,20 +672,17 @@ common.extend(
         }
 
         toReturn.remembered[this.preset] = getCurrentPreset(this);
-
       }
 
       toReturn.folders = {};
-      common.each(this.__folders, function (element, key) {
+      common.each(this.__folders, function(element, key) {
         toReturn.folders[key] = element.getSaveObject();
       });
 
       return toReturn;
-
     },
 
-    save: function () {
-
+    save: function() {
       if (!this.load.remembered) {
         this.load.remembered = {};
       }
@@ -741,29 +690,23 @@ common.extend(
       this.load.remembered[this.preset] = getCurrentPreset(this);
       markPresetModified(this, false);
       this.saveToLocalStorageIfPossible();
-
     },
 
-    saveAs: function (presetName) {
-
+    saveAs: function(presetName) {
       if (!this.load.remembered) {
-
         // Retain default values upon first save
         this.load.remembered = {};
         this.load.remembered[DEFAULT_DEFAULT_PRESET_NAME] = getCurrentPreset(this, true);
-
       }
 
       this.load.remembered[presetName] = getCurrentPreset(this);
       this.preset = presetName;
       addPresetOption(this, presetName, true);
       this.saveToLocalStorageIfPossible();
-
     },
 
-    revert: function (gui) {
-
-      common.each(this.__controllers, function (controller) {
+    revert: function(gui) {
+      common.each(this.__controllers, function(controller) {
         // Make revert work on Default.
         if (!this.getRoot().load.remembered) {
           controller.setValue(controller.initialValue);
@@ -772,90 +715,36 @@ common.extend(
         }
       }, this);
 
-      common.each(this.__folders, function (folder) {
+      common.each(this.__folders, function(folder) {
         folder.revert(folder);
       });
 
       if (!gui) {
         markPresetModified(this.getRoot(), false);
       }
-
-
     },
 
-    listen: function (controller) {
-
+    listen: function(controller) {
       var init = this.__listening.length == 0;
       this.__listening.push(controller);
       if (init) updateDisplays(this.__listening);
-
     }
-
   }
 );
-
-function add(gui, object, property, params) {
-
-  if (object[property] === undefined) {
-    throw new Error("Object " + object + " has no property \"" + property + "\"");
-  }
-
-  var controller;
-
-  if (params.color) {
-
-    controller = new ColorController(object, property);
-
-  } else {
-
-    var factoryArgs = [object, property].concat(params.factoryArgs);
-    controller = ControllerFactory.apply(gui, factoryArgs);
-
-  }
-
-  if (params.before instanceof Controller) {
-    params.before = params.before.__li;
-  }
-
-  recallSavedValue(gui, controller);
-
-  dom.addClass(controller.domElement, 'c');
-
-  var name = document.createElement('span');
-  dom.addClass(name, 'property-name');
-  name.innerHTML = controller.property;
-
-  var container = document.createElement('div');
-  container.appendChild(name);
-  container.appendChild(controller.domElement);
-
-  var li = addRow(gui, container, params.before);
-
-  dom.addClass(li, GUI.CLASS_CONTROLLER_ROW);
-  if (controller instanceof ColorController) {
-    dom.addClass(li, "color");
-  } else {
-    dom.addClass(li, typeof controller.getValue());
-  }
-
-  augmentController(gui, li, controller);
-
-  gui.__controllers.push(controller);
-
-  return controller;
-
-}
 
 /**
  * Add a row to the end of the GUI or before another row.
  *
  * @param gui
- * @param [dom] If specified, inserts the dom content in the new row
+ * @param [newDom] If specified, inserts the dom content in the new row
  * @param [liBefore] If specified, places the new row before another row
  */
-function addRow(gui, dom, liBefore) {
-  var li = document.createElement('li');
-  if (dom) li.appendChild(dom);
+function addRow(gui, newDom, liBefore) {
+  const li = document.createElement('li');
+  if (newDom) {
+    li.appendChild(newDom);
+  }
+
   if (liBefore) {
     gui.__ul.insertBefore(li, params.before);
   } else {
@@ -865,15 +754,23 @@ function addRow(gui, dom, liBefore) {
   return li;
 }
 
-function augmentController(gui, li, controller) {
+function markPresetModified(gui, modified) {
+  const opt = gui.__preset_select[gui.__preset_select.selectedIndex];
 
+  // console.log('mark', modified, opt);
+  if (modified) {
+    opt.innerHTML = opt.value + '*';
+  } else {
+    opt.innerHTML = opt.value;
+  }
+}
+
+function augmentController(gui, li, controller) {
   controller.__li = li;
   controller.__gui = gui;
 
   common.extend(controller, {
-
-    options: function (options) {
-
+    options: function(options) {
       if (arguments.length > 1) {
         controller.remove();
 
@@ -886,7 +783,6 @@ function augmentController(gui, li, controller) {
             factoryArgs: [common.toArray(arguments)]
           }
         );
-
       }
 
       if (common.isArray(options) || common.isObject(options)) {
@@ -901,55 +797,46 @@ function augmentController(gui, li, controller) {
             factoryArgs: [options]
           }
         );
-
       }
-
     },
 
-    name: function (v) {
+    name: function(v) {
       controller.__li.firstElementChild.firstElementChild.innerHTML = v;
       return controller;
     },
 
-    listen: function () {
+    listen: function() {
       controller.__gui.listen(controller);
       return controller;
     },
 
-    remove: function () {
+    remove: function() {
       controller.__gui.remove(controller);
       return controller;
     }
-
   });
 
   // All sliders should be accompanied by a box.
   if (controller instanceof NumberControllerSlider) {
-
-    var box = new NumberControllerBox(controller.object, controller.property,
+    const box = new NumberControllerBox(controller.object, controller.property,
       {min: controller.__min, max: controller.__max, step: controller.__step});
 
-    common.each(['updateDisplay', 'onChange', 'onFinishChange'], function (method) {
-      var pc = controller[method];
-      var pb = box[method];
-      controller[method] = box[method] = function () {
-        var args = Array.prototype.slice.call(arguments);
+    common.each(['updateDisplay', 'onChange', 'onFinishChange'], function(method) {
+      const pc = controller[method];
+      const pb = box[method];
+      controller[method] = box[method] = function() {
+        const args = Array.prototype.slice.call(arguments);
         pc.apply(controller, args);
         return pb.apply(box, args);
-      }
+      };
     });
 
     dom.addClass(li, 'has-slider');
     controller.domElement.insertBefore(box.domElement, controller.domElement.firstElementChild);
-
-  }
-  else if (controller instanceof NumberControllerBox) {
-
-    var r = function (returned) {
-
+  } else if (controller instanceof NumberControllerBox) {
+    const r = function(returned) {
       // Have we defined both boundaries?
       if (common.isNumber(controller.__min) && common.isNumber(controller.__max)) {
-
         // Well, then lets just replace this with a slider.
         controller.remove();
         return add(
@@ -960,147 +847,173 @@ function augmentController(gui, li, controller) {
             before: controller.__li.nextElementSibling,
             factoryArgs: [controller.__min, controller.__max, controller.__step]
           });
-
       }
 
       return returned;
-
     };
 
     controller.min = common.compose(r, controller.min);
     controller.max = common.compose(r, controller.max);
-
-  }
-  else if (controller instanceof BooleanController) {
-
-    dom.bind(li, 'click', function () {
+  } else if (controller instanceof BooleanController) {
+    dom.bind(li, 'click', function() {
       dom.fakeEvent(controller.__checkbox, 'click');
     });
 
-    dom.bind(controller.__checkbox, 'click', function (e) {
+    dom.bind(controller.__checkbox, 'click', function(e) {
       e.stopPropagation(); // Prevents double-toggle
-    })
-
-  }
-  else if (controller instanceof FunctionController) {
-
-    dom.bind(li, 'click', function () {
+    });
+  } else if (controller instanceof FunctionController) {
+    dom.bind(li, 'click', function() {
       dom.fakeEvent(controller.__button, 'click');
     });
 
-    dom.bind(li, 'mouseover', function () {
+    dom.bind(li, 'mouseover', function() {
       dom.addClass(controller.__button, 'hover');
     });
 
-    dom.bind(li, 'mouseout', function () {
+    dom.bind(li, 'mouseout', function() {
       dom.removeClass(controller.__button, 'hover');
     });
-
-  }
-  else if (controller instanceof ColorController) {
-
+  } else if (controller instanceof ColorController) {
     dom.addClass(li, 'color');
-    controller.updateDisplay = common.compose(function (r) {
+    controller.updateDisplay = common.compose(function(val) {
       li.style.borderLeftColor = controller.__color.toString();
-      return r;
+      return val;
     }, controller.updateDisplay);
 
     controller.updateDisplay();
-
   }
 
-  controller.setValue = common.compose(function (r) {
+  controller.setValue = common.compose(function(val) {
     if (gui.getRoot().__preset_select && controller.isModified()) {
       markPresetModified(gui.getRoot(), true);
     }
-    return r;
-  }, controller.setValue);
 
+    return val;
+  }, controller.setValue);
 }
 
 function recallSavedValue(gui, controller) {
-
   // Find the topmost GUI, that's where remembered objects live.
-  var root = gui.getRoot();
+  const root = gui.getRoot();
 
   // Does the object we're controlling match anything we've been told to
   // remember?
-  var matched_index = root.__rememberedObjects.indexOf(controller.object);
+  const matchedIndex = root.__rememberedObjects.indexOf(controller.object);
 
   // Why yes, it does!
-  if (matched_index != -1) {
-
+  if (matchedIndex !== -1) {
     // Let me fetch a map of controllers for thcommon.isObject.
-    var controller_map =
-      root.__rememberedObjectIndecesToControllers[matched_index];
+    let controllerMap = root.__rememberedObjectIndecesToControllers[matchedIndex];
 
     // Ohp, I believe this is the first controller we've created for this
     // object. Lets make the map fresh.
-    if (controller_map === undefined) {
-      controller_map = {};
-      root.__rememberedObjectIndecesToControllers[matched_index] =
-        controller_map;
+    if (controllerMap === undefined) {
+      controllerMap = {};
+      root.__rememberedObjectIndecesToControllers[matchedIndex] =
+        controllerMap;
     }
 
     // Keep track of this controller
-    controller_map[controller.property] = controller;
+    controllerMap[controller.property] = controller;
 
     // Okay, now have we saved any values for this controller?
     if (root.load && root.load.remembered) {
-
-      var preset_map = root.load.remembered;
+      const presetMap = root.load.remembered;
 
       // Which preset are we trying to load?
-      var preset;
+      let preset;
 
-      if (preset_map[gui.preset]) {
-
-        preset = preset_map[gui.preset];
-
-      } else if (preset_map[DEFAULT_DEFAULT_PRESET_NAME]) {
-
+      if (presetMap[gui.preset]) {
+        preset = presetMap[gui.preset];
+      } else if (presetMap[DEFAULT_DEFAULT_PRESET_NAME]) {
         // Uhh, you can have the default instead?
-        preset = preset_map[DEFAULT_DEFAULT_PRESET_NAME];
-
+        preset = presetMap[DEFAULT_DEFAULT_PRESET_NAME];
       } else {
-
         // Nada.
-
         return;
-
       }
 
-
-      // Did the loaded object remember thcommon.isObject?
-      if (preset[matched_index] &&
-
-          // Did we remember this particular property?
-        preset[matched_index][controller.property] !== undefined) {
-
+      // Did the loaded object remember thcommon.isObject? &&  Did we remember this particular property?
+      if (preset[matchedIndex] && preset[matchedIndex][controller.property] !== undefined) {
         // We did remember something for this guy ...
-        var value = preset[matched_index][controller.property];
+        const value = preset[matchedIndex][controller.property];
 
         // And that's what it is.
         controller.initialValue = value;
         controller.setValue(value);
-
       }
-
     }
+  }
+}
 
+function add(gui, object, property, params) {
+  if (object[property] === undefined) {
+    throw new Error(`Object "${object}" has no property "${property}"`);
   }
 
+  let controller;
+
+  if (params.color) {
+    controller = new ColorController(object, property);
+  } else {
+    const factoryArgs = [object, property].concat(params.factoryArgs);
+    controller = ControllerFactory.apply(gui, factoryArgs);
+  }
+
+  if (params.before instanceof Controller) {
+    params.before = params.before.__li;
+  }
+
+  recallSavedValue(gui, controller);
+
+  dom.addClass(controller.domElement, 'c');
+
+  const name = document.createElement('span');
+  dom.addClass(name, 'property-name');
+  name.innerHTML = controller.property;
+
+  const container = document.createElement('div');
+  container.appendChild(name);
+  container.appendChild(controller.domElement);
+
+  const li = addRow(gui, container, params.before);
+
+  dom.addClass(li, GUI.CLASS_CONTROLLER_ROW);
+  if (controller instanceof ColorController) {
+    dom.addClass(li, 'color');
+  } else {
+    dom.addClass(li, typeof controller.getValue());
+  }
+
+  augmentController(gui, li, controller);
+
+  gui.__controllers.push(controller);
+
+  return controller;
 }
 
 function getLocalStorageHash(gui, key) {
   // TODO how does this deal with multiple GUI's?
   return document.location.href + '.' + key;
+}
 
+function addPresetOption(gui, name, setSelected) {
+  const opt = document.createElement('option');
+  opt.innerHTML = name;
+  opt.value = name;
+  gui.__preset_select.appendChild(opt);
+  if (setSelected) {
+    gui.__preset_select.selectedIndex = gui.__preset_select.length - 1;
+  }
+}
+
+function showHideExplain(explain) {
+  explain.style.display = gui.useLocalStorage ? 'block' : 'none';
 }
 
 function addSaveMenu(gui) {
-
-  var div = gui.__save_row = document.createElement('li');
+  const div = gui.__save_row = document.createElement('li');
 
   dom.addClass(gui.domElement, 'has-save');
 
@@ -1108,47 +1021,42 @@ function addSaveMenu(gui) {
 
   dom.addClass(div, 'save-row');
 
-  var gears = document.createElement('span');
+  const gears = document.createElement('span');
   gears.innerHTML = '&nbsp;';
   dom.addClass(gears, 'button gears');
 
   // TODO replace with FunctionController
-  var button = document.createElement('span');
+  const button = document.createElement('span');
   button.innerHTML = 'Save';
   dom.addClass(button, 'button');
   dom.addClass(button, 'save');
 
-  var button2 = document.createElement('span');
+  const button2 = document.createElement('span');
   button2.innerHTML = 'New';
   dom.addClass(button2, 'button');
   dom.addClass(button2, 'save-as');
 
-  var button3 = document.createElement('span');
+  const button3 = document.createElement('span');
   button3.innerHTML = 'Revert';
   dom.addClass(button3, 'button');
   dom.addClass(button3, 'revert');
 
-  var select = gui.__preset_select = document.createElement('select');
+  const select = gui.__preset_select = document.createElement('select');
 
   if (gui.load && gui.load.remembered) {
-
-    common.each(gui.load.remembered, function (value, key) {
-      addPresetOption(gui, key, key == gui.preset);
+    common.each(gui.load.remembered, function(value, key) {
+      addPresetOption(gui, key, key === gui.preset);
     });
-
   } else {
     addPresetOption(gui, DEFAULT_DEFAULT_PRESET_NAME, false);
   }
 
-  dom.bind(select, 'change', function () {
-
-
-    for (var index = 0; index < gui.__preset_select.length; index++) {
+  dom.bind(select, 'change', function() {
+    for (let index = 0; index < gui.__preset_select.length; index++) {
       gui.__preset_select[index].innerHTML = gui.__preset_select[index].value;
     }
 
     gui.preset = this.value;
-
   });
 
   div.appendChild(select);
@@ -1158,65 +1066,60 @@ function addSaveMenu(gui) {
   div.appendChild(button3);
 
   if (SUPPORTS_LOCAL_STORAGE) {
-
-    var saveLocally = document.getElementById('dg-save-locally');
-    var explain = document.getElementById('dg-local-explain');
+    const explain = document.getElementById('dg-local-explain');
+    const localStorageCheckBox = document.getElementById('dg-local-storage');
+    const saveLocally = document.getElementById('dg-save-locally');
 
     saveLocally.style.display = 'block';
-
-    var localStorageCheckBox = document.getElementById('dg-local-storage');
 
     if (localStorage.getItem(getLocalStorageHash(gui, 'isLocal')) === 'true') {
       localStorageCheckBox.setAttribute('checked', 'checked');
     }
 
-    function showHideExplain() {
-      explain.style.display = gui.useLocalStorage ? 'block' : 'none';
-    }
-
-    showHideExplain();
+    showHideExplain(explain);
 
     // TODO: Use a boolean controller, fool!
-    dom.bind(localStorageCheckBox, 'change', function () {
+    dom.bind(localStorageCheckBox, 'change', function() {
       gui.useLocalStorage = !gui.useLocalStorage;
-      showHideExplain();
+      showHideExplain(explain);
     });
-
   }
 
-  var newConstructorTextArea = document.getElementById('dg-new-constructor');
+  const newConstructorTextArea = document.getElementById('dg-new-constructor');
 
-  dom.bind(newConstructorTextArea, 'keydown', function (e) {
-    if (e.metaKey && (e.which === 67 || e.keyCode == 67)) {
+  dom.bind(newConstructorTextArea, 'keydown', function(e) {
+    if (e.metaKey && (e.which === 67 || e.keyCode === 67)) {
       SAVE_DIALOGUE.hide();
     }
   });
 
-  dom.bind(gears, 'click', function () {
+  dom.bind(gears, 'click', function() {
     newConstructorTextArea.innerHTML = JSON.stringify(gui.getSaveObject(), undefined, 2);
     SAVE_DIALOGUE.show();
     newConstructorTextArea.focus();
     newConstructorTextArea.select();
   });
 
-  dom.bind(button, 'click', function () {
+  dom.bind(button, 'click', function() {
     gui.save();
   });
 
-  dom.bind(button2, 'click', function () {
-    var presetName = prompt('Enter a new preset name.');
-    if (presetName) gui.saveAs(presetName);
+  dom.bind(button2, 'click', function() {
+    const presetName = prompt('Enter a new preset name.');
+    if (presetName) {
+      gui.saveAs(presetName);
+    }
   });
 
-  dom.bind(button3, 'click', function () {
+  dom.bind(button3, 'click', function() {
     gui.revert();
   });
 
-//    div.appendChild(button2);
-
+  // div.appendChild(button2);
 }
 
 function addResizeHandle(gui) {
+  let pmouseX;
 
   gui.__resize_handle = document.createElement('div');
 
@@ -1227,19 +1130,27 @@ function addResizeHandle(gui) {
     height: '200px',
     cursor: 'ew-resize',
     position: 'absolute'
-//      border: '1px solid blue'
+    // border: '1px solid blue'
 
   });
 
-  var pmouseX;
+  function drag(e) {
+    e.preventDefault();
 
-  dom.bind(gui.__resize_handle, 'mousedown', dragStart);
-  dom.bind(gui.__closeButton, 'mousedown', dragStart);
+    gui.width += pmouseX - e.clientX;
+    gui.onResize();
+    pmouseX = e.clientX;
 
-  gui.domElement.insertBefore(gui.__resize_handle, gui.domElement.firstElementChild);
+    return false;
+  }
+
+  function dragStop() {
+    dom.removeClass(gui.__closeButton, GUI.CLASS_DRAG);
+    dom.unbind(window, 'mousemove', drag);
+    dom.unbind(window, 'mouseup', dragStop);
+  }
 
   function dragStart(e) {
-
     e.preventDefault();
 
     pmouseX = e.clientX;
@@ -1249,29 +1160,12 @@ function addResizeHandle(gui) {
     dom.bind(window, 'mouseup', dragStop);
 
     return false;
-
   }
 
-  function drag(e) {
+  dom.bind(gui.__resize_handle, 'mousedown', dragStart);
+  dom.bind(gui.__closeButton, 'mousedown', dragStart);
 
-    e.preventDefault();
-
-    gui.width += pmouseX - e.clientX;
-    gui.onResize();
-    pmouseX = e.clientX;
-
-    return false;
-
-  }
-
-  function dragStop() {
-
-    dom.removeClass(gui.__closeButton, GUI.CLASS_DRAG);
-    dom.unbind(window, 'mousemove', drag);
-    dom.unbind(window, 'mouseup', dragStop);
-
-  }
-
+  gui.domElement.insertBefore(gui.__resize_handle, gui.domElement.firstElementChild);
 }
 
 function setWidth(gui, w) {
@@ -1287,76 +1181,46 @@ function setWidth(gui, w) {
 }
 
 function getCurrentPreset(gui, useInitialValues) {
-
-  var toReturn = {};
+  const toReturn = {};
 
   // For each object I'm remembering
-  common.each(gui.__rememberedObjects, function (val, index) {
-
-    var saved_values = {};
+  common.each(gui.__rememberedObjects, function(val, index) {
+    const savedValues = {};
 
     // The controllers I've made for thcommon.isObject by property
-    var controller_map =
+    const controllerMap =
       gui.__rememberedObjectIndecesToControllers[index];
 
     // Remember each value for each property
-    common.each(controller_map, function (controller, property) {
-      saved_values[property] = useInitialValues ? controller.initialValue : controller.getValue();
+    common.each(controllerMap, function(controller, property) {
+      savedValues[property] = useInitialValues ? controller.initialValue : controller.getValue();
     });
 
     // Save the values for thcommon.isObject
-    toReturn[index] = saved_values;
-
+    toReturn[index] = savedValues;
   });
 
   return toReturn;
-
-}
-
-function addPresetOption(gui, name, setSelected) {
-  var opt = document.createElement('option');
-  opt.innerHTML = name;
-  opt.value = name;
-  gui.__preset_select.appendChild(opt);
-  if (setSelected) {
-    gui.__preset_select.selectedIndex = gui.__preset_select.length - 1;
-  }
 }
 
 function setPresetSelectIndex(gui) {
-  for (var index = 0; index < gui.__preset_select.length; index++) {
-    if (gui.__preset_select[index].value == gui.preset) {
+  for (let index = 0; index < gui.__preset_select.length; index++) {
+    if (gui.__preset_select[index].value === gui.preset) {
       gui.__preset_select.selectedIndex = index;
     }
   }
 }
 
-function markPresetModified(gui, modified) {
-  var opt = gui.__preset_select[gui.__preset_select.selectedIndex];
-//    console.log('mark', modified, opt);
-  if (modified) {
-    opt.innerHTML = opt.value + "*";
-  } else {
-    opt.innerHTML = opt.value;
-  }
-}
-
 function updateDisplays(controllerArray) {
-
-
-  if (controllerArray.length != 0) {
-
-    requestAnimationFrame(function () {
+  if (controllerArray.length !== 0) {
+    requestAnimationFrame(function() {
       updateDisplays(controllerArray);
     });
-
   }
 
-  common.each(controllerArray, function (c) {
+  common.each(controllerArray, function(c) {
     c.updateDisplay();
   });
-
 }
 
 module.exports = GUI;
-

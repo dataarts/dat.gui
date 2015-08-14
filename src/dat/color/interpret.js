@@ -11,46 +11,20 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-import * as toString from './toString';
+import toString from './toString';
 import common from '../utils/common';
 
-var result, toReturn;
-
-var interpret = function () {
-  toReturn = false;
-
-  var original = arguments.length > 1 ? common.toArray(arguments) : arguments[0];
-  common.each(INTERPRETATIONS, function (family) {
-
-    if (family.litmus(original)) {
-      common.each(family.conversions, function (conversion, conversionName) {
-        result = conversion.read(original);
-
-        if (toReturn === false && result !== false) {
-          toReturn = result;
-          result.conversionName = conversionName;
-          result.conversion = conversion;
-          return common.BREAK;
-        }
-      });
-
-      return common.BREAK;
-    }
-  });
-
-  return toReturn;
-};
-
-var INTERPRETATIONS = [
+const INTERPRETATIONS = [
   // Strings
   {
     litmus: common.isString,
     conversions: {
       THREE_CHAR_HEX: {
-        read: function (original) {
-
-          var test = original.match(/^#([A-F0-9])([A-F0-9])([A-F0-9])$/i);
-          if (test === null) return false;
+        read: function(original) {
+          const test = original.match(/^#([A-F0-9])([A-F0-9])([A-F0-9])$/i);
+          if (test === null) {
+            return false;
+          }
 
           return {
             space: 'HEX',
@@ -58,35 +32,35 @@ var INTERPRETATIONS = [
               '0x' +
               test[1].toString() + test[1].toString() +
               test[2].toString() + test[2].toString() +
-              test[3].toString() + test[3].toString())
+              test[3].toString() + test[3].toString(), 0)
           };
-
         },
 
         write: toString
       },
 
       SIX_CHAR_HEX: {
-        read: function (original) {
-
-          var test = original.match(/^#([A-F0-9]{6})$/i);
-          if (test === null) return false;
+        read: function(original) {
+          const test = original.match(/^#([A-F0-9]{6})$/i);
+          if (test === null) {
+            return false;
+          }
 
           return {
             space: 'HEX',
-            hex: parseInt('0x' + test[1].toString())
+            hex: parseInt('0x' + test[1].toString(), 0)
           };
-
         },
 
         write: toString
       },
 
       CSS_RGB: {
-        read: function (original) {
-
-          var test = original.match(/^rgb\(\s*(.+)\s*,\s*(.+)\s*,\s*(.+)\s*\)/);
-          if (test === null) return false;
+        read: function(original) {
+          const test = original.match(/^rgb\(\s*(.+)\s*,\s*(.+)\s*,\s*(.+)\s*\)/);
+          if (test === null) {
+            return false;
+          }
 
           return {
             space: 'RGB',
@@ -94,17 +68,17 @@ var INTERPRETATIONS = [
             g: parseFloat(test[2]),
             b: parseFloat(test[3])
           };
-
         },
 
         write: toString
       },
 
       CSS_RGBA: {
-        read: function (original) {
-
-          var test = original.match(/^rgba\(\s*(.+)\s*,\s*(.+)\s*,\s*(.+)\s*\,\s*(.+)\s*\)/);
-          if (test === null) return false;
+        read: function(original) {
+          const test = original.match(/^rgba\(\s*(.+)\s*,\s*(.+)\s*,\s*(.+)\s*\,\s*(.+)\s*\)/);
+          if (test === null) {
+            return false;
+          }
 
           return {
             space: 'RGB',
@@ -127,15 +101,15 @@ var INTERPRETATIONS = [
     conversions: {
 
       HEX: {
-        read: function (original) {
+        read: function(original) {
           return {
             space: 'HEX',
             hex: original,
             conversionName: 'HEX'
-          }
+          };
         },
 
-        write: function (color) {
+        write: function(color) {
           return color.hex;
         }
       }
@@ -148,10 +122,12 @@ var INTERPRETATIONS = [
   {
     litmus: common.isArray,
     conversions: {
-
       RGB_ARRAY: {
-        read: function (original) {
-          if (original.length != 3) return false;
+        read: function(original) {
+          if (original.length !== 3) {
+            return false;
+          }
+
           return {
             space: 'RGB',
             r: original[0],
@@ -160,14 +136,14 @@ var INTERPRETATIONS = [
           };
         },
 
-        write: function (color) {
+        write: function(color) {
           return [color.r, color.g, color.b];
         }
       },
 
       RGBA_ARRAY: {
-        read: function (original) {
-          if (original.length != 4) return false;
+        read: function(original) {
+          if (original.length !== 4) return false;
           return {
             space: 'RGB',
             r: original[0],
@@ -177,7 +153,7 @@ var INTERPRETATIONS = [
           };
         },
 
-        write: function (color) {
+        write: function(color) {
           return [color.r, color.g, color.b, color.a];
         }
       }
@@ -186,13 +162,11 @@ var INTERPRETATIONS = [
 
   // Objects
   {
-
     litmus: common.isObject,
-
     conversions: {
 
       RGBA_OBJ: {
-        read: function (original) {
+        read: function(original) {
           if (common.isNumber(original.r) &&
             common.isNumber(original.g) &&
             common.isNumber(original.b) &&
@@ -203,23 +177,23 @@ var INTERPRETATIONS = [
               g: original.g,
               b: original.b,
               a: original.a
-            }
+            };
           }
           return false;
         },
 
-        write: function (color) {
+        write: function(color) {
           return {
             r: color.r,
             g: color.g,
             b: color.b,
             a: color.a
-          }
+          };
         }
       },
 
       RGB_OBJ: {
-        read: function (original) {
+        read: function(original) {
           if (common.isNumber(original.r) &&
             common.isNumber(original.g) &&
             common.isNumber(original.b)) {
@@ -228,22 +202,22 @@ var INTERPRETATIONS = [
               r: original.r,
               g: original.g,
               b: original.b
-            }
+            };
           }
           return false;
         },
 
-        write: function (color) {
+        write: function(color) {
           return {
             r: color.r,
             g: color.g,
             b: color.b
-          }
+          };
         }
       },
 
       HSVA_OBJ: {
-        read: function (original) {
+        read: function(original) {
           if (common.isNumber(original.h) &&
             common.isNumber(original.s) &&
             common.isNumber(original.v) &&
@@ -254,23 +228,23 @@ var INTERPRETATIONS = [
               s: original.s,
               v: original.v,
               a: original.a
-            }
+            };
           }
           return false;
         },
 
-        write: function (color) {
+        write: function(color) {
           return {
             h: color.h,
             s: color.s,
             v: color.v,
             a: color.a
-          }
+          };
         }
       },
 
       HSV_OBJ: {
-        read: function (original) {
+        read: function(original) {
           if (common.isNumber(original.h) &&
             common.isNumber(original.s) &&
             common.isNumber(original.v)) {
@@ -279,21 +253,48 @@ var INTERPRETATIONS = [
               h: original.h,
               s: original.s,
               v: original.v
-            }
+            };
           }
           return false;
         },
 
-        write: function (color) {
+        write: function(color) {
           return {
             h: color.h,
             s: color.s,
             v: color.v
-          }
+          };
         }
       }
     }
   }
 ];
+
+let result;
+let toReturn;
+
+const interpret = function() {
+  toReturn = false;
+
+  const original = arguments.length > 1 ? common.toArray(arguments) : arguments[0];
+  common.each(INTERPRETATIONS, function(family) {
+    if (family.litmus(original)) {
+      common.each(family.conversions, function(conversion, conversionName) {
+        result = conversion.read(original);
+
+        if (toReturn === false && result !== false) {
+          toReturn = result;
+          result.conversionName = conversionName;
+          result.conversion = conversion;
+          return common.BREAK;
+        }
+      });
+
+      return common.BREAK;
+    }
+  });
+
+  return toReturn;
+};
 
 export default interpret;
