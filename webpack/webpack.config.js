@@ -17,7 +17,9 @@ module.exports = {
         loader: 'babel'
       },
       {
-        test: /\.js$/, loader: 'eslint-loader', exclude: /node_modules/
+        test: /\.js$/,
+        loader: 'eslint-loader',
+        exclude: /(node_modules|bower_components)/
       },
       {
         test: /\.css$/,
@@ -28,7 +30,8 @@ module.exports = {
         loader: 'url-loader?limit=100000'
       },
       {
-        test: /\.jpg$/, loader: 'file-loader'
+        test: /\.jpg$/,
+        loader: 'file-loader'
       },
       {
         test: /\.scss$/,
