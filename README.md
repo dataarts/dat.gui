@@ -5,7 +5,7 @@ Get started with dat.GUI by reading the tutorial at http://workshop.chromeexperi
 
 ## Live demo
 
-Simple live demo [is available here](http://korczis.github.io/dat.gui/)
+Simple live demo [is available here](http://korczis.github.io/dat.gui-ng/).
 
 ## Packaged Builds
 The easiest way to use dat.GUI in your code is by using the built source at `build/dat.gui.min.js`. These built JavaScript files bundle all the necessary dependencies to run dat.GUI.
