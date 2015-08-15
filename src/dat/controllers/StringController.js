@@ -30,6 +30,16 @@ class StringController extends Controller {
 
     const _this = this;
 
+    function onChange() {
+      _this.setValue(_this.__input.value);
+    }
+
+    function onBlur() {
+      if (_this.__onFinishChange) {
+        _this.__onFinishChange.call(_this, _this.getValue());
+      }
+    }
+
     this.__input = document.createElement('input');
     this.__input.setAttribute('type', 'text');
 
@@ -41,17 +51,6 @@ class StringController extends Controller {
         this.blur();
       }
     });
-
-
-    function onChange() {
-      _this.setValue(_this.__input.value);
-    }
-
-    function onBlur() {
-      if (_this.__onFinishChange) {
-        _this.__onFinishChange.call(_this, _this.getValue());
-      }
-    }
 
     this.updateDisplay();
 

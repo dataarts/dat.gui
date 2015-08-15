@@ -50,6 +50,38 @@ class NumberControllerBox extends NumberController {
      */
     let prevY;
 
+    function onChange() {
+      const attempted = parseFloat(_this.__input.value);
+      if (!common.isNaN(attempted)) {
+        _this.setValue(attempted);
+      }
+    }
+
+    function onBlur() {
+      onChange();
+      if (_this.__onFinishChange) {
+        _this.__onFinishChange.call(_this, _this.getValue());
+      }
+    }
+
+    function onMouseDrag(e) {
+      const diff = prevY - e.clientY;
+      _this.setValue(_this.getValue() + diff * _this.__impliedStep);
+
+      prevY = e.clientY;
+    }
+
+    function onMouseUp() {
+      dom.unbind(window, 'mousemove', onMouseDrag);
+      dom.unbind(window, 'mouseup', onMouseUp);
+    }
+
+    function onMouseDown(e) {
+      dom.bind(window, 'mousemove', onMouseDrag);
+      dom.bind(window, 'mouseup', onMouseUp);
+      prevY = e.clientY;
+    }
+
     this.__input = document.createElement('input');
     this.__input.setAttribute('type', 'text');
 
@@ -66,38 +98,6 @@ class NumberControllerBox extends NumberController {
         _this.__truncationSuspended = false;
       }
     });
-
-    function onChange() {
-      const attempted = parseFloat(_this.__input.value);
-      if (!common.isNaN(attempted)) {
-        _this.setValue(attempted);
-      }
-    }
-
-    function onBlur() {
-      onChange();
-      if (_this.__onFinishChange) {
-        _this.__onFinishChange.call(_this, _this.getValue());
-      }
-    }
-
-    function onMouseDown(e) {
-      dom.bind(window, 'mousemove', onMouseDrag);
-      dom.bind(window, 'mouseup', onMouseUp);
-      prevY = e.clientY;
-    }
-
-    function onMouseDrag(e) {
-      const diff = prevY - e.clientY;
-      _this.setValue(_this.getValue() + diff * _this.__impliedStep);
-
-      prevY = e.clientY;
-    }
-
-    function onMouseUp() {
-      dom.unbind(window, 'mousemove', onMouseDrag);
-      dom.unbind(window, 'mouseup', onMouseUp);
-    }
 
     this.updateDisplay();
 

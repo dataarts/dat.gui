@@ -11,7 +11,6 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-
 import css from '../utils/css';
 import saveDialogueContents from 'html!./saveDialogue.html';
 import styleSheet from '!style!css!sass!./style.scss';

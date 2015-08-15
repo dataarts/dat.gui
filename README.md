@@ -33,6 +33,12 @@ In the terminal, enter the following:
 $ npm run build
 ```
 
+## npm scripts
+
+- npm test - Run ESLint
+- npm run build - Build development and production version of scripts.
+- npm run dev - Build development version of script watch for changes.
+
 This will create a namespaced, unminified build of dat.GUI at `build/dat.gui.js`
 
 ## Thanks

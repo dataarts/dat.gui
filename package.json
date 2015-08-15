@@ -38,5 +38,8 @@
     "sass-loader": "^2.0.0",
     "style-loader": "^0.12.3",
     "webpack": "^1.11.0"
+  },
+  "dependencies": {
+    "babel": "^5.8.21"
   }
 }
