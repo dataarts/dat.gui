@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dataarts/dat.gui.git"
+    "url": "git+https://github.com/korczis/dat.gui.git"
   },
   "author": "Data Arts Team, Google Creative Lab",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/dataarts/dat.gui/issues"
+    "url": "https://github.com/korczis/dat.gui/issues"
   },
-  "homepage": "https://github.com/dataarts/dat.gui#readme",
+  "homepage": "https://github.com/korczis/dat.gui#readme",
   "devDependencies": {
     "babel-core": "^5.8.22",
     "babel-eslint": "^4.0.5",

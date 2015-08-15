@@ -1,7 +1,7 @@
 {
   "name": "dat.gui-ng",
-  "version": "0.6.0",
-  "homepage": "https://github.com/korczis/dat.gui",
+  "version": "0.6.1",
+  "homepage": "https://github.com/korczis/dat.gui.git",
   "authors": [
     "Google Data Arts Team <dataarts@google.com>"
   ],
