@@ -16,12 +16,12 @@ $button-height: 20px;
 
   /* Auto-place container */
   &.ac {
-   position: fixed;
-   top: 0;
-   left: 0;
-   right: 0;
-   height: 0;
-   z-index: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0;
+    z-index: 0;
   }
 
   &:not(.ac) .main {
@@ -53,7 +53,6 @@ $button-height: 20px;
       opacity: 1 !important;
     }
 
-
     &:hover .close-button,
     .close-button.drag {
       opacity: 1;
@@ -68,7 +67,7 @@ $button-height: 20px;
       line-height: $button-height - 1;
       height: $button-height;
 
-        /* TODO, these are style notes */
+      /* TODO, these are style notes */
       cursor: pointer;
       text-align: center;
       background-color: #000;
@@ -94,8 +93,6 @@ $button-height: 20px;
       }
     }
 
-
-
     .save-row {
       position: fixed;
       top: 0;
@@ -104,7 +101,7 @@ $button-height: 20px;
 
   }
 
-  li {   
+  li {
     @include transition(height, 0.1s, ease-out);
   }
 
@@ -117,10 +114,10 @@ $button-height: 20px;
     padding: 0 4px 0 5px;
   }
 
-  li.folder {   
-      padding: 0;
-      border-left: $nest-margin solid rgba(0,0,0,0);
-      
+  li.folder {
+    padding: 0;
+    border-left: $nest-margin solid rgba(0, 0, 0, 0);
+
   }
 
   /** Folder names */
@@ -137,8 +134,8 @@ $button-height: 20px;
     overflow: hidden;
     border: 0;
   }
-  
-  /** Controller row */ 
+
+  /** Controller row */
   .cr {
     clear: both;
     padding-left: 3px;
@@ -156,7 +153,7 @@ $button-height: 20px;
   }
 
   /** Controller-half (right) */
-  .c  {
+  .c {
     float: left;
     width: 60%;
   }
@@ -197,8 +194,8 @@ $button-height: 20px;
   .c select {
     margin-top: 5px;
   }
-  
-	/** Ensure the entire boolean and function row shows a hand */
+
+  /** Ensure the entire boolean and function row shows a hand */
   .cr.function,
   .cr.function .property-name, /* Don't know why I need to be this explicit */
   .cr.function *,
@@ -206,7 +203,6 @@ $button-height: 20px;
   .cr.boolean * {
     cursor: pointer;
   }
-
 
   .selector {
     display: none;
@@ -216,12 +212,10 @@ $button-height: 20px;
     z-index: 10;
   }
 
-
   .c:hover .selector,
   .selector.drag {
     display: block;
   }
-
 
   li.save-row {
 
@@ -241,7 +235,6 @@ $button-height: 20px;
     font-size: 13px;
     line-height: 15px;
   }
-
 
 }
 
@@ -273,7 +266,7 @@ $button-height: 20px;
   margin-top: 10px;
   code {
     font-size: 10px;
-    }
+  }
 }
 
 #dat-gui-save-locally {

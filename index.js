@@ -10,3 +10,7 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  */
+
+require('babel/polyfill');
+
+export default require('./src/dat/index');

@@ -11,27 +11,34 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-define([
-    'dat/controllers/Controller',
-    'dat/dom/dom',
-    'dat/utils/common'
-], function(Controller, dom, common) {
+import Controller from './Controller';
+import dom from '../dom/dom';
 
-  /**
-   * @class Provides a text input to alter the string property of an object.
-   *
-   * @extends dat.controllers.Controller
-   *
-   * @param {Object} object The object to be manipulated
-   * @param {string} property The name of the property to be manipulated
-   *
-   * @member dat.controllers
-   */
-  var StringController = function(object, property) {
+/**
+ * @class Provides a text input to alter the string property of an object.
+ *
+ * @extends dat.controllers.Controller
+ *
+ * @param {Object} object The object to be manipulated
+ * @param {string} property The name of the property to be manipulated
+ *
+ * @member dat.controllers
+ */
+class StringController extends Controller {
+  constructor(object, property) {
+    super(object, property);
 
-    StringController.superclass.call(this, object, property);
+    const _this = this;
 
-    var _this = this;
+    function onChange() {
+      _this.setValue(_this.__input.value);
+    }
+
+    function onBlur() {
+      if (_this.__onFinishChange) {
+        _this.__onFinishChange.call(_this, _this.getValue());
+      }
+    }
 
     this.__input = document.createElement('input');
     this.__input.setAttribute('type', 'text');
@@ -44,46 +51,20 @@ define([
         this.blur();
       }
     });
-    
-
-    function onChange() {
-      _this.setValue(_this.__input.value);
-    }
-
-    function onBlur() {
-      if (_this.__onFinishChange) {
-        _this.__onFinishChange.call(_this, _this.getValue());
-      }
-    }
 
     this.updateDisplay();
 
     this.domElement.appendChild(this.__input);
+  }
 
-  };
+  updateDisplay() {
+    // Stops the caret from moving on account of:
+    // keyup -> setValue -> updateDisplay
+    if (!dom.isActive(this.__input)) {
+      this.__input.value = this.getValue();
+    }
+    return super.updateDisplay();
+  }
+}
 
-  StringController.superclass = Controller;
-
-  common.extend(
-
-      StringController.prototype,
-      Controller.prototype,
-
-      {
-
-        updateDisplay: function() {
-          // Stops the caret from moving on account of:
-          // keyup -> setValue -> updateDisplay
-          if (!dom.isActive(this.__input)) {
-            this.__input.value = this.getValue();
-          }
-          return StringController.superclass.prototype.updateDisplay.call(this);
-        }
-
-      }
-
-  );
-
-  return StringController;
-
-});
+export default StringController;

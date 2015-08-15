@@ -11,90 +11,83 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-define([
+let tmpComponent;
 
-], function() {
+const ColorMath = {
+  hsv_to_rgb: function(h, s, v) {
+    const hi = Math.floor(h / 60) % 6;
 
-  var tmpComponent;
+    const f = h / 60 - Math.floor(h / 60);
+    const p = v * (1.0 - s);
+    const q = v * (1.0 - (f * s));
+    const t = v * (1.0 - ((1.0 - f) * s));
 
-  return {
+    const c = [
+      [v, t, p],
+      [q, v, p],
+      [p, v, t],
+      [p, q, v],
+      [t, p, v],
+      [v, p, q]
+    ][hi];
 
-    hsv_to_rgb: function(h, s, v) {
+    return {
+      r: c[0] * 255,
+      g: c[1] * 255,
+      b: c[2] * 255
+    };
+  },
 
-      var hi = Math.floor(h / 60) % 6;
+  rgb_to_hsv: function(r, g, b) {
+    const min = Math.min(r, g, b);
+    const max = Math.max(r, g, b);
+    const delta = max - min;
+    let h;
+    let s;
 
-      var f = h / 60 - Math.floor(h / 60);
-      var p = v * (1.0 - s);
-      var q = v * (1.0 - (f * s));
-      var t = v * (1.0 - ((1.0 - f) * s));
-      var c = [
-        [v, t, p],
-        [q, v, p],
-        [p, v, t],
-        [p, q, v],
-        [t, p, v],
-        [v, p, q]
-      ][hi];
-
+    if (max !== 0) {
+      s = delta / max;
+    } else {
       return {
-        r: c[0] * 255,
-        g: c[1] * 255,
-        b: c[2] * 255
+        h: NaN,
+        s: 0,
+        v: 0
       };
-
-    },
-
-    rgb_to_hsv: function(r, g, b) {
-
-      var min = Math.min(r, g, b),
-          max = Math.max(r, g, b),
-          delta = max - min,
-          h, s;
-
-      if (max != 0) {
-        s = delta / max;
-      } else {
-        return {
-          h: NaN,
-          s: 0,
-          v: 0
-        };
-      }
-
-      if (r == max) {
-        h = (g - b) / delta;
-      } else if (g == max) {
-        h = 2 + (b - r) / delta;
-      } else {
-        h = 4 + (r - g) / delta;
-      }
-      h /= 6;
-      if (h < 0) {
-        h += 1;
-      }
-
-      return {
-        h: h * 360,
-        s: s,
-        v: max / 255
-      };
-    },
-
-    rgb_to_hex: function(r, g, b) {
-      var hex = this.hex_with_component(0, 2, r);
-      hex = this.hex_with_component(hex, 1, g);
-      hex = this.hex_with_component(hex, 0, b);
-      return hex;
-    },
-
-    component_from_hex: function(hex, componentIndex) {
-      return (hex >> (componentIndex * 8)) & 0xFF;
-    },
-
-    hex_with_component: function(hex, componentIndex, value) {
-      return value << (tmpComponent = componentIndex * 8) | (hex & ~ (0xFF << tmpComponent));
     }
 
-  }
+    if (r === max) {
+      h = (g - b) / delta;
+    } else if (g === max) {
+      h = 2 + (b - r) / delta;
+    } else {
+      h = 4 + (r - g) / delta;
+    }
+    h /= 6;
+    if (h < 0) {
+      h += 1;
+    }
 
-});
+    return {
+      h: h * 360,
+      s: s,
+      v: max / 255
+    };
+  },
+
+  rgb_to_hex: function(r, g, b) {
+    let hex = this.hex_with_component(0, 2, r);
+    hex = this.hex_with_component(hex, 1, g);
+    hex = this.hex_with_component(hex, 0, b);
+    return hex;
+  },
+
+  component_from_hex: function(hex, componentIndex) {
+    return (hex >> (componentIndex * 8)) & 0xFF;
+  },
+
+  hex_with_component: function(hex, componentIndex, value) {
+    return value << (tmpComponent = componentIndex * 8) | (hex & ~(0xFF << tmpComponent));
+  }
+};
+
+export default ColorMath;

@@ -11,20 +11,16 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-define([
-   'dat/utils/common'
-], function(common) {
-
-  /**
-   * @class An "abstract" class that represents a given property of an object.
-   *
-   * @param {Object} object The object to be manipulated
-   * @param {string} property The name of the property to be manipulated
-   *
-   * @member dat.controllers
-   */
-  var Controller = function(object, property) {
-
+/**
+ * @class An "abstract" class that represents a given property of an object.
+ *
+ * @param {Object} object The object to be manipulated
+ * @param {string} property The name of the property to be manipulated
+ *
+ * @member dat.controllers
+ */
+class Controller {
+  constructor(object, property) {
     this.initialValue = object[property];
 
     /**
@@ -58,87 +54,74 @@ define([
      * @ignore
      */
     this.__onFinishChange = undefined;
+  }
 
-  };
+  /**
+   * Specify that a function fire every time someone changes the value with
+   * this Controller.
+   *
+   * @param {Function} fnc This function will be called whenever the value
+   * is modified via this Controller.
+   * @returns {Controller} this
+   */
+  onChange(fnc) {
+    this.__onChange = fnc;
+    return this;
+  }
 
-  common.extend(
+  /**
+   * Specify that a function fire every time someone "finishes" changing
+   * the value wih this Controller. Useful for values that change
+   * incrementally like numbers or strings.
+   *
+   * @param {Function} fnc This function will be called whenever
+   * someone "finishes" changing the value via this Controller.
+   * @returns {Controller} this
+   */
+  onFinishChange(fnc) {
+    this.__onFinishChange = fnc;
+    return this;
+  }
 
-      Controller.prototype,
+  /**
+   * Change the value of <code>object[property]</code>
+   *
+   * @param {Object} newValue The new value of <code>object[property]</code>
+   */
+  setValue(newValue) {
+    this.object[this.property] = newValue;
+    if (this.__onChange) {
+      this.__onChange.call(this, newValue);
+    }
 
-      /** @lends dat.controllers.Controller.prototype */
-      {
+    this.updateDisplay();
+    return this;
+  }
 
-        /**
-         * Specify that a function fire every time someone changes the value with
-         * this Controller.
-         *
-         * @param {Function} fnc This function will be called whenever the value
-         * is modified via this Controller.
-         * @returns {dat.controllers.Controller} this
-         */
-        onChange: function(fnc) {
-          this.__onChange = fnc;
-          return this;
-        },
+  /**
+   * Gets the value of <code>object[property]</code>
+   *
+   * @returns {Object} The current value of <code>object[property]</code>
+   */
+  getValue() {
+    return this.object[this.property];
+  }
 
-        /**
-         * Specify that a function fire every time someone "finishes" changing
-         * the value wih this Controller. Useful for values that change
-         * incrementally like numbers or strings.
-         *
-         * @param {Function} fnc This function will be called whenever
-         * someone "finishes" changing the value via this Controller.
-         * @returns {dat.controllers.Controller} this
-         */
-        onFinishChange: function(fnc) {
-          this.__onFinishChange = fnc;
-          return this;
-        },
+  /**
+   * Refreshes the visual display of a Controller in order to keep sync
+   * with the object's current value.
+   * @returns {Controller} this
+   */
+  updateDisplay() {
+    return this;
+  }
 
-        /**
-         * Change the value of <code>object[property]</code>
-         *
-         * @param {Object} newValue The new value of <code>object[property]</code>
-         */
-        setValue: function(newValue) {
-          this.object[this.property] = newValue;
-          if (this.__onChange) {
-            this.__onChange.call(this, newValue);
-          }
-          this.updateDisplay();
-          return this;
-        },
+  /**
+   * @returns {Boolean} true if the value has deviated from initialValue
+   */
+  isModified() {
+    return this.initialValue !== this.getValue();
+  }
+}
 
-        /**
-         * Gets the value of <code>object[property]</code>
-         *
-         * @returns {Object} The current value of <code>object[property]</code>
-         */
-        getValue: function() {
-          return this.object[this.property];
-        },
-
-        /**
-         * Refreshes the visual display of a Controller in order to keep sync
-         * with the object's current value.
-         * @returns {dat.controllers.Controller} this
-         */
-        updateDisplay: function() {
-          return this;
-        },
-
-        /**
-         * @returns {Boolean} true if the value has deviated from initialValue
-         */
-        isModified: function() {
-          return this.initialValue !== this.getValue()
-        }
-
-      }
-
-  );
-
-  return Controller;
-
-
-});
+export default Controller;
