@@ -12,11 +12,12 @@
  */
 
 define([
+    'dat/gui/settings',
     'dat/controllers/Controller',
     'dat/dom/dom',
     'dat/utils/common'
 ],
-function(Controller, dom, common) {
+function(settings, Controller, dom, common) {
 
   /**
    * @class Provides a select input to alter the property of an object, using a
@@ -41,7 +42,7 @@ function(Controller, dom, common) {
      * The drop down menu
      * @ignore
      */
-    this.__select = document.createElement('select');
+    this.__select = settings.DOCUMENT.createElement('select');
 
     if (common.isArray(options)) {
       var map = {};
@@ -53,7 +54,7 @@ function(Controller, dom, common) {
 
     common.each(options, function(value, key) {
 
-      var opt = document.createElement('option');
+      var opt = settings.DOCUMENT.createElement('option');
       opt.innerHTML = key;
       opt.setAttribute('value', value);
       _this.__select.appendChild(opt);

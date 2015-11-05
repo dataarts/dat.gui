@@ -12,10 +12,11 @@
  */
 
 define([
+  'dat/gui/settings',
   'dat/controllers/Controller',
   'dat/dom/dom',
   'dat/utils/common'
-], function(Controller, dom, common) {
+], function(settings, Controller, dom, common) {
 
   /**
    * @class Provides a checkbox input to alter the boolean property of an object.
@@ -33,7 +34,7 @@ define([
     var _this = this;
     this.__prev = this.getValue();
 
-    this.__checkbox = document.createElement('input');
+    this.__checkbox = settings.DOCUMENT.createElement('input');
     this.__checkbox.setAttribute('type', 'checkbox');
 
 
@@ -69,10 +70,10 @@ define([
         },
 
         updateDisplay: function() {
-          
+
           if (this.getValue() === true) {
             this.__checkbox.setAttribute('checked', 'checked');
-            this.__checkbox.checked = true;    
+            this.__checkbox.checked = true;
           } else {
               this.__checkbox.checked = false;
           }

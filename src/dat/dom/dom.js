@@ -12,8 +12,9 @@
  */
 
 define([
+  'dat/gui/settings',
   'dat/utils/common'
-], function(common) {
+], function(settings, common) {
 
   var EVENT_MAP = {
     'HTMLEvents': ['change'],
@@ -53,7 +54,7 @@ define([
   var dom = {
 
     /**
-     * 
+     *
      * @param elem
      * @param selectable
      */
@@ -108,13 +109,13 @@ define([
       if (!className) {
         throw new Error('Event type ' + eventType + ' not supported.');
       }
-      var evt = document.createEvent(className);
+      var evt = settings.DOCUMENT.createEvent(className);
       switch (className) {
         case 'MouseEvents':
           var clientX = params.x || params.clientX || 0;
           var clientY = params.y || params.clientY || 0;
           evt.initMouseEvent(eventType, params.bubbles || false,
-              params.cancelable || true, window, params.clickCount || 1,
+              params.cancelable || true, settings.WINDOW, params.clickCount || 1,
               0, //screen X
               0, //screen Y
               clientX, //client X
@@ -133,7 +134,7 @@ define([
             charCode: undefined
           });
           init(eventType, params.bubbles || false,
-              params.cancelable, window,
+              params.cancelable, settings.WINDOW,
               params.ctrlKey, params.altKey,
               params.shiftKey, params.metaKey,
               params.keyCode, params.charCode);
@@ -273,11 +274,11 @@ define([
 
     // http://stackoverflow.com/posts/2684561/revisions
     /**
-     * 
+     *
      * @param elem
      */
     isActive: function(elem) {
-      return elem === document.activeElement && ( elem.type || elem.href );
+      return elem === settings.DOCUMENT.activeElement && ( elem.type || elem.href );
     }
 
   };

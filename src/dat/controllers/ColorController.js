@@ -12,12 +12,13 @@
  */
 
 define([
+  'dat/gui/settings',
   'dat/controllers/Controller',
   'dat/dom/dom',
   'dat/color/Color',
   'dat/color/interpret',
   'dat/utils/common'
-], function(Controller, dom, Color, interpret, common) {
+], function(settings, Controller, dom, Color, interpret, common) {
 
   var ColorController = function(object, property) {
 
@@ -28,27 +29,27 @@ define([
 
     var _this = this;
 
-    this.domElement = document.createElement('div');
+    this.domElement = settings.DOCUMENT.createElement('div');
 
     dom.makeSelectable(this.domElement, false);
 
-    this.__selector = document.createElement('div');
+    this.__selector = settings.DOCUMENT.createElement('div');
     this.__selector.className = 'selector';
 
-    this.__saturation_field = document.createElement('div');
+    this.__saturation_field = settings.DOCUMENT.createElement('div');
     this.__saturation_field.className = 'saturation-field';
 
-    this.__field_knob = document.createElement('div');
+    this.__field_knob = settings.DOCUMENT.createElement('div');
     this.__field_knob.className = 'field-knob';
     this.__field_knob_border = '2px solid ';
 
-    this.__hue_knob = document.createElement('div');
+    this.__hue_knob = settings.DOCUMENT.createElement('div');
     this.__hue_knob.className = 'hue-knob';
 
-    this.__hue_field = document.createElement('div');
+    this.__hue_field = settings.DOCUMENT.createElement('div');
     this.__hue_field.className = 'hue-field';
 
-    this.__input = document.createElement('input');
+    this.__input = settings.DOCUMENT.createElement('input');
     this.__input.type = 'text';
     this.__input_textShadow = '0 1px 1px ';
 
@@ -64,13 +65,13 @@ define([
 
       dom
         .addClass(this, 'drag')
-        .bind(window, 'mouseup', function(e) {
+        .bind(settings.WINDOW, 'mouseup', function(e) {
           dom.removeClass(_this.__selector, 'drag');
         });
 
     });
 
-    var value_field = document.createElement('div');
+    var value_field = settings.DOCUMENT.createElement('div');
 
     common.extend(this.__selector.style, {
       width: '122px',
@@ -89,7 +90,7 @@ define([
       borderRadius: '12px',
       zIndex: 1
     });
-    
+
     common.extend(this.__hue_knob.style, {
       position: 'absolute',
       width: '15px',
@@ -112,7 +113,7 @@ define([
       height: '100%',
       background: 'none'
     });
-    
+
     linearGradient(value_field, 'top', 'rgba(0,0,0,0)', '#000');
 
     common.extend(this.__hue_field.style, {
@@ -142,21 +143,21 @@ define([
 
     dom.bind(this.__hue_field, 'mousedown', function(e) {
       setH(e);
-      dom.bind(window, 'mousemove', setH);
-      dom.bind(window, 'mouseup', unbindH);
+      dom.bind(settings.WINDOW, 'mousemove', setH);
+      dom.bind(settings.WINDOW, 'mouseup', unbindH);
     });
 
     function fieldDown(e) {
       setSV(e);
-      // document.body.style.cursor = 'none';
-      dom.bind(window, 'mousemove', setSV);
-      dom.bind(window, 'mouseup', unbindSV);
+      // settings.DOCUMENT.body.style.cursor = 'none';
+      dom.bind(settings.WINDOW, 'mousemove', setSV);
+      dom.bind(settings.WINDOW, 'mouseup', unbindSV);
     }
 
     function unbindSV() {
-      dom.unbind(window, 'mousemove', setSV);
-      dom.unbind(window, 'mouseup', unbindSV);
-      // document.body.style.cursor = 'default';
+      dom.unbind(settings.WINDOW, 'mousemove', setSV);
+      dom.unbind(settings.WINDOW, 'mouseup', unbindSV);
+      // settings.DOCUMENT.body.style.cursor = 'default';
     }
 
     function onBlur() {
@@ -170,8 +171,8 @@ define([
     }
 
     function unbindH() {
-      dom.unbind(window, 'mousemove', setH);
-      dom.unbind(window, 'mouseup', unbindH);
+      dom.unbind(settings.WINDOW, 'mousemove', setH);
+      dom.unbind(settings.WINDOW, 'mouseup', unbindH);
     }
 
     this.__saturation_field.appendChild(value_field);
@@ -191,8 +192,8 @@ define([
 
       var w = dom.getWidth(_this.__saturation_field);
       var o = dom.getOffset(_this.__saturation_field);
-      var s = (e.clientX - o.left + document.body.scrollLeft) / w;
-      var v = 1 - (e.clientY - o.top + document.body.scrollTop) / w;
+      var s = (e.clientX - o.left + settings.DOCUMENT.body.scrollLeft) / w;
+      var v = 1 - (e.clientY - o.top + settings.DOCUMENT.body.scrollTop) / w;
 
       if (v > 1) v = 1;
       else if (v < 0) v = 0;
@@ -216,7 +217,7 @@ define([
 
       var s = dom.getHeight(_this.__hue_field);
       var o = dom.getOffset(_this.__hue_field);
-      var h = 1 - (e.clientY - o.top + document.body.scrollTop) / s;
+      var h = 1 - (e.clientY - o.top + settings.DOCUMENT.body.scrollTop) / s;
 
       if (h > 1) h = 1;
       else if (h < 0) h = 0;
@@ -299,16 +300,16 @@ define([
       }
 
   );
-  
+
   var vendors = ['-moz-','-o-','-webkit-','-ms-',''];
-  
+
   function linearGradient(elem, x, a, b) {
     elem.style.background = '';
     common.each(vendors, function(vendor) {
       elem.style.cssText += 'background: ' + vendor + 'linear-gradient('+x+', '+a+' 0%, ' + b + ' 100%); ';
     });
   }
-  
+
   function hueGradient(elem) {
     elem.style.background = '';
     elem.style.cssText += 'background: -moz-linear-gradient(top,  #ff0000 0%, #ff00ff 17%, #0000ff 34%, #00ffff 50%, #00ff00 67%, #ffff00 84%, #ff0000 100%);'

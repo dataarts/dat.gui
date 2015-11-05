@@ -12,14 +12,15 @@
  */
 
 define([
+  'dat/gui/settings',
   'dat/dom/dom',
   'dat/utils/common'
-], function(dom, common) {
+], function(settings, dom, common) {
 
 
   var CenteredDiv = function() {
 
-    this.backgroundElement = document.createElement('div');
+    this.backgroundElement = settings.DOCUMENT.createElement('div');
     common.extend(this.backgroundElement.style, {
       backgroundColor: 'rgba(0,0,0,0.8)',
       top: 0,
@@ -34,7 +35,7 @@ define([
     dom.makeFullscreen(this.backgroundElement);
     this.backgroundElement.style.position = 'fixed';
 
-    this.domElement = document.createElement('div');
+    this.domElement = settings.DOCUMENT.createElement('div');
     common.extend(this.domElement.style, {
       position: 'fixed',
       display: 'none',
@@ -45,8 +46,8 @@ define([
     });
 
 
-    document.body.appendChild(this.backgroundElement);
-    document.body.appendChild(this.domElement);
+    settings.DOCUMENT.body.appendChild(this.backgroundElement);
+    settings.DOCUMENT.body.appendChild(this.domElement);
 
     var _this = this;
     dom.bind(this.backgroundElement, 'click', function() {
@@ -104,10 +105,10 @@ define([
   };
 
   CenteredDiv.prototype.layout = function() {
-    this.domElement.style.left = window.innerWidth/2 - dom.getWidth(this.domElement) / 2 + 'px';
-    this.domElement.style.top = window.innerHeight/2 - dom.getHeight(this.domElement) / 2 + 'px';
+    this.domElement.style.left = settings.WINDOW.innerWidth/2 - dom.getWidth(this.domElement) / 2 + 'px';
+    this.domElement.style.top = settings.WINDOW.innerHeight/2 - dom.getHeight(this.domElement) / 2 + 'px';
   };
-  
+
   function lockScroll(e) {
     console.log(e);
   }

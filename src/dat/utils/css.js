@@ -11,11 +11,11 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-define([],
-function() {
+define(['dat/gui/settings'],
+function(settings) {
   return {
     load: function (url, doc) {
-      doc = doc || document;
+      doc = doc || settings.DOCUMENT;
       var link = doc.createElement('link');
       link.type = 'text/css';
       link.rel = 'stylesheet';
@@ -23,8 +23,8 @@ function() {
       doc.getElementsByTagName('head')[0].appendChild(link);
     },
     inject: function(css, doc) {
-      doc = doc || document;
-      var injected = document.createElement('style');
+      doc = doc || settings.DOCUMENT;
+      var injected = settings.DOCUMENT.createElement('style');
       injected.type = 'text/css';
       injected.innerHTML = css;
       doc.getElementsByTagName('head')[0].appendChild(injected);

@@ -106,7 +106,7 @@ function build(_params) {
       }
     }
   }
-  
+
 
   to_write += params.shortcut + ' = ' + params.main.replace(/\//g, '.') + ' = ' + defined[params.main].getClosure() + ';';
 

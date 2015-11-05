@@ -12,10 +12,11 @@
  */
 
 define([
+  'dat/gui/settings',
   'dat/controllers/NumberController',
   'dat/dom/dom',
   'dat/utils/common'
-], function(NumberController, dom, common) {
+], function(settings, NumberController, dom, common) {
 
   /**
    * @class Represents a given property of an object that is a number and
@@ -47,7 +48,7 @@ define([
      */
     var prev_y;
 
-    this.__input = document.createElement('input');
+    this.__input = settings.DOCUMENT.createElement('input');
     this.__input.setAttribute('type', 'text');
 
     // Makes it so manually specified values are not truncated.
@@ -79,8 +80,8 @@ define([
     }
 
     function onMouseDown(e) {
-      dom.bind(window, 'mousemove', onMouseDrag);
-      dom.bind(window, 'mouseup', onMouseUp);
+      dom.bind(settings.WINDOW, 'mousemove', onMouseDrag);
+      dom.bind(settings.WINDOW, 'mouseup', onMouseUp);
       prev_y = e.clientY;
     }
 
@@ -94,8 +95,8 @@ define([
     }
 
     function onMouseUp() {
-      dom.unbind(window, 'mousemove', onMouseDrag);
-      dom.unbind(window, 'mouseup', onMouseUp);
+      dom.unbind(settings.WINDOW, 'mousemove', onMouseDrag);
+      dom.unbind(settings.WINDOW, 'mouseup', onMouseUp);
     }
 
     this.updateDisplay();

@@ -12,10 +12,11 @@
  */
 
 define([
+    'dat/gui/settings',
     'dat/controllers/Controller',
     'dat/dom/dom',
     'dat/utils/common'
-], function(Controller, dom, common) {
+], function(settings, Controller, dom, common) {
 
   /**
    * @class Provides a text input to alter the string property of an object.
@@ -33,7 +34,7 @@ define([
 
     var _this = this;
 
-    this.__input = document.createElement('input');
+    this.__input = settings.DOCUMENT.createElement('input');
     this.__input.setAttribute('type', 'text');
 
     dom.bind(this.__input, 'keyup', onChange);
@@ -44,7 +45,7 @@ define([
         this.blur();
       }
     });
-    
+
 
     function onChange() {
       _this.setValue(_this.__input.value);

@@ -29,10 +29,13 @@ dat.dom = dat.dom || {};
 /** @namespace */
 dat.color = dat.color || {};
 
-dat.utils.css = (function () {
+dat.gui.settings = (undefined)();
+
+
+dat.utils.css = (function (settings) {
   return {
     load: function (url, doc) {
-      doc = doc || document;
+      doc = doc || settings.DOCUMENT;
       var link = doc.createElement('link');
       link.type = 'text/css';
       link.rel = 'stylesheet';
@@ -40,14 +43,14 @@ dat.utils.css = (function () {
       doc.getElementsByTagName('head')[0].appendChild(link);
     },
     inject: function(css, doc) {
-      doc = doc || document;
-      var injected = document.createElement('style');
+      doc = doc || settings.DOCUMENT;
+      var injected = settings.DOCUMENT.createElement('style');
       injected.type = 'text/css';
       injected.innerHTML = css;
       doc.getElementsByTagName('head')[0].appendChild(injected);
     }
   }
-})();
+})(dat.gui.settings);
 
 
 dat.utils.common = (function () {
@@ -178,7 +181,7 @@ dat.utils.common = (function () {
 })();
 
 
-dat.controllers.Controller = (function (common) {
+dat.controllers.Controller = (function (settings, common) {
 
   /**
    * @class An "abstract" class that represents a given property of an object.
@@ -196,7 +199,7 @@ dat.controllers.Controller = (function (common) {
      * Those who extend this class will put their DOM elements in here.
      * @type {DOMElement}
      */
-    this.domElement = document.createElement('div');
+    this.domElement = settings.DOCUMENT.createElement('div');
 
     /**
      * The object to manipulate
@@ -306,10 +309,11 @@ dat.controllers.Controller = (function (common) {
   return Controller;
 
 
-})(dat.utils.common);
+})(dat.gui.settings,
+dat.utils.common);
 
 
-dat.dom.dom = (function (common) {
+dat.dom.dom = (function (settings, common) {
 
   var EVENT_MAP = {
     'HTMLEvents': ['change'],
@@ -349,7 +353,7 @@ dat.dom.dom = (function (common) {
   var dom = {
 
     /**
-     * 
+     *
      * @param elem
      * @param selectable
      */
@@ -404,13 +408,13 @@ dat.dom.dom = (function (common) {
       if (!className) {
         throw new Error('Event type ' + eventType + ' not supported.');
       }
-      var evt = document.createEvent(className);
+      var evt = settings.DOCUMENT.createEvent(className);
       switch (className) {
         case 'MouseEvents':
           var clientX = params.x || params.clientX || 0;
           var clientY = params.y || params.clientY || 0;
           evt.initMouseEvent(eventType, params.bubbles || false,
-              params.cancelable || true, window, params.clickCount || 1,
+              params.cancelable || true, settings.WINDOW, params.clickCount || 1,
               0, //screen X
               0, //screen Y
               clientX, //client X
@@ -429,7 +433,7 @@ dat.dom.dom = (function (common) {
             charCode: undefined
           });
           init(eventType, params.bubbles || false,
-              params.cancelable, window,
+              params.cancelable, settings.WINDOW,
               params.ctrlKey, params.altKey,
               params.shiftKey, params.metaKey,
               params.keyCode, params.charCode);
@@ -569,21 +573,22 @@ dat.dom.dom = (function (common) {
 
     // http://stackoverflow.com/posts/2684561/revisions
     /**
-     * 
+     *
      * @param elem
      */
     isActive: function(elem) {
-      return elem === document.activeElement && ( elem.type || elem.href );
+      return elem === settings.DOCUMENT.activeElement && ( elem.type || elem.href );
     }
 
   };
 
   return dom;
 
-})(dat.utils.common);
+})(dat.gui.settings,
+dat.utils.common);
 
 
-dat.controllers.OptionController = (function (Controller, dom, common) {
+dat.controllers.OptionController = (function (settings, Controller, dom, common) {
 
   /**
    * @class Provides a select input to alter the property of an object, using a
@@ -608,7 +613,7 @@ dat.controllers.OptionController = (function (Controller, dom, common) {
      * The drop down menu
      * @ignore
      */
-    this.__select = document.createElement('select');
+    this.__select = settings.DOCUMENT.createElement('select');
 
     if (common.isArray(options)) {
       var map = {};
@@ -620,7 +625,7 @@ dat.controllers.OptionController = (function (Controller, dom, common) {
 
     common.each(options, function(value, key) {
 
-      var opt = document.createElement('option');
+      var opt = settings.DOCUMENT.createElement('option');
       opt.innerHTML = key;
       opt.setAttribute('value', value);
       _this.__select.appendChild(opt);
@@ -667,7 +672,8 @@ dat.controllers.OptionController = (function (Controller, dom, common) {
 
   return OptionController;
 
-})(dat.controllers.Controller,
+})(dat.gui.settings,
+dat.controllers.Controller,
 dat.dom.dom,
 dat.utils.common);
 
@@ -804,7 +810,7 @@ dat.controllers.NumberController = (function (Controller, common) {
 dat.utils.common);
 
 
-dat.controllers.NumberControllerBox = (function (NumberController, dom, common) {
+dat.controllers.NumberControllerBox = (function (settings, NumberController, dom, common) {
 
   /**
    * @class Represents a given property of an object that is a number and
@@ -836,7 +842,7 @@ dat.controllers.NumberControllerBox = (function (NumberController, dom, common) 
      */
     var prev_y;
 
-    this.__input = document.createElement('input');
+    this.__input = settings.DOCUMENT.createElement('input');
     this.__input.setAttribute('type', 'text');
 
     // Makes it so manually specified values are not truncated.
@@ -868,8 +874,8 @@ dat.controllers.NumberControllerBox = (function (NumberController, dom, common) 
     }
 
     function onMouseDown(e) {
-      dom.bind(window, 'mousemove', onMouseDrag);
-      dom.bind(window, 'mouseup', onMouseUp);
+      dom.bind(settings.WINDOW, 'mousemove', onMouseDrag);
+      dom.bind(settings.WINDOW, 'mouseup', onMouseUp);
       prev_y = e.clientY;
     }
 
@@ -883,8 +889,8 @@ dat.controllers.NumberControllerBox = (function (NumberController, dom, common) 
     }
 
     function onMouseUp() {
-      dom.unbind(window, 'mousemove', onMouseDrag);
-      dom.unbind(window, 'mouseup', onMouseUp);
+      dom.unbind(settings.WINDOW, 'mousemove', onMouseDrag);
+      dom.unbind(settings.WINDOW, 'mouseup', onMouseUp);
     }
 
     this.updateDisplay();
@@ -919,12 +925,13 @@ dat.controllers.NumberControllerBox = (function (NumberController, dom, common) 
 
   return NumberControllerBox;
 
-})(dat.controllers.NumberController,
+})(dat.gui.settings,
+dat.controllers.NumberController,
 dat.dom.dom,
 dat.utils.common);
 
 
-dat.controllers.NumberControllerSlider = (function (NumberController, dom, css, common, styleSheet) {
+dat.controllers.NumberControllerSlider = (function (settings, NumberController, dom, css, common, styleSheet) {
 
   /**
    * @class Represents a given property of an object that is a number, contains
@@ -935,7 +942,7 @@ dat.controllers.NumberControllerSlider = (function (NumberController, dom, css, 
    *
    * @extends dat.controllers.Controller
    * @extends dat.controllers.NumberController
-   * 
+   *
    * @param {Object} object The object to be manipulated
    * @param {string} property The name of the property to be manipulated
    * @param {Number} minValue Minimum allowed value
@@ -950,20 +957,20 @@ dat.controllers.NumberControllerSlider = (function (NumberController, dom, css, 
 
     var _this = this;
 
-    this.__background = document.createElement('div');
-    this.__foreground = document.createElement('div');
-    
+    this.__background = settings.DOCUMENT.createElement('div');
+    this.__foreground = settings.DOCUMENT.createElement('div');
+
 
 
     dom.bind(this.__background, 'mousedown', onMouseDown);
-    
+
     dom.addClass(this.__background, 'slider');
     dom.addClass(this.__foreground, 'slider-fg');
 
     function onMouseDown(e) {
 
-      dom.bind(window, 'mousemove', onMouseDrag);
-      dom.bind(window, 'mouseup', onMouseUp);
+      dom.bind(settings.WINDOW, 'mousemove', onMouseDrag);
+      dom.bind(settings.WINDOW, 'mouseup', onMouseUp);
 
       onMouseDrag(e);
     }
@@ -974,7 +981,7 @@ dat.controllers.NumberControllerSlider = (function (NumberController, dom, css, 
 
       var offset = dom.getOffset(_this.__background);
       var width = dom.getWidth(_this.__background);
-      
+
       _this.setValue(
       	map(e.clientX, offset.left, offset.left + width, _this.__min, _this.__max)
       );
@@ -984,8 +991,8 @@ dat.controllers.NumberControllerSlider = (function (NumberController, dom, css, 
     }
 
     function onMouseUp() {
-      dom.unbind(window, 'mousemove', onMouseDrag);
-      dom.unbind(window, 'mouseup', onMouseUp);
+      dom.unbind(settings.WINDOW, 'mousemove', onMouseDrag);
+      dom.unbind(settings.WINDOW, 'mouseup', onMouseUp);
       if (_this.__onFinishChange) {
         _this.__onFinishChange.call(_this, _this.getValue());
       }
@@ -1031,15 +1038,16 @@ dat.controllers.NumberControllerSlider = (function (NumberController, dom, css, 
 	}
 
   return NumberControllerSlider;
-  
-})(dat.controllers.NumberController,
+
+})(dat.gui.settings,
+dat.controllers.NumberController,
 dat.dom.dom,
 dat.utils.css,
 dat.utils.common,
 "/**\n * dat-gui JavaScript Controller Library\n * http://code.google.com/p/dat-gui\n *\n * Copyright 2011 Data Arts Team, Google Creative Lab\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n * http://www.apache.org/licenses/LICENSE-2.0\n */\n\n.slider {\n  box-shadow: inset 0 2px 4px rgba(0,0,0,0.15);\n  height: 1em;\n  border-radius: 1em;\n  background-color: #eee;\n  padding: 0 0.5em;\n  overflow: hidden;\n}\n\n.slider-fg {\n  padding: 1px 0 2px 0;\n  background-color: #aaa;\n  height: 1em;\n  margin-left: -0.5em;\n  padding-right: 0.5em;\n  border-radius: 1em 0 0 1em;\n}\n\n.slider-fg:after {\n  display: inline-block;\n  border-radius: 1em;\n  background-color: #fff;\n  border:  1px solid #aaa;\n  content: '';\n  float: right;\n  margin-right: -1em;\n  margin-top: -1px;\n  height: 0.9em;\n  width: 0.9em;\n}");
 
 
-dat.controllers.FunctionController = (function (Controller, dom, common) {
+dat.controllers.FunctionController = (function (settings, Controller, dom, common) {
 
   /**
    * @class Provides a GUI interface to fire a specified method, a property of an object.
@@ -1057,7 +1065,7 @@ dat.controllers.FunctionController = (function (Controller, dom, common) {
 
     var _this = this;
 
-    this.__button = document.createElement('div');
+    this.__button = settings.DOCUMENT.createElement('div');
     this.__button.innerHTML = text === undefined ? 'Fire' : text;
     dom.bind(this.__button, 'click', function(e) {
       e.preventDefault();
@@ -1079,7 +1087,7 @@ dat.controllers.FunctionController = (function (Controller, dom, common) {
       FunctionController.prototype,
       Controller.prototype,
       {
-        
+
         fire: function() {
           if (this.__onChange) {
             this.__onChange.call(this);
@@ -1095,12 +1103,13 @@ dat.controllers.FunctionController = (function (Controller, dom, common) {
 
   return FunctionController;
 
-})(dat.controllers.Controller,
+})(dat.gui.settings,
+dat.controllers.Controller,
 dat.dom.dom,
 dat.utils.common);
 
 
-dat.controllers.BooleanController = (function (Controller, dom, common) {
+dat.controllers.BooleanController = (function (settings, Controller, dom, common) {
 
   /**
    * @class Provides a checkbox input to alter the boolean property of an object.
@@ -1118,7 +1127,7 @@ dat.controllers.BooleanController = (function (Controller, dom, common) {
     var _this = this;
     this.__prev = this.getValue();
 
-    this.__checkbox = document.createElement('input');
+    this.__checkbox = settings.DOCUMENT.createElement('input');
     this.__checkbox.setAttribute('type', 'checkbox');
 
 
@@ -1154,10 +1163,10 @@ dat.controllers.BooleanController = (function (Controller, dom, common) {
         },
 
         updateDisplay: function() {
-          
+
           if (this.getValue() === true) {
             this.__checkbox.setAttribute('checked', 'checked');
-            this.__checkbox.checked = true;    
+            this.__checkbox.checked = true;
           } else {
               this.__checkbox.checked = false;
           }
@@ -1173,7 +1182,8 @@ dat.controllers.BooleanController = (function (Controller, dom, common) {
 
   return BooleanController;
 
-})(dat.controllers.Controller,
+})(dat.gui.settings,
+dat.controllers.Controller,
 dat.dom.dom,
 dat.utils.common);
 
@@ -1529,7 +1539,7 @@ dat.color.interpret = (function (toString, common) {
 dat.utils.common);
 
 
-dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, controllerFactory, Controller, BooleanController, FunctionController, NumberControllerBox, NumberControllerSlider, OptionController, ColorController, requestAnimationFrame, CenteredDiv, dom, common) {
+dat.GUI = dat.gui.GUI = (function (settings, css, saveDialogueContents, styleSheet, controllerFactory, Controller, BooleanController, FunctionController, NumberControllerBox, NumberControllerSlider, OptionController, ColorController, requestAnimationFrame, CenteredDiv, dom, common) {
 
   css.inject(styleSheet);
 
@@ -1545,7 +1555,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
   var SUPPORTS_LOCAL_STORAGE = (function() {
     try {
-      return 'localStorage' in window && window['localStorage'] !== null;
+      return 'localStorage' in settings.WINDOW && settings.WINDOW['localStorage'] !== null;
     } catch (e) {
       return false;
     }
@@ -1588,8 +1598,8 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
      * Outermost DOM Element
      * @type DOMElement
      */
-    this.domElement = document.createElement('div');
-    this.__ul = document.createElement('ul');
+    this.domElement = settings.DOCUMENT.createElement('div');
+    this.__ul = settings.DOCUMENT.createElement('ul');
     this.domElement.appendChild(this.__ul);
 
     dom.addClass(this.domElement, CSS_NAMESPACE);
@@ -1781,7 +1791,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
                 dom.removeClass(_this.__ul, GUI.CLASS_CLOSED);
               }
               // For browsers that aren't going to respect the CSS transition,
-              // Lets just check our height against the window height right off
+              // Lets just check our height against the settings.WINDOW height right off
               // the bat.
               this.onResize();
 
@@ -1815,9 +1825,9 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
               if (SUPPORTS_LOCAL_STORAGE) {
                 use_local_storage = bool;
                 if (bool) {
-                  dom.bind(window, 'unload', saveToLocalStorage);
+                  dom.bind(GUI.WINDOW, 'unload', saveToLocalStorage);
                 } else {
-                  dom.unbind(window, 'unload', saveToLocalStorage);
+                  dom.unbind(GUI.WINDOW, 'unload', saveToLocalStorage);
                 }
                 localStorage.setItem(getLocalStorageHash(_this, 'isLocal'), bool);
               }
@@ -1852,7 +1862,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
       }
 
-      this.__closeButton = document.createElement('div');
+      this.__closeButton = settings.DOCUMENT.createElement('div');
       this.__closeButton.innerHTML = GUI.TEXT_CLOSED;
       dom.addClass(this.__closeButton, GUI.CLASS_CLOSE_BUTTON);
       this.domElement.appendChild(this.__closeButton);
@@ -1872,7 +1882,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
         params.closed = true;
       }
 
-      var title_row_name = document.createTextNode(params.name);
+      var title_row_name = settings.DOCUMENT.createTextNode(params.name);
       dom.addClass(title_row_name, 'controller-name');
 
       var title_row = addRow(_this, title_row_name);
@@ -1899,10 +1909,10 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
       if (common.isUndefined(params.parent)) {
 
         if (auto_place_virgin) {
-          auto_place_container = document.createElement('div');
+          auto_place_container = settings.DOCUMENT.createElement('div');
           dom.addClass(auto_place_container, CSS_NAMESPACE);
           dom.addClass(auto_place_container, GUI.CLASS_AUTO_PLACE_CONTAINER);
-          document.body.appendChild(auto_place_container);
+          settings.DOCUMENT.body.appendChild(auto_place_container);
           auto_place_virgin = false;
         }
 
@@ -1920,7 +1930,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
     }
 
-    dom.bind(window, 'resize', function() { _this.onResize() });
+    dom.bind(GUI.WINDOW, 'resize', function() { _this.onResize() });
     dom.bind(this.__ul, 'webkitTransitionEnd', function() { _this.onResize(); });
     dom.bind(this.__ul, 'transitionend', function() { _this.onResize() });
     dom.bind(this.__ul, 'oTransitionEnd', function() { _this.onResize() });
@@ -1977,9 +1987,9 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
   GUI.TEXT_CLOSED = 'Close Controls';
   GUI.TEXT_OPEN = 'Open Controls';
 
-  dom.bind(window, 'keydown', function(e) {
+  dom.bind(GUI.WINDOW, 'keydown', function(e) {
 
-    if (document.activeElement.type !== 'text' &&
+    if (settings.DOCUMENT.activeElement.type !== 'text' &&
         (e.which === HIDE_KEY_CODE || e.keyCode == HIDE_KEY_CODE)) {
       GUI.toggleHide();
     }
@@ -2123,9 +2133,9 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
                 h += dom.getHeight(node);
             });
 
-            if (window.innerHeight - top - CLOSE_BUTTON_HEIGHT < h) {
+            if (settings.WINDOW.innerHeight - top - CLOSE_BUTTON_HEIGHT < h) {
               dom.addClass(root.domElement, GUI.CLASS_TOO_TALL);
-              root.__ul.style.height = window.innerHeight - top - CLOSE_BUTTON_HEIGHT + 'px';
+              root.__ul.style.height = settings.WINDOW.innerHeight - top - CLOSE_BUTTON_HEIGHT + 'px';
             } else {
               dom.removeClass(root.domElement, GUI.CLASS_TOO_TALL);
               root.__ul.style.height = 'auto';
@@ -2318,11 +2328,11 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
     dom.addClass(controller.domElement, 'c');
 
-    var name = document.createElement('span');
+    var name = settings.DOCUMENT.createElement('span');
     dom.addClass(name, 'property-name');
     name.innerHTML = controller.property;
 
-    var container = document.createElement('div');
+    var container = settings.DOCUMENT.createElement('div');
     container.appendChild(name);
     container.appendChild(controller.domElement);
 
@@ -2347,7 +2357,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
    * @param [liBefore] If specified, places the new row before another row
    */
   function addRow(gui, dom, liBefore) {
-    var li = document.createElement('li');
+    var li = settings.DOCUMENT.createElement('li');
     if (dom) li.appendChild(dom);
     if (liBefore) {
       gui.__ul.insertBefore(li, params.before);
@@ -2587,13 +2597,13 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
   function getLocalStorageHash(gui, key) {
     // TODO how does this deal with multiple GUI's?
-    return document.location.href + '.' + key;
+    return settings.DOCUMENT.location.href + '.' + key;
 
   }
 
   function addSaveMenu(gui) {
 
-    var div = gui.__save_row = document.createElement('li');
+    var div = gui.__save_row = settings.DOCUMENT.createElement('li');
 
     dom.addClass(gui.domElement, 'has-save');
 
@@ -2601,27 +2611,27 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
     dom.addClass(div, 'save-row');
 
-    var gears = document.createElement('span');
+    var gears = settings.DOCUMENT.createElement('span');
     gears.innerHTML = '&nbsp;';
     dom.addClass(gears, 'button gears');
 
     // TODO replace with FunctionController
-    var button = document.createElement('span');
+    var button = settings.DOCUMENT.createElement('span');
     button.innerHTML = 'Save';
     dom.addClass(button, 'button');
     dom.addClass(button, 'save');
 
-    var button2 = document.createElement('span');
+    var button2 = settings.DOCUMENT.createElement('span');
     button2.innerHTML = 'New';
     dom.addClass(button2, 'button');
     dom.addClass(button2, 'save-as');
 
-    var button3 = document.createElement('span');
+    var button3 = settings.DOCUMENT.createElement('span');
     button3.innerHTML = 'Revert';
     dom.addClass(button3, 'button');
     dom.addClass(button3, 'revert');
 
-    var select = gui.__preset_select = document.createElement('select');
+    var select = gui.__preset_select = settings.DOCUMENT.createElement('select');
 
     if (gui.load && gui.load.remembered) {
 
@@ -2652,12 +2662,12 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
     if (SUPPORTS_LOCAL_STORAGE) {
 
-      var saveLocally = document.getElementById('dg-save-locally');
-      var explain = document.getElementById('dg-local-explain');
+      var saveLocally = settings.DOCUMENT.getElementById('dg-save-locally');
+      var explain = settings.DOCUMENT.getElementById('dg-local-explain');
 
       saveLocally.style.display = 'block';
 
-      var localStorageCheckBox = document.getElementById('dg-local-storage');
+      var localStorageCheckBox = settings.DOCUMENT.getElementById('dg-local-storage');
 
       if (localStorage.getItem(getLocalStorageHash(gui, 'isLocal')) === 'true') {
         localStorageCheckBox.setAttribute('checked', 'checked');
@@ -2677,7 +2687,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
     }
 
-    var newConstructorTextArea = document.getElementById('dg-new-constructor');
+    var newConstructorTextArea = settings.DOCUMENT.getElementById('dg-new-constructor');
 
     dom.bind(newConstructorTextArea, 'keydown', function(e) {
       if (e.metaKey && (e.which === 67 || e.keyCode == 67)) {
@@ -2711,7 +2721,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
   function addResizeHandle(gui) {
 
-    gui.__resize_handle = document.createElement('div');
+    gui.__resize_handle = settings.DOCUMENT.createElement('div');
 
     common.extend(gui.__resize_handle.style, {
 
@@ -2738,8 +2748,8 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
       pmouseX = e.clientX;
 
       dom.addClass(gui.__closeButton, GUI.CLASS_DRAG);
-      dom.bind(window, 'mousemove', drag);
-      dom.bind(window, 'mouseup', dragStop);
+      dom.bind(settings.WINDOW, 'mousemove', drag);
+      dom.bind(settings.WINDOW, 'mouseup', dragStop);
 
       return false;
 
@@ -2760,8 +2770,8 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
     function dragStop() {
 
       dom.removeClass(gui.__closeButton, GUI.CLASS_DRAG);
-      dom.unbind(window, 'mousemove', drag);
-      dom.unbind(window, 'mouseup', dragStop);
+      dom.unbind(settings.WINDOW, 'mousemove', drag);
+      dom.unbind(settings.WINDOW, 'mouseup', dragStop);
 
     }
 
@@ -2806,7 +2816,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
   }
 
   function addPresetOption(gui, name, setSelected) {
-    var opt = document.createElement('option');
+    var opt = settings.DOCUMENT.createElement('option');
     opt.innerHTML = name;
     opt.value = name;
     gui.__preset_select.appendChild(opt);
@@ -2852,7 +2862,8 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
   return GUI;
 
-})(dat.utils.css,
+})(dat.gui.settings,
+dat.utils.css,
 "<div id=\"dg-save\" class=\"dg dialogue\">\n\n  Here's the new load parameter for your <code>GUI</code>'s constructor:\n\n  <textarea id=\"dg-new-constructor\"></textarea>\n\n  <div id=\"dg-save-locally\">\n\n    <input id=\"dg-local-storage\" type=\"checkbox\"/> Automatically save\n    values to <code>localStorage</code> on exit.\n\n    <div id=\"dg-local-explain\">The values saved to <code>localStorage</code> will\n      override those passed to <code>dat.GUI</code>'s constructor. This makes it\n      easier to work incrementally, but <code>localStorage</code> is fragile,\n      and your friends may not see the same values you do.\n      \n    </div>\n    \n  </div>\n\n</div>",
 ".dg {\n  /** Clear list styles */\n  /* Auto-place container */\n  /* Auto-placed GUI's */\n  /* Line items that don't contain folders. */\n  /** Folder names */\n  /** Hides closed items */\n  /** Controller row */\n  /** Name-half (left) */\n  /** Controller-half (right) */\n  /** Controller placement */\n  /** Shorter number boxes when slider is present. */\n  /** Ensure the entire boolean and function row shows a hand */ }\n  .dg ul {\n    list-style: none;\n    margin: 0;\n    padding: 0;\n    width: 100%;\n    clear: both; }\n  .dg.ac {\n    position: fixed;\n    top: 0;\n    left: 0;\n    right: 0;\n    height: 0;\n    z-index: 0; }\n  .dg:not(.ac) .main {\n    /** Exclude mains in ac so that we don't hide close button */\n    overflow: hidden; }\n  .dg.main {\n    -webkit-transition: opacity 0.1s linear;\n    -o-transition: opacity 0.1s linear;\n    -moz-transition: opacity 0.1s linear;\n    transition: opacity 0.1s linear; }\n    .dg.main.taller-than-window {\n      overflow-y: auto; }\n      .dg.main.taller-than-window .close-button {\n        opacity: 1;\n        /* TODO, these are style notes */\n        margin-top: -1px;\n        border-top: 1px solid #2c2c2c; }\n    .dg.main ul.closed .close-button {\n      opacity: 1 !important; }\n    .dg.main:hover .close-button,\n    .dg.main .close-button.drag {\n      opacity: 1; }\n    .dg.main .close-button {\n      /*opacity: 0;*/\n      -webkit-transition: opacity 0.1s linear;\n      -o-transition: opacity 0.1s linear;\n      -moz-transition: opacity 0.1s linear;\n      transition: opacity 0.1s linear;\n      border: 0;\n      position: absolute;\n      line-height: 19px;\n      height: 20px;\n      /* TODO, these are style notes */\n      cursor: pointer;\n      text-align: center;\n      background-color: #000; }\n      .dg.main .close-button:hover {\n        background-color: #111; }\n  .dg.a {\n    float: right;\n    margin-right: 15px;\n    overflow-x: hidden; }\n    .dg.a.has-save > ul {\n      margin-top: 27px; }\n      .dg.a.has-save > ul.closed {\n        margin-top: 0; }\n    .dg.a .save-row {\n      position: fixed;\n      top: 0;\n      z-index: 1002; }\n  .dg li {\n    -webkit-transition: height 0.1s ease-out;\n    -o-transition: height 0.1s ease-out;\n    -moz-transition: height 0.1s ease-out;\n    transition: height 0.1s ease-out; }\n  .dg li:not(.folder) {\n    cursor: auto;\n    height: 27px;\n    line-height: 27px;\n    overflow: hidden;\n    padding: 0 4px 0 5px; }\n  .dg li.folder {\n    padding: 0;\n    border-left: 4px solid rgba(0, 0, 0, 0); }\n  .dg li.title {\n    cursor: pointer;\n    margin-left: -4px; }\n  .dg .closed li:not(.title),\n  .dg .closed ul li,\n  .dg .closed ul li > * {\n    height: 0;\n    overflow: hidden;\n    border: 0; }\n  .dg .cr {\n    clear: both;\n    padding-left: 3px;\n    height: 27px; }\n  .dg .property-name {\n    cursor: default;\n    float: left;\n    clear: left;\n    width: 40%;\n    overflow: hidden;\n    text-overflow: ellipsis; }\n  .dg .c {\n    float: left;\n    width: 60%; }\n  .dg .c input[type=text] {\n    border: 0;\n    margin-top: 4px;\n    padding: 3px;\n    width: 100%;\n    float: right; }\n  .dg .has-slider input[type=text] {\n    width: 30%;\n    /*display: none;*/\n    margin-left: 0; }\n  .dg .slider {\n    float: left;\n    width: 66%;\n    margin-left: -5px;\n    margin-right: 0;\n    height: 19px;\n    margin-top: 4px; }\n  .dg .slider-fg {\n    height: 100%; }\n  .dg .c input[type=checkbox] {\n    margin-top: 9px; }\n  .dg .c select {\n    margin-top: 5px; }\n  .dg .cr.function,\n  .dg .cr.function .property-name,\n  .dg .cr.function *,\n  .dg .cr.boolean,\n  .dg .cr.boolean * {\n    cursor: pointer; }\n  .dg .selector {\n    display: none;\n    position: absolute;\n    margin-left: -9px;\n    margin-top: 23px;\n    z-index: 10; }\n  .dg .c:hover .selector,\n  .dg .selector.drag {\n    display: block; }\n  .dg li.save-row {\n    padding: 0; }\n    .dg li.save-row .button {\n      display: inline-block;\n      padding: 0px 6px; }\n  .dg.dialogue {\n    background-color: #222;\n    width: 460px;\n    padding: 15px;\n    font-size: 13px;\n    line-height: 15px; }\n\n/* TODO Separate style and structure */\n#dg-new-constructor {\n  padding: 10px;\n  color: #222;\n  font-family: Monaco, monospace;\n  font-size: 10px;\n  border: 0;\n  resize: none;\n  box-shadow: inset 1px 1px 1px #888;\n  word-wrap: break-word;\n  margin: 12px 0;\n  display: block;\n  width: 440px;\n  overflow-y: scroll;\n  height: 100px;\n  position: relative; }\n\n#dg-local-explain {\n  display: none;\n  font-size: 11px;\n  line-height: 17px;\n  border-radius: 3px;\n  background-color: #333;\n  padding: 8px;\n  margin-top: 10px; }\n  #dg-local-explain code {\n    font-size: 10px; }\n\n#dat-gui-save-locally {\n  display: none; }\n\n/** Main type */\n.dg {\n  color: #eee;\n  font: 11px 'Lucida Grande', sans-serif;\n  text-shadow: 0 -1px 0 #111;\n  /** Auto place */\n  /* Controller row, <li> */\n  /** Controllers */ }\n  .dg.main {\n    /** Scrollbar */ }\n    .dg.main::-webkit-scrollbar {\n      width: 5px;\n      background: #1a1a1a; }\n    .dg.main::-webkit-scrollbar-corner {\n      height: 0;\n      display: none; }\n    .dg.main::-webkit-scrollbar-thumb {\n      border-radius: 5px;\n      background: #676767; }\n  .dg li:not(.folder) {\n    background: #1a1a1a;\n    border-bottom: 1px solid #2c2c2c; }\n  .dg li.save-row {\n    line-height: 25px;\n    background: #dad5cb;\n    border: 0; }\n    .dg li.save-row select {\n      margin-left: 5px;\n      width: 108px; }\n    .dg li.save-row .button {\n      margin-left: 5px;\n      margin-top: 1px;\n      border-radius: 2px;\n      font-size: 9px;\n      line-height: 7px;\n      padding: 4px 4px 5px 4px;\n      background: #c5bdad;\n      color: #fff;\n      text-shadow: 0 1px 0 #b0a58f;\n      box-shadow: 0 -1px 0 #b0a58f;\n      cursor: pointer; }\n      .dg li.save-row .button.gears {\n        background: #c5bdad url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAANCAYAAAB/9ZQ7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQJJREFUeNpiYKAU/P//PwGIC/ApCABiBSAW+I8AClAcgKxQ4T9hoMAEUrxx2QSGN6+egDX+/vWT4e7N82AMYoPAx/evwWoYoSYbACX2s7KxCxzcsezDh3evFoDEBYTEEqycggWAzA9AuUSQQgeYPa9fPv6/YWm/Acx5IPb7ty/fw+QZblw67vDs8R0YHyQhgObx+yAJkBqmG5dPPDh1aPOGR/eugW0G4vlIoTIfyFcA+QekhhHJhPdQxbiAIguMBTQZrPD7108M6roWYDFQiIAAv6Aow/1bFwXgis+f2LUAynwoIaNcz8XNx3Dl7MEJUDGQpx9gtQ8YCueB+D26OECAAQDadt7e46D42QAAAABJRU5ErkJggg==) 2px 1px no-repeat;\n        height: 7px;\n        width: 8px; }\n      .dg li.save-row .button:hover {\n        background-color: #bab19e;\n        box-shadow: 0 -1px 0 #b0a58f; }\n  .dg li.folder {\n    border-bottom: 0; }\n  .dg li.title {\n    padding-left: 16px;\n    background: black url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlI+hKgFxoCgAOw==) 6px 10px no-repeat;\n    cursor: pointer;\n    border-bottom: 1px solid rgba(255, 255, 255, 0.2); }\n  .dg .closed li.title {\n    background-image: url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlGIWqMCbWAEAOw==); }\n  .dg .cr.boolean {\n    border-left: 3px solid #806787; }\n  .dg .cr.function {\n    border-left: 3px solid #e61d5f; }\n  .dg .cr.number {\n    border-left: 3px solid #2fa1d6; }\n    .dg .cr.number input[type=text] {\n      color: #2fa1d6; }\n  .dg .cr.string {\n    border-left: 3px solid #1ed36f; }\n    .dg .cr.string input[type=text] {\n      color: #1ed36f; }\n  .dg .cr.function:hover, .dg .cr.boolean:hover {\n    background: #111; }\n  .dg .c input[type=text] {\n    background: #303030;\n    outline: none; }\n    .dg .c input[type=text]:hover {\n      background: #3c3c3c; }\n    .dg .c input[type=text]:focus {\n      background: #494949;\n      color: #fff; }\n  .dg .c .slider {\n    background: #303030;\n    cursor: ew-resize; }\n  .dg .c .slider-fg {\n    background: #2fa1d6; }\n  .dg .c .slider:hover {\n    background: #3c3c3c; }\n    .dg .c .slider:hover .slider-fg {\n      background: #44abda; }\n",
 dat.controllers.factory = (function (OptionController, NumberControllerBox, NumberControllerSlider, StringController, FunctionController, BooleanController, common) {
@@ -2900,7 +2911,7 @@ dat.controllers.factory = (function (OptionController, NumberControllerBox, Numb
     })(dat.controllers.OptionController,
 dat.controllers.NumberControllerBox,
 dat.controllers.NumberControllerSlider,
-dat.controllers.StringController = (function (Controller, dom, common) {
+dat.controllers.StringController = (function (settings, Controller, dom, common) {
 
   /**
    * @class Provides a text input to alter the string property of an object.
@@ -2918,7 +2929,7 @@ dat.controllers.StringController = (function (Controller, dom, common) {
 
     var _this = this;
 
-    this.__input = document.createElement('input');
+    this.__input = settings.DOCUMENT.createElement('input');
     this.__input.setAttribute('type', 'text');
 
     dom.bind(this.__input, 'keyup', onChange);
@@ -2929,7 +2940,7 @@ dat.controllers.StringController = (function (Controller, dom, common) {
         this.blur();
       }
     });
-    
+
 
     function onChange() {
       _this.setValue(_this.__input.value);
@@ -2971,7 +2982,8 @@ dat.controllers.StringController = (function (Controller, dom, common) {
 
   return StringController;
 
-})(dat.controllers.Controller,
+})(dat.gui.settings,
+dat.controllers.Controller,
 dat.dom.dom,
 dat.utils.common),
 dat.controllers.FunctionController,
@@ -2983,7 +2995,7 @@ dat.controllers.FunctionController,
 dat.controllers.NumberControllerBox,
 dat.controllers.NumberControllerSlider,
 dat.controllers.OptionController,
-dat.controllers.ColorController = (function (Controller, dom, Color, interpret, common) {
+dat.controllers.ColorController = (function (settings, Controller, dom, Color, interpret, common) {
 
   var ColorController = function(object, property) {
 
@@ -2994,27 +3006,27 @@ dat.controllers.ColorController = (function (Controller, dom, Color, interpret, 
 
     var _this = this;
 
-    this.domElement = document.createElement('div');
+    this.domElement = settings.DOCUMENT.createElement('div');
 
     dom.makeSelectable(this.domElement, false);
 
-    this.__selector = document.createElement('div');
+    this.__selector = settings.DOCUMENT.createElement('div');
     this.__selector.className = 'selector';
 
-    this.__saturation_field = document.createElement('div');
+    this.__saturation_field = settings.DOCUMENT.createElement('div');
     this.__saturation_field.className = 'saturation-field';
 
-    this.__field_knob = document.createElement('div');
+    this.__field_knob = settings.DOCUMENT.createElement('div');
     this.__field_knob.className = 'field-knob';
     this.__field_knob_border = '2px solid ';
 
-    this.__hue_knob = document.createElement('div');
+    this.__hue_knob = settings.DOCUMENT.createElement('div');
     this.__hue_knob.className = 'hue-knob';
 
-    this.__hue_field = document.createElement('div');
+    this.__hue_field = settings.DOCUMENT.createElement('div');
     this.__hue_field.className = 'hue-field';
 
-    this.__input = document.createElement('input');
+    this.__input = settings.DOCUMENT.createElement('input');
     this.__input.type = 'text';
     this.__input_textShadow = '0 1px 1px ';
 
@@ -3030,13 +3042,13 @@ dat.controllers.ColorController = (function (Controller, dom, Color, interpret, 
 
       dom
         .addClass(this, 'drag')
-        .bind(window, 'mouseup', function(e) {
+        .bind(settings.WINDOW, 'mouseup', function(e) {
           dom.removeClass(_this.__selector, 'drag');
         });
 
     });
 
-    var value_field = document.createElement('div');
+    var value_field = settings.DOCUMENT.createElement('div');
 
     common.extend(this.__selector.style, {
       width: '122px',
@@ -3055,7 +3067,7 @@ dat.controllers.ColorController = (function (Controller, dom, Color, interpret, 
       borderRadius: '12px',
       zIndex: 1
     });
-    
+
     common.extend(this.__hue_knob.style, {
       position: 'absolute',
       width: '15px',
@@ -3078,7 +3090,7 @@ dat.controllers.ColorController = (function (Controller, dom, Color, interpret, 
       height: '100%',
       background: 'none'
     });
-    
+
     linearGradient(value_field, 'top', 'rgba(0,0,0,0)', '#000');
 
     common.extend(this.__hue_field.style, {
@@ -3108,21 +3120,21 @@ dat.controllers.ColorController = (function (Controller, dom, Color, interpret, 
 
     dom.bind(this.__hue_field, 'mousedown', function(e) {
       setH(e);
-      dom.bind(window, 'mousemove', setH);
-      dom.bind(window, 'mouseup', unbindH);
+      dom.bind(settings.WINDOW, 'mousemove', setH);
+      dom.bind(settings.WINDOW, 'mouseup', unbindH);
     });
 
     function fieldDown(e) {
       setSV(e);
-      // document.body.style.cursor = 'none';
-      dom.bind(window, 'mousemove', setSV);
-      dom.bind(window, 'mouseup', unbindSV);
+      // settings.DOCUMENT.body.style.cursor = 'none';
+      dom.bind(settings.WINDOW, 'mousemove', setSV);
+      dom.bind(settings.WINDOW, 'mouseup', unbindSV);
     }
 
     function unbindSV() {
-      dom.unbind(window, 'mousemove', setSV);
-      dom.unbind(window, 'mouseup', unbindSV);
-      // document.body.style.cursor = 'default';
+      dom.unbind(settings.WINDOW, 'mousemove', setSV);
+      dom.unbind(settings.WINDOW, 'mouseup', unbindSV);
+      // settings.DOCUMENT.body.style.cursor = 'default';
     }
 
     function onBlur() {
@@ -3136,8 +3148,8 @@ dat.controllers.ColorController = (function (Controller, dom, Color, interpret, 
     }
 
     function unbindH() {
-      dom.unbind(window, 'mousemove', setH);
-      dom.unbind(window, 'mouseup', unbindH);
+      dom.unbind(settings.WINDOW, 'mousemove', setH);
+      dom.unbind(settings.WINDOW, 'mouseup', unbindH);
     }
 
     this.__saturation_field.appendChild(value_field);
@@ -3157,8 +3169,8 @@ dat.controllers.ColorController = (function (Controller, dom, Color, interpret, 
 
       var w = dom.getWidth(_this.__saturation_field);
       var o = dom.getOffset(_this.__saturation_field);
-      var s = (e.clientX - o.left + document.body.scrollLeft) / w;
-      var v = 1 - (e.clientY - o.top + document.body.scrollTop) / w;
+      var s = (e.clientX - o.left + settings.DOCUMENT.body.scrollLeft) / w;
+      var v = 1 - (e.clientY - o.top + settings.DOCUMENT.body.scrollTop) / w;
 
       if (v > 1) v = 1;
       else if (v < 0) v = 0;
@@ -3182,7 +3194,7 @@ dat.controllers.ColorController = (function (Controller, dom, Color, interpret, 
 
       var s = dom.getHeight(_this.__hue_field);
       var o = dom.getOffset(_this.__hue_field);
-      var h = 1 - (e.clientY - o.top + document.body.scrollTop) / s;
+      var h = 1 - (e.clientY - o.top + settings.DOCUMENT.body.scrollTop) / s;
 
       if (h > 1) h = 1;
       else if (h < 0) h = 0;
@@ -3265,16 +3277,16 @@ dat.controllers.ColorController = (function (Controller, dom, Color, interpret, 
       }
 
   );
-  
+
   var vendors = ['-moz-','-o-','-webkit-','-ms-',''];
-  
+
   function linearGradient(elem, x, a, b) {
     elem.style.background = '';
     common.each(vendors, function(vendor) {
       elem.style.cssText += 'background: ' + vendor + 'linear-gradient('+x+', '+a+' 0%, ' + b + ' 100%); ';
     });
   }
-  
+
   function hueGradient(elem) {
     elem.style.background = '';
     elem.style.cssText += 'background: -moz-linear-gradient(top,  #ff0000 0%, #ff00ff 17%, #0000ff 34%, #00ffff 50%, #00ff00 67%, #ffff00 84%, #ff0000 100%);'
@@ -3287,7 +3299,8 @@ dat.controllers.ColorController = (function (Controller, dom, Color, interpret, 
 
   return ColorController;
 
-})(dat.controllers.Controller,
+})(dat.gui.settings,
+dat.controllers.Controller,
 dat.dom.dom,
 dat.color.Color = (function (interpret, math, toString, common) {
 
@@ -3567,12 +3580,12 @@ dat.utils.requestAnimationFrame = (function () {
 
       };
 })(),
-dat.dom.CenteredDiv = (function (dom, common) {
+dat.dom.CenteredDiv = (function (settings, dom, common) {
 
 
   var CenteredDiv = function() {
 
-    this.backgroundElement = document.createElement('div');
+    this.backgroundElement = settings.DOCUMENT.createElement('div');
     common.extend(this.backgroundElement.style, {
       backgroundColor: 'rgba(0,0,0,0.8)',
       top: 0,
@@ -3587,7 +3600,7 @@ dat.dom.CenteredDiv = (function (dom, common) {
     dom.makeFullscreen(this.backgroundElement);
     this.backgroundElement.style.position = 'fixed';
 
-    this.domElement = document.createElement('div');
+    this.domElement = settings.DOCUMENT.createElement('div');
     common.extend(this.domElement.style, {
       position: 'fixed',
       display: 'none',
@@ -3598,8 +3611,8 @@ dat.dom.CenteredDiv = (function (dom, common) {
     });
 
 
-    document.body.appendChild(this.backgroundElement);
-    document.body.appendChild(this.domElement);
+    settings.DOCUMENT.body.appendChild(this.backgroundElement);
+    settings.DOCUMENT.body.appendChild(this.domElement);
 
     var _this = this;
     dom.bind(this.backgroundElement, 'click', function() {
@@ -3657,17 +3670,18 @@ dat.dom.CenteredDiv = (function (dom, common) {
   };
 
   CenteredDiv.prototype.layout = function() {
-    this.domElement.style.left = window.innerWidth/2 - dom.getWidth(this.domElement) / 2 + 'px';
-    this.domElement.style.top = window.innerHeight/2 - dom.getHeight(this.domElement) / 2 + 'px';
+    this.domElement.style.left = settings.WINDOW.innerWidth/2 - dom.getWidth(this.domElement) / 2 + 'px';
+    this.domElement.style.top = settings.WINDOW.innerHeight/2 - dom.getHeight(this.domElement) / 2 + 'px';
   };
-  
+
   function lockScroll(e) {
     console.log(e);
   }
 
   return CenteredDiv;
 
-})(dat.dom.dom,
+})(dat.gui.settings,
+dat.dom.dom,
 dat.utils.common),
 dat.dom.dom,
 dat.utils.common);

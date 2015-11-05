@@ -12,8 +12,9 @@
  */
 
 define([
+   'dat/gui/settings',
    'dat/utils/common'
-], function(common) {
+], function(settings, common) {
 
   /**
    * @class An "abstract" class that represents a given property of an object.
@@ -31,7 +32,7 @@ define([
      * Those who extend this class will put their DOM elements in here.
      * @type {DOMElement}
      */
-    this.domElement = document.createElement('div');
+    this.domElement = settings.DOCUMENT.createElement('div');
 
     /**
      * The object to manipulate

@@ -12,10 +12,11 @@
  */
 
 define([
+    'dat/gui/settings',
     'dat/controllers/Controller',
     'dat/dom/dom',
     'dat/utils/common'
-], function(Controller, dom, common) {
+], function(settings, Controller, dom, common) {
 
   /**
    * @class Provides a GUI interface to fire a specified method, a property of an object.
@@ -33,7 +34,7 @@ define([
 
     var _this = this;
 
-    this.__button = document.createElement('div');
+    this.__button = settings.DOCUMENT.createElement('div');
     this.__button.innerHTML = text === undefined ? 'Fire' : text;
     dom.bind(this.__button, 'click', function(e) {
       e.preventDefault();
@@ -55,7 +56,7 @@ define([
       FunctionController.prototype,
       Controller.prototype,
       {
-        
+
         fire: function() {
           if (this.__onChange) {
             this.__onChange.call(this);
