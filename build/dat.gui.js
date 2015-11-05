@@ -29,7 +29,12 @@ dat.dom = dat.dom || {};
 /** @namespace */
 dat.color = dat.color || {};
 
-dat.gui.settings = (undefined)();
+dat.gui.settings = (function () {
+  return {
+    WINDOW: window,
+    DOCUMENT: document
+  }
+})();
 
 
 dat.utils.css = (function (settings) {

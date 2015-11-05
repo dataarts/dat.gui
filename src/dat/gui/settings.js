@@ -1,4 +1,5 @@
-define(function(){
+define([
+], function() {
   return {
     WINDOW: window,
     DOCUMENT: document
