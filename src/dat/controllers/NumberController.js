@@ -124,6 +124,11 @@ define([
           this.__step = v;
           this.__impliedStep = v;
           this.__precision = numDecimals(v);
+          if (this.__valueControllerBox !== undefined) {
+            this.__valueControllerBox.__step = this.__step;
+            this.__valueControllerBox.__impliedStep = this.__impliedStep;
+            this.__valueControllerBox.__precision = this.__precision;
+          }
           return this;
         }
 

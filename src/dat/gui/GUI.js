@@ -927,6 +927,8 @@ define([
       var box = new NumberControllerBox(controller.object, controller.property,
           { min: controller.__min, max: controller.__max, step: controller.__step });
 
+      controller.__valueControllerBox = box;
+      
       common.each(['updateDisplay', 'onChange', 'onFinishChange'], function(method) {
         var pc = controller[method];
         var pb = box[method];
