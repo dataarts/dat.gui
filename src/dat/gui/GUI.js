@@ -321,9 +321,9 @@ define([
               if (SUPPORTS_LOCAL_STORAGE) {
                 use_local_storage = bool;
                 if (bool) {
-                  dom.bind(GUI.WINDOW, 'unload', saveToLocalStorage);
+                  dom.bind(settings.WINDOW, 'unload', saveToLocalStorage);
                 } else {
-                  dom.unbind(GUI.WINDOW, 'unload', saveToLocalStorage);
+                  dom.unbind(settings.WINDOW, 'unload', saveToLocalStorage);
                 }
                 localStorage.setItem(getLocalStorageHash(_this, 'isLocal'), bool);
               }
@@ -426,7 +426,7 @@ define([
 
     }
 
-    dom.bind(GUI.WINDOW, 'resize', function() { _this.onResize() });
+    dom.bind(settings.WINDOW, 'resize', function() { _this.onResize() });
     dom.bind(this.__ul, 'webkitTransitionEnd', function() { _this.onResize(); });
     dom.bind(this.__ul, 'transitionend', function() { _this.onResize() });
     dom.bind(this.__ul, 'oTransitionEnd', function() { _this.onResize() });
@@ -483,7 +483,7 @@ define([
   GUI.TEXT_CLOSED = 'Close Controls';
   GUI.TEXT_OPEN = 'Open Controls';
 
-  dom.bind(GUI.WINDOW, 'keydown', function(e) {
+  dom.bind(settings.WINDOW, 'keydown', function(e) {
 
     if (settings.DOCUMENT.activeElement.type !== 'text' &&
         (e.which === HIDE_KEY_CODE || e.keyCode == HIDE_KEY_CODE)) {

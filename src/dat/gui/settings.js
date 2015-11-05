@@ -1,7 +1,7 @@
 define([
 ], function() {
   return {
-    WINDOW: window,
-    DOCUMENT: document
+    WINDOW: window.GUI_WINDOW || window,
+    DOCUMENT: document.GUI_DOCUMENT || document
   }
 });

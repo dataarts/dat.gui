@@ -31,8 +31,8 @@ dat.color = dat.color || {};
 
 dat.gui.settings = (function () {
   return {
-    WINDOW: window,
-    DOCUMENT: document
+    WINDOW: window.GUI_WINDOW || window,
+    DOCUMENT: document.GUI_DOCUMENT || document
   }
 })();
 
@@ -1830,9 +1830,9 @@ dat.GUI = dat.gui.GUI = (function (settings, css, saveDialogueContents, styleShe
               if (SUPPORTS_LOCAL_STORAGE) {
                 use_local_storage = bool;
                 if (bool) {
-                  dom.bind(GUI.WINDOW, 'unload', saveToLocalStorage);
+                  dom.bind(settings.WINDOW, 'unload', saveToLocalStorage);
                 } else {
-                  dom.unbind(GUI.WINDOW, 'unload', saveToLocalStorage);
+                  dom.unbind(settings.WINDOW, 'unload', saveToLocalStorage);
                 }
                 localStorage.setItem(getLocalStorageHash(_this, 'isLocal'), bool);
               }
@@ -1935,7 +1935,7 @@ dat.GUI = dat.gui.GUI = (function (settings, css, saveDialogueContents, styleShe
 
     }
 
-    dom.bind(GUI.WINDOW, 'resize', function() { _this.onResize() });
+    dom.bind(settings.WINDOW, 'resize', function() { _this.onResize() });
     dom.bind(this.__ul, 'webkitTransitionEnd', function() { _this.onResize(); });
     dom.bind(this.__ul, 'transitionend', function() { _this.onResize() });
     dom.bind(this.__ul, 'oTransitionEnd', function() { _this.onResize() });
@@ -1992,7 +1992,7 @@ dat.GUI = dat.gui.GUI = (function (settings, css, saveDialogueContents, styleShe
   GUI.TEXT_CLOSED = 'Close Controls';
   GUI.TEXT_OPEN = 'Open Controls';
 
-  dom.bind(GUI.WINDOW, 'keydown', function(e) {
+  dom.bind(settings.WINDOW, 'keydown', function(e) {
 
     if (settings.DOCUMENT.activeElement.type !== 'text' &&
         (e.which === HIDE_KEY_CODE || e.keyCode == HIDE_KEY_CODE)) {
