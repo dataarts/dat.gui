@@ -425,10 +425,14 @@ define([
 
     }
 
-    dom.bind(window, 'resize', function() { _this.onResize() });
-    dom.bind(this.__ul, 'webkitTransitionEnd', function() { _this.onResize(); });
-    dom.bind(this.__ul, 'transitionend', function() { _this.onResize() });
-    dom.bind(this.__ul, 'oTransitionEnd', function() { _this.onResize() });
+    var _resizeHandler = function () {
+      _this.onResize();
+    };
+
+    dom.bind(window, 'resize', _resizeHandler);
+    dom.bind(this.__ul, 'webkitTransitionEnd', _resizeHandler);
+    dom.bind(this.__ul, 'transitionend', _resizeHandler);
+    dom.bind(this.__ul, 'oTransitionEnd', _resizeHandler);
     this.onResize();
 
 
@@ -482,14 +486,14 @@ define([
   GUI.TEXT_CLOSED = 'Close Controls';
   GUI.TEXT_OPEN = 'Open Controls';
 
-  dom.bind(window, 'keydown', function(e) {
-
+  var _keydownHandler = function(e) {
     if (document.activeElement.type !== 'text' &&
         (e.which === HIDE_KEY_CODE || e.keyCode == HIDE_KEY_CODE)) {
       GUI.toggleHide();
     }
+  };
 
-  }, false);
+  dom.bind(window, 'keydown', _keydownHandler, false);
 
   common.extend(
 
@@ -557,6 +561,10 @@ define([
           if (this.autoPlace) {
             auto_place_container.removeChild(this.domElement);
           }
+
+          dom.unbind(window, 'keydown', _keydownHandler, false);
+          dom.unbind(window, 'unload', saveToLocalStorage);
+          dom.unbind(window, 'resize', _resizeHandler);
 
         },
 
