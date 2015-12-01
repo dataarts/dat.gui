@@ -2058,8 +2058,11 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
           }
 
           dom.unbind(window, 'keydown', _keydownHandler, false);
-          dom.unbind(window, 'unload', saveToLocalStorage);
           dom.unbind(window, 'resize', _resizeHandler);
+
+          if (saveToLocalStorage) {
+            dom.unbind(window, 'unload', saveToLocalStorage);
+          }
 
         },
 
