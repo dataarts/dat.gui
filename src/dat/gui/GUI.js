@@ -425,14 +425,14 @@ define([
 
     }
 
-    var _resizeHandler = function () {
+    this._resizeHandler = function () {
       _this.onResize();
     };
 
-    dom.bind(window, 'resize', _resizeHandler);
-    dom.bind(this.__ul, 'webkitTransitionEnd', _resizeHandler);
-    dom.bind(this.__ul, 'transitionend', _resizeHandler);
-    dom.bind(this.__ul, 'oTransitionEnd', _resizeHandler);
+    dom.bind(window, 'resize', this._resizeHandler);
+    dom.bind(this.__ul, 'webkitTransitionEnd', this._resizeHandler);
+    dom.bind(this.__ul, 'transitionend', this._resizeHandler);
+    dom.bind(this.__ul, 'oTransitionEnd', this._resizeHandler);
     this.onResize();
 
 
@@ -486,14 +486,14 @@ define([
   GUI.TEXT_CLOSED = 'Close Controls';
   GUI.TEXT_OPEN = 'Open Controls';
 
-  var _keydownHandler = function(e) {
+  this._keydownHandler = function(e) {
     if (document.activeElement.type !== 'text' &&
         (e.which === HIDE_KEY_CODE || e.keyCode == HIDE_KEY_CODE)) {
       GUI.toggleHide();
     }
   };
 
-  dom.bind(window, 'keydown', _keydownHandler, false);
+  dom.bind(window, 'keydown', this._keydownHandler, false);
 
   common.extend(
 
@@ -562,11 +562,11 @@ define([
             auto_place_container.removeChild(this.domElement);
           }
 
-          dom.unbind(window, 'keydown', _keydownHandler, false);
-          dom.unbind(window, 'resize', _resizeHandler);
+          dom.unbind(window, 'keydown', this._keydownHandler, false);
+          dom.unbind(window, 'resize', this._resizeHandler);
 
-          if (saveToLocalStorage) {
-            dom.unbind(window, 'unload', saveToLocalStorage);
+          if (this.saveToLocalStorageIfPossible) {
+            dom.unbind(window, 'unload', this.saveToLocalStorageIfPossible);
           }
 
         },
