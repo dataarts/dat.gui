@@ -51,7 +51,7 @@ dat.utils.css = (function () {
 
 
 dat.utils.common = (function () {
-  
+
   var ARR_EACH = Array.prototype.forEach;
   var ARR_SLICE = Array.prototype.slice;
 
@@ -61,38 +61,38 @@ dat.utils.common = (function () {
    * http://documentcloud.github.com/underscore/
    */
 
-  return { 
-    
+  return {
+
     BREAK: {},
-  
+
     extend: function(target) {
-      
+
       this.each(ARR_SLICE.call(arguments, 1), function(obj) {
-        
+
         for (var key in obj)
-          if (!this.isUndefined(obj[key])) 
+          if (!this.isUndefined(obj[key]))
             target[key] = obj[key];
-        
+
       }, this);
-      
+
       return target;
-      
+
     },
-    
+
     defaults: function(target) {
-      
+
       this.each(ARR_SLICE.call(arguments, 1), function(obj) {
-        
+
         for (var key in obj)
-          if (this.isUndefined(target[key])) 
+          if (this.isUndefined(target[key]))
             target[key] = obj[key];
-        
+
       }, this);
-      
+
       return target;
-    
+
     },
-    
+
     compose: function() {
       var toCall = ARR_SLICE.call(arguments);
             return function() {
@@ -103,35 +103,35 @@ dat.utils.common = (function () {
               return args[0];
             }
     },
-    
+
     each: function(obj, itr, scope) {
 
       if (!obj) return;
 
-      if (ARR_EACH && obj.forEach && obj.forEach === ARR_EACH) { 
-        
+      if (ARR_EACH && obj.forEach && obj.forEach === ARR_EACH) {
+
         obj.forEach(itr, scope);
-        
+
       } else if (obj.length === obj.length + 0) { // Is number but not NaN
-        
+
         for (var key = 0, l = obj.length; key < l; key++)
-          if (key in obj && itr.call(scope, obj[key], key) === this.BREAK) 
+          if (key in obj && itr.call(scope, obj[key], key) === this.BREAK)
             return;
-            
+
       } else {
 
-        for (var key in obj) 
+        for (var key in obj)
           if (itr.call(scope, obj[key], key) === this.BREAK)
             return;
-            
+
       }
-            
+
     },
-    
+
     defer: function(fnc) {
       setTimeout(fnc, 0);
     },
-    
+
     toArray: function(obj) {
       if (obj.toArray) return obj.toArray();
       return ARR_SLICE.call(obj);
@@ -140,41 +140,41 @@ dat.utils.common = (function () {
     isUndefined: function(obj) {
       return obj === undefined;
     },
-    
+
     isNull: function(obj) {
       return obj === null;
     },
-    
+
     isNaN: function(obj) {
       return obj !== obj;
     },
-    
+
     isArray: Array.isArray || function(obj) {
       return obj.constructor === Array;
     },
-    
+
     isObject: function(obj) {
       return obj === Object(obj);
     },
-    
+
     isNumber: function(obj) {
       return obj === obj+0;
     },
-    
+
     isString: function(obj) {
       return obj === obj+'';
     },
-    
+
     isBoolean: function(obj) {
       return obj === false || obj === true;
     },
-    
+
     isFunction: function(obj) {
       return Object.prototype.toString.call(obj) === '[object Function]';
     }
-  
+
   };
-    
+
 })();
 
 
@@ -349,7 +349,7 @@ dat.dom.dom = (function (common) {
   var dom = {
 
     /**
-     * 
+     *
      * @param elem
      * @param selectable
      */
@@ -569,7 +569,7 @@ dat.dom.dom = (function (common) {
 
     // http://stackoverflow.com/posts/2684561/revisions
     /**
-     * 
+     *
      * @param elem
      */
     isActive: function(elem) {
@@ -935,7 +935,7 @@ dat.controllers.NumberControllerSlider = (function (NumberController, dom, css, 
    *
    * @extends dat.controllers.Controller
    * @extends dat.controllers.NumberController
-   * 
+   *
    * @param {Object} object The object to be manipulated
    * @param {string} property The name of the property to be manipulated
    * @param {Number} minValue Minimum allowed value
@@ -952,11 +952,11 @@ dat.controllers.NumberControllerSlider = (function (NumberController, dom, css, 
 
     this.__background = document.createElement('div');
     this.__foreground = document.createElement('div');
-    
+
 
 
     dom.bind(this.__background, 'mousedown', onMouseDown);
-    
+
     dom.addClass(this.__background, 'slider');
     dom.addClass(this.__foreground, 'slider-fg');
 
@@ -974,7 +974,7 @@ dat.controllers.NumberControllerSlider = (function (NumberController, dom, css, 
 
       var offset = dom.getOffset(_this.__background);
       var width = dom.getWidth(_this.__background);
-      
+
       _this.setValue(
       	map(e.clientX, offset.left, offset.left + width, _this.__min, _this.__max)
       );
@@ -1031,7 +1031,7 @@ dat.controllers.NumberControllerSlider = (function (NumberController, dom, css, 
 	}
 
   return NumberControllerSlider;
-  
+
 })(dat.controllers.NumberController,
 dat.dom.dom,
 dat.utils.css,
@@ -1079,7 +1079,7 @@ dat.controllers.FunctionController = (function (Controller, dom, common) {
       FunctionController.prototype,
       Controller.prototype,
       {
-        
+
         fire: function() {
           if (this.__onChange) {
             this.__onChange.call(this);
@@ -1154,10 +1154,10 @@ dat.controllers.BooleanController = (function (Controller, dom, common) {
         },
 
         updateDisplay: function() {
-          
+
           if (this.getValue() === true) {
             this.__checkbox.setAttribute('checked', 'checked');
-            this.__checkbox.checked = true;    
+            this.__checkbox.checked = true;
           } else {
               this.__checkbox.checked = false;
           }
@@ -2929,7 +2929,7 @@ dat.controllers.StringController = (function (Controller, dom, common) {
         this.blur();
       }
     });
-    
+
 
     function onChange() {
       _this.setValue(_this.__input.value);
@@ -3055,7 +3055,7 @@ dat.controllers.ColorController = (function (Controller, dom, Color, interpret, 
       borderRadius: '12px',
       zIndex: 1
     });
-    
+
     common.extend(this.__hue_knob.style, {
       position: 'absolute',
       width: '15px',
@@ -3078,12 +3078,13 @@ dat.controllers.ColorController = (function (Controller, dom, Color, interpret, 
       height: '100%',
       background: 'none'
     });
-    
+
     linearGradient(value_field, 'top', 'rgba(0,0,0,0)', '#000');
 
     common.extend(this.__hue_field.style, {
       width: '15px',
       height: '100px',
+      position: 'absolute',
       display: 'inline-block',
       border: '1px solid #555',
       cursor: 'ns-resize'
@@ -3265,16 +3266,16 @@ dat.controllers.ColorController = (function (Controller, dom, Color, interpret, 
       }
 
   );
-  
+
   var vendors = ['-moz-','-o-','-webkit-','-ms-',''];
-  
+
   function linearGradient(elem, x, a, b) {
     elem.style.background = '';
     common.each(vendors, function(vendor) {
       elem.style.cssText += 'background: ' + vendor + 'linear-gradient('+x+', '+a+' 0%, ' + b + ' 100%); ';
     });
   }
-  
+
   function hueGradient(elem) {
     elem.style.background = '';
     elem.style.cssText += 'background: -moz-linear-gradient(top,  #ff0000 0%, #ff00ff 17%, #0000ff 34%, #00ffff 50%, #00ff00 67%, #ffff00 84%, #ff0000 100%);'
@@ -3660,7 +3661,7 @@ dat.dom.CenteredDiv = (function (dom, common) {
     this.domElement.style.left = window.innerWidth/2 - dom.getWidth(this.domElement) / 2 + 'px';
     this.domElement.style.top = window.innerHeight/2 - dom.getHeight(this.domElement) / 2 + 'px';
   };
-  
+
   function lockScroll(e) {
     console.log(e);
   }
