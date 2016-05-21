@@ -790,6 +790,15 @@ define([
           this.__listening.push(controller);
           if (init) updateDisplays(this.__listening);
 
+        },
+        
+        updateDisplay: function() {
+          for (var c in this.__controllers) {
+            this.__controllers[c].updateDisplay();
+          }
+          for (var f in this.__folders) {
+            this.__folders[f].updateDisplay();
+          }
         }
 
       }
