@@ -15,7 +15,7 @@ define([
   'dat/controllers/NumberController',
   'dat/dom/dom',
   'dat/utils/common'
-], function(NumberController, dom, common) {
+], function (NumberController, dom, common) {
 
   /**
    * @class Represents a given property of an object that is a number and
@@ -33,7 +33,7 @@ define([
    *
    * @member dat.controllers
    */
-  var NumberControllerBox = function(object, property, params) {
+  var NumberControllerBox = function (object, property, params) {
 
     this.__truncationSuspended = false;
 
@@ -55,7 +55,7 @@ define([
     dom.bind(this.__input, 'change', onChange);
     dom.bind(this.__input, 'blur', onBlur);
     dom.bind(this.__input, 'mousedown', onMouseDown);
-    dom.bind(this.__input, 'keydown', function(e) {
+    dom.bind(this.__input, 'keydown', function (e) {
 
       // When pressing entire, you can be as precise as you want.
       if (e.keyCode === 13) {
@@ -108,21 +108,21 @@ define([
 
   common.extend(
 
-      NumberControllerBox.prototype,
-      NumberController.prototype,
+    NumberControllerBox.prototype,
+    NumberController.prototype,
 
-      {
+    {
 
-        updateDisplay: function() {
-          // Use the same solution from StringController.js to enable
-          // editing <input>s while "listen()"ing
-          if (!dom.isActive(this.__input)) {
-            this.__input.value = this.__truncationSuspended ? this.getValue() : roundToDecimal(this.getValue(), this.__precision);
-          }
-          return NumberControllerBox.superclass.prototype.updateDisplay.call(this);
+      updateDisplay: function () {
+        // Use the same solution from StringController.js to enable
+        // editing <input>s while "listen()"ing
+        if (!dom.isActive(this.__input)) {
+          this.__input.value = this.__truncationSuspended ? this.getValue() : roundToDecimal(this.getValue(), this.__precision);
         }
-
+        return NumberControllerBox.superclass.prototype.updateDisplay.call(this);
       }
+
+    }
 
   );
 
@@ -134,4 +134,3 @@ define([
   return NumberControllerBox;
 
 });
-

@@ -12,9 +12,9 @@
  */
 
 define([
-    'dat/controllers/Controller',
-    'dat/utils/common'
-], function(Controller, common) {
+  'dat/controllers/Controller',
+  'dat/utils/common'
+], function (Controller, common) {
 
   /**
    * @class Represents a given property of an object that is a number.
@@ -30,7 +30,7 @@ define([
    *
    * @member dat.controllers
    */
-  var NumberController = function(object, property, params) {
+  var NumberController = function (object, property, params) {
 
     NumberController.superclass.call(this, object, property);
 
@@ -46,17 +46,16 @@ define([
         this.__impliedStep = 1; // What are we, psychics?
       } else {
         // Hey Doug, check this out.
-        this.__impliedStep = Math.pow(10, Math.floor(Math.log(Math.abs(this.initialValue))/Math.LN10))/10;
+        this.__impliedStep = Math.pow(10, Math.floor(Math.log(Math.abs(this.initialValue)) / Math.LN10)) / 10;
       }
 
     } else {
 
-    	this.__impliedStep = this.__step;
+      this.__impliedStep = this.__step;
 
     }
 
     this.__precision = numDecimals(this.__impliedStep);
-
 
   };
 
@@ -64,70 +63,70 @@ define([
 
   common.extend(
 
-      NumberController.prototype,
-      Controller.prototype,
+    NumberController.prototype,
+    Controller.prototype,
 
-      /** @lends dat.controllers.NumberController.prototype */
-      {
+    /** @lends dat.controllers.NumberController.prototype */
+    {
 
-        setValue: function(v) {
+      setValue: function (v) {
 
-          if (this.__min !== undefined && v < this.__min) {
-            v = this.__min;
-          } else if (this.__max !== undefined && v > this.__max) {
-            v = this.__max;
-          }
-
-          if (this.__step !== undefined && v % this.__step != 0) {
-            v = Math.round(v / this.__step) * this.__step;
-          }
-
-          return NumberController.superclass.prototype.setValue.call(this, v);
-
-        },
-
-        /**
-         * Specify a minimum value for <code>object[property]</code>.
-         *
-         * @param {Number} minValue The minimum value for
-         * <code>object[property]</code>
-         * @returns {dat.controllers.NumberController} this
-         */
-        min: function(v) {
-          this.__min = v;
-          return this;
-        },
-
-        /**
-         * Specify a maximum value for <code>object[property]</code>.
-         *
-         * @param {Number} maxValue The maximum value for
-         * <code>object[property]</code>
-         * @returns {dat.controllers.NumberController} this
-         */
-        max: function(v) {
-          this.__max = v;
-          return this;
-        },
-
-        /**
-         * Specify a step value that dat.controllers.NumberController
-         * increments by.
-         *
-         * @param {Number} stepValue The step value for
-         * dat.controllers.NumberController
-         * @default if minimum and maximum specified increment is 1% of the
-         * difference otherwise stepValue is 1
-         * @returns {dat.controllers.NumberController} this
-         */
-        step: function(v) {
-          this.__step = v;
-          this.__impliedStep = v;
-          this.__precision = numDecimals(v);
-          return this;
+        if (this.__min !== undefined && v < this.__min) {
+          v = this.__min;
+        } else if (this.__max !== undefined && v > this.__max) {
+          v = this.__max;
         }
 
+        if (this.__step !== undefined && v % this.__step != 0) {
+          v = Math.round(v / this.__step) * this.__step;
+        }
+
+        return NumberController.superclass.prototype.setValue.call(this, v);
+
+      },
+
+      /**
+       * Specify a minimum value for <code>object[property]</code>.
+       *
+       * @param {Number} minValue The minimum value for
+       * <code>object[property]</code>
+       * @returns {dat.controllers.NumberController} this
+       */
+      min: function (v) {
+        this.__min = v;
+        return this;
+      },
+
+      /**
+       * Specify a maximum value for <code>object[property]</code>.
+       *
+       * @param {Number} maxValue The maximum value for
+       * <code>object[property]</code>
+       * @returns {dat.controllers.NumberController} this
+       */
+      max: function (v) {
+        this.__max = v;
+        return this;
+      },
+
+      /**
+       * Specify a step value that dat.controllers.NumberController
+       * increments by.
+       *
+       * @param {Number} stepValue The step value for
+       * dat.controllers.NumberController
+       * @default if minimum and maximum specified increment is 1% of the
+       * difference otherwise stepValue is 1
+       * @returns {dat.controllers.NumberController} this
+       */
+      step: function (v) {
+        this.__step = v;
+        this.__impliedStep = v;
+        this.__precision = numDecimals(v);
+        return this;
       }
+
+    }
 
   );
 

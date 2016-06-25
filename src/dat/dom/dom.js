@@ -13,17 +13,17 @@
 
 define([
   'dat/utils/common'
-], function(common) {
+], function (common) {
 
   var EVENT_MAP = {
     'HTMLEvents': ['change'],
-    'MouseEvents': ['click','mousemove','mousedown','mouseup', 'mouseover'],
+    'MouseEvents': ['click', 'mousemove', 'mousedown', 'mouseup', 'mouseover'],
     'KeyboardEvents': ['keydown']
   };
 
   var EVENT_MAP_INV = {};
-  common.each(EVENT_MAP, function(v, k) {
-    common.each(v, function(e) {
+  common.each(EVENT_MAP, function (v, k) {
+    common.each(v, function (e) {
       EVENT_MAP_INV[e] = k;
     });
   });
@@ -57,14 +57,13 @@ define([
      * @param elem
      * @param selectable
      */
-    makeSelectable: function(elem, selectable) {
+    makeSelectable: function (elem, selectable) {
 
       if (elem === undefined || elem.style === undefined) return;
 
-      elem.onselectstart = selectable ? function() {
+      elem.onselectstart = selectable ? function () {
         return false;
-      } : function() {
-      };
+      } : function () {};
 
       elem.style.MozUserSelect = selectable ? 'auto' : 'none';
       elem.style.KhtmlUserSelect = selectable ? 'auto' : 'none';
@@ -78,7 +77,7 @@ define([
      * @param horizontal
      * @param vertical
      */
-    makeFullscreen: function(elem, horizontal, vertical) {
+    makeFullscreen: function (elem, horizontal, vertical) {
 
       if (common.isUndefined(horizontal)) horizontal = true;
       if (common.isUndefined(vertical)) vertical = true;
@@ -102,7 +101,7 @@ define([
      * @param eventType
      * @param params
      */
-    fakeEvent: function(elem, eventType, params, aux) {
+    fakeEvent: function (elem, eventType, params, aux) {
       params = params || {};
       var className = EVENT_MAP_INV[eventType];
       if (!className) {
@@ -110,38 +109,38 @@ define([
       }
       var evt = document.createEvent(className);
       switch (className) {
-        case 'MouseEvents':
-          var clientX = params.x || params.clientX || 0;
-          var clientY = params.y || params.clientY || 0;
-          evt.initMouseEvent(eventType, params.bubbles || false,
-              params.cancelable || true, window, params.clickCount || 1,
-              0, //screen X
-              0, //screen Y
-              clientX, //client X
-              clientY, //client Y
-              false, false, false, false, 0, null);
-          break;
-        case 'KeyboardEvents':
-          var init = evt.initKeyboardEvent || evt.initKeyEvent; // webkit || moz
-          common.defaults(params, {
-            cancelable: true,
-            ctrlKey: false,
-            altKey: false,
-            shiftKey: false,
-            metaKey: false,
-            keyCode: undefined,
-            charCode: undefined
-          });
-          init(eventType, params.bubbles || false,
-              params.cancelable, window,
-              params.ctrlKey, params.altKey,
-              params.shiftKey, params.metaKey,
-              params.keyCode, params.charCode);
-          break;
-        default:
-          evt.initEvent(eventType, params.bubbles || false,
-              params.cancelable || true);
-          break;
+      case 'MouseEvents':
+        var clientX = params.x || params.clientX || 0;
+        var clientY = params.y || params.clientY || 0;
+        evt.initMouseEvent(eventType, params.bubbles || false,
+          params.cancelable || true, window, params.clickCount || 1,
+          0, //screen X
+          0, //screen Y
+          clientX, //client X
+          clientY, //client Y
+          false, false, false, false, 0, null);
+        break;
+      case 'KeyboardEvents':
+        var init = evt.initKeyboardEvent || evt.initKeyEvent; // webkit || moz
+        common.defaults(params, {
+          cancelable: true,
+          ctrlKey: false,
+          altKey: false,
+          shiftKey: false,
+          metaKey: false,
+          keyCode: undefined,
+          charCode: undefined
+        });
+        init(eventType, params.bubbles || false,
+          params.cancelable, window,
+          params.ctrlKey, params.altKey,
+          params.shiftKey, params.metaKey,
+          params.keyCode, params.charCode);
+        break;
+      default:
+        evt.initEvent(eventType, params.bubbles || false,
+          params.cancelable || true);
+        break;
       }
       common.defaults(evt, aux);
       elem.dispatchEvent(evt);
@@ -154,7 +153,7 @@ define([
      * @param func
      * @param bool
      */
-    bind: function(elem, event, func, bool) {
+    bind: function (elem, event, func, bool) {
       bool = bool || false;
       if (elem.addEventListener)
         elem.addEventListener(event, func, bool);
@@ -170,7 +169,7 @@ define([
      * @param func
      * @param bool
      */
-    unbind: function(elem, event, func, bool) {
+    unbind: function (elem, event, func, bool) {
       bool = bool || false;
       if (elem.removeEventListener)
         elem.removeEventListener(event, func, bool);
@@ -184,7 +183,7 @@ define([
      * @param elem
      * @param className
      */
-    addClass: function(elem, className) {
+    addClass: function (elem, className) {
       if (elem.className === undefined) {
         elem.className = className;
       } else if (elem.className !== className) {
@@ -202,7 +201,7 @@ define([
      * @param elem
      * @param className
      */
-    removeClass: function(elem, className) {
+    removeClass: function (elem, className) {
       if (className) {
         if (elem.className === undefined) {
           // elem.className = className;
@@ -222,7 +221,7 @@ define([
       return dom;
     },
 
-    hasClass: function(elem, className) {
+    hasClass: function (elem, className) {
       return new RegExp('(?:^|\\s+)' + className + '(?:\\s+|$)').test(elem.className) || false;
     },
 
@@ -230,38 +229,41 @@ define([
      *
      * @param elem
      */
-    getWidth: function(elem) {
+    getWidth: function (elem) {
 
       var style = getComputedStyle(elem);
 
       return cssValueToPixels(style['border-left-width']) +
-          cssValueToPixels(style['border-right-width']) +
-          cssValueToPixels(style['padding-left']) +
-          cssValueToPixels(style['padding-right']) +
-          cssValueToPixels(style['width']);
+        cssValueToPixels(style['border-right-width']) +
+        cssValueToPixels(style['padding-left']) +
+        cssValueToPixels(style['padding-right']) +
+        cssValueToPixels(style['width']);
     },
 
     /**
      *
      * @param elem
      */
-    getHeight: function(elem) {
+    getHeight: function (elem) {
 
       var style = getComputedStyle(elem);
 
       return cssValueToPixels(style['border-top-width']) +
-          cssValueToPixels(style['border-bottom-width']) +
-          cssValueToPixels(style['padding-top']) +
-          cssValueToPixels(style['padding-bottom']) +
-          cssValueToPixels(style['height']);
+        cssValueToPixels(style['border-bottom-width']) +
+        cssValueToPixels(style['padding-top']) +
+        cssValueToPixels(style['padding-bottom']) +
+        cssValueToPixels(style['height']);
     },
 
     /**
      *
      * @param elem
      */
-    getOffset: function(elem) {
-      var offset = {left: 0, top:0};
+    getOffset: function (elem) {
+      var offset = {
+        left: 0,
+        top: 0
+      };
       if (elem.offsetParent) {
         do {
           offset.left += elem.offsetLeft;
@@ -276,8 +278,8 @@ define([
      * 
      * @param elem
      */
-    isActive: function(elem) {
-      return elem === document.activeElement && ( elem.type || elem.href );
+    isActive: function (elem) {
+      return elem === document.activeElement && (elem.type || elem.href);
     }
 
   };

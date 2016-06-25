@@ -13,13 +13,13 @@
 
 define([
 
-], function() {
+], function () {
 
   var tmpComponent;
 
   return {
 
-    hsv_to_rgb: function(h, s, v) {
+    hsv_to_rgb: function (h, s, v) {
 
       var hi = Math.floor(h / 60) % 6;
 
@@ -44,12 +44,12 @@ define([
 
     },
 
-    rgb_to_hsv: function(r, g, b) {
+    rgb_to_hsv: function (r, g, b) {
 
       var min = Math.min(r, g, b),
-          max = Math.max(r, g, b),
-          delta = max - min,
-          h, s;
+        max = Math.max(r, g, b),
+        delta = max - min,
+        h, s;
 
       if (max != 0) {
         s = delta / max;
@@ -80,19 +80,19 @@ define([
       };
     },
 
-    rgb_to_hex: function(r, g, b) {
+    rgb_to_hex: function (r, g, b) {
       var hex = this.hex_with_component(0, 2, r);
       hex = this.hex_with_component(hex, 1, g);
       hex = this.hex_with_component(hex, 0, b);
       return hex;
     },
 
-    component_from_hex: function(hex, componentIndex) {
+    component_from_hex: function (hex, componentIndex) {
       return (hex >> (componentIndex * 8)) & 0xFF;
     },
 
-    hex_with_component: function(hex, componentIndex, value) {
-      return value << (tmpComponent = componentIndex * 8) | (hex & ~ (0xFF << tmpComponent));
+    hex_with_component: function (hex, componentIndex, value) {
+      return value << (tmpComponent = componentIndex * 8) | (hex & ~(0xFF << tmpComponent));
     }
 
   }

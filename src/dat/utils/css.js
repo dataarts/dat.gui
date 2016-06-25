@@ -12,22 +12,22 @@
  */
 
 define([],
-function() {
-  return {
-    load: function (url, doc) {
-      doc = doc || document;
-      var link = doc.createElement('link');
-      link.type = 'text/css';
-      link.rel = 'stylesheet';
-      link.href = url;
-      doc.getElementsByTagName('head')[0].appendChild(link);
-    },
-    inject: function(css, doc) {
-      doc = doc || document;
-      var injected = document.createElement('style');
-      injected.type = 'text/css';
-      injected.innerHTML = css;
-      doc.getElementsByTagName('head')[0].appendChild(injected);
+  function () {
+    return {
+      load: function (url, doc) {
+        doc = doc || document;
+        var link = doc.createElement('link');
+        link.type = 'text/css';
+        link.rel = 'stylesheet';
+        link.href = url;
+        doc.getElementsByTagName('head')[0].appendChild(link);
+      },
+      inject: function (css, doc) {
+        doc = doc || document;
+        var injected = document.createElement('style');
+        injected.type = 'text/css';
+        injected.innerHTML = css;
+        doc.getElementsByTagName('head')[0].appendChild(injected);
+      }
     }
-  }
-});
+  });

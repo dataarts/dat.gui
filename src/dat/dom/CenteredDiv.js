@@ -14,10 +14,9 @@
 define([
   'dat/dom/dom',
   'dat/utils/common'
-], function(dom, common) {
+], function (dom, common) {
 
-
-  var CenteredDiv = function() {
+  var CenteredDiv = function () {
 
     this.backgroundElement = document.createElement('div');
     common.extend(this.backgroundElement.style, {
@@ -44,19 +43,17 @@ define([
       transition: 'transform 0.2s ease-out, opacity 0.2s linear'
     });
 
-
     document.body.appendChild(this.backgroundElement);
     document.body.appendChild(this.domElement);
 
     var _this = this;
-    dom.bind(this.backgroundElement, 'click', function() {
+    dom.bind(this.backgroundElement, 'click', function () {
       _this.hide();
     });
 
-
   };
 
-  CenteredDiv.prototype.show = function() {
+  CenteredDiv.prototype.show = function () {
 
     var _this = this;
 
@@ -64,12 +61,12 @@ define([
 
     this.domElement.style.display = 'block';
     this.domElement.style.opacity = 0;
-//    this.domElement.style.top = '52%';
+    //    this.domElement.style.top = '52%';
     this.domElement.style.webkitTransform = 'scale(1.1)';
 
     this.layout();
 
-    common.defer(function() {
+    common.defer(function () {
       _this.backgroundElement.style.opacity = 1;
       _this.domElement.style.opacity = 1;
       _this.domElement.style.webkitTransform = 'scale(1)';
@@ -77,11 +74,11 @@ define([
 
   };
 
-  CenteredDiv.prototype.hide = function() {
+  CenteredDiv.prototype.hide = function () {
 
     var _this = this;
 
-    var hide = function() {
+    var hide = function () {
 
       _this.domElement.style.display = 'none';
       _this.backgroundElement.style.display = 'none';
@@ -97,17 +94,17 @@ define([
     dom.bind(this.domElement, 'oTransitionEnd', hide);
 
     this.backgroundElement.style.opacity = 0;
-//    this.domElement.style.top = '48%';
+    //    this.domElement.style.top = '48%';
     this.domElement.style.opacity = 0;
     this.domElement.style.webkitTransform = 'scale(1.1)';
 
   };
 
-  CenteredDiv.prototype.layout = function() {
-    this.domElement.style.left = window.innerWidth/2 - dom.getWidth(this.domElement) / 2 + 'px';
-    this.domElement.style.top = window.innerHeight/2 - dom.getHeight(this.domElement) / 2 + 'px';
+  CenteredDiv.prototype.layout = function () {
+    this.domElement.style.left = window.innerWidth / 2 - dom.getWidth(this.domElement) / 2 + 'px';
+    this.domElement.style.top = window.innerHeight / 2 - dom.getHeight(this.domElement) / 2 + 'px';
   };
-  
+
   function lockScroll(e) {
     console.log(e);
   }
