@@ -136,8 +136,14 @@ define([], function () {
 
     hasOwnProperty: function (obj, prop) {
       var proto = obj.__proto__ || obj.constructor.prototype;
+      var proto_prop = undefined;
+      try {
+        proto_prop = proto[prop];
+      } catch (err) {
+        console.warn('property "' + prop + '" is unaccessible in prototype of object', obj);
+      }
       return (prop in obj) &&
-        (!(prop in proto) || (proto[prop] !== obj[prop]));
+        (!(prop in proto) || (proto_prop !== obj[prop]));
     }
 
   };
