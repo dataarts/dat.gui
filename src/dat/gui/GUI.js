@@ -545,9 +545,11 @@ define([
        */
       remove: function (controller) {
 
-        // TODO listening?
         this.__ul.removeChild(controller.__li);
-        this.__controllers.splice(this.__controllers.indexOf(controller), 1);
+        var ixl = this.__listening.indexOf(controller);
+        if (ixl > 0)
+          this.__listening.pop(ixl);
+        this.__controllers.pop(this.__controllers.indexOf(controller));
         var _this = this;
         common.defer(function () {
           _this.onResize();
