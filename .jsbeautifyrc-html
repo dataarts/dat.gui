@@ -1,0 +1,6 @@
+{
+  "allowed_file_extensions": ["htm", "html"],
+  "indent_size": 4,
+  "preserve_newlines": true,
+  "max_preserve_newlines": 1
+}

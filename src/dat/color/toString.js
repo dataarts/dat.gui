@@ -13,9 +13,9 @@
 
 define([
   'dat/utils/common'
-], function(common) {
+], function (common) {
 
-  return function(color) {
+  return function (color) {
 
     if (color.a == 1 || common.isUndefined(color.a)) {
 

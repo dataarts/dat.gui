@@ -16,9 +16,9 @@ define([
   'dat/color/math',
   'dat/color/toString',
   'dat/utils/common'
-], function(interpret, math, toString, common) {
+], function (interpret, math, toString, common) {
 
-  var Color = function() {
+  var Color = function () {
 
     this.__state = interpret.apply(this, arguments);
 
@@ -28,18 +28,17 @@ define([
 
     this.__state.a = this.__state.a || 1;
 
-
   };
 
-  Color.COMPONENTS = ['r','g','b','h','s','v','hex','a'];
+  Color.COMPONENTS = ['r', 'g', 'b', 'h', 's', 'v', 'hex', 'a'];
 
   common.extend(Color.prototype, {
 
-    toString: function() {
+    toString: function () {
       return toString(this);
     },
 
-    toOriginal: function() {
+    toOriginal: function () {
       return this.__state.conversion.write(this);
     }
 
@@ -55,11 +54,11 @@ define([
 
   Object.defineProperty(Color.prototype, 'a', {
 
-    get: function() {
+    get: function () {
       return this.__state.a;
     },
 
-    set: function(v) {
+    set: function (v) {
       this.__state.a = v;
     }
 
@@ -67,7 +66,7 @@ define([
 
   Object.defineProperty(Color.prototype, 'hex', {
 
-    get: function() {
+    get: function () {
 
       if (!this.__state.space !== 'HEX') {
         this.__state.hex = math.rgb_to_hex(this.r, this.g, this.b);
@@ -77,7 +76,7 @@ define([
 
     },
 
-    set: function(v) {
+    set: function (v) {
 
       this.__state.space = 'HEX';
       this.__state.hex = v;
@@ -90,7 +89,7 @@ define([
 
     Object.defineProperty(target, component, {
 
-      get: function() {
+      get: function () {
 
         if (this.__state.space === 'RGB') {
           return this.__state[component];
@@ -102,7 +101,7 @@ define([
 
       },
 
-      set: function(v) {
+      set: function (v) {
 
         if (this.__state.space !== 'RGB') {
           recalculateRGB(this, component, componentHexIndex);
@@ -121,7 +120,7 @@ define([
 
     Object.defineProperty(target, component, {
 
-      get: function() {
+      get: function () {
 
         if (this.__state.space === 'HSV')
           return this.__state[component];
@@ -132,7 +131,7 @@ define([
 
       },
 
-      set: function(v) {
+      set: function (v) {
 
         if (this.__state.space !== 'HSV') {
           recalculateHSV(this);
@@ -169,12 +168,10 @@ define([
 
     var result = math.rgb_to_hsv(color.r, color.g, color.b);
 
-    common.extend(color.__state,
-        {
-          s: result.s,
-          v: result.v
-        }
-    );
+    common.extend(color.__state, {
+      s: result.s,
+      v: result.v
+    });
 
     if (!common.isNaN(result.h)) {
       color.__state.h = result.h;

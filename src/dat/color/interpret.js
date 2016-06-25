@@ -14,21 +14,21 @@
 define([
   'dat/color/toString',
   'dat/utils/common'
-], function(toString, common) {
+], function (toString, common) {
 
   var result, toReturn;
 
-  var interpret = function() {
+  var interpret = function () {
 
     toReturn = false;
 
     var original = arguments.length > 1 ? common.toArray(arguments) : arguments[0];
 
-    common.each(INTERPRETATIONS, function(family) {
+    common.each(INTERPRETATIONS, function (family) {
 
       if (family.litmus(original)) {
 
-        common.each(family.conversions, function(conversion, conversionName) {
+        common.each(family.conversions, function (conversion, conversionName) {
 
           result = conversion.read(original);
 
@@ -63,7 +63,7 @@ define([
 
         THREE_CHAR_HEX: {
 
-          read: function(original) {
+          read: function (original) {
 
             var test = original.match(/^#([A-F0-9])([A-F0-9])([A-F0-9])$/i);
             if (test === null) return false;
@@ -71,10 +71,10 @@ define([
             return {
               space: 'HEX',
               hex: parseInt(
-                  '0x' +
-                      test[1].toString() + test[1].toString() +
-                      test[2].toString() + test[2].toString() +
-                      test[3].toString() + test[3].toString())
+                '0x' +
+                test[1].toString() + test[1].toString() +
+                test[2].toString() + test[2].toString() +
+                test[3].toString() + test[3].toString())
             };
 
           },
@@ -85,7 +85,7 @@ define([
 
         SIX_CHAR_HEX: {
 
-          read: function(original) {
+          read: function (original) {
 
             var test = original.match(/^#([A-F0-9]{6})$/i);
             if (test === null) return false;
@@ -103,7 +103,7 @@ define([
 
         CSS_RGB: {
 
-          read: function(original) {
+          read: function (original) {
 
             var test = original.match(/^rgb\(\s*(.+)\s*,\s*(.+)\s*,\s*(.+)\s*\)/);
             if (test === null) return false;
@@ -123,7 +123,7 @@ define([
 
         CSS_RGBA: {
 
-          read: function(original) {
+          read: function (original) {
 
             var test = original.match(/^rgba\(\s*(.+)\s*,\s*(.+)\s*,\s*(.+)\s*\,\s*(.+)\s*\)/);
             if (test === null) return false;
@@ -154,7 +154,7 @@ define([
       conversions: {
 
         HEX: {
-          read: function(original) {
+          read: function (original) {
             return {
               space: 'HEX',
               hex: original,
@@ -162,7 +162,7 @@ define([
             }
           },
 
-          write: function(color) {
+          write: function (color) {
             return color.hex;
           }
         }
@@ -179,7 +179,7 @@ define([
       conversions: {
 
         RGB_ARRAY: {
-          read: function(original) {
+          read: function (original) {
             if (original.length != 3) return false;
             return {
               space: 'RGB',
@@ -189,14 +189,14 @@ define([
             };
           },
 
-          write: function(color) {
+          write: function (color) {
             return [color.r, color.g, color.b];
           }
 
         },
 
         RGBA_ARRAY: {
-          read: function(original) {
+          read: function (original) {
             if (original.length != 4) return false;
             return {
               space: 'RGB',
@@ -207,7 +207,7 @@ define([
             };
           },
 
-          write: function(color) {
+          write: function (color) {
             return [color.r, color.g, color.b, color.a];
           }
 
@@ -225,11 +225,11 @@ define([
       conversions: {
 
         RGBA_OBJ: {
-          read: function(original) {
+          read: function (original) {
             if (common.isNumber(original.r) &&
-                common.isNumber(original.g) &&
-                common.isNumber(original.b) &&
-                common.isNumber(original.a)) {
+              common.isNumber(original.g) &&
+              common.isNumber(original.b) &&
+              common.isNumber(original.a)) {
               return {
                 space: 'RGB',
                 r: original.r,
@@ -241,7 +241,7 @@ define([
             return false;
           },
 
-          write: function(color) {
+          write: function (color) {
             return {
               r: color.r,
               g: color.g,
@@ -252,10 +252,10 @@ define([
         },
 
         RGB_OBJ: {
-          read: function(original) {
+          read: function (original) {
             if (common.isNumber(original.r) &&
-                common.isNumber(original.g) &&
-                common.isNumber(original.b)) {
+              common.isNumber(original.g) &&
+              common.isNumber(original.b)) {
               return {
                 space: 'RGB',
                 r: original.r,
@@ -266,7 +266,7 @@ define([
             return false;
           },
 
-          write: function(color) {
+          write: function (color) {
             return {
               r: color.r,
               g: color.g,
@@ -276,11 +276,11 @@ define([
         },
 
         HSVA_OBJ: {
-          read: function(original) {
+          read: function (original) {
             if (common.isNumber(original.h) &&
-                common.isNumber(original.s) &&
-                common.isNumber(original.v) &&
-                common.isNumber(original.a)) {
+              common.isNumber(original.s) &&
+              common.isNumber(original.v) &&
+              common.isNumber(original.a)) {
               return {
                 space: 'HSV',
                 h: original.h,
@@ -292,7 +292,7 @@ define([
             return false;
           },
 
-          write: function(color) {
+          write: function (color) {
             return {
               h: color.h,
               s: color.s,
@@ -303,10 +303,10 @@ define([
         },
 
         HSV_OBJ: {
-          read: function(original) {
+          read: function (original) {
             if (common.isNumber(original.h) &&
-                common.isNumber(original.s) &&
-                common.isNumber(original.v)) {
+              common.isNumber(original.s) &&
+              common.isNumber(original.v)) {
               return {
                 space: 'HSV',
                 h: original.h,
@@ -317,7 +317,7 @@ define([
             return false;
           },
 
-          write: function(color) {
+          write: function (color) {
             return {
               h: color.h,
               s: color.s,
@@ -331,10 +331,8 @@ define([
 
     }
 
-
   ];
 
   return interpret;
-
 
 });

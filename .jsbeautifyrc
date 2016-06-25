@@ -1,0 +1,11 @@
+{
+  "allowed_file_extensions": ["js", "json", "jshintrc", "jsbeautifyrc"],
+  "end_with_newline": true,
+  "indent_size": 2,
+  "indent_char": " ",
+  "indent_level": 0,
+  "indent_with_tabs": false,
+  "preserve_newlines": true,
+  "max_preserve_newlines": 2,
+  "jslint_happy": true
+}

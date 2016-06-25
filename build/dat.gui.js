@@ -30,28 +30,28 @@ dat.dom = dat.dom || {};
 dat.color = dat.color || {};
 
 dat.utils.css = (function () {
-  return {
-    load: function (url, doc) {
-      doc = doc || document;
-      var link = doc.createElement('link');
-      link.type = 'text/css';
-      link.rel = 'stylesheet';
-      link.href = url;
-      doc.getElementsByTagName('head')[0].appendChild(link);
-    },
-    inject: function(css, doc) {
-      doc = doc || document;
-      var injected = document.createElement('style');
-      injected.type = 'text/css';
-      injected.innerHTML = css;
-      doc.getElementsByTagName('head')[0].appendChild(injected);
+    return {
+      load: function (url, doc) {
+        doc = doc || document;
+        var link = doc.createElement('link');
+        link.type = 'text/css';
+        link.rel = 'stylesheet';
+        link.href = url;
+        doc.getElementsByTagName('head')[0].appendChild(link);
+      },
+      inject: function (css, doc) {
+        doc = doc || document;
+        var injected = document.createElement('style');
+        injected.type = 'text/css';
+        injected.innerHTML = css;
+        doc.getElementsByTagName('head')[0].appendChild(injected);
+      }
     }
-  }
-})();
+  })();
 
 
 dat.utils.common = (function () {
-  
+
   var ARR_EACH = Array.prototype.forEach;
   var ARR_SLICE = Array.prototype.slice;
 
@@ -61,120 +61,132 @@ dat.utils.common = (function () {
    * http://documentcloud.github.com/underscore/
    */
 
-  return { 
-    
+  return {
+
     BREAK: {},
-  
-    extend: function(target) {
-      
-      this.each(ARR_SLICE.call(arguments, 1), function(obj) {
-        
+
+    extend: function (target) {
+
+      this.each(ARR_SLICE.call(arguments, 1), function (obj) {
+
         for (var key in obj)
-          if (!this.isUndefined(obj[key])) 
+          if (!this.isUndefined(obj[key]))
             target[key] = obj[key];
-        
+
       }, this);
-      
+
       return target;
-      
+
     },
-    
-    defaults: function(target) {
-      
-      this.each(ARR_SLICE.call(arguments, 1), function(obj) {
-        
+
+    defaults: function (target) {
+
+      this.each(ARR_SLICE.call(arguments, 1), function (obj) {
+
         for (var key in obj)
-          if (this.isUndefined(target[key])) 
+          if (this.isUndefined(target[key]))
             target[key] = obj[key];
-        
+
       }, this);
-      
+
       return target;
-    
+
     },
-    
-    compose: function() {
+
+    compose: function () {
       var toCall = ARR_SLICE.call(arguments);
-            return function() {
-              var args = ARR_SLICE.call(arguments);
-              for (var i = toCall.length -1; i >= 0; i--) {
-                args = [toCall[i].apply(this, args)];
-              }
-              return args[0];
-            }
+      return function () {
+        var args = ARR_SLICE.call(arguments);
+        for (var i = toCall.length - 1; i >= 0; i--) {
+          args = [toCall[i].apply(this, args)];
+        }
+        return args[0];
+      }
     },
-    
-    each: function(obj, itr, scope) {
+
+    each: function (obj, itr, scope) {
 
       if (!obj) return;
 
-      if (ARR_EACH && obj.forEach && obj.forEach === ARR_EACH) { 
-        
+      if (ARR_EACH && obj.forEach && obj.forEach === ARR_EACH) {
+
         obj.forEach(itr, scope);
-        
+
       } else if (obj.length === obj.length + 0) { // Is number but not NaN
-        
+
         for (var key = 0, l = obj.length; key < l; key++)
-          if (key in obj && itr.call(scope, obj[key], key) === this.BREAK) 
+          if (key in obj && itr.call(scope, obj[key], key) === this.BREAK)
             return;
-            
+
       } else {
 
-        for (var key in obj) 
+        for (var key in obj)
           if (itr.call(scope, obj[key], key) === this.BREAK)
             return;
-            
+
       }
-            
+
     },
-    
-    defer: function(fnc) {
+
+    defer: function (fnc) {
       setTimeout(fnc, 0);
     },
-    
-    toArray: function(obj) {
+
+    toArray: function (obj) {
       if (obj.toArray) return obj.toArray();
       return ARR_SLICE.call(obj);
     },
 
-    isUndefined: function(obj) {
+    isUndefined: function (obj) {
       return obj === undefined;
     },
-    
-    isNull: function(obj) {
+
+    isNull: function (obj) {
       return obj === null;
     },
-    
-    isNaN: function(obj) {
+
+    isNaN: function (obj) {
       return obj !== obj;
     },
-    
-    isArray: Array.isArray || function(obj) {
+
+    isArray: Array.isArray || function (obj) {
       return obj.constructor === Array;
     },
-    
-    isObject: function(obj) {
+
+    isObject: function (obj) {
       return obj === Object(obj);
     },
-    
-    isNumber: function(obj) {
-      return obj === obj+0;
+
+    isNumber: function (obj) {
+      return obj === obj + 0;
     },
-    
-    isString: function(obj) {
-      return obj === obj+'';
+
+    isString: function (obj) {
+      return obj === obj + '';
     },
-    
-    isBoolean: function(obj) {
+
+    isBoolean: function (obj) {
       return obj === false || obj === true;
     },
-    
-    isFunction: function(obj) {
+
+    isFunction: function (obj) {
       return Object.prototype.toString.call(obj) === '[object Function]';
+    },
+
+    hasOwnProperty: function (obj, prop) {
+      var proto = obj.__proto__ || obj.constructor.prototype;
+      var proto_prop = undefined;
+      try {
+        proto_prop = proto[prop];
+      } catch (err) {
+        console.warn('property "' + prop + '" is unaccessible in prototype of object', obj);
+      }
+      return (prop in obj) &&
+        (!(prop in proto) || (proto_prop !== obj[prop]));
     }
-  
+
   };
-    
+
 })();
 
 
@@ -188,7 +200,7 @@ dat.controllers.Controller = (function (common) {
    *
    * @member dat.controllers
    */
-  var Controller = function(object, property) {
+  var Controller = function (object, property) {
 
     this.initialValue = object[property];
 
@@ -228,83 +240,82 @@ dat.controllers.Controller = (function (common) {
 
   common.extend(
 
-      Controller.prototype,
+    Controller.prototype,
 
-      /** @lends dat.controllers.Controller.prototype */
-      {
+    /** @lends dat.controllers.Controller.prototype */
+    {
 
-        /**
-         * Specify that a function fire every time someone changes the value with
-         * this Controller.
-         *
-         * @param {Function} fnc This function will be called whenever the value
-         * is modified via this Controller.
-         * @returns {dat.controllers.Controller} this
-         */
-        onChange: function(fnc) {
-          this.__onChange = fnc;
-          return this;
-        },
+      /**
+       * Specify that a function fire every time someone changes the value with
+       * this Controller.
+       *
+       * @param {Function} fnc This function will be called whenever the value
+       * is modified via this Controller.
+       * @returns {dat.controllers.Controller} this
+       */
+      onChange: function (fnc) {
+        this.__onChange = fnc;
+        return this;
+      },
 
-        /**
-         * Specify that a function fire every time someone "finishes" changing
-         * the value wih this Controller. Useful for values that change
-         * incrementally like numbers or strings.
-         *
-         * @param {Function} fnc This function will be called whenever
-         * someone "finishes" changing the value via this Controller.
-         * @returns {dat.controllers.Controller} this
-         */
-        onFinishChange: function(fnc) {
-          this.__onFinishChange = fnc;
-          return this;
-        },
+      /**
+       * Specify that a function fire every time someone "finishes" changing
+       * the value wih this Controller. Useful for values that change
+       * incrementally like numbers or strings.
+       *
+       * @param {Function} fnc This function will be called whenever
+       * someone "finishes" changing the value via this Controller.
+       * @returns {dat.controllers.Controller} this
+       */
+      onFinishChange: function (fnc) {
+        this.__onFinishChange = fnc;
+        return this;
+      },
 
-        /**
-         * Change the value of <code>object[property]</code>
-         *
-         * @param {Object} newValue The new value of <code>object[property]</code>
-         */
-        setValue: function(newValue) {
-          this.object[this.property] = newValue;
-          if (this.__onChange) {
-            this.__onChange.call(this, newValue);
-          }
-          this.updateDisplay();
-          return this;
-        },
-
-        /**
-         * Gets the value of <code>object[property]</code>
-         *
-         * @returns {Object} The current value of <code>object[property]</code>
-         */
-        getValue: function() {
-          return this.object[this.property];
-        },
-
-        /**
-         * Refreshes the visual display of a Controller in order to keep sync
-         * with the object's current value.
-         * @returns {dat.controllers.Controller} this
-         */
-        updateDisplay: function() {
-          return this;
-        },
-
-        /**
-         * @returns {Boolean} true if the value has deviated from initialValue
-         */
-        isModified: function() {
-          return this.initialValue !== this.getValue()
+      /**
+       * Change the value of <code>object[property]</code>
+       *
+       * @param {Object} newValue The new value of <code>object[property]</code>
+       */
+      setValue: function (newValue) {
+        this.object[this.property] = newValue;
+        if (this.__onChange) {
+          this.__onChange.call(this, newValue);
         }
+        this.updateDisplay();
+        return this;
+      },
 
+      /**
+       * Gets the value of <code>object[property]</code>
+       *
+       * @returns {Object} The current value of <code>object[property]</code>
+       */
+      getValue: function () {
+        return this.object[this.property];
+      },
+
+      /**
+       * Refreshes the visual display of a Controller in order to keep sync
+       * with the object's current value.
+       * @returns {dat.controllers.Controller} this
+       */
+      updateDisplay: function () {
+        return this;
+      },
+
+      /**
+       * @returns {Boolean} true if the value has deviated from initialValue
+       */
+      isModified: function () {
+        return this.initialValue !== this.getValue()
       }
+
+    }
 
   );
 
   return Controller;
-
 
 })(dat.utils.common);
 
@@ -313,13 +324,13 @@ dat.dom.dom = (function (common) {
 
   var EVENT_MAP = {
     'HTMLEvents': ['change'],
-    'MouseEvents': ['click','mousemove','mousedown','mouseup', 'mouseover'],
+    'MouseEvents': ['click', 'mousemove', 'mousedown', 'mouseup', 'mouseover'],
     'KeyboardEvents': ['keydown']
   };
 
   var EVENT_MAP_INV = {};
-  common.each(EVENT_MAP, function(v, k) {
-    common.each(v, function(e) {
+  common.each(EVENT_MAP, function (v, k) {
+    common.each(v, function (e) {
       EVENT_MAP_INV[e] = k;
     });
   });
@@ -353,14 +364,13 @@ dat.dom.dom = (function (common) {
      * @param elem
      * @param selectable
      */
-    makeSelectable: function(elem, selectable) {
+    makeSelectable: function (elem, selectable) {
 
       if (elem === undefined || elem.style === undefined) return;
 
-      elem.onselectstart = selectable ? function() {
+      elem.onselectstart = selectable ? function () {
         return false;
-      } : function() {
-      };
+      } : function () {};
 
       elem.style.MozUserSelect = selectable ? 'auto' : 'none';
       elem.style.KhtmlUserSelect = selectable ? 'auto' : 'none';
@@ -374,7 +384,7 @@ dat.dom.dom = (function (common) {
      * @param horizontal
      * @param vertical
      */
-    makeFullscreen: function(elem, horizontal, vertical) {
+    makeFullscreen: function (elem, horizontal, vertical) {
 
       if (common.isUndefined(horizontal)) horizontal = true;
       if (common.isUndefined(vertical)) vertical = true;
@@ -398,7 +408,7 @@ dat.dom.dom = (function (common) {
      * @param eventType
      * @param params
      */
-    fakeEvent: function(elem, eventType, params, aux) {
+    fakeEvent: function (elem, eventType, params, aux) {
       params = params || {};
       var className = EVENT_MAP_INV[eventType];
       if (!className) {
@@ -406,38 +416,38 @@ dat.dom.dom = (function (common) {
       }
       var evt = document.createEvent(className);
       switch (className) {
-        case 'MouseEvents':
-          var clientX = params.x || params.clientX || 0;
-          var clientY = params.y || params.clientY || 0;
-          evt.initMouseEvent(eventType, params.bubbles || false,
-              params.cancelable || true, window, params.clickCount || 1,
-              0, //screen X
-              0, //screen Y
-              clientX, //client X
-              clientY, //client Y
-              false, false, false, false, 0, null);
-          break;
-        case 'KeyboardEvents':
-          var init = evt.initKeyboardEvent || evt.initKeyEvent; // webkit || moz
-          common.defaults(params, {
-            cancelable: true,
-            ctrlKey: false,
-            altKey: false,
-            shiftKey: false,
-            metaKey: false,
-            keyCode: undefined,
-            charCode: undefined
-          });
-          init(eventType, params.bubbles || false,
-              params.cancelable, window,
-              params.ctrlKey, params.altKey,
-              params.shiftKey, params.metaKey,
-              params.keyCode, params.charCode);
-          break;
-        default:
-          evt.initEvent(eventType, params.bubbles || false,
-              params.cancelable || true);
-          break;
+      case 'MouseEvents':
+        var clientX = params.x || params.clientX || 0;
+        var clientY = params.y || params.clientY || 0;
+        evt.initMouseEvent(eventType, params.bubbles || false,
+          params.cancelable || true, window, params.clickCount || 1,
+          0, //screen X
+          0, //screen Y
+          clientX, //client X
+          clientY, //client Y
+          false, false, false, false, 0, null);
+        break;
+      case 'KeyboardEvents':
+        var init = evt.initKeyboardEvent || evt.initKeyEvent; // webkit || moz
+        common.defaults(params, {
+          cancelable: true,
+          ctrlKey: false,
+          altKey: false,
+          shiftKey: false,
+          metaKey: false,
+          keyCode: undefined,
+          charCode: undefined
+        });
+        init(eventType, params.bubbles || false,
+          params.cancelable, window,
+          params.ctrlKey, params.altKey,
+          params.shiftKey, params.metaKey,
+          params.keyCode, params.charCode);
+        break;
+      default:
+        evt.initEvent(eventType, params.bubbles || false,
+          params.cancelable || true);
+        break;
       }
       common.defaults(evt, aux);
       elem.dispatchEvent(evt);
@@ -450,7 +460,7 @@ dat.dom.dom = (function (common) {
      * @param func
      * @param bool
      */
-    bind: function(elem, event, func, bool) {
+    bind: function (elem, event, func, bool) {
       bool = bool || false;
       if (elem.addEventListener)
         elem.addEventListener(event, func, bool);
@@ -466,7 +476,7 @@ dat.dom.dom = (function (common) {
      * @param func
      * @param bool
      */
-    unbind: function(elem, event, func, bool) {
+    unbind: function (elem, event, func, bool) {
       bool = bool || false;
       if (elem.removeEventListener)
         elem.removeEventListener(event, func, bool);
@@ -480,7 +490,7 @@ dat.dom.dom = (function (common) {
      * @param elem
      * @param className
      */
-    addClass: function(elem, className) {
+    addClass: function (elem, className) {
       if (elem.className === undefined) {
         elem.className = className;
       } else if (elem.className !== className) {
@@ -498,7 +508,7 @@ dat.dom.dom = (function (common) {
      * @param elem
      * @param className
      */
-    removeClass: function(elem, className) {
+    removeClass: function (elem, className) {
       if (className) {
         if (elem.className === undefined) {
           // elem.className = className;
@@ -518,7 +528,7 @@ dat.dom.dom = (function (common) {
       return dom;
     },
 
-    hasClass: function(elem, className) {
+    hasClass: function (elem, className) {
       return new RegExp('(?:^|\\s+)' + className + '(?:\\s+|$)').test(elem.className) || false;
     },
 
@@ -526,38 +536,41 @@ dat.dom.dom = (function (common) {
      *
      * @param elem
      */
-    getWidth: function(elem) {
+    getWidth: function (elem) {
 
       var style = getComputedStyle(elem);
 
       return cssValueToPixels(style['border-left-width']) +
-          cssValueToPixels(style['border-right-width']) +
-          cssValueToPixels(style['padding-left']) +
-          cssValueToPixels(style['padding-right']) +
-          cssValueToPixels(style['width']);
+        cssValueToPixels(style['border-right-width']) +
+        cssValueToPixels(style['padding-left']) +
+        cssValueToPixels(style['padding-right']) +
+        cssValueToPixels(style['width']);
     },
 
     /**
      *
      * @param elem
      */
-    getHeight: function(elem) {
+    getHeight: function (elem) {
 
       var style = getComputedStyle(elem);
 
       return cssValueToPixels(style['border-top-width']) +
-          cssValueToPixels(style['border-bottom-width']) +
-          cssValueToPixels(style['padding-top']) +
-          cssValueToPixels(style['padding-bottom']) +
-          cssValueToPixels(style['height']);
+        cssValueToPixels(style['border-bottom-width']) +
+        cssValueToPixels(style['padding-top']) +
+        cssValueToPixels(style['padding-bottom']) +
+        cssValueToPixels(style['height']);
     },
 
     /**
      *
      * @param elem
      */
-    getOffset: function(elem) {
-      var offset = {left: 0, top:0};
+    getOffset: function (elem) {
+      var offset = {
+        left: 0,
+        top: 0
+      };
       if (elem.offsetParent) {
         do {
           offset.left += elem.offsetLeft;
@@ -572,8 +585,8 @@ dat.dom.dom = (function (common) {
      * 
      * @param elem
      */
-    isActive: function(elem) {
-      return elem === document.activeElement && ( elem.type || elem.href );
+    isActive: function (elem) {
+      return elem === document.activeElement && (elem.type || elem.href);
     }
 
   };
@@ -585,70 +598,70 @@ dat.dom.dom = (function (common) {
 
 dat.controllers.OptionController = (function (Controller, dom, common) {
 
-  /**
-   * @class Provides a select input to alter the property of an object, using a
-   * list of accepted values.
-   *
-   * @extends dat.controllers.Controller
-   *
-   * @param {Object} object The object to be manipulated
-   * @param {string} property The name of the property to be manipulated
-   * @param {Object|string[]} options A map of labels to acceptable values, or
-   * a list of acceptable string values.
-   *
-   * @member dat.controllers
-   */
-  var OptionController = function(object, property, options) {
-
-    OptionController.superclass.call(this, object, property);
-
-    var _this = this;
-
     /**
-     * The drop down menu
-     * @ignore
+     * @class Provides a select input to alter the property of an object, using a
+     * list of accepted values.
+     *
+     * @extends dat.controllers.Controller
+     *
+     * @param {Object} object The object to be manipulated
+     * @param {string} property The name of the property to be manipulated
+     * @param {Object|string[]} options A map of labels to acceptable values, or
+     * a list of acceptable string values.
+     *
+     * @member dat.controllers
      */
-    this.__select = document.createElement('select');
+    var OptionController = function (object, property, options) {
 
-    if (common.isArray(options)) {
-      var map = {};
-      common.each(options, function(element) {
-        map[element] = element;
+      OptionController.superclass.call(this, object, property);
+
+      var _this = this;
+
+      /**
+       * The drop down menu
+       * @ignore
+       */
+      this.__select = document.createElement('select');
+
+      if (common.isArray(options)) {
+        var map = {};
+        common.each(options, function (element) {
+          map[element] = element;
+        });
+        options = map;
+      }
+
+      common.each(options, function (value, key) {
+
+        var opt = document.createElement('option');
+        opt.innerHTML = key;
+        opt.setAttribute('value', value);
+        _this.__select.appendChild(opt);
+
       });
-      options = map;
-    }
 
-    common.each(options, function(value, key) {
+      // Acknowledge original value
+      this.updateDisplay();
 
-      var opt = document.createElement('option');
-      opt.innerHTML = key;
-      opt.setAttribute('value', value);
-      _this.__select.appendChild(opt);
+      dom.bind(this.__select, 'change', function () {
+        var desiredValue = this.options[this.selectedIndex].value;
+        _this.setValue(desiredValue);
+      });
 
-    });
+      this.domElement.appendChild(this.__select);
 
-    // Acknowledge original value
-    this.updateDisplay();
+    };
 
-    dom.bind(this.__select, 'change', function() {
-      var desiredValue = this.options[this.selectedIndex].value;
-      _this.setValue(desiredValue);
-    });
+    OptionController.superclass = Controller;
 
-    this.domElement.appendChild(this.__select);
-
-  };
-
-  OptionController.superclass = Controller;
-
-  common.extend(
+    common.extend(
 
       OptionController.prototype,
       Controller.prototype,
 
       {
 
-        setValue: function(v) {
+        setValue: function (v) {
           var toReturn = OptionController.superclass.prototype.setValue.call(this, v);
           if (this.__onFinishChange) {
             this.__onFinishChange.call(this, this.getValue());
@@ -656,18 +669,18 @@ dat.controllers.OptionController = (function (Controller, dom, common) {
           return toReturn;
         },
 
-        updateDisplay: function() {
+        updateDisplay: function () {
           this.__select.value = this.getValue();
           return OptionController.superclass.prototype.updateDisplay.call(this);
         }
 
       }
 
-  );
+    );
 
-  return OptionController;
+    return OptionController;
 
-})(dat.controllers.Controller,
+  })(dat.controllers.Controller,
 dat.dom.dom,
 dat.utils.common);
 
@@ -688,7 +701,7 @@ dat.controllers.NumberController = (function (Controller, common) {
    *
    * @member dat.controllers
    */
-  var NumberController = function(object, property, params) {
+  var NumberController = function (object, property, params) {
 
     NumberController.superclass.call(this, object, property);
 
@@ -704,17 +717,16 @@ dat.controllers.NumberController = (function (Controller, common) {
         this.__impliedStep = 1; // What are we, psychics?
       } else {
         // Hey Doug, check this out.
-        this.__impliedStep = Math.pow(10, Math.floor(Math.log(Math.abs(this.initialValue))/Math.LN10))/10;
+        this.__impliedStep = Math.pow(10, Math.floor(Math.log(Math.abs(this.initialValue)) / Math.LN10)) / 10;
       }
 
     } else {
 
-    	this.__impliedStep = this.__step;
+      this.__impliedStep = this.__step;
 
     }
 
     this.__precision = numDecimals(this.__impliedStep);
-
 
   };
 
@@ -722,70 +734,70 @@ dat.controllers.NumberController = (function (Controller, common) {
 
   common.extend(
 
-      NumberController.prototype,
-      Controller.prototype,
+    NumberController.prototype,
+    Controller.prototype,
 
-      /** @lends dat.controllers.NumberController.prototype */
-      {
+    /** @lends dat.controllers.NumberController.prototype */
+    {
 
-        setValue: function(v) {
+      setValue: function (v) {
 
-          if (this.__min !== undefined && v < this.__min) {
-            v = this.__min;
-          } else if (this.__max !== undefined && v > this.__max) {
-            v = this.__max;
-          }
-
-          if (this.__step !== undefined && v % this.__step != 0) {
-            v = Math.round(v / this.__step) * this.__step;
-          }
-
-          return NumberController.superclass.prototype.setValue.call(this, v);
-
-        },
-
-        /**
-         * Specify a minimum value for <code>object[property]</code>.
-         *
-         * @param {Number} minValue The minimum value for
-         * <code>object[property]</code>
-         * @returns {dat.controllers.NumberController} this
-         */
-        min: function(v) {
-          this.__min = v;
-          return this;
-        },
-
-        /**
-         * Specify a maximum value for <code>object[property]</code>.
-         *
-         * @param {Number} maxValue The maximum value for
-         * <code>object[property]</code>
-         * @returns {dat.controllers.NumberController} this
-         */
-        max: function(v) {
-          this.__max = v;
-          return this;
-        },
-
-        /**
-         * Specify a step value that dat.controllers.NumberController
-         * increments by.
-         *
-         * @param {Number} stepValue The step value for
-         * dat.controllers.NumberController
-         * @default if minimum and maximum specified increment is 1% of the
-         * difference otherwise stepValue is 1
-         * @returns {dat.controllers.NumberController} this
-         */
-        step: function(v) {
-          this.__step = v;
-          this.__impliedStep = v;
-          this.__precision = numDecimals(v);
-          return this;
+        if (this.__min !== undefined && v < this.__min) {
+          v = this.__min;
+        } else if (this.__max !== undefined && v > this.__max) {
+          v = this.__max;
         }
 
+        if (this.__step !== undefined && v % this.__step != 0) {
+          v = Math.round(v / this.__step) * this.__step;
+        }
+
+        return NumberController.superclass.prototype.setValue.call(this, v);
+
+      },
+
+      /**
+       * Specify a minimum value for <code>object[property]</code>.
+       *
+       * @param {Number} minValue The minimum value for
+       * <code>object[property]</code>
+       * @returns {dat.controllers.NumberController} this
+       */
+      min: function (v) {
+        this.__min = v;
+        return this;
+      },
+
+      /**
+       * Specify a maximum value for <code>object[property]</code>.
+       *
+       * @param {Number} maxValue The maximum value for
+       * <code>object[property]</code>
+       * @returns {dat.controllers.NumberController} this
+       */
+      max: function (v) {
+        this.__max = v;
+        return this;
+      },
+
+      /**
+       * Specify a step value that dat.controllers.NumberController
+       * increments by.
+       *
+       * @param {Number} stepValue The step value for
+       * dat.controllers.NumberController
+       * @default if minimum and maximum specified increment is 1% of the
+       * difference otherwise stepValue is 1
+       * @returns {dat.controllers.NumberController} this
+       */
+      step: function (v) {
+        this.__step = v;
+        this.__impliedStep = v;
+        this.__precision = numDecimals(v);
+        return this;
       }
+
+    }
 
   );
 
@@ -822,7 +834,7 @@ dat.controllers.NumberControllerBox = (function (NumberController, dom, common) 
    *
    * @member dat.controllers
    */
-  var NumberControllerBox = function(object, property, params) {
+  var NumberControllerBox = function (object, property, params) {
 
     this.__truncationSuspended = false;
 
@@ -844,7 +856,7 @@ dat.controllers.NumberControllerBox = (function (NumberController, dom, common) 
     dom.bind(this.__input, 'change', onChange);
     dom.bind(this.__input, 'blur', onBlur);
     dom.bind(this.__input, 'mousedown', onMouseDown);
-    dom.bind(this.__input, 'keydown', function(e) {
+    dom.bind(this.__input, 'keydown', function (e) {
 
       // When pressing entire, you can be as precise as you want.
       if (e.keyCode === 13) {
@@ -897,18 +909,21 @@ dat.controllers.NumberControllerBox = (function (NumberController, dom, common) 
 
   common.extend(
 
-      NumberControllerBox.prototype,
-      NumberController.prototype,
+    NumberControllerBox.prototype,
+    NumberController.prototype,
 
-      {
+    {
 
-        updateDisplay: function() {
-
+      updateDisplay: function () {
+        // Use the same solution from StringController.js to enable
+        // editing <input>s while "listen()"ing
+        if (!dom.isActive(this.__input)) {
           this.__input.value = this.__truncationSuspended ? this.getValue() : roundToDecimal(this.getValue(), this.__precision);
-          return NumberControllerBox.superclass.prototype.updateDisplay.call(this);
         }
-
+        return NumberControllerBox.superclass.prototype.updateDisplay.call(this);
       }
+
+    }
 
   );
 
@@ -926,117 +941,117 @@ dat.utils.common);
 
 dat.controllers.NumberControllerSlider = (function (NumberController, dom, css, common, styleSheet) {
 
-  /**
-   * @class Represents a given property of an object that is a number, contains
-   * a minimum and maximum, and provides a slider element with which to
-   * manipulate it. It should be noted that the slider element is made up of
-   * <code>&lt;div&gt;</code> tags, <strong>not</strong> the html5
-   * <code>&lt;slider&gt;</code> element.
-   *
-   * @extends dat.controllers.Controller
-   * @extends dat.controllers.NumberController
-   * 
-   * @param {Object} object The object to be manipulated
-   * @param {string} property The name of the property to be manipulated
-   * @param {Number} minValue Minimum allowed value
-   * @param {Number} maxValue Maximum allowed value
-   * @param {Number} stepValue Increment by which to change value
-   *
-   * @member dat.controllers
-   */
-  var NumberControllerSlider = function(object, property, min, max, step) {
+    /**
+     * @class Represents a given property of an object that is a number, contains
+     * a minimum and maximum, and provides a slider element with which to
+     * manipulate it. It should be noted that the slider element is made up of
+     * <code>&lt;div&gt;</code> tags, <strong>not</strong> the html5
+     * <code>&lt;slider&gt;</code> element.
+     *
+     * @extends dat.controllers.Controller
+     * @extends dat.controllers.NumberController
+     * 
+     * @param {Object} object The object to be manipulated
+     * @param {string} property The name of the property to be manipulated
+     * @param {Number} minValue Minimum allowed value
+     * @param {Number} maxValue Maximum allowed value
+     * @param {Number} stepValue Increment by which to change value
+     *
+     * @member dat.controllers
+     */
+    var NumberControllerSlider = function (object, property, min, max, step) {
 
-    NumberControllerSlider.superclass.call(this, object, property, { min: min, max: max, step: step });
+      NumberControllerSlider.superclass.call(this, object, property, {
+        min: min,
+        max: max,
+        step: step
+      });
 
-    var _this = this;
+      var _this = this;
 
-    this.__background = document.createElement('div');
-    this.__foreground = document.createElement('div');
-    
+      this.__background = document.createElement('div');
+      this.__foreground = document.createElement('div');
 
+      dom.bind(this.__background, 'mousedown', onMouseDown);
 
-    dom.bind(this.__background, 'mousedown', onMouseDown);
-    
-    dom.addClass(this.__background, 'slider');
-    dom.addClass(this.__foreground, 'slider-fg');
+      dom.addClass(this.__background, 'slider');
+      dom.addClass(this.__foreground, 'slider-fg');
 
-    function onMouseDown(e) {
+      function onMouseDown(e) {
 
-      dom.bind(window, 'mousemove', onMouseDrag);
-      dom.bind(window, 'mouseup', onMouseUp);
+        dom.bind(window, 'mousemove', onMouseDrag);
+        dom.bind(window, 'mouseup', onMouseUp);
 
-      onMouseDrag(e);
-    }
-
-    function onMouseDrag(e) {
-
-      e.preventDefault();
-
-      var offset = dom.getOffset(_this.__background);
-      var width = dom.getWidth(_this.__background);
-      
-      _this.setValue(
-      	map(e.clientX, offset.left, offset.left + width, _this.__min, _this.__max)
-      );
-
-      return false;
-
-    }
-
-    function onMouseUp() {
-      dom.unbind(window, 'mousemove', onMouseDrag);
-      dom.unbind(window, 'mouseup', onMouseUp);
-      if (_this.__onFinishChange) {
-        _this.__onFinishChange.call(_this, _this.getValue());
+        onMouseDrag(e);
       }
-    }
 
-    this.updateDisplay();
+      function onMouseDrag(e) {
 
-    this.__background.appendChild(this.__foreground);
-    this.domElement.appendChild(this.__background);
+        e.preventDefault();
 
-  };
+        var offset = dom.getOffset(_this.__background);
+        var width = dom.getWidth(_this.__background);
 
-  NumberControllerSlider.superclass = NumberController;
+        _this.setValue(
+          map(e.clientX, offset.left, offset.left + width, _this.__min, _this.__max)
+        );
 
-  /**
-   * Injects default stylesheet for slider elements.
-   */
-  NumberControllerSlider.useDefaultStyles = function() {
-    css.inject(styleSheet);
-  };
+        return false;
 
-  common.extend(
+      }
+
+      function onMouseUp() {
+        dom.unbind(window, 'mousemove', onMouseDrag);
+        dom.unbind(window, 'mouseup', onMouseUp);
+        if (_this.__onFinishChange) {
+          _this.__onFinishChange.call(_this, _this.getValue());
+        }
+      }
+
+      this.updateDisplay();
+
+      this.__background.appendChild(this.__foreground);
+      this.domElement.appendChild(this.__background);
+
+    };
+
+    NumberControllerSlider.superclass = NumberController;
+
+    /**
+     * Injects default stylesheet for slider elements.
+     */
+    NumberControllerSlider.useDefaultStyles = function () {
+      css.inject(styleSheet);
+    };
+
+    common.extend(
 
       NumberControllerSlider.prototype,
       NumberController.prototype,
 
       {
 
-        updateDisplay: function() {
-          var pct = (this.getValue() - this.__min)/(this.__max - this.__min);
-          this.__foreground.style.width = pct*100+'%';
+        updateDisplay: function () {
+          var pct = (this.getValue() - this.__min) / (this.__max - this.__min);
+          this.__foreground.style.width = pct * 100 + '%';
           return NumberControllerSlider.superclass.prototype.updateDisplay.call(this);
         }
 
       }
 
+    );
 
+    function map(v, i1, i2, o1, o2) {
+      return o1 + (o2 - o1) * ((v - i1) / (i2 - i1));
+    }
 
-  );
+    return NumberControllerSlider;
 
-	function map(v, i1, i2, o1, o2) {
-		return o1 + (o2 - o1) * ((v - i1) / (i2 - i1));
-	}
-
-  return NumberControllerSlider;
-  
-})(dat.controllers.NumberController,
+  })(dat.controllers.NumberController,
 dat.dom.dom,
 dat.utils.css,
 dat.utils.common,
-"/**\n * dat-gui JavaScript Controller Library\n * http://code.google.com/p/dat-gui\n *\n * Copyright 2011 Data Arts Team, Google Creative Lab\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n * http://www.apache.org/licenses/LICENSE-2.0\n */\n\n.slider {\n  box-shadow: inset 0 2px 4px rgba(0,0,0,0.15);\n  height: 1em;\n  border-radius: 1em;\n  background-color: #eee;\n  padding: 0 0.5em;\n  overflow: hidden;\n}\n\n.slider-fg {\n  padding: 1px 0 2px 0;\n  background-color: #aaa;\n  height: 1em;\n  margin-left: -0.5em;\n  padding-right: 0.5em;\n  border-radius: 1em 0 0 1em;\n}\n\n.slider-fg:after {\n  display: inline-block;\n  border-radius: 1em;\n  background-color: #fff;\n  border:  1px solid #aaa;\n  content: '';\n  float: right;\n  margin-right: -1em;\n  margin-top: -1px;\n  height: 0.9em;\n  width: 0.9em;\n}");
+"/**\n * dat-gui JavaScript Controller Library\n * http://code.google.com/p/dat-gui\n *\n * Copyright 2011 Data Arts Team, Google Creative Lab\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n * http://www.apache.org/licenses/LICENSE-2.0\n */\n\n.slider {\n  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);\n  height: 1em;\n  border-radius: 1em;\n  background-color: #eee;\n  padding: 0 0.5em;\n  overflow: hidden;\n}\n\n.slider-fg {\n  padding: 1px 0 2px 0;\n  background-color: #aaa;\n  height: 1em;\n  margin-left: -0.5em;\n  padding-right: 0.5em;\n  border-radius: 1em 0 0 1em;\n}\n\n.slider-fg:after {\n  display: inline-block;\n  border-radius: 1em;\n  background-color: #fff;\n  border: 1px solid #aaa;\n  content: '';\n  float: right;\n  margin-right: -1em;\n  margin-top: -1px;\n  height: 0.9em;\n  width: 0.9em;\n}\n");
 
 
 dat.controllers.FunctionController = (function (Controller, dom, common) {
@@ -1051,7 +1066,7 @@ dat.controllers.FunctionController = (function (Controller, dom, common) {
    *
    * @member dat.controllers
    */
-  var FunctionController = function(object, property, text) {
+  var FunctionController = function (object, property, text) {
 
     FunctionController.superclass.call(this, object, property);
 
@@ -1059,7 +1074,7 @@ dat.controllers.FunctionController = (function (Controller, dom, common) {
 
     this.__button = document.createElement('div');
     this.__button.innerHTML = text === undefined ? 'Fire' : text;
-    dom.bind(this.__button, 'click', function(e) {
+    dom.bind(this.__button, 'click', function (e) {
       e.preventDefault();
       _this.fire();
       return false;
@@ -1069,27 +1084,25 @@ dat.controllers.FunctionController = (function (Controller, dom, common) {
 
     this.domElement.appendChild(this.__button);
 
-
   };
 
   FunctionController.superclass = Controller;
 
   common.extend(
 
-      FunctionController.prototype,
-      Controller.prototype,
-      {
-        
-        fire: function() {
-          if (this.__onChange) {
-            this.__onChange.call(this);
-          }
-          this.getValue().call(this.object);
-          if (this.__onFinishChange) {
-            this.__onFinishChange.call(this, this.getValue());
-          }
+    FunctionController.prototype,
+    Controller.prototype, {
+
+      fire: function () {
+        if (this.__onChange) {
+          this.__onChange.call(this);
+        }
+        this.getValue().call(this.object);
+        if (this.__onFinishChange) {
+          this.__onFinishChange.call(this, this.getValue());
         }
       }
+    }
 
   );
 
@@ -1111,7 +1124,7 @@ dat.controllers.BooleanController = (function (Controller, dom, common) {
    *
    * @member dat.controllers
    */
-  var BooleanController = function(object, property) {
+  var BooleanController = function (object, property) {
 
     BooleanController.superclass.call(this, object, property);
 
@@ -1120,7 +1133,6 @@ dat.controllers.BooleanController = (function (Controller, dom, common) {
 
     this.__checkbox = document.createElement('input');
     this.__checkbox.setAttribute('type', 'checkbox');
-
 
     dom.bind(this.__checkbox, 'change', onChange, false);
 
@@ -1139,35 +1151,34 @@ dat.controllers.BooleanController = (function (Controller, dom, common) {
 
   common.extend(
 
-      BooleanController.prototype,
-      Controller.prototype,
+    BooleanController.prototype,
+    Controller.prototype,
 
-      {
+    {
 
-        setValue: function(v) {
-          var toReturn = BooleanController.superclass.prototype.setValue.call(this, v);
-          if (this.__onFinishChange) {
-            this.__onFinishChange.call(this, this.getValue());
-          }
-          this.__prev = this.getValue();
-          return toReturn;
-        },
+      setValue: function (v) {
+        var toReturn = BooleanController.superclass.prototype.setValue.call(this, v);
+        if (this.__onFinishChange) {
+          this.__onFinishChange.call(this, this.getValue());
+        }
+        this.__prev = this.getValue();
+        return toReturn;
+      },
 
-        updateDisplay: function() {
-          
-          if (this.getValue() === true) {
-            this.__checkbox.setAttribute('checked', 'checked');
-            this.__checkbox.checked = true;    
-          } else {
-              this.__checkbox.checked = false;
-          }
+      updateDisplay: function () {
 
-          return BooleanController.superclass.prototype.updateDisplay.call(this);
-
+        if (this.getValue() === true) {
+          this.__checkbox.setAttribute('checked', 'checked');
+          this.__checkbox.checked = true;
+        } else {
+          this.__checkbox.checked = false;
         }
 
+        return BooleanController.superclass.prototype.updateDisplay.call(this);
 
       }
+
+    }
 
   );
 
@@ -1178,9 +1189,58 @@ dat.dom.dom,
 dat.utils.common);
 
 
+dat.controllers.UndefinedController = (function (Controller, dom, common) {
+
+  /**
+   * @class Provides a *disabled* text input indicating the value of the property
+   *        is undefined. Calling reset() on the controller will remove and re-add it.
+   *        It is intended to be used as a placeholder, where the gui is built before
+   *        some required variable has been initialized.
+   *
+   * @extends dat.controllers.Controller
+   *
+   * @param {Object} object The object to be manipulated
+   * @param {string} property The name of the property to be manipulated
+   *
+   * @member dat.controllers
+   */
+  var UndefinedController = function (object, property) {
+    UndefinedController.superclass.call(this, object, property);
+
+    var _this = this;
+
+    this.__input = document.createElement('input');
+    this.__input.setAttribute('type', 'text');
+    this.__input.setAttribute('disabled', true);
+    this.domElement.appendChild(this.__input);
+  };
+
+  UndefinedController.superclass = Controller;
+
+  common.extend(
+    UndefinedController.prototype,
+    Controller.prototype, {
+      updateDisplay: function () {
+        if (this.__onFinishChange) {
+          if (!common.isUndefined(this.object[this.property])) {
+            this.__onFinishChange.call(this.object[this.property])
+          }
+        }
+        return UndefinedController.superclass.prototype.updateDisplay.call(this);
+      },
+
+    }
+  );
+
+  return UndefinedController;
+})(dat.controllers.Controller,
+dat.dom.dom,
+dat.utils.common);
+
+
 dat.color.toString = (function (common) {
 
-  return function(color) {
+  return function (color) {
 
     if (color.a == 1 || common.isUndefined(color.a)) {
 
@@ -1206,17 +1266,17 @@ dat.color.interpret = (function (toString, common) {
 
   var result, toReturn;
 
-  var interpret = function() {
+  var interpret = function () {
 
     toReturn = false;
 
     var original = arguments.length > 1 ? common.toArray(arguments) : arguments[0];
 
-    common.each(INTERPRETATIONS, function(family) {
+    common.each(INTERPRETATIONS, function (family) {
 
       if (family.litmus(original)) {
 
-        common.each(family.conversions, function(conversion, conversionName) {
+        common.each(family.conversions, function (conversion, conversionName) {
 
           result = conversion.read(original);
 
@@ -1251,7 +1311,7 @@ dat.color.interpret = (function (toString, common) {
 
         THREE_CHAR_HEX: {
 
-          read: function(original) {
+          read: function (original) {
 
             var test = original.match(/^#([A-F0-9])([A-F0-9])([A-F0-9])$/i);
             if (test === null) return false;
@@ -1259,10 +1319,10 @@ dat.color.interpret = (function (toString, common) {
             return {
               space: 'HEX',
               hex: parseInt(
-                  '0x' +
-                      test[1].toString() + test[1].toString() +
-                      test[2].toString() + test[2].toString() +
-                      test[3].toString() + test[3].toString())
+                '0x' +
+                test[1].toString() + test[1].toString() +
+                test[2].toString() + test[2].toString() +
+                test[3].toString() + test[3].toString())
             };
 
           },
@@ -1273,7 +1333,7 @@ dat.color.interpret = (function (toString, common) {
 
         SIX_CHAR_HEX: {
 
-          read: function(original) {
+          read: function (original) {
 
             var test = original.match(/^#([A-F0-9]{6})$/i);
             if (test === null) return false;
@@ -1291,7 +1351,7 @@ dat.color.interpret = (function (toString, common) {
 
         CSS_RGB: {
 
-          read: function(original) {
+          read: function (original) {
 
             var test = original.match(/^rgb\(\s*(.+)\s*,\s*(.+)\s*,\s*(.+)\s*\)/);
             if (test === null) return false;
@@ -1311,7 +1371,7 @@ dat.color.interpret = (function (toString, common) {
 
         CSS_RGBA: {
 
-          read: function(original) {
+          read: function (original) {
 
             var test = original.match(/^rgba\(\s*(.+)\s*,\s*(.+)\s*,\s*(.+)\s*\,\s*(.+)\s*\)/);
             if (test === null) return false;
@@ -1342,7 +1402,7 @@ dat.color.interpret = (function (toString, common) {
       conversions: {
 
         HEX: {
-          read: function(original) {
+          read: function (original) {
             return {
               space: 'HEX',
               hex: original,
@@ -1350,7 +1410,7 @@ dat.color.interpret = (function (toString, common) {
             }
           },
 
-          write: function(color) {
+          write: function (color) {
             return color.hex;
           }
         }
@@ -1367,7 +1427,7 @@ dat.color.interpret = (function (toString, common) {
       conversions: {
 
         RGB_ARRAY: {
-          read: function(original) {
+          read: function (original) {
             if (original.length != 3) return false;
             return {
               space: 'RGB',
@@ -1377,14 +1437,14 @@ dat.color.interpret = (function (toString, common) {
             };
           },
 
-          write: function(color) {
+          write: function (color) {
             return [color.r, color.g, color.b];
           }
 
         },
 
         RGBA_ARRAY: {
-          read: function(original) {
+          read: function (original) {
             if (original.length != 4) return false;
             return {
               space: 'RGB',
@@ -1395,7 +1455,7 @@ dat.color.interpret = (function (toString, common) {
             };
           },
 
-          write: function(color) {
+          write: function (color) {
             return [color.r, color.g, color.b, color.a];
           }
 
@@ -1413,11 +1473,11 @@ dat.color.interpret = (function (toString, common) {
       conversions: {
 
         RGBA_OBJ: {
-          read: function(original) {
+          read: function (original) {
             if (common.isNumber(original.r) &&
-                common.isNumber(original.g) &&
-                common.isNumber(original.b) &&
-                common.isNumber(original.a)) {
+              common.isNumber(original.g) &&
+              common.isNumber(original.b) &&
+              common.isNumber(original.a)) {
               return {
                 space: 'RGB',
                 r: original.r,
@@ -1429,7 +1489,7 @@ dat.color.interpret = (function (toString, common) {
             return false;
           },
 
-          write: function(color) {
+          write: function (color) {
             return {
               r: color.r,
               g: color.g,
@@ -1440,10 +1500,10 @@ dat.color.interpret = (function (toString, common) {
         },
 
         RGB_OBJ: {
-          read: function(original) {
+          read: function (original) {
             if (common.isNumber(original.r) &&
-                common.isNumber(original.g) &&
-                common.isNumber(original.b)) {
+              common.isNumber(original.g) &&
+              common.isNumber(original.b)) {
               return {
                 space: 'RGB',
                 r: original.r,
@@ -1454,7 +1514,7 @@ dat.color.interpret = (function (toString, common) {
             return false;
           },
 
-          write: function(color) {
+          write: function (color) {
             return {
               r: color.r,
               g: color.g,
@@ -1464,11 +1524,11 @@ dat.color.interpret = (function (toString, common) {
         },
 
         HSVA_OBJ: {
-          read: function(original) {
+          read: function (original) {
             if (common.isNumber(original.h) &&
-                common.isNumber(original.s) &&
-                common.isNumber(original.v) &&
-                common.isNumber(original.a)) {
+              common.isNumber(original.s) &&
+              common.isNumber(original.v) &&
+              common.isNumber(original.a)) {
               return {
                 space: 'HSV',
                 h: original.h,
@@ -1480,7 +1540,7 @@ dat.color.interpret = (function (toString, common) {
             return false;
           },
 
-          write: function(color) {
+          write: function (color) {
             return {
               h: color.h,
               s: color.s,
@@ -1491,10 +1551,10 @@ dat.color.interpret = (function (toString, common) {
         },
 
         HSV_OBJ: {
-          read: function(original) {
+          read: function (original) {
             if (common.isNumber(original.h) &&
-                common.isNumber(original.s) &&
-                common.isNumber(original.v)) {
+              common.isNumber(original.s) &&
+              common.isNumber(original.v)) {
               return {
                 space: 'HSV',
                 h: original.h,
@@ -1505,7 +1565,7 @@ dat.color.interpret = (function (toString, common) {
             return false;
           },
 
-          write: function(color) {
+          write: function (color) {
             return {
               h: color.h,
               s: color.s,
@@ -1519,17 +1579,15 @@ dat.color.interpret = (function (toString, common) {
 
     }
 
-
   ];
 
   return interpret;
-
 
 })(dat.color.toString,
 dat.utils.common);
 
 
-dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, controllerFactory, Controller, BooleanController, FunctionController, NumberControllerBox, NumberControllerSlider, OptionController, ColorController, requestAnimationFrame, CenteredDiv, dom, common) {
+dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, controllerFactory, Controller, BooleanController, FunctionController, NumberControllerBox, NumberControllerSlider, OptionController, ColorController, UndefinedController, requestAnimationFrame, CenteredDiv, dom, common) {
 
   css.inject(styleSheet);
 
@@ -1543,7 +1601,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
   var DEFAULT_DEFAULT_PRESET_NAME = 'Default';
 
-  var SUPPORTS_LOCAL_STORAGE = (function() {
+  var SUPPORTS_LOCAL_STORAGE = (function () {
     try {
       return 'localStorage' in window && window['localStorage'] !== null;
     } catch (e) {
@@ -1580,7 +1638,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
    * @param {dat.gui.GUI} [params.parent] The GUI I'm nested in.
    * @param {Boolean} [params.closed] If true, starts closed
    */
-  var GUI = function(params) {
+  var GUI = function (params) {
 
     var _this = this;
 
@@ -1643,7 +1701,6 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
       hideable: params.autoPlace
     });
 
-
     if (!common.isUndefined(params.load)) {
 
       // Explicit preset
@@ -1651,7 +1708,9 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
     } else {
 
-      params.load = { preset: DEFAULT_DEFAULT_PRESET_NAME };
+      params.load = {
+        preset: DEFAULT_DEFAULT_PRESET_NAME
+      };
 
     }
 
@@ -1662,170 +1721,169 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
     // Only root level GUI's are resizable.
     params.resizable = common.isUndefined(params.parent) && params.resizable;
 
-
     if (params.autoPlace && common.isUndefined(params.scrollable)) {
       params.scrollable = true;
     }
-//    params.scrollable = common.isUndefined(params.parent) && params.scrollable === true;
+    //    params.scrollable = common.isUndefined(params.parent) && params.scrollable === true;
 
     // Not part of params because I don't want people passing this in via
     // constructor. Should be a 'remembered' value.
     var use_local_storage =
-        SUPPORTS_LOCAL_STORAGE &&
-            localStorage.getItem(getLocalStorageHash(this, 'isLocal')) === 'true';
+      SUPPORTS_LOCAL_STORAGE &&
+      localStorage.getItem(getLocalStorageHash(this, 'isLocal')) === 'true';
 
     var saveToLocalStorage;
 
     Object.defineProperties(this,
 
-        /** @lends dat.gui.GUI.prototype */
-        {
+      /** @lends dat.gui.GUI.prototype */
+      {
 
-          /**
-           * The parent <code>GUI</code>
-           * @type dat.gui.GUI
-           */
-          parent: {
-            get: function() {
-              return params.parent;
+        /**
+         * The parent <code>GUI</code>
+         * @type dat.gui.GUI
+         */
+        parent: {
+          get: function () {
+            return params.parent;
+          }
+        },
+
+        scrollable: {
+          get: function () {
+            return params.scrollable;
+          }
+        },
+
+        /**
+         * Handles <code>GUI</code>'s element placement for you
+         * @type Boolean
+         */
+        autoPlace: {
+          get: function () {
+            return params.autoPlace;
+          }
+        },
+
+        /**
+         * The identifier for a set of saved values
+         * @type String
+         */
+        preset: {
+
+          get: function () {
+            if (_this.parent) {
+              return _this.getRoot().preset;
+            } else {
+              return params.load.preset;
             }
           },
 
-          scrollable: {
-            get: function() {
-              return params.scrollable;
+          set: function (v) {
+            if (_this.parent) {
+              _this.getRoot().preset = v;
+            } else {
+              params.load.preset = v;
             }
-          },
-
-          /**
-           * Handles <code>GUI</code>'s element placement for you
-           * @type Boolean
-           */
-          autoPlace: {
-            get: function() {
-              return params.autoPlace;
-            }
-          },
-
-          /**
-           * The identifier for a set of saved values
-           * @type String
-           */
-          preset: {
-
-            get: function() {
-              if (_this.parent) {
-                return _this.getRoot().preset;
-              } else {
-                return params.load.preset;
-              }
-            },
-
-            set: function(v) {
-              if (_this.parent) {
-                _this.getRoot().preset = v;
-              } else {
-                params.load.preset = v;
-              }
-              setPresetSelectIndex(this);
-              _this.revert();
-            }
-
-          },
-
-          /**
-           * The width of <code>GUI</code> element
-           * @type Number
-           */
-          width: {
-            get: function() {
-              return params.width;
-            },
-            set: function(v) {
-              params.width = v;
-              setWidth(_this, v);
-            }
-          },
-
-          /**
-           * The name of <code>GUI</code>. Used for folders. i.e
-           * a folder's name
-           * @type String
-           */
-          name: {
-            get: function() {
-              return params.name;
-            },
-            set: function(v) {
-              // TODO Check for collisions among sibling folders
-              params.name = v;
-              if (title_row_name) {
-                title_row_name.innerHTML = params.name;
-              }
-            }
-          },
-
-          /**
-           * Whether the <code>GUI</code> is collapsed or not
-           * @type Boolean
-           */
-          closed: {
-            get: function() {
-              return params.closed;
-            },
-            set: function(v) {
-              params.closed = v;
-              if (params.closed) {
-                dom.addClass(_this.__ul, GUI.CLASS_CLOSED);
-              } else {
-                dom.removeClass(_this.__ul, GUI.CLASS_CLOSED);
-              }
-              // For browsers that aren't going to respect the CSS transition,
-              // Lets just check our height against the window height right off
-              // the bat.
-              this.onResize();
-
-              if (_this.__closeButton) {
-                _this.__closeButton.innerHTML = v ? GUI.TEXT_OPEN : GUI.TEXT_CLOSED;
-              }
-            }
-          },
-
-          /**
-           * Contains all presets
-           * @type Object
-           */
-          load: {
-            get: function() {
-              return params.load;
-            }
-          },
-
-          /**
-           * Determines whether or not to use <a href="https://developer.mozilla.org/en/DOM/Storage#localStorage">localStorage</a> as the means for
-           * <code>remember</code>ing
-           * @type Boolean
-           */
-          useLocalStorage: {
-
-            get: function() {
-              return use_local_storage;
-            },
-            set: function(bool) {
-              if (SUPPORTS_LOCAL_STORAGE) {
-                use_local_storage = bool;
-                if (bool) {
-                  dom.bind(window, 'unload', saveToLocalStorage);
-                } else {
-                  dom.unbind(window, 'unload', saveToLocalStorage);
-                }
-                localStorage.setItem(getLocalStorageHash(_this, 'isLocal'), bool);
-              }
-            }
-
+            setPresetSelectIndex(this);
+            _this.revert();
           }
 
-        });
+        },
+
+        /**
+         * The width of <code>GUI</code> element
+         * @type Number
+         */
+        width: {
+          get: function () {
+            return params.width;
+          },
+          set: function (v) {
+            params.width = v;
+            setWidth(_this, v);
+          }
+        },
+
+        /**
+         * The name of <code>GUI</code>. Used for folders. i.e
+         * a folder's name
+         * @type String
+         */
+        name: {
+          get: function () {
+            return params.name;
+          },
+          set: function (v) {
+            // TODO Check for collisions among sibling folders
+            params.name = v;
+            if (title_row_name) {
+              title_row_name.innerHTML = params.name;
+            }
+          }
+        },
+
+        /**
+         * Whether the <code>GUI</code> is collapsed or not
+         * @type Boolean
+         */
+        closed: {
+          get: function () {
+            return params.closed;
+          },
+          set: function (v) {
+            params.closed = v;
+            if (params.closed) {
+              dom.addClass(_this.__ul, GUI.CLASS_CLOSED);
+            } else {
+              dom.removeClass(_this.__ul, GUI.CLASS_CLOSED);
+            }
+            // For browsers that aren't going to respect the CSS transition,
+            // Lets just check our height against the window height right off
+            // the bat.
+            this.onResize();
+
+            if (_this.__closeButton) {
+              _this.__closeButton.innerHTML = v ? GUI.TEXT_OPEN : GUI.TEXT_CLOSED;
+            }
+          }
+        },
+
+        /**
+         * Contains all presets
+         * @type Object
+         */
+        load: {
+          get: function () {
+            return params.load;
+          }
+        },
+
+        /**
+         * Determines whether or not to use <a href="https://developer.mozilla.org/en/DOM/Storage#localStorage">localStorage</a> as the means for
+         * <code>remember</code>ing
+         * @type Boolean
+         */
+        useLocalStorage: {
+
+          get: function () {
+            return use_local_storage;
+          },
+          set: function (bool) {
+            if (SUPPORTS_LOCAL_STORAGE) {
+              use_local_storage = bool;
+              if (bool) {
+                dom.bind(window, 'unload', saveToLocalStorage);
+              } else {
+                dom.unbind(window, 'unload', saveToLocalStorage);
+              }
+              localStorage.setItem(getLocalStorageHash(_this, 'isLocal'), bool);
+            }
+          }
+
+        }
+
+      });
 
     // Are we a root level GUI?
     if (common.isUndefined(params.parent)) {
@@ -1857,13 +1915,11 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
       dom.addClass(this.__closeButton, GUI.CLASS_CLOSE_BUTTON);
       this.domElement.appendChild(this.__closeButton);
 
-      dom.bind(this.__closeButton, 'click', function() {
+      dom.bind(this.__closeButton, 'click', function () {
 
         _this.closed = !_this.closed;
 
-
       });
-
 
       // Oh, you're a nested GUI!
     } else {
@@ -1877,7 +1933,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
       var title_row = addRow(_this, title_row_name);
 
-      var on_click_title = function(e) {
+      var on_click_title = function (e) {
         e.preventDefault();
         _this.closed = !_this.closed;
         return false;
@@ -1914,18 +1970,24 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
       }
 
-
       // Make it not elastic.
       if (!this.parent) setWidth(_this, params.width);
 
     }
 
-    dom.bind(window, 'resize', function() { _this.onResize() });
-    dom.bind(this.__ul, 'webkitTransitionEnd', function() { _this.onResize(); });
-    dom.bind(this.__ul, 'transitionend', function() { _this.onResize() });
-    dom.bind(this.__ul, 'oTransitionEnd', function() { _this.onResize() });
+    dom.bind(window, 'resize', function () {
+      _this.onResize()
+    });
+    dom.bind(this.__ul, 'webkitTransitionEnd', function () {
+      _this.onResize();
+    });
+    dom.bind(this.__ul, 'transitionend', function () {
+      _this.onResize()
+    });
+    dom.bind(this.__ul, 'oTransitionEnd', function () {
+      _this.onResize()
+    });
     this.onResize();
-
 
     if (params.resizable) {
       addResizeHandle(this);
@@ -1941,24 +2003,25 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
     this.saveToLocalStorageIfPossible = saveToLocalStorage;
 
     var root = _this.getRoot();
-    function resetWidth() {
-	      var root = _this.getRoot();
-	      root.width += 1;
-	      common.defer(function() {
-	        root.width -= 1;
-	      });
-	    }
 
-	    if (!params.parent) {
-	      resetWidth();
-	    }
+    function resetWidth() {
+      var root = _this.getRoot();
+      root.width += 1;
+      common.defer(function () {
+        root.width -= 1;
+      });
+    }
+
+    if (!params.parent) {
+      resetWidth();
+    }
 
   };
 
-  GUI.toggleHide = function() {
+  GUI.toggleHide = function () {
 
     hide = !hide;
-    common.each(hideable_guis, function(gui) {
+    common.each(hideable_guis, function (gui) {
       gui.domElement.style.zIndex = hide ? -999 : 999;
       gui.domElement.style.opacity = hide ? 0 : 1;
     });
@@ -1977,10 +2040,10 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
   GUI.TEXT_CLOSED = 'Close Controls';
   GUI.TEXT_OPEN = 'Open Controls';
 
-  dom.bind(window, 'keydown', function(e) {
+  dom.bind(window, 'keydown', function (e) {
 
     if (document.activeElement.type !== 'text' &&
-        (e.which === HIDE_KEY_CODE || e.keyCode == HIDE_KEY_CODE)) {
+      (e.which === HIDE_KEY_CODE || e.keyCode == HIDE_KEY_CODE)) {
       GUI.toggleHide();
     }
 
@@ -1988,312 +2051,323 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
   common.extend(
 
-      GUI.prototype,
+    GUI.prototype,
 
-      /** @lends dat.gui.GUI */
-      {
+    /** @lends dat.gui.GUI */
+    {
 
-        /**
-         * @param object
-         * @param property
-         * @returns {dat.controllers.Controller} The new controller that was added.
-         * @instance
-         */
-        add: function(object, property) {
+      /**
+       * @param object
+       * @param property
+       * @returns {dat.controllers.Controller} The new controller that was added.
+       * @instance
+       */
+      add: function (object, property) {
 
-          return add(
-              this,
-              object,
-              property,
-              {
-                factoryArgs: Array.prototype.slice.call(arguments, 2)
-              }
-          );
-
-        },
-
-        /**
-         * @param object
-         * @param property
-         * @returns {dat.controllers.ColorController} The new controller that was added.
-         * @instance
-         */
-        addColor: function(object, property) {
-
-          return add(
-              this,
-              object,
-              property,
-              {
-                color: true
-              }
-          );
-
-        },
-
-        /**
-         * @param controller
-         * @instance
-         */
-        remove: function(controller) {
-
-          // TODO listening?
-          this.__ul.removeChild(controller.__li);
-          this.__controllers.splice(this.__controllers.indexOf(controller), 1);
-          var _this = this;
-          common.defer(function() {
-            _this.onResize();
-          });
-
-        },
-
-        destroy: function() {
-
-          if (this.autoPlace) {
-            auto_place_container.removeChild(this.domElement);
+        return add(
+          this,
+          object,
+          property, {
+            factoryArgs: Array.prototype.slice.call(arguments, 2)
           }
+        );
 
-        },
+      },
 
-        /**
-         * @param name
-         * @returns {dat.gui.GUI} The new folder.
-         * @throws {Error} if this GUI already has a folder by the specified
-         * name
-         * @instance
-         */
-        addFolder: function(name) {
+      /**
+       * @param object
+       * @param property
+       * @returns {dat.controllers.ColorController} The new controller that was added.
+       * @instance
+       */
+      addColor: function (object, property) {
 
-          // We have to prevent collisions on names in order to have a key
-          // by which to remember saved values
-          if (this.__folders[name] !== undefined) {
-            throw new Error('You already have a folder in this GUI by the' +
-                ' name "' + name + '"');
+        return add(
+          this,
+          object,
+          property, {
+            color: true
           }
+        );
 
-          var new_gui_params = { name: name, parent: this };
+      },
 
-          // We need to pass down the autoPlace trait so that we can
-          // attach event listeners to open/close folder actions to
-          // ensure that a scrollbar appears if the window is too short.
-          new_gui_params.autoPlace = this.autoPlace;
+      /**
+       * @param controller
+       * @instance
+       */
+      remove: function (controller) {
 
-          // Do we have saved appearance data for this folder?
+        this.__ul.removeChild(controller.__li);
+        var ixl = this.__listening.indexOf(controller);
+        if (ixl > 0)
+          this.__listening.pop(ixl);
+        this.__controllers.pop(this.__controllers.indexOf(controller));
+        var _this = this;
+        common.defer(function () {
+          _this.onResize();
+        });
 
-          if (this.load && // Anything loaded?
-              this.load.folders && // Was my parent a dead-end?
-              this.load.folders[name]) { // Did daddy remember me?
+      },
 
-            // Start me closed if I was closed
-            new_gui_params.closed = this.load.folders[name].closed;
+      destroy: function () {
 
-            // Pass down the loaded data
-            new_gui_params.load = this.load.folders[name];
+        if (this.autoPlace) {
+          auto_place_container.removeChild(this.domElement);
+        }
 
-          }
+      },
 
-          var gui = new GUI(new_gui_params);
-          this.__folders[name] = gui;
+      /**
+       * @param name
+       * @returns {dat.gui.GUI} The new folder.
+       * @throws {Error} if this GUI already has a folder by the specified
+       * name
+       * @instance
+       */
+      addFolder: function (name) {
 
-          var li = addRow(this, gui.domElement);
-          dom.addClass(li, 'folder');
-          return gui;
+        // We have to prevent collisions on names in order to have a key
+        // by which to remember saved values
+        if (this.__folders[name] !== undefined) {
+          throw new Error('You already have a folder in this GUI by the' +
+            ' name "' + name + '"');
+        }
 
-        },
+        var new_gui_params = {
+          name: name,
+          parent: this
+        };
 
-        open: function() {
-          this.closed = false;
-        },
+        // We need to pass down the autoPlace trait so that we can
+        // attach event listeners to open/close folder actions to
+        // ensure that a scrollbar appears if the window is too short.
+        new_gui_params.autoPlace = this.autoPlace;
 
-        close: function() {
-          this.closed = true;
-        },
+        // Do we have saved appearance data for this folder?
 
-        onResize: function() {
+        if (this.load && // Anything loaded?
+          this.load.folders && // Was my parent a dead-end?
+          this.load.folders[name]) { // Did daddy remember me?
 
-          var root = this.getRoot();
+          // Start me closed if I was closed
+          new_gui_params.closed = this.load.folders[name].closed;
 
-          if (root.scrollable) {
-
-            var top = dom.getOffset(root.__ul).top;
-            var h = 0;
-
-            common.each(root.__ul.childNodes, function(node) {
-              if (! (root.autoPlace && node === root.__save_row))
-                h += dom.getHeight(node);
-            });
-
-            if (window.innerHeight - top - CLOSE_BUTTON_HEIGHT < h) {
-              dom.addClass(root.domElement, GUI.CLASS_TOO_TALL);
-              root.__ul.style.height = window.innerHeight - top - CLOSE_BUTTON_HEIGHT + 'px';
-            } else {
-              dom.removeClass(root.domElement, GUI.CLASS_TOO_TALL);
-              root.__ul.style.height = 'auto';
-            }
-
-          }
-
-          if (root.__resize_handle) {
-            common.defer(function() {
-              root.__resize_handle.style.height = root.__ul.offsetHeight + 'px';
-            });
-          }
-
-          if (root.__closeButton) {
-            root.__closeButton.style.width = root.width + 'px';
-          }
-
-        },
-
-        /**
-         * Mark objects for saving. The order of these objects cannot change as
-         * the GUI grows. When remembering new objects, append them to the end
-         * of the list.
-         *
-         * @param {Object...} objects
-         * @throws {Error} if not called on a top level GUI.
-         * @instance
-         */
-        remember: function() {
-
-          if (common.isUndefined(SAVE_DIALOGUE)) {
-            SAVE_DIALOGUE = new CenteredDiv();
-            SAVE_DIALOGUE.domElement.innerHTML = saveDialogueContents;
-          }
-
-          if (this.parent) {
-            throw new Error("You can only call remember on a top level GUI.");
-          }
-
-          var _this = this;
-
-          common.each(Array.prototype.slice.call(arguments), function(object) {
-            if (_this.__rememberedObjects.length == 0) {
-              addSaveMenu(_this);
-            }
-            if (_this.__rememberedObjects.indexOf(object) == -1) {
-              _this.__rememberedObjects.push(object);
-            }
-          });
-
-          if (this.autoPlace) {
-            // Set save row width
-            setWidth(this, this.width);
-          }
-
-        },
-
-        /**
-         * @returns {dat.gui.GUI} the topmost parent GUI of a nested GUI.
-         * @instance
-         */
-        getRoot: function() {
-          var gui = this;
-          while (gui.parent) {
-            gui = gui.parent;
-          }
-          return gui;
-        },
-
-        /**
-         * @returns {Object} a JSON object representing the current state of
-         * this GUI as well as its remembered properties.
-         * @instance
-         */
-        getSaveObject: function() {
-
-          var toReturn = this.load;
-
-          toReturn.closed = this.closed;
-
-          // Am I remembering any values?
-          if (this.__rememberedObjects.length > 0) {
-
-            toReturn.preset = this.preset;
-
-            if (!toReturn.remembered) {
-              toReturn.remembered = {};
-            }
-
-            toReturn.remembered[this.preset] = getCurrentPreset(this);
-
-          }
-
-          toReturn.folders = {};
-          common.each(this.__folders, function(element, key) {
-            toReturn.folders[key] = element.getSaveObject();
-          });
-
-          return toReturn;
-
-        },
-
-        save: function() {
-
-          if (!this.load.remembered) {
-            this.load.remembered = {};
-          }
-
-          this.load.remembered[this.preset] = getCurrentPreset(this);
-          markPresetModified(this, false);
-          this.saveToLocalStorageIfPossible();
-
-        },
-
-        saveAs: function(presetName) {
-
-          if (!this.load.remembered) {
-
-            // Retain default values upon first save
-            this.load.remembered = {};
-            this.load.remembered[DEFAULT_DEFAULT_PRESET_NAME] = getCurrentPreset(this, true);
-
-          }
-
-          this.load.remembered[presetName] = getCurrentPreset(this);
-          this.preset = presetName;
-          addPresetOption(this, presetName, true);
-          this.saveToLocalStorageIfPossible();
-
-        },
-
-        revert: function(gui) {
-
-          common.each(this.__controllers, function(controller) {
-            // Make revert work on Default.
-            if (!this.getRoot().load.remembered) {
-              controller.setValue(controller.initialValue);
-            } else {
-              recallSavedValue(gui || this.getRoot(), controller);
-            }
-          }, this);
-
-          common.each(this.__folders, function(folder) {
-            folder.revert(folder);
-          });
-
-          if (!gui) {
-            markPresetModified(this.getRoot(), false);
-          }
-
-
-        },
-
-        listen: function(controller) {
-
-          var init = this.__listening.length == 0;
-          this.__listening.push(controller);
-          if (init) updateDisplays(this.__listening);
+          // Pass down the loaded data
+          new_gui_params.load = this.load.folders[name];
 
         }
 
+        var gui = new GUI(new_gui_params);
+        this.__folders[name] = gui;
+
+        var li = addRow(this, gui.domElement);
+        dom.addClass(li, 'folder');
+        return gui;
+
+      },
+
+      open: function () {
+        this.closed = false;
+      },
+
+      close: function () {
+        this.closed = true;
+      },
+
+      onResize: function () {
+
+        var root = this.getRoot();
+
+        if (root.scrollable) {
+
+          var top = dom.getOffset(root.__ul).top;
+          var h = 0;
+
+          common.each(root.__ul.childNodes, function (node) {
+            if (!(root.autoPlace && node === root.__save_row))
+              h += dom.getHeight(node);
+          });
+
+          if (window.innerHeight - top - CLOSE_BUTTON_HEIGHT < h) {
+            dom.addClass(root.domElement, GUI.CLASS_TOO_TALL);
+            root.__ul.style.height = window.innerHeight - top - CLOSE_BUTTON_HEIGHT + 'px';
+          } else {
+            dom.removeClass(root.domElement, GUI.CLASS_TOO_TALL);
+            root.__ul.style.height = 'auto';
+          }
+
+        }
+
+        if (root.__resize_handle) {
+          common.defer(function () {
+            root.__resize_handle.style.height = root.__ul.offsetHeight + 'px';
+          });
+        }
+
+        if (root.__closeButton) {
+          root.__closeButton.style.width = root.width + 'px';
+        }
+
+      },
+
+      /**
+       * Mark objects for saving. The order of these objects cannot change as
+       * the GUI grows. When remembering new objects, append them to the end
+       * of the list.
+       *
+       * @param {Object...} objects
+       * @throws {Error} if not called on a top level GUI.
+       * @instance
+       */
+      remember: function () {
+
+        if (common.isUndefined(SAVE_DIALOGUE)) {
+          SAVE_DIALOGUE = new CenteredDiv();
+          SAVE_DIALOGUE.domElement.innerHTML = saveDialogueContents;
+        }
+
+        if (this.parent) {
+          throw new Error("You can only call remember on a top level GUI.");
+        }
+
+        var _this = this;
+
+        common.each(Array.prototype.slice.call(arguments), function (object) {
+          if (_this.__rememberedObjects.length == 0) {
+            addSaveMenu(_this);
+          }
+          if (_this.__rememberedObjects.indexOf(object) == -1) {
+            _this.__rememberedObjects.push(object);
+          }
+        });
+
+        if (this.autoPlace) {
+          // Set save row width
+          setWidth(this, this.width);
+        }
+
+      },
+
+      /**
+       * @returns {dat.gui.GUI} the topmost parent GUI of a nested GUI.
+       * @instance
+       */
+      getRoot: function () {
+        var gui = this;
+        while (gui.parent) {
+          gui = gui.parent;
+        }
+        return gui;
+      },
+
+      /**
+       * @returns {Object} a JSON object representing the current state of
+       * this GUI as well as its remembered properties.
+       * @instance
+       */
+      getSaveObject: function () {
+
+        var toReturn = this.load;
+
+        toReturn.closed = this.closed;
+
+        // Am I remembering any values?
+        if (this.__rememberedObjects.length > 0) {
+
+          toReturn.preset = this.preset;
+
+          if (!toReturn.remembered) {
+            toReturn.remembered = {};
+          }
+
+          toReturn.remembered[this.preset] = getCurrentPreset(this);
+
+        }
+
+        toReturn.folders = {};
+        common.each(this.__folders, function (element, key) {
+          toReturn.folders[key] = element.getSaveObject();
+        });
+
+        return toReturn;
+
+      },
+
+      save: function () {
+
+        if (!this.load.remembered) {
+          this.load.remembered = {};
+        }
+
+        this.load.remembered[this.preset] = getCurrentPreset(this);
+        markPresetModified(this, false);
+        this.saveToLocalStorageIfPossible();
+
+      },
+
+      saveAs: function (presetName) {
+
+        if (!this.load.remembered) {
+
+          // Retain default values upon first save
+          this.load.remembered = {};
+          this.load.remembered[DEFAULT_DEFAULT_PRESET_NAME] = getCurrentPreset(this, true);
+
+        }
+
+        this.load.remembered[presetName] = getCurrentPreset(this);
+        this.preset = presetName;
+        addPresetOption(this, presetName, true);
+        this.saveToLocalStorageIfPossible();
+
+      },
+
+      revert: function (gui) {
+
+        common.each(this.__controllers, function (controller) {
+          // Make revert work on Default.
+          if (!this.getRoot().load.remembered) {
+            controller.setValue(controller.initialValue);
+          } else {
+            recallSavedValue(gui || this.getRoot(), controller);
+          }
+        }, this);
+
+        common.each(this.__folders, function (folder) {
+          folder.revert(folder);
+        });
+
+        if (!gui) {
+          markPresetModified(this.getRoot(), false);
+        }
+
+      },
+
+      listen: function (controller) {
+
+        var init = this.__listening.length == 0;
+        this.__listening.push(controller);
+        if (init) updateDisplays(this.__listening);
+
+      },
+
+      updateDisplay: function () {
+        for (var c in this.__controllers) {
+          this.__controllers[c].updateDisplay();
+        }
+        for (var f in this.__folders) {
+          this.__folders[f].updateDisplay();
+        }
       }
+
+    }
 
   );
 
   function add(gui, object, property, params) {
 
-    if (object[property] === undefined) {
+    if (!common.hasOwnProperty(object, property)) {
       throw new Error("Object " + object + " has no property \"" + property + "\"");
     }
 
@@ -2305,7 +2379,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
     } else {
 
-      var factoryArgs = [object,property].concat(params.factoryArgs);
+      var factoryArgs = [object, property].concat(params.factoryArgs);
       controller = controllerFactory.apply(gui, factoryArgs);
 
     }
@@ -2365,19 +2439,18 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
     common.extend(controller, {
 
-      options: function(options) {
+      options: function (options) {
 
         if (arguments.length > 1) {
           controller.remove();
 
           return add(
-              gui,
-              controller.object,
-              controller.property,
-              {
-                before: controller.__li.nextElementSibling,
-                factoryArgs: [common.toArray(arguments)]
-              }
+            gui,
+            controller.object,
+            controller.property, {
+              before: controller.__li.nextElementSibling,
+              factoryArgs: [common.toArray(arguments)]
+            }
           );
 
         }
@@ -2386,30 +2459,29 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
           controller.remove();
 
           return add(
-              gui,
-              controller.object,
-              controller.property,
-              {
-                before: controller.__li.nextElementSibling,
-                factoryArgs: [options]
-              }
+            gui,
+            controller.object,
+            controller.property, {
+              before: controller.__li.nextElementSibling,
+              factoryArgs: [options]
+            }
           );
 
         }
 
       },
 
-      name: function(v) {
+      name: function (v) {
         controller.__li.firstElementChild.firstElementChild.innerHTML = v;
         return controller;
       },
 
-      listen: function() {
+      listen: function () {
         controller.__gui.listen(controller);
         return controller;
       },
 
-      remove: function() {
+      remove: function () {
         controller.__gui.remove(controller);
         return controller;
       }
@@ -2419,13 +2491,16 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
     // All sliders should be accompanied by a box.
     if (controller instanceof NumberControllerSlider) {
 
-      var box = new NumberControllerBox(controller.object, controller.property,
-          { min: controller.__min, max: controller.__max, step: controller.__step });
+      var box = new NumberControllerBox(controller.object, controller.property, {
+        min: controller.__min,
+        max: controller.__max,
+        step: controller.__step
+      });
 
-      common.each(['updateDisplay', 'onChange', 'onFinishChange'], function(method) {
+      common.each(['updateDisplay', 'onChange', 'onFinishChange'], function (method) {
         var pc = controller[method];
         var pb = box[method];
-        controller[method] = box[method] = function() {
+        controller[method] = box[method] = function () {
           var args = Array.prototype.slice.call(arguments);
           pc.apply(controller, args);
           return pb.apply(box, args);
@@ -2435,10 +2510,9 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
       dom.addClass(li, 'has-slider');
       controller.domElement.insertBefore(box.domElement, controller.domElement.firstElementChild);
 
-    }
-    else if (controller instanceof NumberControllerBox) {
+    } else if (controller instanceof NumberControllerBox) {
 
-      var r = function(returned) {
+      var r = function (returned) {
 
         // Have we defined both boundaries?
         if (common.isNumber(controller.__min) && common.isNumber(controller.__max)) {
@@ -2446,13 +2520,12 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
           // Well, then lets just replace this with a slider.
           controller.remove();
           return add(
-              gui,
-              controller.object,
-              controller.property,
-              {
-                before: controller.__li.nextElementSibling,
-                factoryArgs: [controller.__min, controller.__max, controller.__step]
-              });
+            gui,
+            controller.object,
+            controller.property, {
+              before: controller.__li.nextElementSibling,
+              factoryArgs: [controller.__min, controller.__max, controller.__step]
+            });
 
         }
 
@@ -2463,46 +2536,54 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
       controller.min = common.compose(r, controller.min);
       controller.max = common.compose(r, controller.max);
 
-    }
-    else if (controller instanceof BooleanController) {
+    } else if (controller instanceof BooleanController) {
 
-      dom.bind(li, 'click', function() {
+      dom.bind(li, 'click', function () {
         dom.fakeEvent(controller.__checkbox, 'click');
       });
 
-      dom.bind(controller.__checkbox, 'click', function(e) {
+      dom.bind(controller.__checkbox, 'click', function (e) {
         e.stopPropagation(); // Prevents double-toggle
       })
 
-    }
-    else if (controller instanceof FunctionController) {
+    } else if (controller instanceof FunctionController) {
 
-      dom.bind(li, 'click', function() {
+      dom.bind(li, 'click', function () {
         dom.fakeEvent(controller.__button, 'click');
       });
 
-      dom.bind(li, 'mouseover', function() {
+      dom.bind(li, 'mouseover', function () {
         dom.addClass(controller.__button, 'hover');
       });
 
-      dom.bind(li, 'mouseout', function() {
+      dom.bind(li, 'mouseout', function () {
         dom.removeClass(controller.__button, 'hover');
       });
 
-    }
-    else if (controller instanceof ColorController) {
+    } else if (controller instanceof ColorController) {
 
       dom.addClass(li, 'color');
-      controller.updateDisplay = common.compose(function(r) {
+      controller.updateDisplay = common.compose(function (r) {
         li.style.borderLeftColor = controller.__color.toString();
         return r;
       }, controller.updateDisplay);
 
       controller.updateDisplay();
 
+    } else if (controller instanceof UndefinedController) {
+      controller.__onFinishChange = function (val) {
+        controller.remove();
+        return add(
+          gui,
+          controller.object,
+          controller.property, {
+            before: controller.__li.nextElementSibling
+          }
+        );
+      }
     }
 
-    controller.setValue = common.compose(function(r) {
+    controller.setValue = common.compose(function (r) {
       if (gui.getRoot().__preset_select && controller.isModified()) {
         markPresetModified(gui.getRoot(), true);
       }
@@ -2525,14 +2606,14 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
       // Let me fetch a map of controllers for thcommon.isObject.
       var controller_map =
-          root.__rememberedObjectIndecesToControllers[matched_index];
+        root.__rememberedObjectIndecesToControllers[matched_index];
 
       // Ohp, I believe this is the first controller we've created for this
       // object. Lets make the map fresh.
       if (controller_map === undefined) {
         controller_map = {};
         root.__rememberedObjectIndecesToControllers[matched_index] =
-            controller_map;
+          controller_map;
       }
 
       // Keep track of this controller
@@ -2563,12 +2644,11 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
         }
 
-
         // Did the loaded object remember thcommon.isObject?
         if (preset[matched_index] &&
 
           // Did we remember this particular property?
-            preset[matched_index][controller.property] !== undefined) {
+          preset[matched_index][controller.property] !== undefined) {
 
           // We did remember something for this guy ...
           var value = preset[matched_index][controller.property];
@@ -2625,7 +2705,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
     if (gui.load && gui.load.remembered) {
 
-      common.each(gui.load.remembered, function(value, key) {
+      common.each(gui.load.remembered, function (value, key) {
         addPresetOption(gui, key, key == gui.preset);
       });
 
@@ -2633,8 +2713,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
       addPresetOption(gui, DEFAULT_DEFAULT_PRESET_NAME, false);
     }
 
-    dom.bind(select, 'change', function() {
-
+    dom.bind(select, 'change', function () {
 
       for (var index = 0; index < gui.__preset_select.length; index++) {
         gui.__preset_select[index].innerHTML = gui.__preset_select[index].value;
@@ -2670,7 +2749,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
       showHideExplain();
 
       // TODO: Use a boolean controller, fool!
-      dom.bind(localStorageCheckBox, 'change', function() {
+      dom.bind(localStorageCheckBox, 'change', function () {
         gui.useLocalStorage = !gui.useLocalStorage;
         showHideExplain();
       });
@@ -2679,33 +2758,33 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
     var newConstructorTextArea = document.getElementById('dg-new-constructor');
 
-    dom.bind(newConstructorTextArea, 'keydown', function(e) {
+    dom.bind(newConstructorTextArea, 'keydown', function (e) {
       if (e.metaKey && (e.which === 67 || e.keyCode == 67)) {
         SAVE_DIALOGUE.hide();
       }
     });
 
-    dom.bind(gears, 'click', function() {
+    dom.bind(gears, 'click', function () {
       newConstructorTextArea.innerHTML = JSON.stringify(gui.getSaveObject(), undefined, 2);
       SAVE_DIALOGUE.show();
       newConstructorTextArea.focus();
       newConstructorTextArea.select();
     });
 
-    dom.bind(button, 'click', function() {
+    dom.bind(button, 'click', function () {
       gui.save();
     });
 
-    dom.bind(button2, 'click', function() {
+    dom.bind(button2, 'click', function () {
       var presetName = prompt('Enter a new preset name.');
       if (presetName) gui.saveAs(presetName);
     });
 
-    dom.bind(button3, 'click', function() {
+    dom.bind(button3, 'click', function () {
       gui.revert();
     });
 
-//    div.appendChild(button2);
+    //    div.appendChild(button2);
 
   }
 
@@ -2720,7 +2799,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
       height: '200px',
       cursor: 'ew-resize',
       position: 'absolute'
-//      border: '1px solid blue'
+        //      border: '1px solid blue'
 
     });
 
@@ -2773,7 +2852,8 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
     // set the width manually if we want it to bleed to the edge
     if (gui.__save_row && gui.autoPlace) {
       gui.__save_row.style.width = w + 'px';
-    }if (gui.__closeButton) {
+    }
+    if (gui.__closeButton) {
       gui.__closeButton.style.width = w + 'px';
     }
   }
@@ -2783,16 +2863,16 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
     var toReturn = {};
 
     // For each object I'm remembering
-    common.each(gui.__rememberedObjects, function(val, index) {
+    common.each(gui.__rememberedObjects, function (val, index) {
 
       var saved_values = {};
 
       // The controllers I've made for thcommon.isObject by property
       var controller_map =
-          gui.__rememberedObjectIndecesToControllers[index];
+        gui.__rememberedObjectIndecesToControllers[index];
 
       // Remember each value for each property
-      common.each(controller_map, function(controller, property) {
+      common.each(controller_map, function (controller, property) {
         saved_values[property] = useInitialValues ? controller.initialValue : controller.getValue();
       });
 
@@ -2825,7 +2905,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
   function markPresetModified(gui, modified) {
     var opt = gui.__preset_select[gui.__preset_select.selectedIndex];
-//    console.log('mark', modified, opt);
+    //    console.log('mark', modified, opt);
     if (modified) {
       opt.innerHTML = opt.value + "*";
     } else {
@@ -2835,16 +2915,15 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
   function updateDisplays(controllerArray) {
 
-
     if (controllerArray.length != 0) {
 
-      requestAnimationFrame(function() {
+      requestAnimationFrame(function () {
         updateDisplays(controllerArray);
       });
 
     }
 
-    common.each(controllerArray, function(c) {
+    common.each(controllerArray, function (c) {
       c.updateDisplay();
     });
 
@@ -2853,51 +2932,58 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
   return GUI;
 
 })(dat.utils.css,
-"<div id=\"dg-save\" class=\"dg dialogue\">\n\n  Here's the new load parameter for your <code>GUI</code>'s constructor:\n\n  <textarea id=\"dg-new-constructor\"></textarea>\n\n  <div id=\"dg-save-locally\">\n\n    <input id=\"dg-local-storage\" type=\"checkbox\"/> Automatically save\n    values to <code>localStorage</code> on exit.\n\n    <div id=\"dg-local-explain\">The values saved to <code>localStorage</code> will\n      override those passed to <code>dat.GUI</code>'s constructor. This makes it\n      easier to work incrementally, but <code>localStorage</code> is fragile,\n      and your friends may not see the same values you do.\n      \n    </div>\n    \n  </div>\n\n</div>",
-".dg {\n  /** Clear list styles */\n  /* Auto-place container */\n  /* Auto-placed GUI's */\n  /* Line items that don't contain folders. */\n  /** Folder names */\n  /** Hides closed items */\n  /** Controller row */\n  /** Name-half (left) */\n  /** Controller-half (right) */\n  /** Controller placement */\n  /** Shorter number boxes when slider is present. */\n  /** Ensure the entire boolean and function row shows a hand */ }\n  .dg ul {\n    list-style: none;\n    margin: 0;\n    padding: 0;\n    width: 100%;\n    clear: both; }\n  .dg.ac {\n    position: fixed;\n    top: 0;\n    left: 0;\n    right: 0;\n    height: 0;\n    z-index: 0; }\n  .dg:not(.ac) .main {\n    /** Exclude mains in ac so that we don't hide close button */\n    overflow: hidden; }\n  .dg.main {\n    -webkit-transition: opacity 0.1s linear;\n    -o-transition: opacity 0.1s linear;\n    -moz-transition: opacity 0.1s linear;\n    transition: opacity 0.1s linear; }\n    .dg.main.taller-than-window {\n      overflow-y: auto; }\n      .dg.main.taller-than-window .close-button {\n        opacity: 1;\n        /* TODO, these are style notes */\n        margin-top: -1px;\n        border-top: 1px solid #2c2c2c; }\n    .dg.main ul.closed .close-button {\n      opacity: 1 !important; }\n    .dg.main:hover .close-button,\n    .dg.main .close-button.drag {\n      opacity: 1; }\n    .dg.main .close-button {\n      /*opacity: 0;*/\n      -webkit-transition: opacity 0.1s linear;\n      -o-transition: opacity 0.1s linear;\n      -moz-transition: opacity 0.1s linear;\n      transition: opacity 0.1s linear;\n      border: 0;\n      position: absolute;\n      line-height: 19px;\n      height: 20px;\n      /* TODO, these are style notes */\n      cursor: pointer;\n      text-align: center;\n      background-color: #000; }\n      .dg.main .close-button:hover {\n        background-color: #111; }\n  .dg.a {\n    float: right;\n    margin-right: 15px;\n    overflow-x: hidden; }\n    .dg.a.has-save > ul {\n      margin-top: 27px; }\n      .dg.a.has-save > ul.closed {\n        margin-top: 0; }\n    .dg.a .save-row {\n      position: fixed;\n      top: 0;\n      z-index: 1002; }\n  .dg li {\n    -webkit-transition: height 0.1s ease-out;\n    -o-transition: height 0.1s ease-out;\n    -moz-transition: height 0.1s ease-out;\n    transition: height 0.1s ease-out; }\n  .dg li:not(.folder) {\n    cursor: auto;\n    height: 27px;\n    line-height: 27px;\n    overflow: hidden;\n    padding: 0 4px 0 5px; }\n  .dg li.folder {\n    padding: 0;\n    border-left: 4px solid rgba(0, 0, 0, 0); }\n  .dg li.title {\n    cursor: pointer;\n    margin-left: -4px; }\n  .dg .closed li:not(.title),\n  .dg .closed ul li,\n  .dg .closed ul li > * {\n    height: 0;\n    overflow: hidden;\n    border: 0; }\n  .dg .cr {\n    clear: both;\n    padding-left: 3px;\n    height: 27px; }\n  .dg .property-name {\n    cursor: default;\n    float: left;\n    clear: left;\n    width: 40%;\n    overflow: hidden;\n    text-overflow: ellipsis; }\n  .dg .c {\n    float: left;\n    width: 60%; }\n  .dg .c input[type=text] {\n    border: 0;\n    margin-top: 4px;\n    padding: 3px;\n    width: 100%;\n    float: right; }\n  .dg .has-slider input[type=text] {\n    width: 30%;\n    /*display: none;*/\n    margin-left: 0; }\n  .dg .slider {\n    float: left;\n    width: 66%;\n    margin-left: -5px;\n    margin-right: 0;\n    height: 19px;\n    margin-top: 4px; }\n  .dg .slider-fg {\n    height: 100%; }\n  .dg .c input[type=checkbox] {\n    margin-top: 9px; }\n  .dg .c select {\n    margin-top: 5px; }\n  .dg .cr.function,\n  .dg .cr.function .property-name,\n  .dg .cr.function *,\n  .dg .cr.boolean,\n  .dg .cr.boolean * {\n    cursor: pointer; }\n  .dg .selector {\n    display: none;\n    position: absolute;\n    margin-left: -9px;\n    margin-top: 23px;\n    z-index: 10; }\n  .dg .c:hover .selector,\n  .dg .selector.drag {\n    display: block; }\n  .dg li.save-row {\n    padding: 0; }\n    .dg li.save-row .button {\n      display: inline-block;\n      padding: 0px 6px; }\n  .dg.dialogue {\n    background-color: #222;\n    width: 460px;\n    padding: 15px;\n    font-size: 13px;\n    line-height: 15px; }\n\n/* TODO Separate style and structure */\n#dg-new-constructor {\n  padding: 10px;\n  color: #222;\n  font-family: Monaco, monospace;\n  font-size: 10px;\n  border: 0;\n  resize: none;\n  box-shadow: inset 1px 1px 1px #888;\n  word-wrap: break-word;\n  margin: 12px 0;\n  display: block;\n  width: 440px;\n  overflow-y: scroll;\n  height: 100px;\n  position: relative; }\n\n#dg-local-explain {\n  display: none;\n  font-size: 11px;\n  line-height: 17px;\n  border-radius: 3px;\n  background-color: #333;\n  padding: 8px;\n  margin-top: 10px; }\n  #dg-local-explain code {\n    font-size: 10px; }\n\n#dat-gui-save-locally {\n  display: none; }\n\n/** Main type */\n.dg {\n  color: #eee;\n  font: 11px 'Lucida Grande', sans-serif;\n  text-shadow: 0 -1px 0 #111;\n  /** Auto place */\n  /* Controller row, <li> */\n  /** Controllers */ }\n  .dg.main {\n    /** Scrollbar */ }\n    .dg.main::-webkit-scrollbar {\n      width: 5px;\n      background: #1a1a1a; }\n    .dg.main::-webkit-scrollbar-corner {\n      height: 0;\n      display: none; }\n    .dg.main::-webkit-scrollbar-thumb {\n      border-radius: 5px;\n      background: #676767; }\n  .dg li:not(.folder) {\n    background: #1a1a1a;\n    border-bottom: 1px solid #2c2c2c; }\n  .dg li.save-row {\n    line-height: 25px;\n    background: #dad5cb;\n    border: 0; }\n    .dg li.save-row select {\n      margin-left: 5px;\n      width: 108px; }\n    .dg li.save-row .button {\n      margin-left: 5px;\n      margin-top: 1px;\n      border-radius: 2px;\n      font-size: 9px;\n      line-height: 7px;\n      padding: 4px 4px 5px 4px;\n      background: #c5bdad;\n      color: #fff;\n      text-shadow: 0 1px 0 #b0a58f;\n      box-shadow: 0 -1px 0 #b0a58f;\n      cursor: pointer; }\n      .dg li.save-row .button.gears {\n        background: #c5bdad url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAANCAYAAAB/9ZQ7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQJJREFUeNpiYKAU/P//PwGIC/ApCABiBSAW+I8AClAcgKxQ4T9hoMAEUrxx2QSGN6+egDX+/vWT4e7N82AMYoPAx/evwWoYoSYbACX2s7KxCxzcsezDh3evFoDEBYTEEqycggWAzA9AuUSQQgeYPa9fPv6/YWm/Acx5IPb7ty/fw+QZblw67vDs8R0YHyQhgObx+yAJkBqmG5dPPDh1aPOGR/eugW0G4vlIoTIfyFcA+QekhhHJhPdQxbiAIguMBTQZrPD7108M6roWYDFQiIAAv6Aow/1bFwXgis+f2LUAynwoIaNcz8XNx3Dl7MEJUDGQpx9gtQ8YCueB+D26OECAAQDadt7e46D42QAAAABJRU5ErkJggg==) 2px 1px no-repeat;\n        height: 7px;\n        width: 8px; }\n      .dg li.save-row .button:hover {\n        background-color: #bab19e;\n        box-shadow: 0 -1px 0 #b0a58f; }\n  .dg li.folder {\n    border-bottom: 0; }\n  .dg li.title {\n    padding-left: 16px;\n    background: black url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlI+hKgFxoCgAOw==) 6px 10px no-repeat;\n    cursor: pointer;\n    border-bottom: 1px solid rgba(255, 255, 255, 0.2); }\n  .dg .closed li.title {\n    background-image: url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlGIWqMCbWAEAOw==); }\n  .dg .cr.boolean {\n    border-left: 3px solid #806787; }\n  .dg .cr.function {\n    border-left: 3px solid #e61d5f; }\n  .dg .cr.number {\n    border-left: 3px solid #2fa1d6; }\n    .dg .cr.number input[type=text] {\n      color: #2fa1d6; }\n  .dg .cr.string {\n    border-left: 3px solid #1ed36f; }\n    .dg .cr.string input[type=text] {\n      color: #1ed36f; }\n  .dg .cr.function:hover, .dg .cr.boolean:hover {\n    background: #111; }\n  .dg .c input[type=text] {\n    background: #303030;\n    outline: none; }\n    .dg .c input[type=text]:hover {\n      background: #3c3c3c; }\n    .dg .c input[type=text]:focus {\n      background: #494949;\n      color: #fff; }\n  .dg .c .slider {\n    background: #303030;\n    cursor: ew-resize; }\n  .dg .c .slider-fg {\n    background: #2fa1d6; }\n  .dg .c .slider:hover {\n    background: #3c3c3c; }\n    .dg .c .slider:hover .slider-fg {\n      background: #44abda; }\n",
-dat.controllers.factory = (function (OptionController, NumberControllerBox, NumberControllerSlider, StringController, FunctionController, BooleanController, common) {
+"<div id=\"dg-save\" class=\"dg dialogue\">\n\n    Here's the new load parameter for your <code>GUI</code>'s constructor:\n\n    <textarea id=\"dg-new-constructor\"></textarea>\n\n    <div id=\"dg-save-locally\">\n\n        <input id=\"dg-local-storage\" type=\"checkbox\" /> Automatically save values to <code>localStorage</code> on exit.\n\n        <div id=\"dg-local-explain\">The values saved to <code>localStorage</code> will override those passed to <code>dat.GUI</code>'s constructor. This makes it easier to work incrementally, but <code>localStorage</code> is fragile, and your friends may not see the same values you do.\n\n        </div>\n\n    </div>\n\n</div>\n",
+".dg {\n  /** Clear list styles */\n  /* Auto-place container */\n  /* Auto-placed GUI's */\n  /* Line items that don't contain folders. */\n  /** Folder names */\n  /** Hides closed items */\n  /** Controller row */\n  /** Name-half (left) */\n  /** Controller-half (right) */\n  /** Controller placement */\n  /** Shorter number boxes when slider is present. */\n  /** Ensure the entire boolean and function row shows a hand */\n}\n\n.dg ul {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n  width: 100%;\n  clear: both;\n}\n\n.dg.ac {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 0;\n  z-index: 0;\n}\n\n.dg:not(.ac) .main {\n  /** Exclude mains in ac so that we don't hide close button */\n  overflow: hidden;\n}\n\n.dg.main {\n  -webkit-transition: opacity 0.1s linear;\n  -o-transition: opacity 0.1s linear;\n  -moz-transition: opacity 0.1s linear;\n  transition: opacity 0.1s linear;\n}\n\n.dg.main.taller-than-window {\n  overflow-y: auto;\n}\n\n.dg.main.taller-than-window .close-button {\n  opacity: 1;\n  /* TODO, these are style notes */\n  margin-top: -1px;\n  border-top: 1px solid #2c2c2c;\n}\n\n.dg.main ul.closed .close-button {\n  opacity: 1 !important;\n}\n\n.dg.main:hover .close-button,\n.dg.main .close-button.drag {\n  opacity: 1;\n}\n\n.dg.main .close-button {\n  /*opacity: 0;*/\n  -webkit-transition: opacity 0.1s linear;\n  -o-transition: opacity 0.1s linear;\n  -moz-transition: opacity 0.1s linear;\n  transition: opacity 0.1s linear;\n  border: 0;\n  position: absolute;\n  line-height: 19px;\n  height: 20px;\n  /* TODO, these are style notes */\n  cursor: pointer;\n  text-align: center;\n  background-color: #000;\n}\n\n.dg.main .close-button:hover {\n  background-color: #111;\n}\n\n.dg.a {\n  float: right;\n  margin-right: 15px;\n  overflow-x: hidden;\n}\n\n.dg.a.has-save> ul {\n  margin-top: 27px;\n}\n\n.dg.a.has-save> ul.closed {\n  margin-top: 0;\n}\n\n.dg.a .save-row {\n  position: fixed;\n  top: 0;\n  z-index: 1002;\n}\n\n.dg li {\n  -webkit-transition: height 0.1s ease-out;\n  -o-transition: height 0.1s ease-out;\n  -moz-transition: height 0.1s ease-out;\n  transition: height 0.1s ease-out;\n}\n\n.dg li:not(.folder) {\n  cursor: auto;\n  height: 27px;\n  line-height: 27px;\n  overflow: hidden;\n  padding: 0 4px 0 5px;\n}\n\n.dg li.folder {\n  padding: 0;\n  border-left: 4px solid rgba(0, 0, 0, 0);\n}\n\n.dg li.title {\n  cursor: pointer;\n  margin-left: -4px;\n}\n\n.dg .closed li:not(.title),\n.dg .closed ul li,\n.dg .closed ul li> * {\n  height: 0;\n  overflow: hidden;\n  border: 0;\n}\n\n.dg .cr {\n  clear: both;\n  padding-left: 3px;\n  height: 27px;\n}\n\n.dg .property-name {\n  cursor: default;\n  float: left;\n  clear: left;\n  width: 40%;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n.dg .c {\n  float: left;\n  width: 60%;\n}\n\n.dg .c input[type=text] {\n  border: 0;\n  margin-top: 4px;\n  padding: 3px;\n  width: 100%;\n  float: right;\n}\n\n.dg .has-slider input[type=text] {\n  width: 30%;\n  /*display: none;*/\n  margin-left: 0;\n}\n\n.dg .slider {\n  float: left;\n  width: 66%;\n  margin-left: -5px;\n  margin-right: 0;\n  height: 19px;\n  margin-top: 4px;\n}\n\n.dg .slider-fg {\n  height: 100%;\n}\n\n.dg .c input[type=checkbox] {\n  margin-top: 9px;\n}\n\n.dg .c select {\n  margin-top: 5px;\n}\n\n.dg .cr.function,\n.dg .cr.function .property-name,\n.dg .cr.function *,\n.dg .cr.boolean,\n.dg .cr.boolean * {\n  cursor: pointer;\n}\n\n.dg .selector {\n  display: none;\n  position: absolute;\n  margin-left: -9px;\n  margin-top: 23px;\n  z-index: 10;\n}\n\n.dg .c:hover .selector,\n.dg .selector.drag {\n  display: block;\n}\n\n.dg li.save-row {\n  padding: 0;\n}\n\n.dg li.save-row .button {\n  display: inline-block;\n  padding: 0px 6px;\n}\n\n.dg.dialogue {\n  background-color: #222;\n  width: 460px;\n  padding: 15px;\n  font-size: 13px;\n  line-height: 15px;\n}\n\n\n/* TODO Separate style and structure */\n\n#dg-new-constructor {\n  padding: 10px;\n  color: #222;\n  font-family: Monaco, monospace;\n  font-size: 10px;\n  border: 0;\n  resize: none;\n  box-shadow: inset 1px 1px 1px #888;\n  word-wrap: break-word;\n  margin: 12px 0;\n  display: block;\n  width: 440px;\n  overflow-y: scroll;\n  height: 100px;\n  position: relative;\n}\n\n#dg-local-explain {\n  display: none;\n  font-size: 11px;\n  line-height: 17px;\n  border-radius: 3px;\n  background-color: #333;\n  padding: 8px;\n  margin-top: 10px;\n}\n\n#dg-local-explain code {\n  font-size: 10px;\n}\n\n#dat-gui-save-locally {\n  display: none;\n}\n\n\n/** Main type */\n\n.dg {\n  color: #eee;\n  font: 11px 'Lucida Grande', sans-serif;\n  text-shadow: 0 -1px 0 #111;\n  /** Auto place */\n  /* Controller row, <li> */\n  /** Controllers */\n}\n\n.dg.main {\n  /** Scrollbar */\n}\n\n.dg.main::-webkit-scrollbar {\n  width: 5px;\n  background: #1a1a1a;\n}\n\n.dg.main::-webkit-scrollbar-corner {\n  height: 0;\n  display: none;\n}\n\n.dg.main::-webkit-scrollbar-thumb {\n  border-radius: 5px;\n  background: #676767;\n}\n\n.dg li:not(.folder) {\n  background: #1a1a1a;\n  border-bottom: 1px solid #2c2c2c;\n}\n\n.dg li.save-row {\n  line-height: 25px;\n  background: #dad5cb;\n  border: 0;\n}\n\n.dg li.save-row select {\n  margin-left: 5px;\n  width: 108px;\n}\n\n.dg li.save-row .button {\n  margin-left: 5px;\n  margin-top: 1px;\n  border-radius: 2px;\n  font-size: 9px;\n  line-height: 7px;\n  padding: 4px 4px 5px 4px;\n  background: #c5bdad;\n  color: #fff;\n  text-shadow: 0 1px 0 #b0a58f;\n  box-shadow: 0 -1px 0 #b0a58f;\n  cursor: pointer;\n}\n\n.dg li.save-row .button.gears {\n  background: #c5bdad url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAANCAYAAAB/9ZQ7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQJJREFUeNpiYKAU/P//PwGIC/ApCABiBSAW+I8AClAcgKxQ4T9hoMAEUrxx2QSGN6+egDX+/vWT4e7N82AMYoPAx/evwWoYoSYbACX2s7KxCxzcsezDh3evFoDEBYTEEqycggWAzA9AuUSQQgeYPa9fPv6/YWm/Acx5IPb7ty/fw+QZblw67vDs8R0YHyQhgObx+yAJkBqmG5dPPDh1aPOGR/eugW0G4vlIoTIfyFcA+QekhhHJhPdQxbiAIguMBTQZrPD7108M6roWYDFQiIAAv6Aow/1bFwXgis+f2LUAynwoIaNcz8XNx3Dl7MEJUDGQpx9gtQ8YCueB+D26OECAAQDadt7e46D42QAAAABJRU5ErkJggg==) 2px 1px no-repeat;\n  height: 7px;\n  width: 8px;\n}\n\n.dg li.save-row .button:hover {\n  background-color: #bab19e;\n  box-shadow: 0 -1px 0 #b0a58f;\n}\n\n.dg li.folder {\n  border-bottom: 0;\n}\n\n.dg li.title {\n  padding-left: 16px;\n  background: black url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlI+hKgFxoCgAOw==) 6px 10px no-repeat;\n  cursor: pointer;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.2);\n}\n\n.dg .closed li.title {\n  background-image: url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlGIWqMCbWAEAOw==);\n}\n\n.dg .cr.boolean {\n  border-left: 3px solid #806787;\n}\n\n.dg .cr.function {\n  border-left: 3px solid #e61d5f;\n}\n\n.dg .cr.number {\n  border-left: 3px solid #2fa1d6;\n}\n\n.dg .cr.number input[type=text] {\n  color: #2fa1d6;\n}\n\n.dg .cr.string {\n  border-left: 3px solid #1ed36f;\n}\n\n.dg .cr.string input[type=text] {\n  color: #1ed36f;\n}\n\n.dg .cr.function:hover,\n.dg .cr.boolean:hover {\n  background: #111;\n}\n\n.dg .c input[type=text] {\n  background: #303030;\n  outline: none;\n}\n\n.dg .c input[type=text]:hover {\n  background: #3c3c3c;\n}\n\n.dg .c input[type=text]:focus {\n  background: #494949;\n  color: #fff;\n}\n\n.dg .c .slider {\n  background: #303030;\n  cursor: ew-resize;\n}\n\n.dg .c .slider-fg {\n  background: #2fa1d6;\n}\n\n.dg .c .slider:hover {\n  background: #3c3c3c;\n}\n\n.dg .c .slider:hover .slider-fg {\n  background: #44abda;\n}\n\n.dg .cr.undefined {\n  border-left: 3px dotted #919191;\n}\n\n.dg .cr.undefined input[type=text] {\n  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAJElEQVQIW2OcOHHi//z8fEYGJADmoEvAVSBLoGiDSaAIwowCAAMYEriV4NZdAAAAAElFTkSuQmCC) repeat;\n}\n",
+dat.controllers.factory = (function (OptionController, NumberControllerBox, NumberControllerSlider, StringController, FunctionController, BooleanController, UndefinedController, common) {
 
-      return function(object, property) {
+    return function (object, property) {
 
-        var initialValue = object[property];
+      var initialValue = object[property];
 
-        // Providing options?
-        if (common.isArray(arguments[2]) || common.isObject(arguments[2])) {
-          return new OptionController(object, property, arguments[2]);
-        }
+      // Providing options?
+      if (common.isArray(arguments[2]) || common.isObject(arguments[2])) {
+        return new OptionController(object, property, arguments[2]);
+      }
 
-        // Providing a map?
+      // Providing a map?
 
-        if (common.isNumber(initialValue)) {
+      if (common.isNumber(initialValue)) {
 
-          if (common.isNumber(arguments[2]) && common.isNumber(arguments[3])) {
+        if (common.isNumber(arguments[2]) && common.isNumber(arguments[3])) {
 
-            // Has min and max.
-            return new NumberControllerSlider(object, property, arguments[2], arguments[3]);
+          // Has min and max.
+          return new NumberControllerSlider(object, property, arguments[2], arguments[3]);
 
-          } else {
+        } else {
 
-            return new NumberControllerBox(object, property, { min: arguments[2], max: arguments[3] });
+          return new NumberControllerBox(object, property, {
+            min: arguments[2],
+            max: arguments[3]
+          });
 
-          }
-
-        }
-
-        if (common.isString(initialValue)) {
-          return new StringController(object, property);
-        }
-
-        if (common.isFunction(initialValue)) {
-          return new FunctionController(object, property, '');
-        }
-
-        if (common.isBoolean(initialValue)) {
-          return new BooleanController(object, property);
         }
 
       }
 
-    })(dat.controllers.OptionController,
+      if (common.isString(initialValue)) {
+        return new StringController(object, property);
+      }
+
+      if (common.isFunction(initialValue)) {
+        return new FunctionController(object, property, '');
+      }
+
+      if (common.isBoolean(initialValue)) {
+        return new BooleanController(object, property);
+      }
+
+      if (common.isUndefined(initialValue)) {
+        return new UndefinedController(object, property);
+      }
+
+    }
+
+  })(dat.controllers.OptionController,
 dat.controllers.NumberControllerBox,
 dat.controllers.NumberControllerSlider,
 dat.controllers.StringController = (function (Controller, dom, common) {
@@ -2912,7 +2998,7 @@ dat.controllers.StringController = (function (Controller, dom, common) {
    *
    * @member dat.controllers
    */
-  var StringController = function(object, property) {
+  var StringController = function (object, property) {
 
     StringController.superclass.call(this, object, property);
 
@@ -2924,12 +3010,11 @@ dat.controllers.StringController = (function (Controller, dom, common) {
     dom.bind(this.__input, 'keyup', onChange);
     dom.bind(this.__input, 'change', onChange);
     dom.bind(this.__input, 'blur', onBlur);
-    dom.bind(this.__input, 'keydown', function(e) {
+    dom.bind(this.__input, 'keydown', function (e) {
       if (e.keyCode === 13) {
         this.blur();
       }
     });
-    
 
     function onChange() {
       _this.setValue(_this.__input.value);
@@ -2951,21 +3036,21 @@ dat.controllers.StringController = (function (Controller, dom, common) {
 
   common.extend(
 
-      StringController.prototype,
-      Controller.prototype,
+    StringController.prototype,
+    Controller.prototype,
 
-      {
+    {
 
-        updateDisplay: function() {
-          // Stops the caret from moving on account of:
-          // keyup -> setValue -> updateDisplay
-          if (!dom.isActive(this.__input)) {
-            this.__input.value = this.getValue();
-          }
-          return StringController.superclass.prototype.updateDisplay.call(this);
+      updateDisplay: function () {
+        // Stops the caret from moving on account of:
+        // keyup -> setValue -> updateDisplay
+        if (!dom.isActive(this.__input)) {
+          this.__input.value = this.getValue();
         }
-
+        return StringController.superclass.prototype.updateDisplay.call(this);
       }
+
+    }
 
   );
 
@@ -2976,6 +3061,7 @@ dat.dom.dom,
 dat.utils.common),
 dat.controllers.FunctionController,
 dat.controllers.BooleanController,
+dat.controllers.UndefinedController,
 dat.utils.common),
 dat.controllers.Controller,
 dat.controllers.BooleanController,
@@ -2985,7 +3071,7 @@ dat.controllers.NumberControllerSlider,
 dat.controllers.OptionController,
 dat.controllers.ColorController = (function (Controller, dom, Color, interpret, common) {
 
-  var ColorController = function(object, property) {
+  var ColorController = function (object, property) {
 
     ColorController.superclass.call(this, object, property);
 
@@ -3018,7 +3104,7 @@ dat.controllers.ColorController = (function (Controller, dom, Color, interpret, 
     this.__input.type = 'text';
     this.__input_textShadow = '0 1px 1px ';
 
-    dom.bind(this.__input, 'keydown', function(e) {
+    dom.bind(this.__input, 'keydown', function (e) {
       if (e.keyCode === 13) { // on enter
         onBlur.call(this);
       }
@@ -3026,11 +3112,11 @@ dat.controllers.ColorController = (function (Controller, dom, Color, interpret, 
 
     dom.bind(this.__input, 'blur', onBlur);
 
-    dom.bind(this.__selector, 'mousedown', function(e) {
+    dom.bind(this.__selector, 'mousedown', function (e) {
 
       dom
         .addClass(this, 'drag')
-        .bind(window, 'mouseup', function(e) {
+        .bind(window, 'mouseup', function (e) {
           dom.removeClass(_this.__selector, 'drag');
         });
 
@@ -3055,7 +3141,7 @@ dat.controllers.ColorController = (function (Controller, dom, Color, interpret, 
       borderRadius: '12px',
       zIndex: 1
     });
-    
+
     common.extend(this.__hue_knob.style, {
       position: 'absolute',
       width: '15px',
@@ -3078,7 +3164,7 @@ dat.controllers.ColorController = (function (Controller, dom, Color, interpret, 
       height: '100%',
       background: 'none'
     });
-    
+
     linearGradient(value_field, 'top', 'rgba(0,0,0,0)', '#000');
 
     common.extend(this.__hue_field.style, {
@@ -3093,10 +3179,10 @@ dat.controllers.ColorController = (function (Controller, dom, Color, interpret, 
 
     common.extend(this.__input.style, {
       outline: 'none',
-//      width: '120px',
+      //      width: '120px',
       textAlign: 'center',
-//      padding: '4px',
-//      marginBottom: '6px',
+      //      padding: '4px',
+      //      marginBottom: '6px',
       color: '#fff',
       border: 0,
       fontWeight: 'bold',
@@ -3106,7 +3192,7 @@ dat.controllers.ColorController = (function (Controller, dom, Color, interpret, 
     dom.bind(this.__saturation_field, 'mousedown', fieldDown);
     dom.bind(this.__field_knob, 'mousedown', fieldDown);
 
-    dom.bind(this.__hue_field, 'mousedown', function(e) {
+    dom.bind(this.__hue_field, 'mousedown', function (e) {
       setH(e);
       dom.bind(window, 'mousemove', setH);
       dom.bind(window, 'mouseup', unbindH);
@@ -3171,7 +3257,6 @@ dat.controllers.ColorController = (function (Controller, dom, Color, interpret, 
 
       _this.setValue(_this.__color.toOriginal());
 
-
       return false;
 
     }
@@ -3201,80 +3286,80 @@ dat.controllers.ColorController = (function (Controller, dom, Color, interpret, 
 
   common.extend(
 
-      ColorController.prototype,
-      Controller.prototype,
+    ColorController.prototype,
+    Controller.prototype,
 
-      {
+    {
 
-        updateDisplay: function() {
+      updateDisplay: function () {
 
-          var i = interpret(this.getValue());
+        var i = interpret(this.getValue());
 
-          if (i !== false) {
+        if (i !== false) {
 
-            var mismatch = false;
+          var mismatch = false;
 
-            // Check for mismatch on the interpreted value.
+          // Check for mismatch on the interpreted value.
 
-            common.each(Color.COMPONENTS, function(component) {
-              if (!common.isUndefined(i[component]) &&
-                  !common.isUndefined(this.__color.__state[component]) &&
-                  i[component] !== this.__color.__state[component]) {
-                mismatch = true;
-                return {}; // break
-              }
-            }, this);
-
-            // If nothing diverges, we keep our previous values
-            // for statefulness, otherwise we recalculate fresh
-            if (mismatch) {
-              common.extend(this.__color.__state, i);
+          common.each(Color.COMPONENTS, function (component) {
+            if (!common.isUndefined(i[component]) &&
+              !common.isUndefined(this.__color.__state[component]) &&
+              i[component] !== this.__color.__state[component]) {
+              mismatch = true;
+              return {}; // break
             }
+          }, this);
 
+          // If nothing diverges, we keep our previous values
+          // for statefulness, otherwise we recalculate fresh
+          if (mismatch) {
+            common.extend(this.__color.__state, i);
           }
-
-          common.extend(this.__temp.__state, this.__color.__state);
-
-          this.__temp.a = 1;
-
-          var flip = (this.__color.v < .5 || this.__color.s > .5) ? 255 : 0;
-          var _flip = 255 - flip;
-
-          common.extend(this.__field_knob.style, {
-            marginLeft: 100 * this.__color.s - 7 + 'px',
-            marginTop: 100 * (1 - this.__color.v) - 7 + 'px',
-            backgroundColor: this.__temp.toString(),
-            border: this.__field_knob_border + 'rgb(' + flip + ',' + flip + ',' + flip +')'
-          });
-
-          this.__hue_knob.style.marginTop = (1 - this.__color.h / 360) * 100 + 'px'
-
-          this.__temp.s = 1;
-          this.__temp.v = 1;
-
-          linearGradient(this.__saturation_field, 'left', '#fff', this.__temp.toString());
-
-          common.extend(this.__input.style, {
-            backgroundColor: this.__input.value = this.__color.toString(),
-            color: 'rgb(' + flip + ',' + flip + ',' + flip +')',
-            textShadow: this.__input_textShadow + 'rgba(' + _flip + ',' + _flip + ',' + _flip +',.7)'
-          });
 
         }
 
+        common.extend(this.__temp.__state, this.__color.__state);
+
+        this.__temp.a = 1;
+
+        var flip = (this.__color.v < .5 || this.__color.s > .5) ? 255 : 0;
+        var _flip = 255 - flip;
+
+        common.extend(this.__field_knob.style, {
+          marginLeft: 100 * this.__color.s - 7 + 'px',
+          marginTop: 100 * (1 - this.__color.v) - 7 + 'px',
+          backgroundColor: this.__temp.toString(),
+          border: this.__field_knob_border + 'rgb(' + flip + ',' + flip + ',' + flip + ')'
+        });
+
+        this.__hue_knob.style.marginTop = (1 - this.__color.h / 360) * 100 + 'px'
+
+        this.__temp.s = 1;
+        this.__temp.v = 1;
+
+        linearGradient(this.__saturation_field, 'left', '#fff', this.__temp.toString());
+
+        common.extend(this.__input.style, {
+          backgroundColor: this.__input.value = this.__color.toString(),
+          color: 'rgb(' + flip + ',' + flip + ',' + flip + ')',
+          textShadow: this.__input_textShadow + 'rgba(' + _flip + ',' + _flip + ',' + _flip + ',.7)'
+        });
+
       }
 
+    }
+
   );
-  
-  var vendors = ['-moz-','-o-','-webkit-','-ms-',''];
-  
+
+  var vendors = ['-moz-', '-o-', '-webkit-', '-ms-', ''];
+
   function linearGradient(elem, x, a, b) {
     elem.style.background = '';
-    common.each(vendors, function(vendor) {
-      elem.style.cssText += 'background: ' + vendor + 'linear-gradient('+x+', '+a+' 0%, ' + b + ' 100%); ';
+    common.each(vendors, function (vendor) {
+      elem.style.cssText += 'background: ' + vendor + 'linear-gradient(' + x + ', ' + a + ' 0%, ' + b + ' 100%); ';
     });
   }
-  
+
   function hueGradient(elem) {
     elem.style.background = '';
     elem.style.cssText += 'background: -moz-linear-gradient(top,  #ff0000 0%, #ff00ff 17%, #0000ff 34%, #00ffff 50%, #00ff00 67%, #ffff00 84%, #ff0000 100%);'
@@ -3284,14 +3369,13 @@ dat.controllers.ColorController = (function (Controller, dom, Color, interpret, 
     elem.style.cssText += 'background: linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);'
   }
 
-
   return ColorController;
 
 })(dat.controllers.Controller,
 dat.dom.dom,
 dat.color.Color = (function (interpret, math, toString, common) {
 
-  var Color = function() {
+  var Color = function () {
 
     this.__state = interpret.apply(this, arguments);
 
@@ -3301,18 +3385,17 @@ dat.color.Color = (function (interpret, math, toString, common) {
 
     this.__state.a = this.__state.a || 1;
 
-
   };
 
-  Color.COMPONENTS = ['r','g','b','h','s','v','hex','a'];
+  Color.COMPONENTS = ['r', 'g', 'b', 'h', 's', 'v', 'hex', 'a'];
 
   common.extend(Color.prototype, {
 
-    toString: function() {
+    toString: function () {
       return toString(this);
     },
 
-    toOriginal: function() {
+    toOriginal: function () {
       return this.__state.conversion.write(this);
     }
 
@@ -3328,11 +3411,11 @@ dat.color.Color = (function (interpret, math, toString, common) {
 
   Object.defineProperty(Color.prototype, 'a', {
 
-    get: function() {
+    get: function () {
       return this.__state.a;
     },
 
-    set: function(v) {
+    set: function (v) {
       this.__state.a = v;
     }
 
@@ -3340,7 +3423,7 @@ dat.color.Color = (function (interpret, math, toString, common) {
 
   Object.defineProperty(Color.prototype, 'hex', {
 
-    get: function() {
+    get: function () {
 
       if (!this.__state.space !== 'HEX') {
         this.__state.hex = math.rgb_to_hex(this.r, this.g, this.b);
@@ -3350,7 +3433,7 @@ dat.color.Color = (function (interpret, math, toString, common) {
 
     },
 
-    set: function(v) {
+    set: function (v) {
 
       this.__state.space = 'HEX';
       this.__state.hex = v;
@@ -3363,7 +3446,7 @@ dat.color.Color = (function (interpret, math, toString, common) {
 
     Object.defineProperty(target, component, {
 
-      get: function() {
+      get: function () {
 
         if (this.__state.space === 'RGB') {
           return this.__state[component];
@@ -3375,7 +3458,7 @@ dat.color.Color = (function (interpret, math, toString, common) {
 
       },
 
-      set: function(v) {
+      set: function (v) {
 
         if (this.__state.space !== 'RGB') {
           recalculateRGB(this, component, componentHexIndex);
@@ -3394,7 +3477,7 @@ dat.color.Color = (function (interpret, math, toString, common) {
 
     Object.defineProperty(target, component, {
 
-      get: function() {
+      get: function () {
 
         if (this.__state.space === 'HSV')
           return this.__state[component];
@@ -3405,7 +3488,7 @@ dat.color.Color = (function (interpret, math, toString, common) {
 
       },
 
-      set: function(v) {
+      set: function (v) {
 
         if (this.__state.space !== 'HSV') {
           recalculateHSV(this);
@@ -3442,12 +3525,10 @@ dat.color.Color = (function (interpret, math, toString, common) {
 
     var result = math.rgb_to_hsv(color.r, color.g, color.b);
 
-    common.extend(color.__state,
-        {
-          s: result.s,
-          v: result.v
-        }
-    );
+    common.extend(color.__state, {
+      s: result.s,
+      v: result.v
+    });
 
     if (!common.isNaN(result.h)) {
       color.__state.h = result.h;
@@ -3466,7 +3547,7 @@ dat.color.math = (function () {
 
   return {
 
-    hsv_to_rgb: function(h, s, v) {
+    hsv_to_rgb: function (h, s, v) {
 
       var hi = Math.floor(h / 60) % 6;
 
@@ -3491,12 +3572,12 @@ dat.color.math = (function () {
 
     },
 
-    rgb_to_hsv: function(r, g, b) {
+    rgb_to_hsv: function (r, g, b) {
 
       var min = Math.min(r, g, b),
-          max = Math.max(r, g, b),
-          delta = max - min,
-          h, s;
+        max = Math.max(r, g, b),
+        delta = max - min,
+        h, s;
 
       if (max != 0) {
         s = delta / max;
@@ -3527,19 +3608,19 @@ dat.color.math = (function () {
       };
     },
 
-    rgb_to_hex: function(r, g, b) {
+    rgb_to_hex: function (r, g, b) {
       var hex = this.hex_with_component(0, 2, r);
       hex = this.hex_with_component(hex, 1, g);
       hex = this.hex_with_component(hex, 0, b);
       return hex;
     },
 
-    component_from_hex: function(hex, componentIndex) {
+    component_from_hex: function (hex, componentIndex) {
       return (hex >> (componentIndex * 8)) & 0xFF;
     },
 
-    hex_with_component: function(hex, componentIndex, value) {
-      return value << (tmpComponent = componentIndex * 8) | (hex & ~ (0xFF << tmpComponent));
+    hex_with_component: function (hex, componentIndex, value) {
+      return value << (tmpComponent = componentIndex * 8) | (hex & ~(0xFF << tmpComponent));
     }
 
   }
@@ -3549,6 +3630,7 @@ dat.color.toString,
 dat.utils.common),
 dat.color.interpret,
 dat.utils.common),
+dat.controllers.UndefinedController,
 dat.utils.requestAnimationFrame = (function () {
 
   /**
@@ -3557,20 +3639,19 @@ dat.utils.requestAnimationFrame = (function () {
    */
 
   return window.requestAnimationFrame ||
-      window.webkitRequestAnimationFrame ||
-      window.mozRequestAnimationFrame ||
-      window.oRequestAnimationFrame ||
-      window.msRequestAnimationFrame ||
-      function(callback, element) {
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    window.oRequestAnimationFrame ||
+    window.msRequestAnimationFrame ||
+    function (callback, element) {
 
-        window.setTimeout(callback, 1000 / 60);
+      window.setTimeout(callback, 1000 / 60);
 
-      };
+    };
 })(),
 dat.dom.CenteredDiv = (function (dom, common) {
 
-
-  var CenteredDiv = function() {
+  var CenteredDiv = function () {
 
     this.backgroundElement = document.createElement('div');
     common.extend(this.backgroundElement.style, {
@@ -3597,19 +3678,17 @@ dat.dom.CenteredDiv = (function (dom, common) {
       transition: 'transform 0.2s ease-out, opacity 0.2s linear'
     });
 
-
     document.body.appendChild(this.backgroundElement);
     document.body.appendChild(this.domElement);
 
     var _this = this;
-    dom.bind(this.backgroundElement, 'click', function() {
+    dom.bind(this.backgroundElement, 'click', function () {
       _this.hide();
     });
 
-
   };
 
-  CenteredDiv.prototype.show = function() {
+  CenteredDiv.prototype.show = function () {
 
     var _this = this;
 
@@ -3617,12 +3696,12 @@ dat.dom.CenteredDiv = (function (dom, common) {
 
     this.domElement.style.display = 'block';
     this.domElement.style.opacity = 0;
-//    this.domElement.style.top = '52%';
+    //    this.domElement.style.top = '52%';
     this.domElement.style.webkitTransform = 'scale(1.1)';
 
     this.layout();
 
-    common.defer(function() {
+    common.defer(function () {
       _this.backgroundElement.style.opacity = 1;
       _this.domElement.style.opacity = 1;
       _this.domElement.style.webkitTransform = 'scale(1)';
@@ -3630,11 +3709,11 @@ dat.dom.CenteredDiv = (function (dom, common) {
 
   };
 
-  CenteredDiv.prototype.hide = function() {
+  CenteredDiv.prototype.hide = function () {
 
     var _this = this;
 
-    var hide = function() {
+    var hide = function () {
 
       _this.domElement.style.display = 'none';
       _this.backgroundElement.style.display = 'none';
@@ -3650,17 +3729,17 @@ dat.dom.CenteredDiv = (function (dom, common) {
     dom.bind(this.domElement, 'oTransitionEnd', hide);
 
     this.backgroundElement.style.opacity = 0;
-//    this.domElement.style.top = '48%';
+    //    this.domElement.style.top = '48%';
     this.domElement.style.opacity = 0;
     this.domElement.style.webkitTransform = 'scale(1.1)';
 
   };
 
-  CenteredDiv.prototype.layout = function() {
-    this.domElement.style.left = window.innerWidth/2 - dom.getWidth(this.domElement) / 2 + 'px';
-    this.domElement.style.top = window.innerHeight/2 - dom.getHeight(this.domElement) / 2 + 'px';
+  CenteredDiv.prototype.layout = function () {
+    this.domElement.style.left = window.innerWidth / 2 - dom.getWidth(this.domElement) / 2 + 'px';
+    this.domElement.style.top = window.innerHeight / 2 - dom.getHeight(this.domElement) / 2 + 'px';
   };
-  
+
   function lockScroll(e) {
     console.log(e);
   }

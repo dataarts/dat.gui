@@ -1,13 +1,33 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 </head>
+
 <body>
-  <script type="text/javascript" src="build/dat.gui.min.js"></script>
-  <script type="text/javascript">
-    var obj = { x: 5 };
-    var gui = new dat.GUI();
-	gui.add(obj, 'x');	
-  </script>
+    <script type="text/javascript" src="build/dat.gui.min.js"></script>
+    <script type="text/javascript">
+        var obj = {
+            x: undefined,
+            y: undefined,
+            timer: 2.0
+        };
+        var gui = new dat.GUI();
+        gui.add(obj, 'timer').min(0).max(obj.timer).listen();
+        gui.add(obj, 'x').listen();
+        var y = gui.add(obj, 'y');
+        var interval = setInterval(function () {
+            obj.timer -= 0.1;
+            if (obj.timer <= 0) {
+                clearInterval(interval);
+                obj.x = "Not Undefined!";
+                obj.y = 1;
+                obj.timer = 0;
+                y.updateDisplay();
+            }
+        }, 100);
+
+    </script>
 </body>
+
 </html>

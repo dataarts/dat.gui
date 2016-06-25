@@ -1,0 +1,6 @@
+{
+  "allowed_file_extensions": ["css", "scss", "sass", "less"],
+  "indent_size": 2,
+  "selector_separator_newline": true,
+  "newline_between_rules": true
+}

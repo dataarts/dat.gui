@@ -12,10 +12,10 @@
  */
 
 define([
-    'dat/controllers/Controller',
-    'dat/dom/dom',
-    'dat/utils/common'
-], function(Controller, dom, common) {
+  'dat/controllers/Controller',
+  'dat/dom/dom',
+  'dat/utils/common'
+], function (Controller, dom, common) {
 
   /**
    * @class Provides a text input to alter the string property of an object.
@@ -27,7 +27,7 @@ define([
    *
    * @member dat.controllers
    */
-  var StringController = function(object, property) {
+  var StringController = function (object, property) {
 
     StringController.superclass.call(this, object, property);
 
@@ -39,12 +39,11 @@ define([
     dom.bind(this.__input, 'keyup', onChange);
     dom.bind(this.__input, 'change', onChange);
     dom.bind(this.__input, 'blur', onBlur);
-    dom.bind(this.__input, 'keydown', function(e) {
+    dom.bind(this.__input, 'keydown', function (e) {
       if (e.keyCode === 13) {
         this.blur();
       }
     });
-    
 
     function onChange() {
       _this.setValue(_this.__input.value);
@@ -66,21 +65,21 @@ define([
 
   common.extend(
 
-      StringController.prototype,
-      Controller.prototype,
+    StringController.prototype,
+    Controller.prototype,
 
-      {
+    {
 
-        updateDisplay: function() {
-          // Stops the caret from moving on account of:
-          // keyup -> setValue -> updateDisplay
-          if (!dom.isActive(this.__input)) {
-            this.__input.value = this.getValue();
-          }
-          return StringController.superclass.prototype.updateDisplay.call(this);
+      updateDisplay: function () {
+        // Stops the caret from moving on account of:
+        // keyup -> setValue -> updateDisplay
+        if (!dom.isActive(this.__input)) {
+          this.__input.value = this.getValue();
         }
-
+        return StringController.superclass.prototype.updateDisplay.call(this);
       }
+
+    }
 
   );
 

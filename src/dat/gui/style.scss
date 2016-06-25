@@ -1,9 +1,7 @@
 $background-color: #1a1a1a;
-
 $hover-lighten: 5%;
 $border-lighten: 7%;
 $active-lighten: 10%;
-
 $number-color: #2FA1D6;
 $boolean-color: #806787;
 $string-color: #1ed36f;
@@ -12,7 +10,6 @@ $save-row-color: #dad5cb;
 $button-color: darken($save-row-color, 10%);
 $border-color: lighten($background-color, $border-lighten);
 $input-color: lighten($background-color, 8.5%);
-
 @mixin transition($prop, $time, $curve) {
   -webkit-transition: $prop $time $curve;
   -o-transition: $prop $time $curve;
@@ -49,16 +46,13 @@ $input-color: lighten($background-color, 8.5%);
 @import "structure";
 
 /** Main type */
+
 .dg {
-
-
   color: #eee;
   font: 11px 'Lucida Grande', sans-serif;
   text-shadow: 0 -1px 0 #111;
-
   /** Auto place */
   &.main {
-
     /** Scrollbar */
     &::-webkit-scrollbar {
       width: 5px;
@@ -72,102 +66,72 @@ $input-color: lighten($background-color, 8.5%);
       border-radius: 5px;
       background: lighten($background-color, 30%);
     }
-
   }
-
   li {
-
     &:not(.folder) {
       background: $background-color;
       border-bottom: 1px solid $border-color;
     }
-
     &.save-row {
-
       line-height: 25px;
       background: $save-row-color;
       border: 0;
-
       select {
         margin-left: 5px;
         width: 108px;
-
       }
-
       .button {
-
         &.gears {
           @include gears;
         }
-
         @include button;
-
         &:hover {
           background-color: darken($button-color, 5%);
           box-shadow: 0 -1px 0 darken($button-color, 10%);
         }
-
       }
-
     }
-
     &.folder {
       border-bottom: 0;
     }
-
     &.title {
       padding-left: 16px;
       background: #000 url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlI+hKgFxoCgAOw==) 6px 10px no-repeat;
       cursor: pointer;
       border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     }
-
   }
-
   .closed li.title {
     background-image: url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlGIWqMCbWAEAOw==);
   }
-
   /* Controller row, <li> */
   .cr {
-
     &.boolean {
       border-left: 3px solid $boolean-color;
     }
-
     &.function {
       border-left: 3px solid $function-color;
     }
-
     &.number {
       border-left: 3px solid $number-color;
       input[type=text] {
         color: $number-color;
       }
     }
-
     &.string {
       border-left: 3px solid $string-color;
       input[type=text] {
         color: $string-color;
       }
     }
-
-    &.function:hover ,
+    &.function:hover,
     &.boolean:hover {
       background: #111;
     }
-
   }
-
-
   /** Controllers */
   .c {
-
-
-
     input[type=text] {
-
       background: $input-color;
       outline: none;
       &:hover {
@@ -177,26 +141,19 @@ $input-color: lighten($background-color, 8.5%);
         background: lighten($input-color, $active-lighten);
         color: #fff;
       }
-
     }
-
-
     .slider {
       background: $input-color;
       cursor: ew-resize;
     }
-
     .slider-fg {
       background: $number-color;
     }
-
     .slider:hover {
       background: lighten($input-color, $hover-lighten);
       .slider-fg {
         background: lighten($number-color, $hover-lighten);
       }
     }
-
   }
-
 }

@@ -11,9 +11,8 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-define([
-], function() {
-  
+define([], function () {
+
   var ARR_EACH = Array.prototype.forEach;
   var ARR_SLICE = Array.prototype.slice;
 
@@ -23,118 +22,130 @@ define([
    * http://documentcloud.github.com/underscore/
    */
 
-  return { 
-    
+  return {
+
     BREAK: {},
-  
-    extend: function(target) {
-      
-      this.each(ARR_SLICE.call(arguments, 1), function(obj) {
-        
+
+    extend: function (target) {
+
+      this.each(ARR_SLICE.call(arguments, 1), function (obj) {
+
         for (var key in obj)
-          if (!this.isUndefined(obj[key])) 
+          if (!this.isUndefined(obj[key]))
             target[key] = obj[key];
-        
+
       }, this);
-      
+
       return target;
-      
+
     },
-    
-    defaults: function(target) {
-      
-      this.each(ARR_SLICE.call(arguments, 1), function(obj) {
-        
+
+    defaults: function (target) {
+
+      this.each(ARR_SLICE.call(arguments, 1), function (obj) {
+
         for (var key in obj)
-          if (this.isUndefined(target[key])) 
+          if (this.isUndefined(target[key]))
             target[key] = obj[key];
-        
+
       }, this);
-      
+
       return target;
-    
+
     },
-    
-    compose: function() {
+
+    compose: function () {
       var toCall = ARR_SLICE.call(arguments);
-            return function() {
-              var args = ARR_SLICE.call(arguments);
-              for (var i = toCall.length -1; i >= 0; i--) {
-                args = [toCall[i].apply(this, args)];
-              }
-              return args[0];
-            }
+      return function () {
+        var args = ARR_SLICE.call(arguments);
+        for (var i = toCall.length - 1; i >= 0; i--) {
+          args = [toCall[i].apply(this, args)];
+        }
+        return args[0];
+      }
     },
-    
-    each: function(obj, itr, scope) {
+
+    each: function (obj, itr, scope) {
 
       if (!obj) return;
 
-      if (ARR_EACH && obj.forEach && obj.forEach === ARR_EACH) { 
-        
+      if (ARR_EACH && obj.forEach && obj.forEach === ARR_EACH) {
+
         obj.forEach(itr, scope);
-        
+
       } else if (obj.length === obj.length + 0) { // Is number but not NaN
-        
+
         for (var key = 0, l = obj.length; key < l; key++)
-          if (key in obj && itr.call(scope, obj[key], key) === this.BREAK) 
+          if (key in obj && itr.call(scope, obj[key], key) === this.BREAK)
             return;
-            
+
       } else {
 
-        for (var key in obj) 
+        for (var key in obj)
           if (itr.call(scope, obj[key], key) === this.BREAK)
             return;
-            
+
       }
-            
+
     },
-    
-    defer: function(fnc) {
+
+    defer: function (fnc) {
       setTimeout(fnc, 0);
     },
-    
-    toArray: function(obj) {
+
+    toArray: function (obj) {
       if (obj.toArray) return obj.toArray();
       return ARR_SLICE.call(obj);
     },
 
-    isUndefined: function(obj) {
+    isUndefined: function (obj) {
       return obj === undefined;
     },
-    
-    isNull: function(obj) {
+
+    isNull: function (obj) {
       return obj === null;
     },
-    
-    isNaN: function(obj) {
+
+    isNaN: function (obj) {
       return obj !== obj;
     },
-    
-    isArray: Array.isArray || function(obj) {
+
+    isArray: Array.isArray || function (obj) {
       return obj.constructor === Array;
     },
-    
-    isObject: function(obj) {
+
+    isObject: function (obj) {
       return obj === Object(obj);
     },
-    
-    isNumber: function(obj) {
-      return obj === obj+0;
+
+    isNumber: function (obj) {
+      return obj === obj + 0;
     },
-    
-    isString: function(obj) {
-      return obj === obj+'';
+
+    isString: function (obj) {
+      return obj === obj + '';
     },
-    
-    isBoolean: function(obj) {
+
+    isBoolean: function (obj) {
       return obj === false || obj === true;
     },
-    
-    isFunction: function(obj) {
+
+    isFunction: function (obj) {
       return Object.prototype.toString.call(obj) === '[object Function]';
+    },
+
+    hasOwnProperty: function (obj, prop) {
+      var proto = obj.__proto__ || obj.constructor.prototype;
+      var proto_prop = undefined;
+      try {
+        proto_prop = proto[prop];
+      } catch (err) {
+        console.warn('property "' + prop + '" is unaccessible in prototype of object', obj);
+      }
+      return (prop in obj) &&
+        (!(prop in proto) || (proto_prop !== obj[prop]));
     }
-  
+
   };
-    
+
 });
