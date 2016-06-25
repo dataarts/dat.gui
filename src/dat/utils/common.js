@@ -132,6 +132,12 @@ define([], function () {
 
     isFunction: function (obj) {
       return Object.prototype.toString.call(obj) === '[object Function]';
+    },
+
+    hasOwnProperty: function (obj, prop) {
+      var proto = obj.__proto__ || obj.constructor.prototype;
+      return (prop in obj) &&
+        (!(prop in proto) || (proto[prop] !== obj[prop]));
     }
 
   };

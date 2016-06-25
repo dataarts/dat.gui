@@ -18,9 +18,10 @@ define([
     'dat/controllers/StringController',
     'dat/controllers/FunctionController',
     'dat/controllers/BooleanController',
+    'dat/controllers/UndefinedController',
     'dat/utils/common'
   ],
-  function (OptionController, NumberControllerBox, NumberControllerSlider, StringController, FunctionController, BooleanController, common) {
+  function (OptionController, NumberControllerBox, NumberControllerSlider, StringController, FunctionController, BooleanController, UndefinedController, common) {
 
     return function (object, property) {
 
@@ -61,6 +62,10 @@ define([
 
       if (common.isBoolean(initialValue)) {
         return new BooleanController(object, property);
+      }
+
+      if (common.isUndefined(initialValue)) {
+        return new UndefinedController(object, property);
       }
 
     }

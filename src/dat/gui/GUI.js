@@ -26,6 +26,7 @@ define([
   'dat/controllers/NumberControllerSlider',
   'dat/controllers/OptionController',
   'dat/controllers/ColorController',
+  'dat/controllers/UndefinedController',
 
   'dat/utils/requestAnimationFrame',
 
@@ -34,7 +35,7 @@ define([
 
   'dat/utils/common'
 
-], function (css, saveDialogueContents, styleSheet, controllerFactory, Controller, BooleanController, FunctionController, NumberControllerBox, NumberControllerSlider, OptionController, ColorController, requestAnimationFrame, CenteredDiv, dom, common) {
+], function (css, saveDialogueContents, styleSheet, controllerFactory, Controller, BooleanController, FunctionController, NumberControllerBox, NumberControllerSlider, OptionController, ColorController, UndefinedController, requestAnimationFrame, CenteredDiv, dom, common) {
 
   css.inject(styleSheet);
 
@@ -814,7 +815,7 @@ define([
 
   function add(gui, object, property, params) {
 
-    if (object[property] === undefined) {
+    if (!common.hasOwnProperty(object, property)) {
       throw new Error("Object " + object + " has no property \"" + property + "\"");
     }
 
@@ -1017,6 +1018,17 @@ define([
 
       controller.updateDisplay();
 
+    } else if (controller instanceof UndefinedController) {
+      controller.__onFinishChange = function (val) {
+        controller.remove();
+        return add(
+          gui,
+          controller.object,
+          controller.property, {
+            before: controller.__li.nextElementSibling
+          }
+        );
+      }
     }
 
     controller.setValue = common.compose(function (r) {

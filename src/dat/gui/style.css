@@ -412,3 +412,11 @@
 .dg .c .slider:hover .slider-fg {
   background: #44abda;
 }
+
+.dg .cr.undefined {
+  border-left: 3px dotted #919191;
+}
+
+.dg .cr.undefined input[type=text] {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAJElEQVQIW2OcOHHi//z8fEYGJADmoEvAVSBLoGiDSaAIwowCAAMYEriV4NZdAAAAAElFTkSuQmCC) repeat;
+}
