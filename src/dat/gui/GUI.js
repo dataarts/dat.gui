@@ -1109,10 +1109,10 @@ define([
   }
 
   function getLocalStorageHash(gui, key) {
-    // TODO how does this deal with multiple GUI's?
-    return document.location.href + '.' + key;
-
+    var namespace = localStorage.getItem('dat.gui.namespace') || document.location.href;
+    return 'dat.gui.' + namespace + '.' + key;
   }
+
 
   function addSaveMenu(gui) {
 
