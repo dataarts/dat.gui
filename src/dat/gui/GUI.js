@@ -469,6 +469,24 @@ define([
     });
   };
 
+  GUI.debounce = function (func, threshold) {
+    var timeout;
+
+    return function debounced () {
+      var obj = this, args = arguments;
+      function delayed () {
+        func.apply(obj, args);
+        timeout = null;
+      }
+
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+
+      timeout = setTimeout(delayed, threshold);
+    };
+  };
+
   GUI.CLASS_AUTO_PLACE = 'a';
   GUI.CLASS_AUTO_PLACE_CONTAINER = 'ac';
   GUI.CLASS_MAIN = 'main';
@@ -614,7 +632,7 @@ define([
           this.closed = true;
         },
 
-        onResize: function() {
+        onResize: GUI.debounce(function() {
 
           var root = this.getRoot();
 
@@ -648,7 +666,7 @@ define([
             root.__closeButton.style.width = root.width + 'px';
           }
 
-        },
+        }, 1000),
 
         /**
          * Mark objects for saving. The order of these objects cannot change as
@@ -1091,10 +1109,10 @@ define([
   }
 
   function getLocalStorageHash(gui, key) {
-    // TODO how does this deal with multiple GUI's?
-    return document.location.href + '.' + key;
-
+    var namespace = localStorage.getItem('dat.gui.namespace') || document.location.href;
+    return 'dat.gui.' + namespace + '.' + key;
   }
+
 
   function addSaveMenu(gui) {
 
