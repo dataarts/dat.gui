@@ -65,6 +65,8 @@ class NumberControllerBox extends NumberController {
     }
 
     function onMouseDrag(e) {
+      document.activeElement.blur();
+
       const diff = prevY - e.clientY;
       _this.setValue(_this.getValue() + diff * _this.__impliedStep);
 
@@ -105,6 +107,7 @@ class NumberControllerBox extends NumberController {
   }
 
   updateDisplay() {
+    if (dom.isActive(this.__input)) return null; // prevent number from update if user is trying to manually update
     this.__input.value = this.__truncationSuspended ? this.getValue() : roundToDecimal(this.getValue(), this.__precision);
     return super.updateDisplay();
   }

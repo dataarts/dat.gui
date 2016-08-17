@@ -187,6 +187,7 @@ $input-color: lighten($background-color, 8.5%);
 
     .slider-fg {
       background: $number-color;
+      max-width: 100%;
     }
 
     .slider:hover {

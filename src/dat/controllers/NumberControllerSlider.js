@@ -53,6 +53,8 @@ class NumberControllerSlider extends NumberController {
     dom.addClass(this.__foreground, 'slider-fg');
 
     function onMouseDown(e) {
+      document.activeElement.blur();
+
       dom.bind(window, 'mousemove', onMouseDrag);
       dom.bind(window, 'mouseup', onMouseUp);
 
