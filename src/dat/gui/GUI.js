@@ -855,7 +855,7 @@ define([
     var li = document.createElement('li');
     if (dom) li.appendChild(dom);
     if (liBefore) {
-      gui.__ul.insertBefore(li, params.before);
+      gui.__ul.insertBefore(li, liBefore);
     } else {
       gui.__ul.appendChild(li);
     }
@@ -873,6 +873,7 @@ define([
       options: function(options) {
 
         if (arguments.length > 1) {
+          var next_sibling = controller.__li.nextElementSibling;
           controller.remove();
 
           return add(
@@ -880,7 +881,7 @@ define([
               controller.object,
               controller.property,
               {
-                before: controller.__li.nextElementSibling,
+                before: next_sibling,
                 factoryArgs: [common.toArray(arguments)]
               }
           );
@@ -888,6 +889,7 @@ define([
         }
 
         if (common.isArray(options) || common.isObject(options)) {
+          var next_sibling = controller.__li.nextElementSibling;
           controller.remove();
 
           return add(
@@ -895,7 +897,7 @@ define([
               controller.object,
               controller.property,
               {
-                before: controller.__li.nextElementSibling,
+                before: next_sibling,
                 factoryArgs: [options]
               }
           );
