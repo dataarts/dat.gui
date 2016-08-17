@@ -1,5 +1,10 @@
 ## Changelog
 
+### 0.6.2
+ * fixed issues with step parameters in sliders
+ * fixed issue with controler.options() function
+ * fixed issue with hiding the GUI
+
 ### 0.6.1
  * Fixed all eslint issues
  
