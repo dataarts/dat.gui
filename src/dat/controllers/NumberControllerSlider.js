@@ -14,7 +14,7 @@
 import NumberController from './NumberController';
 import dom from '../dom/dom';
 import css from '../utils/css';
-import styleSheet from '!style!css!sass!./NumberControllerSlider.scss';
+import styleSheet from '!css!sass!./NumberControllerSlider.scss';
 
 function map(v, i1, i2, o1, o2) {
   return o1 + (o2 - o1) * ((v - i1) / (i2 - i1));
@@ -97,7 +97,7 @@ class NumberControllerSlider extends NumberController {
  * Injects default stylesheet for slider elements.
  */
 NumberControllerSlider.useDefaultStyles = function() {
-  css.inject(styleSheet);
+  css.inject(styleSheet.toString());
 };
 
 export default NumberControllerSlider;
