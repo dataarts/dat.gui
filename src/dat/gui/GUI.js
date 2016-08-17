@@ -743,7 +743,7 @@ function addRow(gui, newDom, liBefore) {
   }
 
   if (liBefore) {
-    gui.__ul.insertBefore(li, params.before);
+    gui.__ul.insertBefore(li, liBefore);
   } else {
     gui.__ul.appendChild(li);
   }
@@ -769,6 +769,7 @@ function augmentController(gui, li, controller) {
   common.extend(controller, {
     options: function(options) {
       if (arguments.length > 1) {
+        const nextSibling = controller.__li.nextElementSibling;
         controller.remove();
 
         return add(
@@ -776,13 +777,14 @@ function augmentController(gui, li, controller) {
           controller.object,
           controller.property,
           {
-            before: controller.__li.nextElementSibling,
+            before: nextSibling,
             factoryArgs: [common.toArray(arguments)]
           }
         );
       }
 
       if (common.isArray(options) || common.isObject(options)) {
+        const nextSibling = controller.__li.nextElementSibling;
         controller.remove();
 
         return add(
@@ -790,7 +792,7 @@ function augmentController(gui, li, controller) {
           controller.object,
           controller.property,
           {
-            before: controller.__li.nextElementSibling,
+            before: nextSibling,
             factoryArgs: [options]
           }
         );
