@@ -1,0 +1,10 @@
+{
+  "extends": "eslint-config-airbnb",
+  "rules": {
+    "comma-dangle": 0,
+    "func-names": 0,
+    "no-alert": 1,
+    "no-console": 1,
+    "no-use-before-define": 1
+  }
+}

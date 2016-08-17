@@ -11,31 +11,31 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-define([
-  'dat/controllers/Controller',
-  'dat/dom/dom',
-  'dat/utils/common'
-], function(Controller, dom, common) {
+import Controller from './Controller';
+import dom from '../dom/dom';
 
-  /**
-   * @class Provides a checkbox input to alter the boolean property of an object.
-   * @extends dat.controllers.Controller
-   *
-   * @param {Object} object The object to be manipulated
-   * @param {string} property The name of the property to be manipulated
-   *
-   * @member dat.controllers
-   */
-  var BooleanController = function(object, property) {
+/**
+ * @class Provides a checkbox input to alter the boolean property of an object.
+ * @extends dat.controllers.Controller
+ *
+ * @param {Object} object The object to be manipulated
+ * @param {string} property The name of the property to be manipulated
+ *
+ * @member dat.controllers
+ */
+class BooleanController extends Controller {
+  constructor(object, property) {
+    super(object, property);
 
-    BooleanController.superclass.call(this, object, property);
-
-    var _this = this;
+    const _this = this;
     this.__prev = this.getValue();
 
     this.__checkbox = document.createElement('input');
     this.__checkbox.setAttribute('type', 'checkbox');
 
+    function onChange() {
+      _this.setValue(!_this.__prev);
+    }
 
     dom.bind(this.__checkbox, 'change', onChange, false);
 
@@ -43,49 +43,27 @@ define([
 
     // Match original value
     this.updateDisplay();
+  }
 
-    function onChange() {
-      _this.setValue(!_this.__prev);
+  setValue(v) {
+    const toReturn = super.setValue(v);
+    if (this.__onFinishChange) {
+      this.__onFinishChange.call(this, this.getValue());
+    }
+    this.__prev = this.getValue();
+    return toReturn;
+  }
+
+  updateDisplay() {
+    if (this.getValue() === true) {
+      this.__checkbox.setAttribute('checked', 'checked');
+      this.__checkbox.checked = true;
+    } else {
+      this.__checkbox.checked = false;
     }
 
-  };
+    return super.updateDisplay();
+  }
+}
 
-  BooleanController.superclass = Controller;
-
-  common.extend(
-
-      BooleanController.prototype,
-      Controller.prototype,
-
-      {
-
-        setValue: function(v) {
-          var toReturn = BooleanController.superclass.prototype.setValue.call(this, v);
-          if (this.__onFinishChange) {
-            this.__onFinishChange.call(this, this.getValue());
-          }
-          this.__prev = this.getValue();
-          return toReturn;
-        },
-
-        updateDisplay: function() {
-          
-          if (this.getValue() === true) {
-            this.__checkbox.setAttribute('checked', 'checked');
-            this.__checkbox.checked = true;    
-          } else {
-              this.__checkbox.checked = false;
-          }
-
-          return BooleanController.superclass.prototype.updateDisplay.call(this);
-
-        }
-
-
-      }
-
-  );
-
-  return BooleanController;
-
-});
+export default BooleanController;
