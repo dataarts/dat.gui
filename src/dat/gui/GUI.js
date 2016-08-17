@@ -1211,7 +1211,7 @@ function setPresetSelectIndex(gui) {
 
 function updateDisplays(controllerArray) {
   if (controllerArray.length !== 0) {
-    requestAnimationFrame(function() {
+    requestAnimationFrame.call(window, function() {
       updateDisplays(controllerArray);
     });
   }
