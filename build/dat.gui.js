@@ -8737,7 +8737,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	
 	  if (liBefore) {
-	    gui.__ul.insertBefore(li, params.before);
+	    gui.__ul.insertBefore(li, liBefore);
 	  } else {
 	    gui.__ul.appendChild(li);
 	  }
@@ -8763,19 +8763,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _utilsCommon2['default'].extend(controller, {
 	    options: function options(_options) {
 	      if (arguments.length > 1) {
+	        var nextSibling = controller.__li.nextElementSibling;
 	        controller.remove();
 	
 	        return _add(gui, controller.object, controller.property, {
-	          before: controller.__li.nextElementSibling,
+	          before: nextSibling,
 	          factoryArgs: [_utilsCommon2['default'].toArray(arguments)]
 	        });
 	      }
 	
 	      if (_utilsCommon2['default'].isArray(_options) || _utilsCommon2['default'].isObject(_options)) {
+	        var nextSibling = controller.__li.nextElementSibling;
 	        controller.remove();
 	
 	        return _add(gui, controller.object, controller.property, {
-	          before: controller.__li.nextElementSibling,
+	          before: nextSibling,
 	          factoryArgs: [_options]
 	        });
 	      }
