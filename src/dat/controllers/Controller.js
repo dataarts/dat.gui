@@ -105,6 +105,9 @@ define([
           if (this.__onChange) {
             this.__onChange.call(this, newValue);
           }
+          else if (this.__onFinishChange) {
+            this.__onFinishChange.call(this, newValue);
+          }
           this.updateDisplay();
           return this;
         },
