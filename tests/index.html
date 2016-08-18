@@ -1044,10 +1044,15 @@ console.log(c2.__checkbox.getAttribute('checked'));
         gui.add({ x: 0 }, 'x');
       }
 
-      ok($(gui.domElement).hasClass(GUI.CLASS_TOO_TALL), 'GUI has too tall class');
-      notEqual($(gui.domElement).children('ul')[0].style.height, 'auto');
 
-      gui.destroy();
+      setTimeout(function() {
+        ok($(gui.domElement).hasClass(GUI.CLASS_TOO_TALL), 'GUI has too tall class');
+        notEqual($(gui.domElement).children('ul')[0].style.height, 'auto');
+
+        gui.destroy();
+      }, 0);
+
+
 
 
     });
