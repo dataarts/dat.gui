@@ -6887,6 +6887,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 	
 	  OptionController.prototype.updateDisplay = function updateDisplay() {
+	    if (_domDom2['default'].isActive(this.__select)) return this; // prevent number from updating if user is trying to manually update
 	    this.__select.value = this.getValue();
 	    return _Controller.prototype.updateDisplay.call(this);
 	  };
@@ -7284,7 +7285,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	
 	  NumberControllerBox.prototype.updateDisplay = function updateDisplay() {
-	    if (_domDom2['default'].isActive(this.__input)) return null; // prevent number from update if user is trying to manually update
+	    if (_domDom2['default'].isActive(this.__input)) return this; // prevent number from updating if user is trying to manually update
 	    this.__input.value = this.__truncationSuspended ? this.getValue() : roundToDecimal(this.getValue(), this.__precision);
 	    return _NumberController.prototype.updateDisplay.call(this);
 	  };
@@ -7774,9 +7775,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _utilsCommon2['default'].extend(this.__hue_field.style, {
 	      width: '15px',
 	      height: '100px',
-	      display: 'inline-block',
 	      border: '1px solid #555',
-	      cursor: 'ns-resize'
+	      cursor: 'ns-resize',
+	      position: 'absolute',
+	      top: '3px',
+	      right: '3px'
 	    });
 	
 	    hueGradient(this.__hue_field);
@@ -7799,20 +7802,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _domDom2['default'].bind(this.__hue_field, 'mousedown', function (e) {
 	      setH(e);
 	      _domDom2['default'].bind(window, 'mousemove', setH);
-	      _domDom2['default'].bind(window, 'mouseup', unbindH);
+	      _domDom2['default'].bind(window, 'mouseup', fieldUpH);
 	    });
 	
 	    function fieldDown(e) {
 	      setSV(e);
 	      // document.body.style.cursor = 'none';
 	      _domDom2['default'].bind(window, 'mousemove', setSV);
-	      _domDom2['default'].bind(window, 'mouseup', unbindSV);
+	      _domDom2['default'].bind(window, 'mouseup', fieldUpSV);
 	    }
 	
-	    function unbindSV() {
+	    function fieldUpSV() {
 	      _domDom2['default'].unbind(window, 'mousemove', setSV);
-	      _domDom2['default'].unbind(window, 'mouseup', unbindSV);
+	      _domDom2['default'].unbind(window, 'mouseup', fieldUpSV);
 	      // document.body.style.cursor = 'default';
+	      onFinish();
 	    }
 	
 	    function onBlur() {
@@ -7825,9 +7829,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    }
 	
-	    function unbindH() {
+	    function fieldUpH() {
 	      _domDom2['default'].unbind(window, 'mousemove', setH);
-	      _domDom2['default'].unbind(window, 'mouseup', unbindH);
+	      _domDom2['default'].unbind(window, 'mouseup', fieldUpH);
+	      onFinish();
+	    }
+	
+	    function onFinish() {
+	      if (_this.__onFinishChange) {
+	        _this.__onFinishChange.call(_this, _this.__color.toString());
+	      }
 	    }
 	
 	    this.__saturation_field.appendChild(valueField);
@@ -8707,6 +8718,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      } else {
 	        recallSavedValue(gui || this.getRoot(), controller);
 	      }
+	
+	      // fire onFinishChange callback
+	      if (controller.__onFinishChange) {
+	        controller.__onFinishChange.call(controller, controller.getValue());
+	      }
 	    }, this);
 	
 	    _utilsCommon2['default'].each(this.__folders, function (folder) {
@@ -8813,8 +8829,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var pb = box[method];
 	        controller[method] = box[method] = function () {
 	          var args = Array.prototype.slice.call(arguments);
-	          pc.apply(controller, args);
-	          return pb.apply(box, args);
+	          pb.apply(box, args);
+	          return pc.apply(controller, args);
 	        };
 	      });
 	

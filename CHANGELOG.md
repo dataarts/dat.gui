@@ -1,6 +1,9 @@
 ## Changelog
 
 ### 0.6.2
+ * fixed issue that prevented user from changing values of controls that are listening
+ * fixed issues with onFinishChange callbacks on revert
+ * fixed issues with color selector formatting
  * fixed issues with step parameters in sliders
  * fixed issue with controler.options() function
  * fixed issue with hiding the GUI
