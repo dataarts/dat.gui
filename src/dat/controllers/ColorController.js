@@ -114,9 +114,11 @@ class ColorController extends Controller {
     common.extend(this.__hue_field.style, {
       width: '15px',
       height: '100px',
-      display: 'inline-block',
       border: '1px solid #555',
-      cursor: 'ns-resize'
+      cursor: 'ns-resize',
+      position: 'absolute',
+      top: '3px',
+      right: '3px'
     });
 
     hueGradient(this.__hue_field);
