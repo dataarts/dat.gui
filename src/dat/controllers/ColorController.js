@@ -141,20 +141,21 @@ class ColorController extends Controller {
     dom.bind(this.__hue_field, 'mousedown', function(e) {
       setH(e);
       dom.bind(window, 'mousemove', setH);
-      dom.bind(window, 'mouseup', unbindH);
+      dom.bind(window, 'mouseup', fieldUpH);
     });
 
     function fieldDown(e) {
       setSV(e);
       // document.body.style.cursor = 'none';
       dom.bind(window, 'mousemove', setSV);
-      dom.bind(window, 'mouseup', unbindSV);
+      dom.bind(window, 'mouseup', fieldUpSV);
     }
 
-    function unbindSV() {
+    function fieldUpSV() {
       dom.unbind(window, 'mousemove', setSV);
-      dom.unbind(window, 'mouseup', unbindSV);
+      dom.unbind(window, 'mouseup', fieldUpSV);
       // document.body.style.cursor = 'default';
+      onFinish();
     }
 
     function onBlur() {
@@ -167,9 +168,16 @@ class ColorController extends Controller {
       }
     }
 
-    function unbindH() {
+    function fieldUpH() {
       dom.unbind(window, 'mousemove', setH);
-      dom.unbind(window, 'mouseup', unbindH);
+      dom.unbind(window, 'mouseup', fieldUpH);
+      onFinish();
+    }
+
+    function onFinish() {
+      if (_this.__onFinishChange) {
+        _this.__onFinishChange.call(_this, _this.__color.toString());
+      }
     }
 
     this.__saturation_field.appendChild(valueField);
