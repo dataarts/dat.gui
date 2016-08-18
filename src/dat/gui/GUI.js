@@ -824,8 +824,8 @@ function augmentController(gui, li, controller) {
       const pb = box[method];
       controller[method] = box[method] = function() {
         const args = Array.prototype.slice.call(arguments);
-        pc.apply(controller, args);
-        return pb.apply(box, args);
+        pb.apply(box, args);
+        return pc.apply(controller, args);
       };
     });
 
