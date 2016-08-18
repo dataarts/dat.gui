@@ -568,7 +568,8 @@ common.extend(
       this.closed = true;
     },
 
-    onResize: function() {
+    onResize: common.debounce(function() {
+      // we debounce this function to prevent performance issues when rotating on tablet/mobile
       const root = this.getRoot();
       if (root.scrollable) {
         const top = dom.getOffset(root.__ul).top;
@@ -598,7 +599,7 @@ common.extend(
       if (root.__closeButton) {
         root.__closeButton.style.width = root.width + 'px';
       }
-    },
+    }, 200),
 
     /**
      * Mark objects for saving. The order of these objects cannot change as

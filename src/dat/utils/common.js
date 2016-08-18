@@ -86,6 +86,28 @@ const Common = {
     setTimeout(fnc, 0);
   },
 
+  // call the function immediately, but wait until threshold passes to allow it to be called again
+  debounce: function(func, threshold) {
+    let timeout;
+
+    return function() {
+      const obj = this;
+      const args = arguments;
+      function delayed() {
+        timeout = null;
+      }
+
+      const allowCall = !timeout;
+
+      clearTimeout(timeout);
+      timeout = setTimeout(delayed, threshold);
+
+      if (allowCall) {
+        func.apply(obj, args);
+      }
+    };
+  },
+
   toArray: function(obj) {
     if (obj.toArray) return obj.toArray();
     return ARR_SLICE.call(obj);
