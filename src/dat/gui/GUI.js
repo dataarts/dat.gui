@@ -729,6 +729,15 @@ common.extend(
       if (init) {
         updateDisplays(this.__listening);
       }
+    },
+
+    updateDisplay: function() {
+      common.each(this.__controllers, function(controller) {
+        controller.updateDisplay();
+      });
+      common.each(this.__folders, function(folder) {
+        folder.updateDisplay();
+      });
     }
   }
 );
