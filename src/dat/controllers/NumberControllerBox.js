@@ -107,7 +107,7 @@ class NumberControllerBox extends NumberController {
   }
 
   updateDisplay() {
-    if (dom.isActive(this.__input)) return null; // prevent number from update if user is trying to manually update
+    if (dom.isActive(this.__input)) return this; // prevent number from updating if user is trying to manually update
     this.__input.value = this.__truncationSuspended ? this.getValue() : roundToDecimal(this.getValue(), this.__precision);
     return super.updateDisplay();
   }

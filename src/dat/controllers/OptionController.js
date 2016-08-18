@@ -78,6 +78,7 @@ class OptionController extends Controller {
   }
 
   updateDisplay() {
+    if (dom.isActive(this.__select)) return this; // prevent number from updating if user is trying to manually update
     this.__select.value = this.getValue();
     return super.updateDisplay();
   }
