@@ -707,6 +707,11 @@ common.extend(
         } else {
           recallSavedValue(gui || this.getRoot(), controller);
         }
+
+        // fire onFinishChange callback
+        if (controller.__onFinishChange) {
+          controller.__onFinishChange.call(controller, controller.getValue());
+        }
       }, this);
 
       common.each(this.__folders, function(folder) {
