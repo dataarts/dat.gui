@@ -390,18 +390,14 @@ const GUI = function(pars) {
     }
   }
 
-  dom.bind(window, 'resize', function() {
+  this.__resizeHandler = function() {
     _this.onResize();
-  });
-  dom.bind(this.__ul, 'webkitTransitionEnd', function() {
-    _this.onResize();
-  });
-  dom.bind(this.__ul, 'transitionend', function() {
-    _this.onResize();
-  });
-  dom.bind(this.__ul, 'oTransitionEnd', function() {
-    _this.onResize();
-  });
+  };
+
+  dom.bind(window, 'resize', this.__resizeHandler);
+  dom.bind(this.__ul, 'webkitTransitionEnd', this.__resizeHandler);
+  dom.bind(this.__ul, 'transitionend', this.__resizeHandler);
+  dom.bind(this.__ul, 'oTransitionEnd', this.__resizeHandler);
   this.onResize();
 
   if (params.resizable) {
@@ -450,12 +446,13 @@ GUI.DEFAULT_WIDTH = 245;
 GUI.TEXT_CLOSED = 'Close Controls';
 GUI.TEXT_OPEN = 'Open Controls';
 
-dom.bind(window, 'keydown', function(e) {
+GUI._keydownHandler = function(e) {
   if (document.activeElement.type !== 'text' &&
     (e.which === HIDE_KEY_CODE || e.keyCode === HIDE_KEY_CODE)) {
     GUI.toggleHide();
   }
-}, false);
+};
+dom.bind(window, 'keydown', GUI._keydownHandler, false);
 
 common.extend(
   GUI.prototype,
@@ -514,6 +511,13 @@ common.extend(
     destroy: function() {
       if (this.autoPlace) {
         autoPlaceContainer.removeChild(this.domElement);
+      }
+
+      dom.unbind(window, 'keydown', GUI._keydownHandler, false);
+      dom.unbind(window, 'resize', this.__resizeHandler);
+
+      if (this.saveToLocalStorageIfPossible) {
+        dom.unbind(window, 'unload', this.saveToLocalStorageIfPossible);
       }
     },
 
