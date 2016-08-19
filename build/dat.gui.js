@@ -6090,6 +6090,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	    setTimeout(fnc, 0);
 	  },
 	
+	  // call the function immediately, but wait until threshold passes to allow it to be called again
+	  debounce: function debounce(func, threshold) {
+	    var timeout = undefined;
+	
+	    return function () {
+	      var obj = this;
+	      var args = arguments;
+	      function delayed() {
+	        timeout = null;
+	      }
+	
+	      var allowCall = !timeout;
+	
+	      clearTimeout(timeout);
+	      timeout = setTimeout(delayed, threshold);
+	
+	      if (allowCall) {
+	        func.apply(obj, args);
+	      }
+	    };
+	  },
+	
 	  toArray: function toArray(obj) {
 	    if (obj.toArray) return obj.toArray();
 	    return ARR_SLICE.call(obj);
@@ -8413,18 +8435,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }
 	
-	  _domDom2['default'].bind(window, 'resize', function () {
+	  this.__resizeHandler = function () {
 	    _this.onResize();
-	  });
-	  _domDom2['default'].bind(this.__ul, 'webkitTransitionEnd', function () {
-	    _this.onResize();
-	  });
-	  _domDom2['default'].bind(this.__ul, 'transitionend', function () {
-	    _this.onResize();
-	  });
-	  _domDom2['default'].bind(this.__ul, 'oTransitionEnd', function () {
-	    _this.onResize();
-	  });
+	  };
+	
+	  _domDom2['default'].bind(window, 'resize', this.__resizeHandler);
+	  _domDom2['default'].bind(this.__ul, 'webkitTransitionEnd', this.__resizeHandler);
+	  _domDom2['default'].bind(this.__ul, 'transitionend', this.__resizeHandler);
+	  _domDom2['default'].bind(this.__ul, 'oTransitionEnd', this.__resizeHandler);
 	  this.onResize();
 	
 	  if (params.resizable) {
@@ -8473,11 +8491,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	GUI.TEXT_CLOSED = 'Close Controls';
 	GUI.TEXT_OPEN = 'Open Controls';
 	
-	_domDom2['default'].bind(window, 'keydown', function (e) {
+	GUI._keydownHandler = function (e) {
 	  if (document.activeElement.type !== 'text' && (e.which === HIDE_KEY_CODE || e.keyCode === HIDE_KEY_CODE)) {
 	    GUI.toggleHide();
 	  }
-	}, false);
+	};
+	_domDom2['default'].bind(window, 'keydown', GUI._keydownHandler, false);
 	
 	_utilsCommon2['default'].extend(GUI.prototype,
 	
@@ -8525,6 +8544,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  destroy: function destroy() {
 	    if (this.autoPlace) {
 	      autoPlaceContainer.removeChild(this.domElement);
+	    }
+	
+	    _domDom2['default'].unbind(window, 'keydown', GUI._keydownHandler, false);
+	    _domDom2['default'].unbind(window, 'resize', this.__resizeHandler);
+	
+	    if (this.saveToLocalStorageIfPossible) {
+	      _domDom2['default'].unbind(window, 'unload', this.saveToLocalStorageIfPossible);
 	    }
 	  },
 	
@@ -8579,7 +8605,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.closed = true;
 	  },
 	
-	  onResize: function onResize() {
+	  onResize: _utilsCommon2['default'].debounce(function () {
+	    // we debounce this function to prevent performance issues when rotating on tablet/mobile
 	    var root = this.getRoot();
 	    if (root.scrollable) {
 	      var _top = _domDom2['default'].getOffset(root.__ul).top;
@@ -8609,7 +8636,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (root.__closeButton) {
 	      root.__closeButton.style.width = root.width + 'px';
 	    }
-	  },
+	  }, 200),
 	
 	  /**
 	   * Mark objects for saving. The order of these objects cannot change as
@@ -8740,6 +8767,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (init) {
 	      updateDisplays(this.__listening);
 	    }
+	  },
+	
+	  updateDisplay: function updateDisplay() {
+	    _utilsCommon2['default'].each(this.__controllers, function (controller) {
+	      controller.updateDisplay();
+	    });
+	    _utilsCommon2['default'].each(this.__folders, function (folder) {
+	      folder.updateDisplay();
+	    });
 	  }
 	});
 	

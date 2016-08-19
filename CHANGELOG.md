@@ -1,6 +1,10 @@
 ## Changelog
 
 ### 0.6.2
+ * added updateDisplay() to GUI, to update all controls in all folders
+
+ * fixed GUI.destroy() to remove all window eventListeners
+ * fixed performance issue when rotated on tablet/mobile
  * fixed issue that prevented user from changing values of controls that are listening
  * fixed issues with onFinishChange callbacks on revert
  * fixed issues with color selector formatting
