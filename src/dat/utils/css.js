@@ -21,11 +21,15 @@ module.exports = {
     doc.getElementsByTagName('head')[0].appendChild(link);
   },
 
-  inject: function(css, indoc) {
+  inject: function(css, externalCssFileName, indoc) {
     const doc = indoc || document;
     const injected = document.createElement('style');
     injected.type = 'text/css';
     injected.innerHTML = css;
-    doc.getElementsByTagName('head')[0].appendChild(injected);
+    const head = doc.getElementsByTagName('head')[0];
+    try {
+      head.appendChild(injected);
+    } catch (e) { // Unable to inject CSS, probably because of a Content Security Policy
+    }
   }
 };

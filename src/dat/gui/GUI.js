@@ -13,7 +13,6 @@
 
 import css from '../utils/css';
 import saveDialogueContents from 'html!./saveDialogue.html';
-import styleSheet from '!style!css!sass!./style.scss';
 import ControllerFactory from '../controllers/ControllerFactory';
 import Controller from '../controllers/Controller';
 import BooleanController from '../controllers/BooleanController';
@@ -26,7 +25,10 @@ import CenteredDiv from '../dom/CenteredDiv';
 import dom from '../dom/dom';
 import common from '../utils/common';
 
-css.inject(styleSheet);
+import styleSheet from '!css!sass!./style.scss'; // CSS to embed in build
+import styleSheetExternal from '!file?name=dat.gui.css!extract!css!sass!./style.scss'; // CSS as external file
+
+css.inject(styleSheet, styleSheetExternal);
 
 /** Outer-most className for GUI's */
 const CSS_NAMESPACE = 'dg';
