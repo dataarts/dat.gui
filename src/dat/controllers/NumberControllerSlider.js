@@ -38,7 +38,7 @@ function map(v, i1, i2, o1, o2) {
  */
 class NumberControllerSlider extends NumberController {
   constructor(object, property, min, max, step) {
-    super(object, property, {min: min, max: max, step: step});
+    super(object, property, { min: min, max: max, step: step });
 
     const _this = this;
 

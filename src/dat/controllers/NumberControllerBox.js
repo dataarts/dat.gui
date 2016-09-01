@@ -114,5 +114,3 @@ class NumberControllerBox extends NumberController {
 }
 
 export default NumberControllerBox;
-
-

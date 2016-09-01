@@ -14,9 +14,9 @@
 import common from '../utils/common';
 
 const EVENT_MAP = {
-  'HTMLEvents': ['change'],
-  'MouseEvents': ['click', 'mousemove', 'mousedown', 'mouseup', 'mouseover'],
-  'KeyboardEvents': ['keydown']
+  HTMLEvents: ['change'],
+  MouseEvents: ['click', 'mousemove', 'mousedown', 'mouseup', 'mouseover'],
+  KeyboardEvents: ['keydown']
 };
 
 const EVENT_MAP_INV = {};
@@ -112,43 +112,43 @@ const dom = {
     }
     const evt = document.createEvent(className);
     switch (className) {
-    case 'MouseEvents':
-      {
-        const clientX = params.x || params.clientX || 0;
-        const clientY = params.y || params.clientY || 0;
-        evt.initMouseEvent(eventType, params.bubbles || false,
-          params.cancelable || true, window, params.clickCount || 1,
-          0, // screen X
-          0, // screen Y
-          clientX, // client X
-          clientY, // client Y
-          false, false, false, false, 0, null);
-        break;
-      }
-    case 'KeyboardEvents':
-      {
-        const init = evt.initKeyboardEvent || evt.initKeyEvent; // webkit || moz
-        common.defaults(params, {
-          cancelable: true,
-          ctrlKey: false,
-          altKey: false,
-          shiftKey: false,
-          metaKey: false,
-          keyCode: undefined,
-          charCode: undefined
-        });
-        init(eventType, params.bubbles || false,
-          params.cancelable, window,
-          params.ctrlKey, params.altKey,
-          params.shiftKey, params.metaKey,
-          params.keyCode, params.charCode);
-        break;
-      }
-    default:
-      {
-        evt.initEvent(eventType, params.bubbles || false, params.cancelable || true);
-        break;
-      }
+      case 'MouseEvents':
+        {
+          const clientX = params.x || params.clientX || 0;
+          const clientY = params.y || params.clientY || 0;
+          evt.initMouseEvent(eventType, params.bubbles || false,
+            params.cancelable || true, window, params.clickCount || 1,
+            0, // screen X
+            0, // screen Y
+            clientX, // client X
+            clientY, // client Y
+            false, false, false, false, 0, null);
+          break;
+        }
+      case 'KeyboardEvents':
+        {
+          const init = evt.initKeyboardEvent || evt.initKeyEvent; // webkit || moz
+          common.defaults(params, {
+            cancelable: true,
+            ctrlKey: false,
+            altKey: false,
+            shiftKey: false,
+            metaKey: false,
+            keyCode: undefined,
+            charCode: undefined
+          });
+          init(eventType, params.bubbles || false,
+            params.cancelable, window,
+            params.ctrlKey, params.altKey,
+            params.shiftKey, params.metaKey,
+            params.keyCode, params.charCode);
+          break;
+        }
+      default:
+        {
+          evt.initEvent(eventType, params.bubbles || false, params.cancelable || true);
+          break;
+        }
     }
     common.defaults(evt, aux);
     elem.dispatchEvent(evt);
@@ -267,7 +267,7 @@ const dom = {
    */
   getOffset: function(el) {
     let elem = el;
-    const offset = {left: 0, top: 0};
+    const offset = { left: 0, top: 0 };
     if (elem.offsetParent) {
       do {
         offset.left += elem.offsetLeft;
@@ -284,7 +284,7 @@ const dom = {
    * @param elem
    */
   isActive: function(elem) {
-    return elem === document.activeElement && ( elem.type || elem.href );
+    return elem === document.activeElement && (elem.type || elem.href);
   }
 
 };

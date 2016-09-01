@@ -45,7 +45,7 @@ const SUPPORTS_LOCAL_STORAGE = (function() {
   } catch (e) {
     return false;
   }
-})();
+}());
 
 let SAVE_DIALOGUE;
 
@@ -144,7 +144,7 @@ const GUI = function(pars) {
       params.load.preset = params.preset;
     }
   } else {
-    params.load = {preset: DEFAULT_DEFAULT_PRESET_NAME};
+    params.load = { preset: DEFAULT_DEFAULT_PRESET_NAME };
   }
 
   if (common.isUndefined(params.parent) && params.hideable) {
@@ -386,7 +386,7 @@ const GUI = function(pars) {
 
 
     // Make it not elastic.
-    if (!this.parent)  {
+    if (!this.parent) {
       setWidth(_this, params.width);
     }
   }
@@ -537,7 +537,7 @@ common.extend(
           ' name "' + name + '"');
       }
 
-      const newGuiParams = {name: name, parent: this};
+      const newGuiParams = { name: name, parent: this };
 
       // We need to pass down the autoPlace trait so that we can
       // attach event listeners to open/close folder actions to
@@ -545,11 +545,9 @@ common.extend(
       newGuiParams.autoPlace = this.autoPlace;
 
       // Do we have saved appearance data for this folder?
-
       if (this.load && // Anything loaded?
         this.load.folders && // Was my parent a dead-end?
         this.load.folders[name]) { // Did daddy remember me?
-
         // Start me closed if I was closed
         newGuiParams.closed = this.load.folders[name].closed;
 
@@ -837,7 +835,7 @@ function augmentController(gui, li, controller) {
   // All sliders should be accompanied by a box.
   if (controller instanceof NumberControllerSlider) {
     const box = new NumberControllerBox(controller.object, controller.property,
-      {min: controller.__min, max: controller.__max, step: controller.__step});
+      { min: controller.__min, max: controller.__max, step: controller.__step });
 
     common.each(['updateDisplay', 'onChange', 'onFinishChange', 'step'], function(method) {
       const pc = controller[method];
