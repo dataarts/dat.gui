@@ -50,6 +50,10 @@ module.exports = {
       {
         test: /\.scss$/,
         loader: 'css-loader!sass-loader'
+      },
+      {
+        test: /\.html$/,
+        loader: 'html-loader'
       }
     ]
   },

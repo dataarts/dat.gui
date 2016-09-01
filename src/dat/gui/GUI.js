@@ -12,7 +12,7 @@
  */
 
 import css from '../utils/css';
-import saveDialogueContents from 'html!./saveDialogue.html';
+import saveDialogueContents from './saveDialogue.html';
 import ControllerFactory from '../controllers/ControllerFactory';
 import Controller from '../controllers/Controller';
 import BooleanController from '../controllers/BooleanController';
