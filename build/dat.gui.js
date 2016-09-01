@@ -7946,19 +7946,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _utilsCommon2 = _interopRequireDefault(_utilsCommon);
 	
-	var _cssSassStyleScss = __webpack_require__(215);
+	var _styleScss = __webpack_require__(215);
 	
-	var _cssSassStyleScss2 = _interopRequireDefault(_cssSassStyleScss);
+	var _styleScss2 = _interopRequireDefault(_styleScss);
 	
 	// CSS to embed in build
 	
-	var _fileNameDatGuiCssExtractCssSassStyleScss = __webpack_require__(217);
-	
-	var _fileNameDatGuiCssExtractCssSassStyleScss2 = _interopRequireDefault(_fileNameDatGuiCssExtractCssSassStyleScss);
-	
-	// CSS as external file
-	
-	_utilsCss2['default'].inject(_cssSassStyleScss2['default'], _fileNameDatGuiCssExtractCssSassStyleScss2['default']);
+	_utilsCss2['default'].inject(_styleScss2['default']);
 	
 	/** Outer-most className for GUI's */
 	var CSS_NAMESPACE = 'dg';
@@ -9174,7 +9168,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    doc.getElementsByTagName('head')[0].appendChild(link);
 	  },
 	
-	  inject: function inject(css, externalCssFileName, indoc) {
+	  inject: function inject(css, indoc) {
 	    var doc = indoc || document;
 	    var injected = document.createElement('style');
 	    injected.type = 'text/css';
@@ -9511,12 +9505,6 @@ return /******/ (function(modules) { // webpackBootstrap
 		return list;
 	};
 
-
-/***/ },
-/* 217 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "dat.gui.css";
 
 /***/ }
 /******/ ])
