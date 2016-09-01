@@ -25,10 +25,9 @@ import CenteredDiv from '../dom/CenteredDiv';
 import dom from '../dom/dom';
 import common from '../utils/common';
 
-import styleSheet from '!css!sass!./style.scss'; // CSS to embed in build
-import styleSheetExternal from '!file?name=dat.gui.css!extract!css!sass!./style.scss'; // CSS as external file
+import styleSheet from './style.scss'; // CSS to embed in build
 
-css.inject(styleSheet, styleSheetExternal);
+css.inject(styleSheet);
 
 /** Outer-most className for GUI's */
 const CSS_NAMESPACE = 'dg';

@@ -21,7 +21,7 @@ module.exports = {
     doc.getElementsByTagName('head')[0].appendChild(link);
   },
 
-  inject: function(css, externalCssFileName, indoc) {
+  inject: function(css, indoc) {
     const doc = indoc || document;
     const injected = document.createElement('style');
     injected.type = 'text/css';

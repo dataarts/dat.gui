@@ -8,8 +8,10 @@
   },
   "scripts": {
     "test": "node ./node_modules/eslint/bin/eslint.js src/",
-    "build": "webpack --config ./webpack/webpack.config.js --devtool sourcemap && webpack --config ./webpack/webpack.config.min.js",
-    "dev": "webpack --progress --colors --watch --config webpack/webpack.config.js --devtool sourcemap"
+    "dev": "webpack --progress --colors --watch --config webpack/webpack.config.js --devtool sourcemap",
+    "build": "npm run build-js && npm run build-css",
+    "build-js": "webpack --config ./webpack/webpack.config.js --devtool sourcemap && webpack --config ./webpack/webpack.config.min.js",
+    "build-css": "node-sass src/dat/gui/style.scss build/dat.gui.css"
   },
   "repository": {
     "type": "git",

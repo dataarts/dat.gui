@@ -19,7 +19,8 @@ module.exports = {
   context: path.resolve(__dirname, '..', 'src'),
 
   entry: {
-    main: '../index'
+    main: '../index',
+
   },
 
   module: {
@@ -48,7 +49,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: 'style!css!sass'
+        loader: 'css-loader!sass-loader'
       }
     ]
   },
