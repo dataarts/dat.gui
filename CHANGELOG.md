@@ -1,6 +1,6 @@
 ## Changelog
 
-### 0.6.2
+### 0.6.0
  * added updateDisplay() to GUI, to update all controls in all folders
 
  * fixed GUI.destroy() to remove all window eventListeners
@@ -11,11 +11,7 @@
  * fixed issues with step parameters in sliders
  * fixed issue with controler.options() function
  * fixed issue with hiding the GUI
-
-### 0.6.1
  * Fixed all eslint issues
- 
-### 0.6.0
  * Using common.js
  * Using webpack for build
  * Fixed an issue with colors based on arrays - https://github.com/dataarts/dat.gui/pull/57

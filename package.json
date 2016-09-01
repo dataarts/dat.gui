@@ -1,6 +1,6 @@
 {
   "name": "dat.gui",
-  "version": "0.6.1",
+  "version": "0.6.0",
   "description": "A lightweight graphical user interface for changing variables in JavaScript.",
   "main": "index.js",
   "directories": {
@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/korczis/dat.gui.git"
+    "url": "git+https://github.com/dataarts/dat.gui.git"
   },
-  "author": "Data Arts Team, Google Creative Lab",
+  "author": "Data Arts Team, Google",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/korczis/dat.gui/issues"
+    "url": "https://github.com/dataarts/dat.gui/issues"
   },
-  "homepage": "https://github.com/korczis/dat.gui#readme",
+  "homepage": "https://github.com/dataarts/dat.gui#readme",
   "devDependencies": {
     "babel-core": "^5.8.22",
     "babel-eslint": "^4.0.5",
