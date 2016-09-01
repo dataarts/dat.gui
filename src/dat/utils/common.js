@@ -25,10 +25,13 @@ const Common = {
 
   extend: function(target) {
     this.each(ARR_SLICE.call(arguments, 1), function(obj) {
-      for (const key in obj) {
-        if (!this.isUndefined(obj[key])) {
-          target[key] = obj[key];
-        }
+      if (!this.isUndefined(obj)) {
+        const keys = Object.keys(obj);
+        keys.forEach(function(key) {
+          if (!this.isUndefined(obj[key])) {
+            target[key] = obj[key];
+          }
+        }.bind(this));
       }
     }, this);
 
@@ -37,10 +40,13 @@ const Common = {
 
   defaults: function(target) {
     this.each(ARR_SLICE.call(arguments, 1), function(obj) {
-      for (const key in obj) {
-        if (this.isUndefined(target[key])) {
-          target[key] = obj[key];
-        }
+      if (!this.isUndefined(obj)) {
+        const keys = Object.keys(obj);
+        keys.forEach(function(key) {
+          if (this.isUndefined(target[key])) {
+            target[key] = obj[key];
+          }
+        }.bind(this));
       }
     }, this);
 
@@ -74,11 +80,14 @@ const Common = {
         }
       }
     } else {
-      for (const key in obj) {
+      if (this.isUndefined(obj)) return;
+
+      const keys = Object.keys(obj);
+      keys.forEach(function(key) {
         if (itr.call(scope, obj[key], key) === this.BREAK) {
           return;
         }
-      }
+      }.bind(this));
     }
   },
 
