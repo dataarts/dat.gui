@@ -25,14 +25,12 @@ const Common = {
 
   extend: function(target) {
     this.each(ARR_SLICE.call(arguments, 1), function(obj) {
-      if (!this.isUndefined(obj)) {
-        const keys = Object.keys(obj);
-        keys.forEach(function(key) {
-          if (!this.isUndefined(obj[key])) {
-            target[key] = obj[key];
-          }
-        }.bind(this));
-      }
+      const keys = this.isObject(obj) ? Object.keys(obj) : [];
+      keys.forEach(function(key) {
+        if (!this.isUndefined(obj[key])) {
+          target[key] = obj[key];
+        }
+      }.bind(this));
     }, this);
 
     return target;
@@ -40,14 +38,12 @@ const Common = {
 
   defaults: function(target) {
     this.each(ARR_SLICE.call(arguments, 1), function(obj) {
-      if (!this.isUndefined(obj)) {
-        const keys = Object.keys(obj);
-        keys.forEach(function(key) {
-          if (this.isUndefined(target[key])) {
-            target[key] = obj[key];
-          }
-        }.bind(this));
-      }
+      const keys = this.isObject(obj) ? Object.keys(obj) : [];
+      keys.forEach(function(key) {
+        if (this.isUndefined(target[key])) {
+          target[key] = obj[key];
+        }
+      }.bind(this));
     }, this);
 
     return target;
@@ -80,14 +76,11 @@ const Common = {
         }
       }
     } else {
-      if (this.isUndefined(obj)) return;
-
-      const keys = Object.keys(obj);
-      keys.forEach(function(key) {
+      for (const key in obj) {
         if (itr.call(scope, obj[key], key) === this.BREAK) {
           return;
         }
-      }.bind(this));
+      }
     }
   },
 
