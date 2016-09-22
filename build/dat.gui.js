@@ -675,14 +675,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  extend: function extend(target) {
 	    this.each(ARR_SLICE.call(arguments, 1), function (obj) {
-	      if (!this.isUndefined(obj)) {
-	        var keys = Object.keys(obj);
-	        keys.forEach((function (key) {
-	          if (!this.isUndefined(obj[key])) {
-	            target[key] = obj[key];
-	          }
-	        }).bind(this));
-	      }
+	      var keys = this.isObject(obj) ? Object.keys(obj) : [];
+	      keys.forEach((function (key) {
+	        if (!this.isUndefined(obj[key])) {
+	          target[key] = obj[key];
+	        }
+	      }).bind(this));
 	    }, this);
 	
 	    return target;
@@ -690,14 +688,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  defaults: function defaults(target) {
 	    this.each(ARR_SLICE.call(arguments, 1), function (obj) {
-	      if (!this.isUndefined(obj)) {
-	        var keys = Object.keys(obj);
-	        keys.forEach((function (key) {
-	          if (this.isUndefined(target[key])) {
-	            target[key] = obj[key];
-	          }
-	        }).bind(this));
-	      }
+	      var keys = this.isObject(obj) ? Object.keys(obj) : [];
+	      keys.forEach((function (key) {
+	        if (this.isUndefined(target[key])) {
+	          target[key] = obj[key];
+	        }
+	      }).bind(this));
 	    }, this);
 	
 	    return target;
@@ -731,14 +727,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      }
 	    } else {
-	      if (this.isUndefined(obj)) return;
-	
-	      var keys = Object.keys(obj);
-	      keys.forEach((function (key) {
+	      for (var key in obj) {
 	        if (itr.call(scope, obj[key], key) === this.BREAK) {
 	          return;
 	        }
-	      }).bind(this));
+	      }
 	    }
 	  },
 	
