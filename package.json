@@ -7,7 +7,6 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "node ./node_modules/eslint/bin/eslint.js src/",
     "dev": "webpack --progress --colors --watch --config webpack/webpack.config.js --devtool sourcemap",
     "build": "npm run build-js && npm run build-css",
     "build-js": "webpack --config ./webpack/webpack.config.js --devtool sourcemap && webpack --config ./webpack/webpack.config.min.js",
@@ -45,5 +44,32 @@
   },
   "dependencies": {
     "babel": "^5.8.21"
+  },
+  "babel": {
+    "stage": 0,
+    "loose": "all"
+  },
+  "eslintConfig": {
+    "extends": "airbnb-base",
+    "rules": {
+      "comma-dangle": 0,
+      "func-names": 0,
+      "no-alert": 1,
+      "no-console": 1,
+      "no-use-before-define": 0,
+      "prefer-rest-params": 0,
+      "prefer-template": 0,
+      "no-mixed-operators": 0,
+      "no-undef": 0,
+      "no-underscore-dangle": 0,
+      "prefer-arrow-callback": 0,
+      "space-before-function-paren": 0,
+      "global-require": 0,
+      "object-shorthand": 0,
+      "max-len": 0,
+      "no-param-reassign": 0,
+      "consistent-return": 0,
+      "no-restricted-syntax": 1
+    }
   }
 }
