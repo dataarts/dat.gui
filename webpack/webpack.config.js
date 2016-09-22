@@ -24,16 +24,21 @@ module.exports = {
   },
 
   module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        exclude: /(node_modules|bower_components)/,
-        loader: 'babel'
-      },
+    preLoaders: [
       {
         test: /\.js$/,
-        loader: 'eslint-loader',
-        exclude: /(node_modules|bower_components)/
+        exclude: /(node_modules|bower_components)/,
+        loader: 'eslint-loader'
+      },
+    ],
+    loaders: [
+      {
+        test: /\.js$/,
+        loader: 'babel',
+        exclude: /(node_modules|bower_components)/,
+        query: {
+          presets: [["es2015", {"loose": true}], "stage-0"]
+        }
       },
       {
         test: /\.css$/,

@@ -11,4 +11,6 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-export default require('./src/dat/index');
+import dat from './src/dat/index';
+
+module.exports = dat;

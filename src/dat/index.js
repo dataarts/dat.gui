@@ -11,32 +11,49 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
+import Color from './color/Color';
+import math from './color/math';
+import interpret from './color/interpret';
+
+import Controller from './controllers/Controller';
+import BooleanController from './controllers/BooleanController';
+import OptionController from './controllers/OptionController';
+import StringController from './controllers/StringController';
+import NumberController from './controllers/NumberController';
+import NumberControllerBox from './controllers/NumberControllerBox';
+import NumberControllerSlider from './controllers/NumberControllerSlider';
+import FunctionController from './controllers/FunctionController';
+import ColorController from './controllers/ColorController';
+
+import dom from './dom/dom';
+import GUI from './gui/GUI';
+
 export default {
   color: {
-    Color: require('./color/Color'),
-    math: require('./color/math'),
-    interpret: require('./color/interpret')
+    Color: Color,
+    math: math,
+    interpret: interpret
   },
 
   controllers: {
-    Controller: require('./controllers/Controller'),
-    BooleanController: require('./controllers/BooleanController'),
-    OptionController: require('./controllers/OptionController'),
-    StringController: require('./controllers/StringController'),
-    NumberController: require('./controllers/NumberController'),
-    NumberControllerBox: require('./controllers/NumberControllerBox'),
-    NumberControllerSlider: require('./controllers/NumberControllerSlider'),
-    FunctionController: require('./controllers/FunctionController'),
-    ColorController: require('./controllers/ColorController')
+    Controller: Controller,
+    BooleanController: BooleanController,
+    OptionController: OptionController,
+    StringController: StringController,
+    NumberController: NumberController,
+    NumberControllerBox: NumberControllerBox,
+    NumberControllerSlider: NumberControllerSlider,
+    FunctionController: FunctionController,
+    ColorController: ColorController
   },
 
   dom: {
-    dom: require('./dom/dom')
+    dom: dom
   },
 
   gui: {
-    GUI: require('./gui/GUI')
+    GUI: GUI
   },
 
-  GUI: require('./gui/GUI')
+  GUI: GUI
 };
