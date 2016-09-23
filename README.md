@@ -1,5 +1,4 @@
-August 10, 2011
-
-Hi everyone. Today we're moving this project over to Google Code. You can find it [here](http://code.google.com/p/dat-gui/). See you there!
+We're back on github! The repo is here:
+https://github.com/dataarts/dat.gui/
 
 \- The Google Data Arts Team
