@@ -17,7 +17,6 @@ In your `head` tag, include the following code:
 
 ```
 ├── build - Compiled source code.
-├── node_modules - External node dependencies.
 ├── src - Source files.
 ├── tests - Tests.
 └── webpack - Webpack config files.
@@ -28,6 +27,7 @@ In your `head` tag, include the following code:
 In the terminal, enter the following:
 
 ```
+$ npm install
 $ npm run build
 ```
 
