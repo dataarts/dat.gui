@@ -33,15 +33,12 @@ $ npm run build
 
 ## npm scripts
 
-- npm test - Run ESLint
 - npm run build - Build development and production version of scripts.
-- npm run dev - Build development version of script watch for changes.
-
-This will create a namespaced, unminified build of dat.GUI at `build/dat.gui.js`
+- npm run dev - Build development version of script and watch for changes.
 
 ## Thanks
 The following libraries / open-source projects were used in the development of dat.GUI:
- * [require.js](http://requirejs.org/)
+ * [webpack](https://webpack.github.io/)
  * [Sass](http://sass-lang.com/)
  * [node.js](http://nodejs.org/)
  * [QUnit](https://github.com/jquery/qunit) / [jquery](http://jquery.com/)
