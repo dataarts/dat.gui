@@ -1,21 +1,20 @@
 ## Changelog
 
 ### 0.6.0
- * optional external CSS file (dat.gui.css) for use on CSP-enabled servers that block unsafe-inline 
- * added updateDisplay() to GUI, to update all controls in all folders
- * fixed GUI.destroy() to remove all window eventListeners
- * fixed performance issue when rotated on tablet/mobile
- * fixed issue that prevented user from changing values of controls that are listening
- * fixed issues with onFinishChange callbacks on revert
- * fixed issues with color selector formatting
- * fixed issues with step parameters in sliders
- * fixed issue with controler.options() function
- * fixed issue with hiding the GUI
- * Fixed all eslint issues
- * Using common.js
- * Using webpack for build
+ * Ported to ES6
+ * Exported using Universal Module Definition (UMD) for max compatibility (Commonjs, Requirejs, AMD, global var)
+ * Now using webpack for build
+ * Optional external CSS file (dat.gui.css) for use on CSP-enabled servers that block unsafe-inline 
+ * Added updateDisplay() to GUI, to update all controls in all folders - https://github.com/dataarts/dat.gui/pull/97
+ * Fixed GUI.destroy() to remove all window eventListeners - https://github.com/dataarts/dat.gui/pull/88
+ * Fixed performance issue when rotated on tablet/mobile - https://github.com/dataarts/dat.gui/pull/91
+ * Fixed issue that prevented user from changing values of controls that are listening - https://github.com/dataarts/dat.gui/issues/100
+ * Fixed issues with onFinishChange callbacks on revert - https://github.com/dataarts/dat.gui/pull/103
+ * Fixed issues with color selector formatting - https://github.com/dataarts/dat.gui/issues/73
+ * Fixed issues with step parameters in sliders - https://github.com/dataarts/dat.gui/issues/74
  * Fixed an issue with colors based on arrays - https://github.com/dataarts/dat.gui/pull/57
- * Update factory.js, Step param was not used - https://github.com/dataarts/dat.gui/pull/45
+ * Fixed factory.js, Step param was not used - https://github.com/dataarts/dat.gui/pull/45
+ 
  
 ### 0.5
  * Moved to requirejs for dependency management.
