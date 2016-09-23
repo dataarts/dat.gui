@@ -3,7 +3,7 @@ A lightweight graphical user interface for changing variables in JavaScript.
 
 Get started with dat.GUI by reading the tutorial at http://workshop.chromeexperiments.com/examples/gui.
 
-[Change Log](CHANGELOG.md)
+
 
 ## Packaged Builds
 The easiest way to use dat.GUI in your code is by using the built source at `build/dat.gui.min.js`. These built JavaScript files bundle all the necessary dependencies to run dat.GUI.
@@ -39,6 +39,9 @@ $ npm run build
 
 ## Working with Content Security Policy
 If you're using a server with a Content Security Policy in place that blocks 'unsafe-inline', you will have problems when dat.gui.js tries to inject style information. To get around this, load 'build/dat.gui.css' as an external style sheet.
+
+## Changes
+View the [Change Log](CHANGELOG.md)
 
 ## Thanks
 The following libraries / open-source projects were used in the development of dat.GUI:
