@@ -16,8 +16,8 @@
         noiseStrength: 10.2,
         growthSpeed: 0.2,
 
-        type: 'chrome',
-        
+        type: 'three',
+
         explode: function () {
           alert('Bang!');
         },
@@ -40,7 +40,7 @@
     gui.add(obj, 'height').step(5); // Increment amount
 
     // Choose from accepted values
-    gui.add(obj, 'type', [ 'pizza', 'chrome', 'hooray' ] );
+    gui.add(obj, 'type', [ 'one', 'two', 'three' ] );
 
     // Choose from named values
     gui.add(obj, 'speed', { Stopped: 0, Slow: 0.1, Fast: 5 } );
