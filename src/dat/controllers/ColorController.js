@@ -194,10 +194,9 @@ class ColorController extends Controller {
     function setSV(e) {
       e.preventDefault();
 
-      const w = dom.getWidth(_this.__saturation_field);
-      const o = dom.getOffset(_this.__saturation_field);
-      let s = (e.clientX - o.left + document.body.scrollLeft) / w;
-      let v = 1 - (e.clientY - o.top + document.body.scrollTop) / w;
+      const fieldRect = _this.__saturation_field.getBoundingClientRect();
+      let s = (e.clientX - fieldRect.left) / (fieldRect.right - fieldRect.left);
+      let v = 1 - (e.clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
 
       if (v > 1) {
         v = 1;
@@ -223,9 +222,8 @@ class ColorController extends Controller {
     function setH(e) {
       e.preventDefault();
 
-      const s = dom.getHeight(_this.__hue_field);
-      const o = dom.getOffset(_this.__hue_field);
-      let h = 1 - (e.clientY - o.top + document.body.scrollTop) / s;
+      const fieldRect = _this.__hue_field.getBoundingClientRect();
+      let h = 1 - (e.clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
 
       if (h > 1) {
         h = 1;

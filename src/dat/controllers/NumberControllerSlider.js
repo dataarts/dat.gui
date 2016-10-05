@@ -62,11 +62,10 @@ class NumberControllerSlider extends NumberController {
     function onMouseDrag(e) {
       e.preventDefault();
 
-      const offset = dom.getOffset(_this.__background);
-      const width = dom.getWidth(_this.__background);
+      const bgRect = _this.__background.getBoundingClientRect();
 
       _this.setValue(
-        map(e.clientX, offset.left, offset.left + width, _this.__min, _this.__max)
+        map(e.clientX, bgRect.left, bgRect.right, _this.__min, _this.__max)
       );
 
       return false;

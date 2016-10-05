@@ -854,8 +854,13 @@ function augmentController(gui, li, controller) {
       // Have we defined both boundaries?
       if (common.isNumber(controller.__min) && common.isNumber(controller.__max)) {
         // Well, then lets just replace this with a slider.
+
+        // lets remember if the old controller had a specific name or was listening
+        const oldName = controller.__li.firstElementChild.firstElementChild.innerHTML;
+        const wasListening = controller.__gui.__listening.indexOf(controller) > -1;
+
         controller.remove();
-        return add(
+        const newController = add(
           gui,
           controller.object,
           controller.property,
@@ -863,6 +868,11 @@ function augmentController(gui, li, controller) {
             before: controller.__li.nextElementSibling,
             factoryArgs: [controller.__min, controller.__max, controller.__step]
           });
+
+        newController.name(oldName);
+        if (wasListening) newController.listen();
+
+        return newController;
       }
 
       return returned;

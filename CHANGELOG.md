@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.6.1
+ * Fixed issue with color picker not working on a page that has scrolled. #37
+ * Fixed issue with sliders created with min()/max() not remembering their name or to listen. #107
+
 ### 0.6.0
  * Ported to ES6
  * Exported using Universal Module Definition (UMD) for max compatibility (Commonjs, Requirejs, AMD, global var)
