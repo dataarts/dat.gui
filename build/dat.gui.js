@@ -3443,11 +3443,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // Have we defined both boundaries?
 	      if (_common2.default.isNumber(controller.__min) && _common2.default.isNumber(controller.__max)) {
 	        // Well, then lets just replace this with a slider.
+	
+	        // lets remember if the old controller had a specific name or was listening
+	        var oldName = controller.__li.firstElementChild.firstElementChild.innerHTML;
+	        var wasListening = controller.__gui.__listening.indexOf(controller) > -1;
+	
 	        controller.remove();
-	        return _add(gui, controller.object, controller.property, {
+	        var newController = _add(gui, controller.object, controller.property, {
 	          before: controller.__li.nextElementSibling,
 	          factoryArgs: [controller.__min, controller.__max, controller.__step]
 	        });
+	
+	        newController.name(oldName);
+	        if (wasListening) newController.listen();
+	
+	        return newController;
 	      }
 	
 	      return returned;
