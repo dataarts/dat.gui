@@ -583,6 +583,24 @@ common.extend(
       return gui;
     },
 
+    removeFolder: function(folder) {
+      this.__ul.removeChild(folder.domElement.parentElement);
+
+      delete this.__folders[folder.name];
+
+      // Do we have saved appearance data for this folder?
+      if (this.load && // Anything loaded?
+          this.load.folders && // Was my parent a dead-end?
+          this.load.folders[folder.name]) {
+          delete this.load.folders[folder.name];
+      }
+
+      const _this = this;
+      common.defer(function() {
+        _this.onResize();
+      });
+    },
+
     open: function() {
       this.closed = false;
     },
