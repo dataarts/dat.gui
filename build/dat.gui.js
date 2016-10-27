@@ -2262,299 +2262,299 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 	
 	var ColorController = function (_Controller) {
-	  _inherits(ColorController, _Controller);
+	    _inherits(ColorController, _Controller);
 	
-	  function ColorController(object, property) {
-	    _classCallCheck(this, ColorController);
+	    function ColorController(object, property) {
+	        _classCallCheck(this, ColorController);
 	
-	    var _this2 = _possibleConstructorReturn(this, _Controller.call(this, object, property));
+	        var _this2 = _possibleConstructorReturn(this, _Controller.call(this, object, property));
 	
-	    _this2.__color = new _Color2.default(_this2.getValue());
-	    _this2.__temp = new _Color2.default(0);
+	        _this2.__color = new _Color2.default(_this2.getValue());
+	        _this2.__temp = new _Color2.default(0);
 	
-	    var _this = _this2;
+	        var _this = _this2;
 	
-	    _this2.domElement = document.createElement('div');
+	        _this2.domElement = document.createElement('div');
 	
-	    _dom2.default.makeSelectable(_this2.domElement, false);
+	        _dom2.default.makeSelectable(_this2.domElement, false);
 	
-	    _this2.__selector = document.createElement('div');
-	    _this2.__selector.className = 'selector';
+	        _this2.__selector = document.createElement('div');
+	        _this2.__selector.className = 'selector';
 	
-	    _this2.__saturation_field = document.createElement('div');
-	    _this2.__saturation_field.className = 'saturation-field';
+	        _this2.__saturation_field = document.createElement('div');
+	        _this2.__saturation_field.className = 'saturation-field';
 	
-	    _this2.__field_knob = document.createElement('div');
-	    _this2.__field_knob.className = 'field-knob';
-	    _this2.__field_knob_border = '2px solid ';
+	        _this2.__field_knob = document.createElement('div');
+	        _this2.__field_knob.className = 'field-knob';
+	        _this2.__field_knob_border = '2px solid ';
 	
-	    _this2.__hue_knob = document.createElement('div');
-	    _this2.__hue_knob.className = 'hue-knob';
+	        _this2.__hue_knob = document.createElement('div');
+	        _this2.__hue_knob.className = 'hue-knob';
 	
-	    _this2.__hue_field = document.createElement('div');
-	    _this2.__hue_field.className = 'hue-field';
+	        _this2.__hue_field = document.createElement('div');
+	        _this2.__hue_field.className = 'hue-field';
 	
-	    _this2.__input = document.createElement('input');
-	    _this2.__input.type = 'text';
-	    _this2.__input_textShadow = '0 1px 1px ';
+	        _this2.__input = document.createElement('input');
+	        _this2.__input.type = 'text';
+	        _this2.__input_textShadow = '0 1px 1px ';
 	
-	    _dom2.default.bind(_this2.__input, 'keydown', function (e) {
-	      if (e.keyCode === 13) {
-	        // on enter
-	        onBlur.call(this);
-	      }
-	    });
+	        _dom2.default.bind(_this2.__input, 'keydown', function (e) {
+	            if (e.keyCode === 13) {
+	                // on enter
+	                onBlur.call(this);
+	            }
+	        });
 	
-	    _dom2.default.bind(_this2.__input, 'blur', onBlur);
+	        _dom2.default.bind(_this2.__input, 'blur', onBlur);
 	
-	    _dom2.default.bind(_this2.__selector, 'mousedown', function () /* e */{
-	      _dom2.default.addClass(this, 'drag').bind(window, 'mouseup', function () /* e */{
-	        _dom2.default.removeClass(_this.__selector, 'drag');
-	      });
-	    });
+	        _dom2.default.bind(_this2.__selector, 'mousedown', function () /* e */{
+	            _dom2.default.addClass(this, 'drag').bind(window, 'mouseup', function () /* e */{
+	                _dom2.default.removeClass(_this.__selector, 'drag');
+	            });
+	        });
 	
-	    var valueField = document.createElement('div');
+	        var valueField = document.createElement('div');
 	
-	    _common2.default.extend(_this2.__selector.style, {
-	      width: '122px',
-	      height: '102px',
-	      padding: '3px',
-	      backgroundColor: '#222',
-	      boxShadow: '0px 1px 3px rgba(0,0,0,0.3)'
-	    });
+	        _common2.default.extend(_this2.__selector.style, {
+	            width: '122px',
+	            height: '102px',
+	            padding: '3px',
+	            backgroundColor: '#222',
+	            boxShadow: '0px 1px 3px rgba(0,0,0,0.3)'
+	        });
 	
-	    _common2.default.extend(_this2.__field_knob.style, {
-	      position: 'absolute',
-	      width: '12px',
-	      height: '12px',
-	      border: _this2.__field_knob_border + (_this2.__color.v < 0.5 ? '#fff' : '#000'),
-	      boxShadow: '0px 1px 3px rgba(0,0,0,0.5)',
-	      borderRadius: '12px',
-	      zIndex: 1
-	    });
+	        _common2.default.extend(_this2.__field_knob.style, {
+	            position: 'absolute',
+	            width: '12px',
+	            height: '12px',
+	            border: _this2.__field_knob_border + (_this2.__color.v < 0.5 ? '#fff' : '#000'),
+	            boxShadow: '0px 1px 3px rgba(0,0,0,0.5)',
+	            borderRadius: '12px',
+	            zIndex: 1
+	        });
 	
-	    _common2.default.extend(_this2.__hue_knob.style, {
-	      position: 'absolute',
-	      width: '15px',
-	      height: '2px',
-	      borderRight: '4px solid #fff',
-	      zIndex: 1
-	    });
+	        _common2.default.extend(_this2.__hue_knob.style, {
+	            position: 'absolute',
+	            width: '15px',
+	            height: '2px',
+	            borderRight: '4px solid #fff',
+	            zIndex: 1
+	        });
 	
-	    _common2.default.extend(_this2.__saturation_field.style, {
-	      width: '100px',
-	      height: '100px',
-	      border: '1px solid #555',
-	      marginRight: '3px',
-	      display: 'inline-block',
-	      cursor: 'pointer'
-	    });
+	        _common2.default.extend(_this2.__saturation_field.style, {
+	            width: '100px',
+	            height: '100px',
+	            border: '1px solid #555',
+	            marginRight: '3px',
+	            display: 'inline-block',
+	            cursor: 'pointer'
+	        });
 	
-	    _common2.default.extend(valueField.style, {
-	      width: '100%',
-	      height: '100%',
-	      background: 'none'
-	    });
+	        _common2.default.extend(valueField.style, {
+	            width: '100%',
+	            height: '100%',
+	            background: 'none'
+	        });
 	
-	    linearGradient(valueField, 'top', 'rgba(0,0,0,0)', '#000');
+	        linearGradient(valueField, 'top', 'rgba(0,0,0,0)', '#000');
 	
-	    _common2.default.extend(_this2.__hue_field.style, {
-	      width: '15px',
-	      height: '100px',
-	      border: '1px solid #555',
-	      cursor: 'ns-resize',
-	      position: 'absolute',
-	      top: '3px',
-	      right: '3px'
-	    });
+	        _common2.default.extend(_this2.__hue_field.style, {
+	            width: '15px',
+	            height: '100px',
+	            border: '1px solid #555',
+	            cursor: 'ns-resize',
+	            position: 'absolute',
+	            top: '3px',
+	            right: '3px'
+	        });
 	
-	    hueGradient(_this2.__hue_field);
+	        hueGradient(_this2.__hue_field);
 	
-	    _common2.default.extend(_this2.__input.style, {
-	      outline: 'none',
-	      //      width: '120px',
-	      textAlign: 'center',
-	      //      padding: '4px',
-	      //      marginBottom: '6px',
-	      color: '#fff',
-	      border: 0,
-	      fontWeight: 'bold',
-	      textShadow: _this2.__input_textShadow + 'rgba(0,0,0,0.7)'
-	    });
+	        _common2.default.extend(_this2.__input.style, {
+	            outline: 'none',
+	            //      width: '120px',
+	            textAlign: 'center',
+	            //      padding: '4px',
+	            //      marginBottom: '6px',
+	            color: '#fff',
+	            border: 0,
+	            fontWeight: 'bold',
+	            textShadow: _this2.__input_textShadow + 'rgba(0,0,0,0.7)'
+	        });
 	
-	    _dom2.default.bind(_this2.__saturation_field, 'mousedown', fieldDown);
-	    _dom2.default.bind(_this2.__field_knob, 'mousedown', fieldDown);
+	        _dom2.default.bind(_this2.__saturation_field, 'mousedown', fieldDown);
+	        _dom2.default.bind(_this2.__field_knob, 'mousedown', fieldDown);
 	
-	    _dom2.default.bind(_this2.__hue_field, 'mousedown', function (e) {
-	      setH(e);
-	      _dom2.default.bind(window, 'mousemove', setH);
-	      _dom2.default.bind(window, 'mouseup', fieldUpH);
-	    });
+	        _dom2.default.bind(_this2.__hue_field, 'mousedown', function (e) {
+	            setH(e);
+	            _dom2.default.bind(window, 'mousemove', setH);
+	            _dom2.default.bind(window, 'mouseup', fieldUpH);
+	        });
 	
-	    function fieldDown(e) {
-	      setSV(e);
-	      // document.body.style.cursor = 'none';
-	      _dom2.default.bind(window, 'mousemove', setSV);
-	      _dom2.default.bind(window, 'mouseup', fieldUpSV);
-	    }
-	
-	    function fieldUpSV() {
-	      _dom2.default.unbind(window, 'mousemove', setSV);
-	      _dom2.default.unbind(window, 'mouseup', fieldUpSV);
-	      // document.body.style.cursor = 'default';
-	      onFinish();
-	    }
-	
-	    function onBlur() {
-	      var i = (0, _interpret2.default)(this.value);
-	      if (i !== false) {
-	        _this.__color.__state = i;
-	        _this.setValue(_this.__color.toOriginal());
-	      } else {
-	        this.value = _this.__color.toString();
-	      }
-	    }
-	
-	    function fieldUpH() {
-	      _dom2.default.unbind(window, 'mousemove', setH);
-	      _dom2.default.unbind(window, 'mouseup', fieldUpH);
-	      onFinish();
-	    }
-	
-	    function onFinish() {
-	      if (_this.__onFinishChange) {
-	        _this.__onFinishChange.call(_this, _this.__color.toString());
-	      }
-	    }
-	
-	    _this2.__saturation_field.appendChild(valueField);
-	    _this2.__selector.appendChild(_this2.__field_knob);
-	    _this2.__selector.appendChild(_this2.__saturation_field);
-	    _this2.__selector.appendChild(_this2.__hue_field);
-	    _this2.__hue_field.appendChild(_this2.__hue_knob);
-	
-	    _this2.domElement.appendChild(_this2.__input);
-	    _this2.domElement.appendChild(_this2.__selector);
-	
-	    _this2.updateDisplay();
-	
-	    function setSV(e) {
-	      e.preventDefault();
-	
-	      var fieldRect = _this.__saturation_field.getBoundingClientRect();
-	      var s = (e.clientX - fieldRect.left) / (fieldRect.right - fieldRect.left);
-	      var v = 1 - (e.clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
-	
-	      if (v > 1) {
-	        v = 1;
-	      } else if (v < 0) {
-	        v = 0;
-	      }
-	
-	      if (s > 1) {
-	        s = 1;
-	      } else if (s < 0) {
-	        s = 0;
-	      }
-	
-	      _this.__color.v = v;
-	      _this.__color.s = s;
-	
-	      _this.setValue(_this.__color.toOriginal());
-	
-	      return false;
-	    }
-	
-	    function setH(e) {
-	      e.preventDefault();
-	
-	      var fieldRect = _this.__hue_field.getBoundingClientRect();
-	      var h = 1 - (e.clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
-	
-	      if (h > 1) {
-	        h = 1;
-	      } else if (h < 0) {
-	        h = 0;
-	      }
-	
-	      _this.__color.h = h * 360;
-	
-	      _this.setValue(_this.__color.toOriginal());
-	
-	      return false;
-	    }
-	    return _this2;
-	  }
-	
-	  ColorController.prototype.updateDisplay = function updateDisplay() {
-	    var i = (0, _interpret2.default)(this.getValue());
-	
-	    if (i !== false) {
-	      var mismatch = false;
-	
-	      // Check for mismatch on the interpreted value.
-	
-	      _common2.default.each(_Color2.default.COMPONENTS, function (component) {
-	        if (!_common2.default.isUndefined(i[component]) && !_common2.default.isUndefined(this.__color.__state[component]) && i[component] !== this.__color.__state[component]) {
-	          mismatch = true;
-	          return {}; // break
+	        function fieldDown(e) {
+	            setSV(e);
+	            // document.body.style.cursor = 'none';
+	            _dom2.default.bind(window, 'mousemove', setSV);
+	            _dom2.default.bind(window, 'mouseup', fieldUpSV);
 	        }
-	      }, this);
 	
-	      // If nothing diverges, we keep our previous values
-	      // for statefulness, otherwise we recalculate fresh
-	      if (mismatch) {
-	        _common2.default.extend(this.__color.__state, i);
-	      }
+	        function fieldUpSV() {
+	            _dom2.default.unbind(window, 'mousemove', setSV);
+	            _dom2.default.unbind(window, 'mouseup', fieldUpSV);
+	            // document.body.style.cursor = 'default';
+	            onFinish();
+	        }
+	
+	        function onBlur() {
+	            var i = (0, _interpret2.default)(this.value);
+	            if (i !== false) {
+	                _this.__color.__state = i;
+	                _this.setValue(_this.__color.toOriginal());
+	            } else {
+	                this.value = _this.__color.toString();
+	            }
+	        }
+	
+	        function fieldUpH() {
+	            _dom2.default.unbind(window, 'mousemove', setH);
+	            _dom2.default.unbind(window, 'mouseup', fieldUpH);
+	            onFinish();
+	        }
+	
+	        function onFinish() {
+	            if (_this.__onFinishChange) {
+	                _this.__onFinishChange.call(_this, _this.__color.toString());
+	            }
+	        }
+	
+	        _this2.__saturation_field.appendChild(valueField);
+	        _this2.__selector.appendChild(_this2.__field_knob);
+	        _this2.__selector.appendChild(_this2.__saturation_field);
+	        _this2.__selector.appendChild(_this2.__hue_field);
+	        _this2.__hue_field.appendChild(_this2.__hue_knob);
+	
+	        _this2.domElement.appendChild(_this2.__input);
+	        _this2.domElement.appendChild(_this2.__selector);
+	
+	        _this2.updateDisplay();
+	
+	        function setSV(e) {
+	            e.preventDefault();
+	
+	            var fieldRect = _this.__saturation_field.getBoundingClientRect();
+	            var s = (e.clientX - fieldRect.left) / (fieldRect.right - fieldRect.left);
+	            var v = 1 - (e.clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
+	
+	            if (v > 1) {
+	                v = 1;
+	            } else if (v < 0) {
+	                v = 0;
+	            }
+	
+	            if (s > 1) {
+	                s = 1;
+	            } else if (s < 0) {
+	                s = 0;
+	            }
+	
+	            _this.__color.v = v;
+	            _this.__color.s = s;
+	
+	            _this.setValue(_this.__color.toOriginal());
+	
+	            return false;
+	        }
+	
+	        function setH(e) {
+	            e.preventDefault();
+	
+	            var fieldRect = _this.__hue_field.getBoundingClientRect();
+	            var h = 1 - (e.clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
+	
+	            if (h > 1) {
+	                h = 1;
+	            } else if (h < 0) {
+	                h = 0;
+	            }
+	
+	            _this.__color.h = h * 360;
+	
+	            _this.setValue(_this.__color.toOriginal());
+	
+	            return false;
+	        }
+	        return _this2;
 	    }
 	
-	    _common2.default.extend(this.__temp.__state, this.__color.__state);
+	    ColorController.prototype.updateDisplay = function updateDisplay() {
+	        var i = (0, _interpret2.default)(this.getValue());
 	
-	    this.__temp.a = 1;
+	        if (i !== false) {
+	            var mismatch = false;
 	
-	    var flip = this.__color.v < 0.5 || this.__color.s > 0.5 ? 255 : 0;
-	    var _flip = 255 - flip;
+	            // Check for mismatch on the interpreted value.
 	
-	    _common2.default.extend(this.__field_knob.style, {
-	      marginLeft: 100 * this.__color.s - 7 + 'px',
-	      marginTop: 100 * (1 - this.__color.v) - 7 + 'px',
-	      backgroundColor: this.__temp.toString(),
-	      border: this.__field_knob_border + 'rgb(' + flip + ',' + flip + ',' + flip + ')'
-	    });
+	            _common2.default.each(_Color2.default.COMPONENTS, function (component) {
+	                if (!_common2.default.isUndefined(i[component]) && !_common2.default.isUndefined(this.__color.__state[component]) && i[component] !== this.__color.__state[component]) {
+	                    mismatch = true;
+	                    return {}; // break
+	                }
+	            }, this);
 	
-	    this.__hue_knob.style.marginTop = (1 - this.__color.h / 360) * 100 + 'px';
+	            // If nothing diverges, we keep our previous values
+	            // for statefulness, otherwise we recalculate fresh
+	            if (mismatch) {
+	                _common2.default.extend(this.__color.__state, i);
+	            }
+	        }
 	
-	    this.__temp.s = 1;
-	    this.__temp.v = 1;
+	        _common2.default.extend(this.__temp.__state, this.__color.__state);
 	
-	    linearGradient(this.__saturation_field, 'left', '#fff', this.__temp.toString());
+	        this.__temp.a = 1;
 	
-	    _common2.default.extend(this.__input.style, {
-	      backgroundColor: this.__input.value = this.__color.toString(),
-	      color: 'rgb(' + flip + ',' + flip + ',' + flip + ')',
-	      textShadow: this.__input_textShadow + 'rgba(' + _flip + ',' + _flip + ',' + _flip + ',.7)'
-	    });
-	  };
+	        var flip = this.__color.v < 0.5 || this.__color.s > 0.5 ? 255 : 0;
+	        var _flip = 255 - flip;
 	
-	  return ColorController;
+	        _common2.default.extend(this.__field_knob.style, {
+	            marginLeft: 100 * this.__color.s - 7 + 'px',
+	            marginTop: 100 * (1 - this.__color.v) - 7 + 'px',
+	            backgroundColor: this.__temp.toString(),
+	            border: this.__field_knob_border + 'rgb(' + flip + ',' + flip + ',' + flip + ')'
+	        });
+	
+	        this.__hue_knob.style.marginTop = (1 - this.__color.h / 360) * 100 + 'px';
+	
+	        this.__temp.s = 1;
+	        this.__temp.v = 1;
+	
+	        linearGradient(this.__saturation_field, 'left', '#fff', this.__temp.toString());
+	
+	        _common2.default.extend(this.__input.style, {
+	            backgroundColor: this.__input.value = this.__color.toString(),
+	            color: 'rgb(' + flip + ',' + flip + ',' + flip + ')',
+	            textShadow: this.__input_textShadow + 'rgba(' + _flip + ',' + _flip + ',' + _flip + ',.7)'
+	        });
+	    };
+	
+	    return ColorController;
 	}(_Controller3.default);
 	
 	var vendors = ['-moz-', '-o-', '-webkit-', '-ms-', ''];
 	
 	function linearGradient(elem, x, a, b) {
-	  elem.style.background = '';
-	  _common2.default.each(vendors, function (vendor) {
-	    elem.style.cssText += 'background: ' + vendor + 'linear-gradient(' + x + ', ' + a + ' 0%, ' + b + ' 100%); ';
-	  });
+	    elem.style.background = '';
+	    _common2.default.each(vendors, function (vendor) {
+	        elem.style.cssText += 'background: ' + vendor + 'linear-gradient(' + x + ', ' + a + ' 0%, ' + b + ' 100%); ';
+	    });
 	}
 	
 	function hueGradient(elem) {
-	  elem.style.background = '';
-	  elem.style.cssText += 'background: -moz-linear-gradient(top,  #ff0000 0%, #ff00ff 17%, #0000ff 34%, #00ffff 50%, #00ff00 67%, #ffff00 84%, #ff0000 100%);';
-	  elem.style.cssText += 'background: -webkit-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
-	  elem.style.cssText += 'background: -o-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
-	  elem.style.cssText += 'background: -ms-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
-	  elem.style.cssText += 'background: linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+	    elem.style.background = '';
+	    elem.style.cssText += 'background: -moz-linear-gradient(top,  #ff0000 0%, #ff00ff 17%, #0000ff 34%, #00ffff 50%, #00ff00 67%, #ffff00 84%, #ff0000 100%);';
+	    elem.style.cssText += 'background: -webkit-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+	    elem.style.cssText += 'background: -o-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+	    elem.style.cssText += 'background: -ms-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+	    elem.style.cssText += 'background: linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
 	}
 	
 	exports.default = ColorController;
@@ -2565,18 +2565,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; }; /**
-	                                                                                                                                                                                                                                                   * dat-gui JavaScript Controller Library
-	                                                                                                                                                                                                                                                   * http://code.google.com/p/dat-gui
-	                                                                                                                                                                                                                                                   *
-	                                                                                                                                                                                                                                                   * Copyright 2011 Data Arts Team, Google Creative Lab
-	                                                                                                                                                                                                                                                   *
-	                                                                                                                                                                                                                                                   * Licensed under the Apache License, Version 2.0 (the "License");
-	                                                                                                                                                                                                                                                   * you may not use this file except in compliance with the License.
-	                                                                                                                                                                                                                                                   * You may obtain a copy of the License at
-	                                                                                                                                                                                                                                                   *
-	                                                                                                                                                                                                                                                   * http://www.apache.org/licenses/LICENSE-2.0
-	                                                                                                                                                                                                                                                   */
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /**
+	                                                                                                                                                                                                                                                                               * dat-gui JavaScript Controller Library
+	                                                                                                                                                                                                                                                                               * http://code.google.com/p/dat-gui
+	                                                                                                                                                                                                                                                                               *
+	                                                                                                                                                                                                                                                                               * Copyright 2011 Data Arts Team, Google Creative Lab
+	                                                                                                                                                                                                                                                                               *
+	                                                                                                                                                                                                                                                                               * Licensed under the Apache License, Version 2.0 (the "License");
+	                                                                                                                                                                                                                                                                               * you may not use this file except in compliance with the License.
+	                                                                                                                                                                                                                                                                               * You may obtain a copy of the License at
+	                                                                                                                                                                                                                                                                               *
+	                                                                                                                                                                                                                                                                               * http://www.apache.org/licenses/LICENSE-2.0
+	                                                                                                                                                                                                                                                                               */
 	
 	var _css = __webpack_require__(18);
 	
@@ -2862,6 +2862,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	
 	    /**
+	     * The name of <code>GUI</code>. Used for folders. i.e
+	     * a folder's title
+	     * @type String
+	     */
+	    title: {
+	      get: function get() {
+	        return params.title;
+	      },
+	      set: function set(v) {
+	        params.title = v;
+	        if (titleRow) {
+	          if (_common2.default.isString(params.title)) {
+	            titleRow.setAttribute('title', params.title);
+	          } else {
+	            titleRow.removeAttribute('title');
+	          }
+	        }
+	      }
+	    },
+	
+	    /**
 	     * Whether the <code>GUI</code> is collapsed or not
 	     * @type Boolean
 	     */
@@ -2958,7 +2979,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var _titleRowName = document.createTextNode(params.name);
 	    _dom2.default.addClass(_titleRowName, 'controller-name');
 	
-	    var titleRow = addRow(_this, _titleRowName);
+	    var _titleRow = addRow(_this, _titleRowName);
+	
+	    if (_common2.default.isString(params.title)) {
+	      _titleRow.setAttribute('title', params.title);
+	    }
 	
 	    var onClickTitle = function onClickTitle(e) {
 	      e.preventDefault();
@@ -2968,8 +2993,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _dom2.default.addClass(this.__ul, GUI.CLASS_CLOSED);
 	
-	    _dom2.default.addClass(titleRow, 'title');
-	    _dom2.default.bind(titleRow, 'click', onClickTitle);
+	    _dom2.default.addClass(_titleRow, 'title');
+	    _dom2.default.bind(_titleRow, 'click', onClickTitle);
 	
 	    if (!params.closed) {
 	      this.closed = false;
@@ -3120,19 +3145,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  /**
 	   * @param name
+	   * @param [title]
 	   * @returns {dat.gui.GUI} The new folder.
 	   * @throws {Error} if this GUI already has a folder by the specified
 	   * name
 	   * @instance
 	   */
-	  addFolder: function addFolder(name) {
+	  addFolder: function addFolder(name, title) {
 	    // We have to prevent collisions on names in order to have a key
 	    // by which to remember saved values
 	    if (this.__folders[name] !== undefined) {
 	      throw new Error('You already have a folder in this GUI by the' + ' name "' + name + '"');
 	    }
 	
-	    var newGuiParams = { name: name, parent: this };
+	    var newGuiParams = { name: name, parent: this, title: title };
 	
 	    // We need to pass down the autoPlace trait so that we can
 	    // attach event listeners to open/close folder actions to
@@ -3403,6 +3429,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    name: function name(v) {
 	      controller.__li.firstElementChild.firstElementChild.innerHTML = v;
+	      return controller;
+	    },
+	
+	    title: function title(v) {
+	      if (_common2.default.isString(v)) {
+	        controller.__li.setAttribute('title', v);
+	      } else {
+	        controller.__li.removeAttribute('title');
+	      }
 	      return controller;
 	    },
 	
@@ -3879,7 +3914,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 19 */
 /***/ function(module, exports) {
 
-	module.exports = "<div id=\"dg-save\" class=\"dg dialogue\">\n\n  Here's the new load parameter for your <code>GUI</code>'s constructor:\n\n  <textarea id=\"dg-new-constructor\"></textarea>\n\n  <div id=\"dg-save-locally\">\n\n    <input id=\"dg-local-storage\" type=\"checkbox\"/> Automatically save\n    values to <code>localStorage</code> on exit.\n\n    <div id=\"dg-local-explain\">The values saved to <code>localStorage</code> will\n      override those passed to <code>dat.GUI</code>'s constructor. This makes it\n      easier to work incrementally, but <code>localStorage</code> is fragile,\n      and your friends may not see the same values you do.\n\n    </div>\n\n  </div>\n\n</div>";
+	module.exports = "<div id=\"dg-save\" class=\"dg dialogue\">\r\n\r\n  Here's the new load parameter for your <code>GUI</code>'s constructor:\r\n\r\n  <textarea id=\"dg-new-constructor\"></textarea>\r\n\r\n  <div id=\"dg-save-locally\">\r\n\r\n    <input id=\"dg-local-storage\" type=\"checkbox\"/> Automatically save\r\n    values to <code>localStorage</code> on exit.\r\n\r\n    <div id=\"dg-local-explain\">The values saved to <code>localStorage</code> will\r\n      override those passed to <code>dat.GUI</code>'s constructor. This makes it\r\n      easier to work incrementally, but <code>localStorage</code> is fragile,\r\n      and your friends may not see the same values you do.\r\n\r\n    </div>\r\n\r\n  </div>\r\n\r\n</div>";
 
 /***/ },
 /* 20 */
