@@ -57,14 +57,18 @@ class NumberControllerBox extends NumberController {
       }
     }
 
-    function onBlur() {
-      onChange();
+    function onFinish() {
       if (_this.__onFinishChange) {
         _this.__onFinishChange.call(_this, _this.getValue());
       }
     }
 
+    function onBlur() {
+      onChange();
+    }
+
     function onMouseDrag(e) {
+      // TODO.. why do we need to blur to update input value?
       document.activeElement.blur();
 
       const diff = prevY - e.clientY;
@@ -76,6 +80,7 @@ class NumberControllerBox extends NumberController {
     function onMouseUp() {
       dom.unbind(window, 'mousemove', onMouseDrag);
       dom.unbind(window, 'mouseup', onMouseUp);
+      onFinish();
     }
 
     function onMouseDown(e) {
@@ -93,11 +98,12 @@ class NumberControllerBox extends NumberController {
     dom.bind(this.__input, 'blur', onBlur);
     dom.bind(this.__input, 'mousedown', onMouseDown);
     dom.bind(this.__input, 'keydown', function(e) {
-      // When pressing entire, you can be as precise as you want.
+      // When pressing enter, you can be as precise as you want.
       if (e.keyCode === 13) {
         _this.__truncationSuspended = true;
         this.blur();
         _this.__truncationSuspended = false;
+        onFinish();
       }
     });
 
