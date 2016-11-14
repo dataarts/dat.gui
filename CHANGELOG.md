@@ -1,5 +1,12 @@
 ## Changelog
 
+### 0.6.2
+ * Fixed issue with color picker not returning correct values onFinishChange. #116 #117
+ * Fixed issue with color picker not showing the correct label for color format. #117
+ * Fixed NumberControllerBox onFinishChange event. #112
+ * Fixed issue with GUI not being sized correct at start. #111
+
+
 ### 0.6.1
  * Fixed issue with color picker not working on a page that has scrolled. #37
  * Fixed issue with sliders created with min()/max() not remembering their name or to listen. #107
