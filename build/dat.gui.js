@@ -240,6 +240,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return (0, _toString2.default)(this);
 	  };
 	
+	  Color.prototype.toHexString = function toHexString() {
+	    return (0, _toString2.default)(this, true);
+	  };
+	
 	  Color.prototype.toOriginal = function toOriginal() {
 	    return this.__state.conversion.write(this);
 	  };
@@ -658,29 +662,51 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 4 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	exports.default = function (color) {
-	  if (color.a === 1 || _common2.default.isUndefined(color.a)) {
-	    var s = color.hex.toString(16);
-	    while (s.length < 6) {
-	      s = '0' + s;
+	exports.default = function (color, forceCSSHex) {
+	  var colorFormat = color.__state.conversionName.toString();
+	
+	  var r = Math.round(color.r);
+	  var g = Math.round(color.g);
+	  var b = Math.round(color.b);
+	  var a = color.a;
+	  var h = Math.round(color.h);
+	  var s = color.s.toFixed(1);
+	  var v = color.v.toFixed(1);
+	
+	  if (forceCSSHex || colorFormat === 'THREE_CHAR_HEX' || colorFormat === 'SIX_CHAR_HEX') {
+	    var str = color.hex.toString(16);
+	    while (str.length < 6) {
+	      str = '0' + str;
 	    }
-	    return '#' + s;
+	    return '#' + str;
+	  } else if (colorFormat === 'CSS_RGB') {
+	    return 'rgb(' + r + ',' + g + ',' + b + ')';
+	  } else if (colorFormat === 'CSS_RGBA') {
+	    return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
+	  } else if (colorFormat === 'HEX') {
+	    return '0x' + color.hex.toString(16);
+	  } else if (colorFormat === 'RGB_ARRAY') {
+	    return '[' + r + ',' + g + ',' + b + ']';
+	  } else if (colorFormat === 'RGBA_ARRAY') {
+	    return '[' + r + ',' + g + ',' + b + ',' + a + ']';
+	  } else if (colorFormat === 'RGB_OBJ') {
+	    return '{r:' + r + ',g:' + g + ',b:' + b + '}';
+	  } else if (colorFormat === 'RGBA_OBJ') {
+	    return '{r:' + r + ',g:' + g + ',b:' + b + ',a:' + a + '}';
+	  } else if (colorFormat === 'HSV_OBJ') {
+	    return '{h:' + h + ',s:' + s + ',v:' + v + '}';
+	  } else if (colorFormat === 'HSVA_OBJ') {
+	    return '{h:' + h + ',s:' + s + ',v:' + v + ',a:' + a + '}';
 	  }
 	
-	  return 'rgba(' + Math.round(color.r) + ',' + Math.round(color.g) + ',' + Math.round(color.b) + ',' + color.a + ')';
+	  return 'unknown format';
 	};
-	
-	var _common = __webpack_require__(5);
-	
-	var _common2 = _interopRequireDefault(_common);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
 /* 5 */
@@ -1947,16 +1973,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    }
 	
-	    function onBlur() {
-	      onChange();
+	    function onFinish() {
 	      if (_this.__onFinishChange) {
 	        _this.__onFinishChange.call(_this, _this.getValue());
 	      }
 	    }
 	
-	    function onMouseDrag(e) {
-	      document.activeElement.blur();
+	    function onBlur() {
+	      onFinish();
+	    }
 	
+	    function onMouseDrag(e) {
 	      var diff = prevY - e.clientY;
 	      _this.setValue(_this.getValue() + diff * _this.__impliedStep);
 	
@@ -1966,6 +1993,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function onMouseUp() {
 	      _dom2.default.unbind(window, 'mousemove', onMouseDrag);
 	      _dom2.default.unbind(window, 'mouseup', onMouseUp);
+	      onFinish();
 	    }
 	
 	    function onMouseDown(e) {
@@ -1983,11 +2011,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _dom2.default.bind(_this2.__input, 'blur', onBlur);
 	    _dom2.default.bind(_this2.__input, 'mousedown', onMouseDown);
 	    _dom2.default.bind(_this2.__input, 'keydown', function (e) {
-	      // When pressing entire, you can be as precise as you want.
+	      // When pressing enter, you can be as precise as you want.
 	      if (e.keyCode === 13) {
 	        _this.__truncationSuspended = true;
 	        this.blur();
 	        _this.__truncationSuspended = false;
+	        onFinish();
 	      }
 	    });
 	
@@ -1998,7 +2027,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	
 	  NumberControllerBox.prototype.updateDisplay = function updateDisplay() {
-	    if (_dom2.default.isActive(this.__input)) return this; // prevent number from updating if user is trying to manually update
 	    this.__input.value = this.__truncationSuspended ? this.getValue() : roundToDecimal(this.getValue(), this.__precision);
 	    return _NumberController.prototype.updateDisplay.call(this);
 	  };
@@ -2423,7 +2451,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    function onFinish() {
 	      if (_this.__onFinishChange) {
-	        _this.__onFinishChange.call(_this, _this.__color.toString());
+	        _this.__onFinishChange.call(_this, _this.__color.toOriginal());
 	      }
 	    }
 	
@@ -2518,7 +2546,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _common2.default.extend(this.__field_knob.style, {
 	      marginLeft: 100 * this.__color.s - 7 + 'px',
 	      marginTop: 100 * (1 - this.__color.v) - 7 + 'px',
-	      backgroundColor: this.__temp.toString(),
+	      backgroundColor: this.__temp.toHexString(),
 	      border: this.__field_knob_border + 'rgb(' + flip + ',' + flip + ',' + flip + ')'
 	    });
 	
@@ -2527,10 +2555,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.__temp.s = 1;
 	    this.__temp.v = 1;
 	
-	    linearGradient(this.__saturation_field, 'left', '#fff', this.__temp.toString());
+	    linearGradient(this.__saturation_field, 'left', '#fff', this.__temp.toHexString());
+	
+	    this.__input.value = this.__color.toString();
 	
 	    _common2.default.extend(this.__input.style, {
-	      backgroundColor: this.__input.value = this.__color.toString(),
+	      backgroundColor: this.__color.toHexString(),
 	      color: 'rgb(' + flip + ',' + flip + ',' + flip + ')',
 	      textShadow: this.__input_textShadow + 'rgba(' + _flip + ',' + _flip + ',' + _flip + ',.7)'
 	    });
@@ -3000,7 +3030,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	
 	  this.__resizeHandler = function () {
-	    _this.onResize();
+	    _this.onResizeDebounced();
 	  };
 	
 	  _dom2.default.bind(window, 'resize', this.__resizeHandler);
@@ -3167,7 +3197,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.closed = true;
 	  },
 	
-	  onResize: _common2.default.debounce(function () {
+	  onResize: function onResize() {
 	    // we debounce this function to prevent performance issues when rotating on tablet/mobile
 	    var root = this.getRoot();
 	    if (root.scrollable) {
@@ -3198,6 +3228,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (root.__closeButton) {
 	      root.__closeButton.style.width = root.width + 'px';
 	    }
+	  },
+	
+	  onResizeDebounced: _common2.default.debounce(function () {
+	    this.onResize();
 	  }, 200),
 	
 	  /**
