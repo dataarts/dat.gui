@@ -176,7 +176,7 @@ class ColorController extends Controller {
 
     function onFinish() {
       if (_this.__onFinishChange) {
-        _this.__onFinishChange.call(_this, _this.__color.toString());
+        _this.__onFinishChange.call(_this, _this.__color.toOriginal());
       }
     }
 
