@@ -392,7 +392,7 @@ const GUI = function(pars) {
   }
 
   this.__resizeHandler = function() {
-    _this.onResize();
+    _this.onResizeDebounced();
   };
 
   dom.bind(window, 'resize', this.__resizeHandler);
@@ -571,7 +571,8 @@ common.extend(
       this.closed = true;
     },
 
-    onResize: common.debounce(function() {
+
+    onResize: function() {
       // we debounce this function to prevent performance issues when rotating on tablet/mobile
       const root = this.getRoot();
       if (root.scrollable) {
@@ -602,7 +603,9 @@ common.extend(
       if (root.__closeButton) {
         root.__closeButton.style.width = root.width + 'px';
       }
-    }, 200),
+    },
+
+    onResizeDebounced: common.debounce(function() { this.onResize(); }, 200),
 
     /**
      * Mark objects for saving. The order of these objects cannot change as
