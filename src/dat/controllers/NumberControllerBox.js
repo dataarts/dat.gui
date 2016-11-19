@@ -57,16 +57,17 @@ class NumberControllerBox extends NumberController {
       }
     }
 
-    function onBlur() {
-      onChange();
+    function onFinish() {
       if (_this.__onFinishChange) {
         _this.__onFinishChange.call(_this, _this.getValue());
       }
     }
 
-    function onMouseDrag(e) {
-      document.activeElement.blur();
+    function onBlur() {
+      onFinish();
+    }
 
+    function onMouseDrag(e) {
       const diff = prevY - e.clientY;
       _this.setValue(_this.getValue() + diff * _this.__impliedStep);
 
@@ -76,6 +77,7 @@ class NumberControllerBox extends NumberController {
     function onMouseUp() {
       dom.unbind(window, 'mousemove', onMouseDrag);
       dom.unbind(window, 'mouseup', onMouseUp);
+      onFinish();
     }
 
     function onMouseDown(e) {
@@ -93,11 +95,12 @@ class NumberControllerBox extends NumberController {
     dom.bind(this.__input, 'blur', onBlur);
     dom.bind(this.__input, 'mousedown', onMouseDown);
     dom.bind(this.__input, 'keydown', function(e) {
-      // When pressing entire, you can be as precise as you want.
+      // When pressing enter, you can be as precise as you want.
       if (e.keyCode === 13) {
         _this.__truncationSuspended = true;
         this.blur();
         _this.__truncationSuspended = false;
+        onFinish();
       }
     });
 
@@ -107,7 +110,6 @@ class NumberControllerBox extends NumberController {
   }
 
   updateDisplay() {
-    if (dom.isActive(this.__input)) return this; // prevent number from updating if user is trying to manually update
     this.__input.value = this.__truncationSuspended ? this.getValue() : roundToDecimal(this.getValue(), this.__precision);
     return super.updateDisplay();
   }

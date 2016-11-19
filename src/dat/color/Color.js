@@ -31,6 +31,10 @@ class Color {
     return colorToString(this);
   }
 
+  toHexString() {
+    return colorToString(this, true);
+  }
+
   toOriginal() {
     return this.__state.conversion.write(this);
   }

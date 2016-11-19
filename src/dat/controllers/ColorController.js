@@ -176,7 +176,7 @@ class ColorController extends Controller {
 
     function onFinish() {
       if (_this.__onFinishChange) {
-        _this.__onFinishChange.call(_this, _this.__color.toString());
+        _this.__onFinishChange.call(_this, _this.__color.toOriginal());
       }
     }
 
@@ -272,7 +272,7 @@ class ColorController extends Controller {
     common.extend(this.__field_knob.style, {
       marginLeft: 100 * this.__color.s - 7 + 'px',
       marginTop: 100 * (1 - this.__color.v) - 7 + 'px',
-      backgroundColor: this.__temp.toString(),
+      backgroundColor: this.__temp.toHexString(),
       border: this.__field_knob_border + 'rgb(' + flip + ',' + flip + ',' + flip + ')'
     });
 
@@ -281,10 +281,12 @@ class ColorController extends Controller {
     this.__temp.s = 1;
     this.__temp.v = 1;
 
-    linearGradient(this.__saturation_field, 'left', '#fff', this.__temp.toString());
+    linearGradient(this.__saturation_field, 'left', '#fff', this.__temp.toHexString());
+
+    this.__input.value = this.__color.toString();
 
     common.extend(this.__input.style, {
-      backgroundColor: this.__input.value = this.__color.toString(),
+      backgroundColor: this.__color.toHexString(),
       color: 'rgb(' + flip + ',' + flip + ',' + flip + ')',
       textShadow: this.__input_textShadow + 'rgba(' + _flip + ',' + _flip + ',' + _flip + ',.7)'
     });
