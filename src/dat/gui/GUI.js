@@ -854,7 +854,7 @@ function augmentController(gui, li, controller) {
       if (common.isString(v)) {
         controller.__li.setAttribute('title', v);
       } else {
-        controller.__li.removeAttribute('title')
+        controller.__li.removeAttribute('title');
       }
       return controller;
     },
