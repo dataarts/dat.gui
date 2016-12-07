@@ -62,7 +62,6 @@ $button-height: 20px;
       /*opacity: 0;*/
       @include transition(opacity, 0.1s, linear);
       border: 0;
-      position: absolute;
 
       line-height: $button-height - 1;
       height: $button-height;
@@ -71,6 +70,12 @@ $button-height: 20px;
       cursor: pointer;
       text-align: center;
       background-color: #000;
+      &.close-top {
+        position:relative;
+      }
+      &.close-bottom {
+        position: absolute;
+      }
       &:hover {
         background-color: #111;
       }
