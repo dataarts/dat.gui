@@ -1023,7 +1023,7 @@ function add(gui, object, property, params) {
 }
 
 function getLocalStorageHash(gui, key) {
-  var namespace = localStorage.getItem('dat.gui.namespace') || document.location.href;
+  const namespace = localStorage.getItem('dat.gui.namespace') || document.location.href;
   return 'dat.gui.' + namespace + '.' + key;
 }
 
