@@ -605,7 +605,7 @@ common.extend(
       }
     },
 
-    onResizeDebounced: common.debounce(function() { this.onResize(); }, 200),
+    onResizeDebounced: common.debounce(function() { this.onResize(); }, 50),
 
     /**
      * Mark objects for saving. The order of these objects cannot change as

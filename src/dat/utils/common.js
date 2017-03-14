@@ -88,8 +88,9 @@ const Common = {
     setTimeout(fnc, 0);
   },
 
-  // call the function immediately, but wait until threshold passes to allow it to be called again
-  debounce: function(func, threshold) {
+  // if the function is called repeatedly, wait until threshold passes until we execute the function
+  debounce: function(func, threshold, callImmediately) {
+
     let timeout;
 
     return function() {
@@ -97,14 +98,15 @@ const Common = {
       const args = arguments;
       function delayed() {
         timeout = null;
+        if (!callImmediately) func.apply(obj, args);
       }
 
-      const allowCall = !timeout;
+      const callNow = callImmediately || !timeout;
 
       clearTimeout(timeout);
       timeout = setTimeout(delayed, threshold);
 
-      if (allowCall) {
+      if (callNow) {
         func.apply(obj, args);
       }
     };
