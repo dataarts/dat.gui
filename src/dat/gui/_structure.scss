@@ -103,6 +103,7 @@ $button-height: 20px;
 
   li {
     @include transition(height, 0.1s, ease-out);
+    @include transition(overflow, 0.1s, linear);
   }
 
   /* Line items that don't contain folders. */
@@ -110,7 +111,7 @@ $button-height: 20px;
     cursor: auto;
     height: $row-height;
     line-height: $row-height;
-    overflow: hidden;
+    overflow: visible;
     padding: 0 4px 0 5px;
   }
 
@@ -156,6 +157,7 @@ $button-height: 20px;
   .c {
     float: left;
     width: 60%;
+    position: relative;
   }
 
   /** Controller placement */
@@ -188,7 +190,7 @@ $button-height: 20px;
   }
 
   .c input[type=checkbox] {
-    margin-top: 9px;
+    margin-top: 7px;
   }
 
   .c select {
