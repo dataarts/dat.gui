@@ -1,11 +1,18 @@
 ## Changelog
 
+
+### 0.6.3
+ * Added ability to put close button on top of the menu [ex: var gui = new dat.gui.GUI({closeOnTop:true})]. #106 #122
+ * Fixed issue with layout not updating on page resize.
+ * Fixed color picker showing in wrong position on user scroll (long menu). #105
+ * Fixed checkbox weirdness while listening. #40
+ * Fixed bower issues. #125
+
 ### 0.6.2
  * Fixed issue with color picker not returning correct values onFinishChange. #116 #117
  * Fixed issue with color picker not showing the correct label for color format. #117
  * Fixed NumberControllerBox onFinishChange event. #112
  * Fixed issue with GUI not being sized correct at start. #111
-
 
 ### 0.6.1
  * Fixed issue with color picker not working on a page that has scrolled. #37
@@ -26,7 +33,6 @@
  * Fixed an issue with colors based on arrays - https://github.com/dataarts/dat.gui/pull/57
  * Fixed factory.js, Step param was not used - https://github.com/dataarts/dat.gui/pull/45
  
- 
 ### 0.5
  * Moved to requirejs for dependency management.
  * Changed global namespace from *DAT* to *dat* (lowercase).
@@ -38,7 +44,6 @@
  * `gui.autoListen` and `gui.listenAll()` removed. See [Updating The Display Manually](http://workshop.chromeexperiments.com/examples/gui/#11--Updating-the-Display-Manually).
  * `dat.GUI.load` removed. See [Saving Values](http://workshop.chromeexperiments.com/examples/gui/#5--Saving-Values).
  * Made Controller code completely agnostic of GUI. Controllers can easily be created independent of a GUI panel.
-
 
 ### 0.4
  * Migrated from GitHub to Google Code.
