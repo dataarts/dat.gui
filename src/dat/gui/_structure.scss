@@ -92,16 +92,30 @@ $button-height: 20px;
     overflow-x: hidden;
 
     &.has-save > ul {
-      margin-top: $row-height;
+
+      &.close-top {
+        margin-top: 0;
+      }
+      &.close-bottom {
+        margin-top: $row-height;
+      }
+
       &.closed {
         margin-top: 0;
       }
     }
 
     .save-row {
-      position: fixed;
       top: 0;
       z-index: 1002;
+
+      &.close-top {
+        position: relative;
+      }
+      &.close-bottom {
+        position: fixed;
+      }
+
     }
 
   }
