@@ -1051,11 +1051,23 @@ console.log(c2.__checkbox.getAttribute('checked'));
 
         gui.destroy();
       }, 0);
-
-
-
-
     });
+      
+    test('close/open button position', function() {
+
+      var gui = new GUI({closeOnTop:true});
+      var gui2 = new GUI({closeOnTop:false});
+      var gui3 = new GUI();
+
+      ok($(gui.domElement).find('ul').prev().hasClass(GUI.CLASS_CLOSE_BUTTON) && $(gui.domElement).find('ul').prev().hasClass(GUI.CLASS_CLOSE_TOP), 'GUI has close/open button on top');
+      ok($(gui2.domElement).find('ul').next().hasClass(GUI.CLASS_CLOSE_BUTTON) && $(gui2.domElement).find('ul').next().hasClass(GUI.CLASS_CLOSE_BOTTOM), 'GUI has close/open button on bottom');
+      ok($(gui3.domElement).find('ul').next().hasClass(GUI.CLASS_CLOSE_BUTTON) && $(gui3.domElement).find('ul').next().hasClass(GUI.CLASS_CLOSE_BOTTOM), 'GUI has close/open button on bottom by default');
+        
+      gui.destroy();
+      gui2.destroy();
+      gui3.destroy();
+
+    });  
 
     test('Folders', function() {
 

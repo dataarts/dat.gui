@@ -75,6 +75,7 @@ const hideableGuis = [];
  * @param {Boolean} [params.auto=true]
  * @param {dat.gui.GUI} [params.parent] The GUI I'm nested in.
  * @param {Boolean} [params.closed] If true, starts closed
+ * @param {Boolean} [params.closeOnTop] If true, close/open button shows on top of the GUI
  */
 const GUI = function(pars) {
   const _this = this;
@@ -129,6 +130,7 @@ const GUI = function(pars) {
 
   // Default parameters
   params = common.defaults(params, {
+    closeOnTop: false,
     autoPlace: true,
     width: GUI.DEFAULT_WIDTH
   });
@@ -193,6 +195,16 @@ const GUI = function(pars) {
       autoPlace: {
         get: function() {
           return params.autoPlace;
+        }
+      },
+
+      /**
+       * Handles <code>GUI</code>'s position of open/close button
+       * @type Boolean
+       */
+      closeOnTop: {
+        get: function() {
+          return params.closeOnTop;
         }
       },
 
@@ -335,7 +347,13 @@ const GUI = function(pars) {
     this.__closeButton = document.createElement('div');
     this.__closeButton.innerHTML = GUI.TEXT_CLOSED;
     dom.addClass(this.__closeButton, GUI.CLASS_CLOSE_BUTTON);
-    this.domElement.appendChild(this.__closeButton);
+    if (params.closeOnTop) {
+      dom.addClass(this.__closeButton, GUI.CLASS_CLOSE_TOP);
+      this.domElement.insertBefore(this.__closeButton, this.domElement.childNodes[0]);
+    } else {
+      dom.addClass(this.__closeButton, GUI.CLASS_CLOSE_BOTTOM);
+      this.domElement.appendChild(this.__closeButton);
+    }
 
     dom.bind(this.__closeButton, 'click', function() {
       _this.closed = !_this.closed;
@@ -441,6 +459,8 @@ GUI.CLASS_CONTROLLER_ROW = 'cr';
 GUI.CLASS_TOO_TALL = 'taller-than-window';
 GUI.CLASS_CLOSED = 'closed';
 GUI.CLASS_CLOSE_BUTTON = 'close-button';
+GUI.CLASS_CLOSE_TOP = 'close-top';
+GUI.CLASS_CLOSE_BOTTOM = 'close-bottom';
 GUI.CLASS_DRAG = 'drag';
 
 GUI.DEFAULT_WIDTH = 245;
