@@ -90,7 +90,6 @@ const Common = {
 
   // if the function is called repeatedly, wait until threshold passes until we execute the function
   debounce: function(func, threshold, callImmediately) {
-
     let timeout;
 
     return function() {
