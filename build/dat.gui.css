@@ -51,37 +51,49 @@
       -moz-transition: opacity 0.1s linear;
       transition: opacity 0.1s linear;
       border: 0;
-      position: absolute;
       line-height: 19px;
       height: 20px;
       /* TODO, these are style notes */
       cursor: pointer;
       text-align: center;
       background-color: #000; }
+      .dg.main .close-button.close-top {
+        position: relative; }
+      .dg.main .close-button.close-bottom {
+        position: absolute; }
       .dg.main .close-button:hover {
         background-color: #111; }
   .dg.a {
     float: right;
     margin-right: 15px;
     overflow-x: hidden; }
-    .dg.a.has-save > ul {
+    .dg.a.has-save > ul.close-top {
+      margin-top: 0; }
+    .dg.a.has-save > ul.close-bottom {
       margin-top: 27px; }
-      .dg.a.has-save > ul.closed {
-        margin-top: 0; }
+    .dg.a.has-save > ul.closed {
+      margin-top: 0; }
     .dg.a .save-row {
-      position: fixed;
       top: 0;
       z-index: 1002; }
+      .dg.a .save-row.close-top {
+        position: relative; }
+      .dg.a .save-row.close-bottom {
+        position: fixed; }
   .dg li {
     -webkit-transition: height 0.1s ease-out;
     -o-transition: height 0.1s ease-out;
     -moz-transition: height 0.1s ease-out;
-    transition: height 0.1s ease-out; }
+    transition: height 0.1s ease-out;
+    -webkit-transition: overflow 0.1s linear;
+    -o-transition: overflow 0.1s linear;
+    -moz-transition: overflow 0.1s linear;
+    transition: overflow 0.1s linear; }
   .dg li:not(.folder) {
     cursor: auto;
     height: 27px;
     line-height: 27px;
-    overflow: hidden;
+    overflow: visible;
     padding: 0 4px 0 5px; }
   .dg li.folder {
     padding: 0;
@@ -108,7 +120,8 @@
     text-overflow: ellipsis; }
   .dg .c {
     float: left;
-    width: 60%; }
+    width: 60%;
+    position: relative; }
   .dg .c input[type=text] {
     border: 0;
     margin-top: 4px;
@@ -129,7 +142,7 @@
   .dg .slider-fg {
     height: 100%; }
   .dg .c input[type=checkbox] {
-    margin-top: 9px; }
+    margin-top: 7px; }
   .dg .c select {
     margin-top: 5px; }
   .dg .cr.function,
