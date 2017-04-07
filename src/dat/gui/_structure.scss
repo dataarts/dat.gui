@@ -130,7 +130,6 @@ $button-height: 20px;
     cursor: auto;
     height: $row-height;
     line-height: $row-height;
-    overflow: visible;
     padding: 0 4px 0 5px;
   }
 
@@ -160,6 +159,7 @@ $button-height: 20px;
     clear: both;
     padding-left: 3px;
     height: $row-height;
+    overflow: hidden;
   }
 
   /** Name-half (left) */
@@ -223,6 +223,11 @@ $button-height: 20px;
   .cr.boolean,
   .cr.boolean * {
     cursor: pointer;
+  }
+
+  /** allow overflow for color selector */
+  .cr.color {
+    overflow: visible;
   }
 
   .selector {
