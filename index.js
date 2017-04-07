@@ -13,4 +13,4 @@
 
 import dat from './src/dat/index';
 
-module.exports = dat;
+export default dat;
