@@ -1272,4 +1272,4 @@ function updateDisplays(controllerArray) {
   });
 }
 
-module.exports = GUI;
+export default GUI;
