@@ -37,7 +37,8 @@ module.exports = {
         loader: 'babel',
         exclude: /(node_modules|bower_components)/,
         query: {
-          presets: [["es2015", {"loose": true}], "stage-0"]
+          presets: [["es2015", {"loose": true}], "stage-0"],
+          plugins: ["add-module-exports"]
         }
       },
       {
