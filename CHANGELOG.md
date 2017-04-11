@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.6.4
+ * Added ES6 module export to dat.gui
+ * Fixed formatting issue on Windows. #136
+ * Fixed issue with color selector getting chopped off at bottom of gui. #136
 
 ### 0.6.3
  * Added ability to put close button on top of the menu [ex: var gui = new dat.gui.GUI({closeOnTop:true})]. #106 #122
