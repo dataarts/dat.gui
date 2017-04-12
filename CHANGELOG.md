@@ -1,7 +1,6 @@
 ## Changelog
 
 ### 0.6.4
- * Added ES6 module export to dat.gui
  * Fixed formatting issue on Windows. #136
  * Fixed issue with color selector getting chopped off at bottom of gui. #136
 
