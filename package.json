@@ -1,10 +1,17 @@
 {
   "name": "dat.gui",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "description": "A lightweight graphical user interface for changing variables in JavaScript.",
   "main": "index.js",
   "directories": {
     "test": "tests"
+  },
+  "browserify": {
+    "transform": [
+      ["babelify", { "presets": ["es2015"] }],
+      ["stringify", { "extensions": [".html"] }],
+      ["sassify"]
+    ]
   },
   "scripts": {
     "dev": "webpack --progress --colors --watch --config webpack/webpack.config.js --devtool sourcemap",
@@ -26,7 +33,6 @@
     "babel-core": "^6.14.0",
     "babel-loader": "^6.2.5",
     "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-preset-es2015": "^6.14.0",
     "babel-preset-stage-0": "^6.5.0",
     "css-loader": "^0.25.0",
     "eslint": "^3.5.0",
@@ -39,7 +45,12 @@
     "sass-loader": "^4.0.2",
     "webpack": "1.14.x"
   },
-  "dependencies": {},
+  "dependencies": {
+    "babel-preset-es2015": "^6.14.0",
+    "babelify": "^7.3.0",
+    "sassify": "^2.0.0",
+    "stringify": "^5.1.0"
+  },
   "eslintConfig": {
     "extends": "airbnb-base",
     "rules": {
