@@ -56,7 +56,7 @@
     "rules": {
       "comma-dangle": 0,
       "func-names": 0,
-      "no-alert": 1,
+      "no-alert": 0,
       "no-console": 1,
       "no-use-before-define": 0,
       "prefer-rest-params": 0,
@@ -71,7 +71,7 @@
       "max-len": 0,
       "no-param-reassign": 0,
       "consistent-return": 0,
-      "no-restricted-syntax": 1,
+      "no-restricted-syntax": 0,
       "no-bitwise": 0,
       "no-plusplus": 0
     }
