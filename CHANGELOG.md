@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.6.5
+ * Add browserify support. #137
+
 ### 0.6.4
  * Fixed formatting issue on Windows. #136
  * Fixed issue with color selector getting chopped off at bottom of gui. #136
