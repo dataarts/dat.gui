@@ -2138,6 +2138,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _this2.__foreground = document.createElement('div');
 	
 	    _dom2.default.bind(_this2.__background, 'mousedown', onMouseDown);
+	    _dom2.default.bind(_this2.__background, 'touchstart', onTouchStart);
 	
 	    _dom2.default.addClass(_this2.__background, 'slider');
 	    _dom2.default.addClass(_this2.__foreground, 'slider-fg');
@@ -2151,19 +2152,60 @@ return /******/ (function(modules) { // webpackBootstrap
 	      onMouseDrag(e);
 	    }
 	
-	    function onMouseDrag(e) {
-	      e.preventDefault();
+	    function onTouchStart(e) {
+	      document.activeElement.blur();
 	
+	      _dom2.default.bind(window, 'touchmove', onTouchMove);
+	      _dom2.default.bind(window, 'touchend', onTouchEnd);
+	
+	      _this.__activeTouch = e.targetTouches[0];
+	
+	      onTouchMove(e);
+	    }
+	
+	    function onMouseDrag(e) {
+	      // e.preventDefault();
+	
+	      onDrag(e.clientX);
+	    }
+	
+	    function onTouchMove(e) {
+	      // e.preventDefault();
+	
+	      var changed = e.changedTouches;
+	
+	      for (var i = 0; i < changed.length; i++) {
+	        if (changed[i].identifier === _this.__activeTouch.identifier) {
+	          onDrag(changed[i].clientX);
+	        }
+	      }
+	    }
+	
+	    function onDrag(clientX) {
 	      var bgRect = _this.__background.getBoundingClientRect();
 	
-	      _this.setValue(map(e.clientX, bgRect.left, bgRect.right, _this.__min, _this.__max));
+	      _this.setValue(map(clientX, bgRect.left, bgRect.right, _this.__min, _this.__max));
 	
 	      return false;
+	    }
+	
+	    function onTouchEnd() {
+	      _dom2.default.unbind(window, 'touchmove', onMouseDrag);
+	      _dom2.default.unbind(window, 'touchend', onMouseUp);
+	
+	      _this.__activeTouch = null;
+	
+	      moveFinish();
 	    }
 	
 	    function onMouseUp() {
 	      _dom2.default.unbind(window, 'mousemove', onMouseDrag);
 	      _dom2.default.unbind(window, 'mouseup', onMouseUp);
+	
+	      moveFinish();
+	    }
+	
+	    function moveFinish() {
 	      if (_this.__onFinishChange) {
 	        _this.__onFinishChange.call(_this, _this.getValue());
 	      }
@@ -2322,301 +2364,301 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 	
 	var ColorController = function (_Controller) {
-	  _inherits(ColorController, _Controller);
+	    _inherits(ColorController, _Controller);
 	
-	  function ColorController(object, property) {
-	    _classCallCheck(this, ColorController);
+	    function ColorController(object, property) {
+	        _classCallCheck(this, ColorController);
 	
-	    var _this2 = _possibleConstructorReturn(this, _Controller.call(this, object, property));
+	        var _this2 = _possibleConstructorReturn(this, _Controller.call(this, object, property));
 	
-	    _this2.__color = new _Color2.default(_this2.getValue());
-	    _this2.__temp = new _Color2.default(0);
+	        _this2.__color = new _Color2.default(_this2.getValue());
+	        _this2.__temp = new _Color2.default(0);
 	
-	    var _this = _this2;
+	        var _this = _this2;
 	
-	    _this2.domElement = document.createElement('div');
+	        _this2.domElement = document.createElement('div');
 	
-	    _dom2.default.makeSelectable(_this2.domElement, false);
+	        _dom2.default.makeSelectable(_this2.domElement, false);
 	
-	    _this2.__selector = document.createElement('div');
-	    _this2.__selector.className = 'selector';
+	        _this2.__selector = document.createElement('div');
+	        _this2.__selector.className = 'selector';
 	
-	    _this2.__saturation_field = document.createElement('div');
-	    _this2.__saturation_field.className = 'saturation-field';
+	        _this2.__saturation_field = document.createElement('div');
+	        _this2.__saturation_field.className = 'saturation-field';
 	
-	    _this2.__field_knob = document.createElement('div');
-	    _this2.__field_knob.className = 'field-knob';
-	    _this2.__field_knob_border = '2px solid ';
+	        _this2.__field_knob = document.createElement('div');
+	        _this2.__field_knob.className = 'field-knob';
+	        _this2.__field_knob_border = '2px solid ';
 	
-	    _this2.__hue_knob = document.createElement('div');
-	    _this2.__hue_knob.className = 'hue-knob';
+	        _this2.__hue_knob = document.createElement('div');
+	        _this2.__hue_knob.className = 'hue-knob';
 	
-	    _this2.__hue_field = document.createElement('div');
-	    _this2.__hue_field.className = 'hue-field';
+	        _this2.__hue_field = document.createElement('div');
+	        _this2.__hue_field.className = 'hue-field';
 	
-	    _this2.__input = document.createElement('input');
-	    _this2.__input.type = 'text';
-	    _this2.__input_textShadow = '0 1px 1px ';
+	        _this2.__input = document.createElement('input');
+	        _this2.__input.type = 'text';
+	        _this2.__input_textShadow = '0 1px 1px ';
 	
-	    _dom2.default.bind(_this2.__input, 'keydown', function (e) {
-	      if (e.keyCode === 13) {
-	        // on enter
-	        onBlur.call(this);
-	      }
-	    });
+	        _dom2.default.bind(_this2.__input, 'keydown', function (e) {
+	            if (e.keyCode === 13) {
+	                // on enter
+	                onBlur.call(this);
+	            }
+	        });
 	
-	    _dom2.default.bind(_this2.__input, 'blur', onBlur);
+	        _dom2.default.bind(_this2.__input, 'blur', onBlur);
 	
-	    _dom2.default.bind(_this2.__selector, 'mousedown', function () /* e */{
-	      _dom2.default.addClass(this, 'drag').bind(window, 'mouseup', function () /* e */{
-	        _dom2.default.removeClass(_this.__selector, 'drag');
-	      });
-	    });
+	        _dom2.default.bind(_this2.__selector, 'mousedown', function () /* e */{
+	            _dom2.default.addClass(this, 'drag').bind(window, 'mouseup', function () /* e */{
+	                _dom2.default.removeClass(_this.__selector, 'drag');
+	            });
+	        });
 	
-	    var valueField = document.createElement('div');
+	        var valueField = document.createElement('div');
 	
-	    _common2.default.extend(_this2.__selector.style, {
-	      width: '122px',
-	      height: '102px',
-	      padding: '3px',
-	      backgroundColor: '#222',
-	      boxShadow: '0px 1px 3px rgba(0,0,0,0.3)'
-	    });
+	        _common2.default.extend(_this2.__selector.style, {
+	            width: '122px',
+	            height: '102px',
+	            padding: '3px',
+	            backgroundColor: '#222',
+	            boxShadow: '0px 1px 3px rgba(0,0,0,0.3)'
+	        });
 	
-	    _common2.default.extend(_this2.__field_knob.style, {
-	      position: 'absolute',
-	      width: '12px',
-	      height: '12px',
-	      border: _this2.__field_knob_border + (_this2.__color.v < 0.5 ? '#fff' : '#000'),
-	      boxShadow: '0px 1px 3px rgba(0,0,0,0.5)',
-	      borderRadius: '12px',
-	      zIndex: 1
-	    });
+	        _common2.default.extend(_this2.__field_knob.style, {
+	            position: 'absolute',
+	            width: '12px',
+	            height: '12px',
+	            border: _this2.__field_knob_border + (_this2.__color.v < 0.5 ? '#fff' : '#000'),
+	            boxShadow: '0px 1px 3px rgba(0,0,0,0.5)',
+	            borderRadius: '12px',
+	            zIndex: 1
+	        });
 	
-	    _common2.default.extend(_this2.__hue_knob.style, {
-	      position: 'absolute',
-	      width: '15px',
-	      height: '2px',
-	      borderRight: '4px solid #fff',
-	      zIndex: 1
-	    });
+	        _common2.default.extend(_this2.__hue_knob.style, {
+	            position: 'absolute',
+	            width: '15px',
+	            height: '2px',
+	            borderRight: '4px solid #fff',
+	            zIndex: 1
+	        });
 	
-	    _common2.default.extend(_this2.__saturation_field.style, {
-	      width: '100px',
-	      height: '100px',
-	      border: '1px solid #555',
-	      marginRight: '3px',
-	      display: 'inline-block',
-	      cursor: 'pointer'
-	    });
+	        _common2.default.extend(_this2.__saturation_field.style, {
+	            width: '100px',
+	            height: '100px',
+	            border: '1px solid #555',
+	            marginRight: '3px',
+	            display: 'inline-block',
+	            cursor: 'pointer'
+	        });
 	
-	    _common2.default.extend(valueField.style, {
-	      width: '100%',
-	      height: '100%',
-	      background: 'none'
-	    });
+	        _common2.default.extend(valueField.style, {
+	            width: '100%',
+	            height: '100%',
+	            background: 'none'
+	        });
 	
-	    linearGradient(valueField, 'top', 'rgba(0,0,0,0)', '#000');
+	        linearGradient(valueField, 'top', 'rgba(0,0,0,0)', '#000');
 	
-	    _common2.default.extend(_this2.__hue_field.style, {
-	      width: '15px',
-	      height: '100px',
-	      border: '1px solid #555',
-	      cursor: 'ns-resize',
-	      position: 'absolute',
-	      top: '3px',
-	      right: '3px'
-	    });
+	        _common2.default.extend(_this2.__hue_field.style, {
+	            width: '15px',
+	            height: '100px',
+	            border: '1px solid #555',
+	            cursor: 'ns-resize',
+	            position: 'absolute',
+	            top: '3px',
+	            right: '3px'
+	        });
 	
-	    hueGradient(_this2.__hue_field);
+	        hueGradient(_this2.__hue_field);
 	
-	    _common2.default.extend(_this2.__input.style, {
-	      outline: 'none',
-	      //      width: '120px',
-	      textAlign: 'center',
-	      //      padding: '4px',
-	      //      marginBottom: '6px',
-	      color: '#fff',
-	      border: 0,
-	      fontWeight: 'bold',
-	      textShadow: _this2.__input_textShadow + 'rgba(0,0,0,0.7)'
-	    });
+	        _common2.default.extend(_this2.__input.style, {
+	            outline: 'none',
+	            //      width: '120px',
+	            textAlign: 'center',
+	            //      padding: '4px',
+	            //      marginBottom: '6px',
+	            color: '#fff',
+	            border: 0,
+	            fontWeight: 'bold',
+	            textShadow: _this2.__input_textShadow + 'rgba(0,0,0,0.7)'
+	        });
 	
-	    _dom2.default.bind(_this2.__saturation_field, 'mousedown', fieldDown);
-	    _dom2.default.bind(_this2.__field_knob, 'mousedown', fieldDown);
+	        _dom2.default.bind(_this2.__saturation_field, 'mousedown', fieldDown);
+	        _dom2.default.bind(_this2.__field_knob, 'mousedown', fieldDown);
 	
-	    _dom2.default.bind(_this2.__hue_field, 'mousedown', function (e) {
-	      setH(e);
-	      _dom2.default.bind(window, 'mousemove', setH);
-	      _dom2.default.bind(window, 'mouseup', fieldUpH);
-	    });
+	        _dom2.default.bind(_this2.__hue_field, 'mousedown', function (e) {
+	            setH(e);
+	            _dom2.default.bind(window, 'mousemove', setH);
+	            _dom2.default.bind(window, 'mouseup', fieldUpH);
+	        });
 	
-	    function fieldDown(e) {
-	      setSV(e);
-	      // document.body.style.cursor = 'none';
-	      _dom2.default.bind(window, 'mousemove', setSV);
-	      _dom2.default.bind(window, 'mouseup', fieldUpSV);
-	    }
-	
-	    function fieldUpSV() {
-	      _dom2.default.unbind(window, 'mousemove', setSV);
-	      _dom2.default.unbind(window, 'mouseup', fieldUpSV);
-	      // document.body.style.cursor = 'default';
-	      onFinish();
-	    }
-	
-	    function onBlur() {
-	      var i = (0, _interpret2.default)(this.value);
-	      if (i !== false) {
-	        _this.__color.__state = i;
-	        _this.setValue(_this.__color.toOriginal());
-	      } else {
-	        this.value = _this.__color.toString();
-	      }
-	    }
-	
-	    function fieldUpH() {
-	      _dom2.default.unbind(window, 'mousemove', setH);
-	      _dom2.default.unbind(window, 'mouseup', fieldUpH);
-	      onFinish();
-	    }
-	
-	    function onFinish() {
-	      if (_this.__onFinishChange) {
-	        _this.__onFinishChange.call(_this, _this.__color.toOriginal());
-	      }
-	    }
-	
-	    _this2.__saturation_field.appendChild(valueField);
-	    _this2.__selector.appendChild(_this2.__field_knob);
-	    _this2.__selector.appendChild(_this2.__saturation_field);
-	    _this2.__selector.appendChild(_this2.__hue_field);
-	    _this2.__hue_field.appendChild(_this2.__hue_knob);
-	
-	    _this2.domElement.appendChild(_this2.__input);
-	    _this2.domElement.appendChild(_this2.__selector);
-	
-	    _this2.updateDisplay();
-	
-	    function setSV(e) {
-	      e.preventDefault();
-	
-	      var fieldRect = _this.__saturation_field.getBoundingClientRect();
-	      var s = (e.clientX - fieldRect.left) / (fieldRect.right - fieldRect.left);
-	      var v = 1 - (e.clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
-	
-	      if (v > 1) {
-	        v = 1;
-	      } else if (v < 0) {
-	        v = 0;
-	      }
-	
-	      if (s > 1) {
-	        s = 1;
-	      } else if (s < 0) {
-	        s = 0;
-	      }
-	
-	      _this.__color.v = v;
-	      _this.__color.s = s;
-	
-	      _this.setValue(_this.__color.toOriginal());
-	
-	      return false;
-	    }
-	
-	    function setH(e) {
-	      e.preventDefault();
-	
-	      var fieldRect = _this.__hue_field.getBoundingClientRect();
-	      var h = 1 - (e.clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
-	
-	      if (h > 1) {
-	        h = 1;
-	      } else if (h < 0) {
-	        h = 0;
-	      }
-	
-	      _this.__color.h = h * 360;
-	
-	      _this.setValue(_this.__color.toOriginal());
-	
-	      return false;
-	    }
-	    return _this2;
-	  }
-	
-	  ColorController.prototype.updateDisplay = function updateDisplay() {
-	    var i = (0, _interpret2.default)(this.getValue());
-	
-	    if (i !== false) {
-	      var mismatch = false;
-	
-	      // Check for mismatch on the interpreted value.
-	
-	      _common2.default.each(_Color2.default.COMPONENTS, function (component) {
-	        if (!_common2.default.isUndefined(i[component]) && !_common2.default.isUndefined(this.__color.__state[component]) && i[component] !== this.__color.__state[component]) {
-	          mismatch = true;
-	          return {}; // break
+	        function fieldDown(e) {
+	            setSV(e);
+	            // document.body.style.cursor = 'none';
+	            _dom2.default.bind(window, 'mousemove', setSV);
+	            _dom2.default.bind(window, 'mouseup', fieldUpSV);
 	        }
-	      }, this);
 	
-	      // If nothing diverges, we keep our previous values
-	      // for statefulness, otherwise we recalculate fresh
-	      if (mismatch) {
-	        _common2.default.extend(this.__color.__state, i);
-	      }
+	        function fieldUpSV() {
+	            _dom2.default.unbind(window, 'mousemove', setSV);
+	            _dom2.default.unbind(window, 'mouseup', fieldUpSV);
+	            // document.body.style.cursor = 'default';
+	            onFinish();
+	        }
+	
+	        function onBlur() {
+	            var i = (0, _interpret2.default)(this.value);
+	            if (i !== false) {
+	                _this.__color.__state = i;
+	                _this.setValue(_this.__color.toOriginal());
+	            } else {
+	                this.value = _this.__color.toString();
+	            }
+	        }
+	
+	        function fieldUpH() {
+	            _dom2.default.unbind(window, 'mousemove', setH);
+	            _dom2.default.unbind(window, 'mouseup', fieldUpH);
+	            onFinish();
+	        }
+	
+	        function onFinish() {
+	            if (_this.__onFinishChange) {
+	                _this.__onFinishChange.call(_this, _this.__color.toOriginal());
+	            }
+	        }
+	
+	        _this2.__saturation_field.appendChild(valueField);
+	        _this2.__selector.appendChild(_this2.__field_knob);
+	        _this2.__selector.appendChild(_this2.__saturation_field);
+	        _this2.__selector.appendChild(_this2.__hue_field);
+	        _this2.__hue_field.appendChild(_this2.__hue_knob);
+	
+	        _this2.domElement.appendChild(_this2.__input);
+	        _this2.domElement.appendChild(_this2.__selector);
+	
+	        _this2.updateDisplay();
+	
+	        function setSV(e) {
+	            e.preventDefault();
+	
+	            var fieldRect = _this.__saturation_field.getBoundingClientRect();
+	            var s = (e.clientX - fieldRect.left) / (fieldRect.right - fieldRect.left);
+	            var v = 1 - (e.clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
+	
+	            if (v > 1) {
+	                v = 1;
+	            } else if (v < 0) {
+	                v = 0;
+	            }
+	
+	            if (s > 1) {
+	                s = 1;
+	            } else if (s < 0) {
+	                s = 0;
+	            }
+	
+	            _this.__color.v = v;
+	            _this.__color.s = s;
+	
+	            _this.setValue(_this.__color.toOriginal());
+	
+	            return false;
+	        }
+	
+	        function setH(e) {
+	            e.preventDefault();
+	
+	            var fieldRect = _this.__hue_field.getBoundingClientRect();
+	            var h = 1 - (e.clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
+	
+	            if (h > 1) {
+	                h = 1;
+	            } else if (h < 0) {
+	                h = 0;
+	            }
+	
+	            _this.__color.h = h * 360;
+	
+	            _this.setValue(_this.__color.toOriginal());
+	
+	            return false;
+	        }
+	        return _this2;
 	    }
 	
-	    _common2.default.extend(this.__temp.__state, this.__color.__state);
+	    ColorController.prototype.updateDisplay = function updateDisplay() {
+	        var i = (0, _interpret2.default)(this.getValue());
 	
-	    this.__temp.a = 1;
+	        if (i !== false) {
+	            var mismatch = false;
 	
-	    var flip = this.__color.v < 0.5 || this.__color.s > 0.5 ? 255 : 0;
-	    var _flip = 255 - flip;
+	            // Check for mismatch on the interpreted value.
 	
-	    _common2.default.extend(this.__field_knob.style, {
-	      marginLeft: 100 * this.__color.s - 7 + 'px',
-	      marginTop: 100 * (1 - this.__color.v) - 7 + 'px',
-	      backgroundColor: this.__temp.toHexString(),
-	      border: this.__field_knob_border + 'rgb(' + flip + ',' + flip + ',' + flip + ')'
-	    });
+	            _common2.default.each(_Color2.default.COMPONENTS, function (component) {
+	                if (!_common2.default.isUndefined(i[component]) && !_common2.default.isUndefined(this.__color.__state[component]) && i[component] !== this.__color.__state[component]) {
+	                    mismatch = true;
+	                    return {}; // break
+	                }
+	            }, this);
 	
-	    this.__hue_knob.style.marginTop = (1 - this.__color.h / 360) * 100 + 'px';
+	            // If nothing diverges, we keep our previous values
+	            // for statefulness, otherwise we recalculate fresh
+	            if (mismatch) {
+	                _common2.default.extend(this.__color.__state, i);
+	            }
+	        }
 	
-	    this.__temp.s = 1;
-	    this.__temp.v = 1;
+	        _common2.default.extend(this.__temp.__state, this.__color.__state);
 	
-	    linearGradient(this.__saturation_field, 'left', '#fff', this.__temp.toHexString());
+	        this.__temp.a = 1;
 	
-	    this.__input.value = this.__color.toString();
+	        var flip = this.__color.v < 0.5 || this.__color.s > 0.5 ? 255 : 0;
+	        var _flip = 255 - flip;
 	
-	    _common2.default.extend(this.__input.style, {
-	      backgroundColor: this.__color.toHexString(),
-	      color: 'rgb(' + flip + ',' + flip + ',' + flip + ')',
-	      textShadow: this.__input_textShadow + 'rgba(' + _flip + ',' + _flip + ',' + _flip + ',.7)'
-	    });
-	  };
+	        _common2.default.extend(this.__field_knob.style, {
+	            marginLeft: 100 * this.__color.s - 7 + 'px',
+	            marginTop: 100 * (1 - this.__color.v) - 7 + 'px',
+	            backgroundColor: this.__temp.toHexString(),
+	            border: this.__field_knob_border + 'rgb(' + flip + ',' + flip + ',' + flip + ')'
+	        });
 	
-	  return ColorController;
+	        this.__hue_knob.style.marginTop = (1 - this.__color.h / 360) * 100 + 'px';
+	
+	        this.__temp.s = 1;
+	        this.__temp.v = 1;
+	
+	        linearGradient(this.__saturation_field, 'left', '#fff', this.__temp.toHexString());
+	
+	        this.__input.value = this.__color.toString();
+	
+	        _common2.default.extend(this.__input.style, {
+	            backgroundColor: this.__color.toHexString(),
+	            color: 'rgb(' + flip + ',' + flip + ',' + flip + ')',
+	            textShadow: this.__input_textShadow + 'rgba(' + _flip + ',' + _flip + ',' + _flip + ',.7)'
+	        });
+	    };
+	
+	    return ColorController;
 	}(_Controller3.default);
 	
 	var vendors = ['-moz-', '-o-', '-webkit-', '-ms-', ''];
 	
 	function linearGradient(elem, x, a, b) {
-	  elem.style.background = '';
-	  _common2.default.each(vendors, function (vendor) {
-	    elem.style.cssText += 'background: ' + vendor + 'linear-gradient(' + x + ', ' + a + ' 0%, ' + b + ' 100%); ';
-	  });
+	    elem.style.background = '';
+	    _common2.default.each(vendors, function (vendor) {
+	        elem.style.cssText += 'background: ' + vendor + 'linear-gradient(' + x + ', ' + a + ' 0%, ' + b + ' 100%); ';
+	    });
 	}
 	
 	function hueGradient(elem) {
-	  elem.style.background = '';
-	  elem.style.cssText += 'background: -moz-linear-gradient(top,  #ff0000 0%, #ff00ff 17%, #0000ff 34%, #00ffff 50%, #00ff00 67%, #ffff00 84%, #ff0000 100%);';
-	  elem.style.cssText += 'background: -webkit-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
-	  elem.style.cssText += 'background: -o-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
-	  elem.style.cssText += 'background: -ms-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
-	  elem.style.cssText += 'background: linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+	    elem.style.background = '';
+	    elem.style.cssText += 'background: -moz-linear-gradient(top,  #ff0000 0%, #ff00ff 17%, #0000ff 34%, #00ffff 50%, #00ff00 67%, #ffff00 84%, #ff0000 100%);';
+	    elem.style.cssText += 'background: -webkit-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+	    elem.style.cssText += 'background: -o-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+	    elem.style.cssText += 'background: -ms-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+	    elem.style.cssText += 'background: linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
 	}
 	
 	exports.default = ColorController;
@@ -3965,7 +4007,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 19 */
 /***/ function(module, exports) {
 
-	module.exports = "<div id=\"dg-save\" class=\"dg dialogue\">\n\n  Here's the new load parameter for your <code>GUI</code>'s constructor:\n\n  <textarea id=\"dg-new-constructor\"></textarea>\n\n  <div id=\"dg-save-locally\">\n\n    <input id=\"dg-local-storage\" type=\"checkbox\"/> Automatically save\n    values to <code>localStorage</code> on exit.\n\n    <div id=\"dg-local-explain\">The values saved to <code>localStorage</code> will\n      override those passed to <code>dat.GUI</code>'s constructor. This makes it\n      easier to work incrementally, but <code>localStorage</code> is fragile,\n      and your friends may not see the same values you do.\n\n    </div>\n\n  </div>\n\n</div>";
+	module.exports = "<div id=\"dg-save\" class=\"dg dialogue\">\r\n\r\n  Here's the new load parameter for your <code>GUI</code>'s constructor:\r\n\r\n  <textarea id=\"dg-new-constructor\"></textarea>\r\n\r\n  <div id=\"dg-save-locally\">\r\n\r\n    <input id=\"dg-local-storage\" type=\"checkbox\"/> Automatically save\r\n    values to <code>localStorage</code> on exit.\r\n\r\n    <div id=\"dg-local-explain\">The values saved to <code>localStorage</code> will\r\n      override those passed to <code>dat.GUI</code>'s constructor. This makes it\r\n      easier to work incrementally, but <code>localStorage</code> is fragile,\r\n      and your friends may not see the same values you do.\r\n\r\n    </div>\r\n\r\n  </div>\r\n\r\n</div>";
 
 /***/ },
 /* 20 */

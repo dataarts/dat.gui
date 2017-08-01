@@ -46,6 +46,7 @@ class NumberControllerSlider extends NumberController {
     this.__foreground = document.createElement('div');
 
     dom.bind(this.__background, 'mousedown', onMouseDown);
+    dom.bind(this.__background, 'touchstart', onTouchStart);
 
     dom.addClass(this.__background, 'slider');
     dom.addClass(this.__foreground, 'slider-fg');
@@ -59,21 +60,62 @@ class NumberControllerSlider extends NumberController {
       onMouseDrag(e);
     }
 
-    function onMouseDrag(e) {
-      e.preventDefault();
+    function onTouchStart(e) {
+      document.activeElement.blur();
 
+      dom.bind(window, 'touchmove', onTouchMove);
+      dom.bind(window, 'touchend', onTouchEnd);
+
+      _this.__activeTouch = e.targetTouches[0];
+
+      onTouchMove(e);
+    }
+
+    function onMouseDrag(e) {
+      // e.preventDefault();
+
+      onDrag(e.clientX);
+    }
+
+    function onTouchMove(e) {
+      // e.preventDefault();
+
+      const changed = e.changedTouches;
+
+      for (let i = 0; i < changed.length; i++) {
+        if (changed[i].identifier === _this.__activeTouch.identifier) {
+          onDrag(changed[i].clientX);
+        }
+      }
+    }
+
+    function onDrag(clientX) {
       const bgRect = _this.__background.getBoundingClientRect();
 
       _this.setValue(
-        map(e.clientX, bgRect.left, bgRect.right, _this.__min, _this.__max)
+        map(clientX, bgRect.left, bgRect.right, _this.__min, _this.__max)
       );
 
       return false;
     }
 
+    function onTouchEnd() {
+      dom.unbind(window, 'touchmove', onMouseDrag);
+      dom.unbind(window, 'touchend', onMouseUp);
+
+      _this.__activeTouch = null;
+
+      moveFinish();
+    }
+
     function onMouseUp() {
       dom.unbind(window, 'mousemove', onMouseDrag);
       dom.unbind(window, 'mouseup', onMouseUp);
+
+      moveFinish();
+    }
+
+    function moveFinish() {
       if (_this.__onFinishChange) {
         _this.__onFinishChange.call(_this, _this.getValue());
       }
