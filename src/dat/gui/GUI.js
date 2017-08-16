@@ -1030,6 +1030,8 @@ function add(gui, object, property, params) {
 
   dom.addClass(controller.domElement, 'c');
 
+  var formControlId = _generateUIDWithCollisionChecking();
+  
   const name = document.createElement('label');
   dom.addClass(name, 'property-name');
   name.innerHTML = controller.property;
