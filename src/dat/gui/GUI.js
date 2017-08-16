@@ -996,6 +996,18 @@ function recallSavedValue(gui, controller) {
   }
 }
 
+var _generatedUIDs = {};
+
+function _generateUIDWithCollisionChecking() {
+  while (true) {
+    var uid = ("0000" + ((Math.random() * Math.pow(36, 4)) | 0).toString(36)).slice(-4);
+    if (!_generatedUIDs.hasOwnProperty(uid)) {
+      _generatedUIDs[uid] = true;
+      return uid;
+    }
+  }
+}
+
 function add(gui, object, property, params) {
   if (object[property] === undefined) {
     throw new Error(`Object "${object}" has no property "${property}"`);
@@ -1018,9 +1030,10 @@ function add(gui, object, property, params) {
 
   dom.addClass(controller.domElement, 'c');
 
-  const name = document.createElement('span');
+  const name = document.createElement('label');
   dom.addClass(name, 'property-name');
   name.innerHTML = controller.property;
+  name.htmlFor = formControlId;
 
   const container = document.createElement('div');
   container.appendChild(name);
@@ -1038,6 +1051,12 @@ function add(gui, object, property, params) {
   augmentController(gui, li, controller);
 
   gui.__controllers.push(controller);
+
+  var formControl = container.querySelectorAll('select, input')[0];
+  if (formControl != undefined)
+  {
+	formControl.id = formControlId;
+  }
 
   return controller;
 }
