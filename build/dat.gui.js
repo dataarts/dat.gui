@@ -3158,7 +3158,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @returns {dat.controllers.Controller} The new controller that was added.
 	   * @instance
 	   */
-	  add: function add(object, property) {
+	  add: function add(object, property,customName) {
 	    return _add(this, object, property, {
 	      factoryArgs: Array.prototype.slice.call(arguments, 2)
 	    });
@@ -3641,7 +3641,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	}
 	
-	function _add(gui, object, property, params) {
+	function _add(gui, object, property, params,customName) {
 	  if (object[property] === undefined) {
 	    throw new Error('Object "' + object + '" has no property "' + property + '"');
 	  }
@@ -3665,7 +3665,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  var name = document.createElement('span');
 	  _dom2.default.addClass(name, 'property-name');
-	  name.innerHTML = controller.property;
+		if ( custext != undefined )
+			name.innerHTML = custext;
+	  else
+			name.innerHTML = controller.property;
 	
 	  var container = document.createElement('div');
 	  container.appendChild(name);
