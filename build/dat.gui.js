@@ -3665,8 +3665,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  var name = document.createElement('span');
 	  _dom2.default.addClass(name, 'property-name');
-		if ( custext != undefined )
-			name.innerHTML = custext;
+		if ( customName != undefined )
+			name.innerHTML = customName;
 	  else
 			name.innerHTML = controller.property;
 	
