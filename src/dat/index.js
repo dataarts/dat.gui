@@ -24,6 +24,8 @@ import NumberControllerBox from './controllers/NumberControllerBox';
 import NumberControllerSlider from './controllers/NumberControllerSlider';
 import FunctionController from './controllers/FunctionController';
 import ColorController from './controllers/ColorController';
+import BgColorController from './controllers/BgColorController';
+import NgColorController from './controllers/NgColorController';
 
 import dom from './dom/dom';
 import GUI from './gui/GUI';
@@ -44,7 +46,9 @@ export default {
     NumberControllerBox: NumberControllerBox,
     NumberControllerSlider: NumberControllerSlider,
     FunctionController: FunctionController,
-    ColorController: ColorController
+    ColorController: ColorController,
+    BgColorController: BgColorController,
+    NgColorController: NgColorController
   },
 
   dom: {
