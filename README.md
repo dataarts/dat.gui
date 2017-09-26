@@ -1,8 +1,11 @@
-#update JLA
+# update JLA
 * fixed style of color-property, no popup
 * fixed height of color-controller (.dg.c height:125px)
 * new NgColorController (fixed style, bigger Hue-bar)
 * new BgColorController for handling two colors (i.e. foreground-background color)
+
+![BgColorController](screen1.jpg)
+![NgColorController](screen2.jpg)
 
 
 # dat.GUI
