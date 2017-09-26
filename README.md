@@ -12,9 +12,9 @@
 Note: 
 * For using BgColorController displaying a two colors, a second "property+bg" must be present. For Example: 
 `var myProps={color:#ffffff,colorbg:#000000};
-datgui.addBgColor(myProps,color);
-* Changing the height of all ColorControllers can be done by changeing the CSS .dg.c item.
-`
+datgui.addBgColor(myProps,color);`
+* Changing the height of all ColorControllers can be done by changing the CSS .dg.c item.
+
 
 # dat.GUI
 A lightweight graphical user interface for changing variables in JavaScript. 
