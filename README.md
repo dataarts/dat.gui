@@ -3,7 +3,7 @@
 * new BgColorController for handling two colors (i.e. foreground-background color)
 * new HSVColorController (toggle Mode: RGB <-> HSV)
 
-![BgColorController](screen1.jpg)
+![BgColorController](screen5.jpg)
 ![NgColorController](screen2.jpg)
 ![HSVColorController-HSV](screen3.jpg)
 ![HSVColorController-RGB](screen4.jpg)
