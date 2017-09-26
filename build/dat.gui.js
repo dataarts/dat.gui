@@ -135,28 +135,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _ColorController2 = _interopRequireDefault(_ColorController);
 	
+	var _BgColorController = __webpack_require__(17);
+	
+	var _BgColorController2 = _interopRequireDefault(_BgColorController);
+	
+	var _NgColorController = __webpack_require__(18);
+	
+	var _NgColorController2 = _interopRequireDefault(_NgColorController);
+	
+	var _GtColorController = __webpack_require__(19);
+	
+	var _GtColorController2 = _interopRequireDefault(_GtColorController);
+	
 	var _dom = __webpack_require__(9);
 	
 	var _dom2 = _interopRequireDefault(_dom);
 	
-	var _GUI = __webpack_require__(17);
+	var _GUI = __webpack_require__(20);
 	
 	var _GUI2 = _interopRequireDefault(_GUI);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	/**
-	 * dat-gui JavaScript Controller Library
-	 * http://code.google.com/p/dat-gui
-	 *
-	 * Copyright 2011 Data Arts Team, Google Creative Lab
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 */
 	
 	exports.default = {
 	  color: {
@@ -174,7 +173,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    NumberControllerBox: _NumberControllerBox2.default,
 	    NumberControllerSlider: _NumberControllerSlider2.default,
 	    FunctionController: _FunctionController2.default,
-	    ColorController: _ColorController2.default
+	    ColorController: _ColorController2.default,
+	    BgColorController: _BgColorController2.default,
+	    NgColorController: _NgColorController2.default,
+	    GtColorController: _GtColorController2.default
 	  },
 	
 	  dom: {
@@ -186,7 +188,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	
 	  GUI: _GUI2.default
-	};
+	}; /**
+	    * dat-gui JavaScript Controller Library
+	    * http://code.google.com/p/dat-gui
+	    *
+	    * Copyright 2011 Data Arts Team, Google Creative Lab
+	    *
+	    * Licensed under the Apache License, Version 2.0 (the "License");
+	    * you may not use this file except in compliance with the License.
+	    * You may obtain a copy of the License at
+	    *
+	    * http://www.apache.org/licenses/LICENSE-2.0
+	    */
+
 	module.exports = exports['default'];
 
 /***/ },
@@ -2324,6 +2338,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	var ColorController = function (_Controller) {
 	  _inherits(ColorController, _Controller);
 	
+	  ColorController.prototype.setValue = function setValue(newValue) {
+	    this.object[this.property] = newValue;
+	    if (this.__onChange) {
+	      this.__onChange.call(this, newValue);
+	    }
+	    this.updateDisplay();
+	    return this;
+	  };
+	
+	  ColorController.prototype.getValue = function getValue() {
+	    return this.object[this.property];
+	  };
+	
 	  function ColorController(object, property) {
 	    _classCallCheck(this, ColorController);
 	
@@ -2436,6 +2463,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      textAlign: 'center',
 	      //      padding: '4px',
 	      //      marginBottom: '6px',
+	
 	      color: '#fff',
 	      border: 0,
 	      fontWeight: 'bold',
@@ -2494,6 +2522,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _this2.__hue_field.appendChild(_this2.__hue_knob);
 	
 	    _this2.domElement.appendChild(_this2.__input);
+	
 	    _this2.domElement.appendChild(_this2.__selector);
 	
 	    _this2.updateDisplay();
@@ -2630,6 +2659,1541 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	exports.__esModule = true;
 	
+	var _Controller2 = __webpack_require__(7);
+	
+	var _Controller3 = _interopRequireDefault(_Controller2);
+	
+	var _dom = __webpack_require__(9);
+	
+	var _dom2 = _interopRequireDefault(_dom);
+	
+	var _Color = __webpack_require__(2);
+	
+	var _Color2 = _interopRequireDefault(_Color);
+	
+	var _interpret = __webpack_require__(3);
+	
+	var _interpret2 = _interopRequireDefault(_interpret);
+	
+	var _common = __webpack_require__(5);
+	
+	var _common2 = _interopRequireDefault(_common);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * dat-gui JavaScript Controller Library
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * http://code.google.com/p/dat-gui
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright 2011 Data Arts Team, Google Creative Lab
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Licensed under the Apache License, Version 2.0 (the "License");
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * you may not use this file except in compliance with the License.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * You may obtain a copy of the License at
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * http://www.apache.org/licenses/LICENSE-2.0
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	
+	var BgColorController = function (_Controller) {
+	  _inherits(BgColorController, _Controller);
+	
+	  BgColorController.prototype.setValue = function setValue(newValue) {
+	    this.object[this.property] = newValue;
+	    if (this.__onChange) {
+	      this.__onChange.call(this, newValue);
+	    }
+	    this.updateDisplay();
+	    return this;
+	  };
+	
+	  BgColorController.prototype.setValue2 = function setValue2(newValue) {
+	    this.value2 = newValue;
+	    if (this.object[this.property + 'bg']) {
+	      this.object[this.property + 'bg'] = this.value2;
+	    }
+	    if (this.__onChange) {
+	      this.__onChange.call(this, newValue);
+	    }
+	    this.updateDisplay();
+	    return this;
+	  };
+	
+	  BgColorController.prototype.getValue = function getValue() {
+	    return this.object[this.property];
+	  };
+	
+	  function BgColorController(object, property) {
+	    _classCallCheck(this, BgColorController);
+	
+	    var _this2 = _possibleConstructorReturn(this, _Controller.call(this, object, property));
+	
+	    _this2.__color = new _Color2.default(_this2.getValue());
+	    _this2.value2 = '#FFee00';
+	    if (_this2.object[_this2.property + 'bg']) {
+	      _this2.value2 = _this2.object[_this2.property + 'bg'];
+	    }
+	    _this2.__color2 = new _Color2.default(_this2.value2);
+	
+	    _this2.__temp = new _Color2.default(0);
+	    _this2.__temp2 = new _Color2.default(0);
+	
+	    var _this = _this2;
+	
+	    _this2.domElement = document.createElement('div');
+	
+	    _dom2.default.makeSelectable(_this2.domElement, false);
+	
+	    _this2.__selector = document.createElement('div');
+	    /* this.__selector.className = 'selector'; */
+	
+	    _this2.__saturation_field = document.createElement('div');
+	    _this2.__saturation_field.className = 'saturation-field';
+	    _this2.__saturation_field2 = document.createElement('div');
+	    _this2.__saturation_field2.className = 'saturation-field';
+	
+	    _this2.__field_knob = document.createElement('div');
+	    _this2.__field_knob.className = 'field-knob';
+	    _this2.__field_knob_border = '2px solid ';
+	    _this2.__field_knob2 = document.createElement('div');
+	    _this2.__field_knob2.className = 'field-knob';
+	    _this2.__field_knob_border2 = '2px solid ';
+	
+	    _this2.__hue_knob = document.createElement('div');
+	    _this2.__hue_knob.className = 'hue-knob';
+	    _this2.__hue_knob2 = document.createElement('div');
+	    _this2.__hue_knob2.className = 'hue-knob';
+	
+	    _this2.__hue_field = document.createElement('div');
+	    _this2.__hue_field.className = 'hue-field';
+	    _this2.__hue_field2 = document.createElement('div');
+	    _this2.__hue_field2.className = 'hue-field';
+	
+	    _this2.__input = document.createElement('input');
+	    _this2.__input.type = 'text';
+	    _this2.__input_textShadow = '0 1px 1px ';
+	    _this2.__input2 = document.createElement('input');
+	    _this2.__input2.type = 'text';
+	    _this2.__input_textShadow2 = '0 1px 1px ';
+	
+	    _dom2.default.bind(_this2.__input, 'keydown', function (e) {
+	      if (e.keyCode === 13) {
+	        // on enter
+	        onBlur.call(this);
+	      }
+	    });
+	    _dom2.default.bind(_this2.__input2, 'keydown', function (e) {
+	      if (e.keyCode === 13) {
+	        // on enter
+	        onBlur2.call(this);
+	      }
+	    });
+	
+	    _dom2.default.bind(_this2.__input, 'blur', onBlur);
+	    _dom2.default.bind(_this2.__input2, 'blur', onBlur2);
+	
+	    /*
+	    dom.bind(this.__selector, 'mousedown', function( ) {
+	      dom
+	        .addClass(this, 'drag')
+	        .bind(window, 'mouseup', function( ) {
+	          dom.removeClass(_this.__selector, 'drag');
+	        });
+	    });
+	    */
+	
+	    var valueField = document.createElement('div');
+	    var valueField2 = document.createElement('div');
+	
+	    _common2.default.extend(_this2.__selector.style, {
+	      width: '200px',
+	      height: '102px',
+	      marginTop: '22px',
+	      backgroundColor: '#222',
+	      boxShadow: '0px 1px 3px rgba(0,0,0,0.3)'
+	    });
+	
+	    _common2.default.extend(_this2.__field_knob.style, {
+	      position: 'absolute',
+	      width: '12px',
+	      height: '12px',
+	      border: _this2.__field_knob_border + (_this2.__color.v < 0.5 ? '#fff' : '#000'),
+	      boxShadow: '0px 1px 3px rgba(0,0,0,0.5)',
+	      borderRadius: '12px',
+	      zIndex: 1
+	    });
+	    _common2.default.extend(_this2.__field_knob2.style, {
+	      position: 'absolute',
+	      left: '100',
+	      width: '12px',
+	      height: '12px',
+	      border: _this2.__field_knob_border2 + (_this2.__color2.v < 0.5 ? '#fff' : '#000'),
+	      boxShadow: '0px 1px 3px rgba(0,0,0,0.5)',
+	      borderRadius: '12px',
+	      zIndex: 1
+	    });
+	
+	    _common2.default.extend(_this2.__hue_knob.style, {
+	      position: 'absolute',
+	      width: '15px',
+	      height: '2px',
+	      left: '-15px',
+	      borderRight: '4px solid #fff',
+	      zIndex: 1
+	    });
+	    _common2.default.extend(_this2.__hue_knob2.style, {
+	      position: 'absolute',
+	      width: '15px',
+	      height: '2px',
+	      left: '9px',
+	      borderRight: '4px solid #fff',
+	      zIndex: 1
+	    });
+	
+	    _common2.default.extend(_this2.__saturation_field.style, {
+	      width: '100px',
+	      height: '100px',
+	      border: '1px solid #555',
+	      marginRight: '3px',
+	      display: 'inline-block',
+	      cursor: 'pointer'
+	    });
+	    _common2.default.extend(_this2.__saturation_field2.style, {
+	      left: '100px',
+	      width: '100px',
+	      height: '100px',
+	      border: '1px solid #555',
+	      marginRight: '3px',
+	      display: 'inline-block',
+	      position: 'absolute',
+	      top: '22px',
+	      cursor: 'pointer'
+	    });
+	
+	    _common2.default.extend(valueField.style, {
+	      width: '100%',
+	      height: '100%',
+	      background: 'none'
+	    });
+	    _common2.default.extend(valueField2.style, {
+	      width: '100%',
+	      height: '100%',
+	      background: 'none'
+	    });
+	
+	    linearGradient(valueField, 'top', 'rgba(0,0,0,0)', '#000');
+	    linearGradient(valueField2, 'top', 'rgba(0,0,0,0)', '#000');
+	
+	    _common2.default.extend(_this2.__hue_field.style, {
+	      width: '20px',
+	      height: '100px',
+	      border: '1px solid #555',
+	      cursor: 'ns-resize',
+	      position: 'absolute',
+	      top: '3px',
+	      marginTop: '19px',
+	      left: '-20px'
+	    });
+	    _common2.default.extend(_this2.__hue_field2.style, {
+	      width: '20px',
+	      height: '100px',
+	      border: '1px solid #555',
+	      cursor: 'ns-resize',
+	      position: 'absolute',
+	      top: '3px',
+	      marginTop: '19px',
+	      left: '200px'
+	    });
+	
+	    hueGradient(_this2.__hue_field);
+	    hueGradient(_this2.__hue_field2);
+	
+	    _common2.default.extend(_this2.__input.style, {
+	      outline: 'none',
+	      //      width: '120px',
+	      textAlign: 'center',
+	      //      padding: '4px',
+	      //      marginBottom: '6px',
+	
+	      color: '#fff',
+	      border: 0,
+	      left: '-20px',
+	      position: 'absolute',
+	      fontWeight: 'bold',
+	      width: '120px',
+	      textShadow: _this2.__input_textShadow + 'rgba(0,0,0,0.7)'
+	    });
+	    _common2.default.extend(_this2.__input2.style, {
+	      outline: 'none',
+	      //      width: '120px',
+	      textAlign: 'center',
+	      //      padding: '4px',
+	      //      marginBottom: '6px',
+	
+	      color: '#fff',
+	      border: 0,
+	      left: '100px',
+	      position: 'absolute',
+	      fontWeight: 'bold',
+	      width: '120px',
+	      textShadow: _this2.__input_textShadow + 'rgba(0,0,0,0.7)'
+	    });
+	
+	    _dom2.default.bind(_this2.__saturation_field, 'mousedown', fieldDown);
+	    _dom2.default.bind(_this2.__saturation_field2, 'mousedown', fieldDown2);
+	    _dom2.default.bind(_this2.__field_knob, 'mousedown', fieldDown);
+	    _dom2.default.bind(_this2.__field_knob2, 'mousedown', fieldDown2);
+	
+	    _dom2.default.bind(_this2.__hue_field, 'mousedown', function (e) {
+	      setH(e);
+	      _dom2.default.bind(window, 'mousemove', setH);
+	      _dom2.default.bind(window, 'mouseup', fieldUpH);
+	    });
+	    _dom2.default.bind(_this2.__hue_field2, 'mousedown', function (e) {
+	      setH2(e);
+	      _dom2.default.bind(window, 'mousemove', setH2);
+	      _dom2.default.bind(window, 'mouseup', fieldUpH2);
+	    });
+	
+	    function fieldDown(e) {
+	      setSV(e);
+	      // document.body.style.cursor = 'none';
+	      _dom2.default.bind(window, 'mousemove', setSV);
+	      _dom2.default.bind(window, 'mouseup', fieldUpSV);
+	    }
+	    function fieldDown2(e) {
+	      setSV2(e);
+	      // document.body.style.cursor = 'none';
+	      _dom2.default.bind(window, 'mousemove', setSV2);
+	      _dom2.default.bind(window, 'mouseup', fieldUpSV2);
+	    }
+	
+	    function fieldUpSV() {
+	      _dom2.default.unbind(window, 'mousemove', setSV);
+	      _dom2.default.unbind(window, 'mouseup', fieldUpSV);
+	      // document.body.style.cursor = 'default';
+	      onFinish();
+	    }
+	    function fieldUpSV2() {
+	      _dom2.default.unbind(window, 'mousemove', setSV2);
+	      _dom2.default.unbind(window, 'mouseup', fieldUpSV2);
+	      // document.body.style.cursor = 'default';
+	      onFinish2();
+	    }
+	
+	    function onBlur() {
+	      var i = (0, _interpret2.default)(this.value);
+	      if (i !== false) {
+	        _this.__color.__state = i;
+	        _this.setValue(_this.__color.toOriginal());
+	      } else {
+	        this.value = _this.__color.toString();
+	      }
+	    }
+	    function onBlur2() {
+	      var i = (0, _interpret2.default)(this.value);
+	      if (i !== false) {
+	        _this.__color2.__state = i;
+	        _this.setValue2(_this.__color2.toOriginal());
+	      } else {
+	        this.value = _this.__color2.toString();
+	      }
+	    }
+	
+	    function fieldUpH() {
+	      _dom2.default.unbind(window, 'mousemove', setH);
+	      _dom2.default.unbind(window, 'mouseup', fieldUpH);
+	      onFinish();
+	    }
+	    function fieldUpH2() {
+	      _dom2.default.unbind(window, 'mousemove', setH2);
+	      _dom2.default.unbind(window, 'mouseup', fieldUpH2);
+	      onFinish2();
+	    }
+	
+	    function onFinish() {
+	      if (_this.__onFinishChange) {
+	        _this.__onFinishChange.call(_this, _this.__color2.toOriginal());
+	      }
+	    }
+	    function onFinish2() {
+	      if (_this.__onFinishChange) {
+	        _this.__onFinishChange.call(_this, _this.__color.toOriginal());
+	      }
+	    }
+	
+	    _this2.__saturation_field.appendChild(valueField);
+	    _this2.__selector.appendChild(_this2.__field_knob);
+	    _this2.__selector.appendChild(_this2.__field_knob2);
+	    _this2.__selector.appendChild(_this2.__saturation_field);
+	
+	    _this2.__saturation_field2.appendChild(valueField2);
+	    _this2.__selector.appendChild(_this2.__saturation_field2);
+	
+	    _this2.__selector.appendChild(_this2.__hue_field);
+	    _this2.__hue_field.appendChild(_this2.__hue_knob);
+	    _this2.__hue_field2.appendChild(_this2.__hue_knob2);
+	    _this2.__selector.appendChild(_this2.__hue_field2);
+	
+	    _this2.domElement.appendChild(_this2.__input2);
+	    _this2.domElement.appendChild(_this2.__input);
+	
+	    _this2.domElement.appendChild(_this2.__selector);
+	
+	    _this2.updateDisplay();
+	
+	    function setSV2(e) {
+	      e.preventDefault();
+	
+	      var fieldRect = _this.__saturation_field2.getBoundingClientRect();
+	      var s = (e.clientX - fieldRect.left) / (fieldRect.right - fieldRect.left);
+	      var v = 1 - (e.clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
+	
+	      if (v > 1) {
+	        v = 1;
+	      } else if (v < 0) {
+	        v = 0;
+	      }
+	
+	      if (s > 1) {
+	        s = 1;
+	      } else if (s < 0) {
+	        s = 0;
+	      }
+	
+	      _this.__color2.v = v;
+	      _this.__color2.s = s;
+	
+	      _this.setValue2(_this.__color2.toOriginal());
+	
+	      return false;
+	    }
+	    function setSV(e) {
+	      e.preventDefault();
+	
+	      var fieldRect = _this.__saturation_field.getBoundingClientRect();
+	      var s = (e.clientX - fieldRect.left) / (fieldRect.right - fieldRect.left);
+	      var v = 1 - (e.clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
+	
+	      if (v > 1) {
+	        v = 1;
+	      } else if (v < 0) {
+	        v = 0;
+	      }
+	
+	      if (s > 1) {
+	        s = 1;
+	      } else if (s < 0) {
+	        s = 0;
+	      }
+	
+	      _this.__color.v = v;
+	      _this.__color.s = s;
+	
+	      _this.setValue(_this.__color.toOriginal());
+	
+	      return false;
+	    }
+	
+	    function setH2(e) {
+	      e.preventDefault();
+	
+	      var fieldRect = _this.__hue_field2.getBoundingClientRect();
+	      var h = 1 - (e.clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
+	
+	      if (h > 1) {
+	        h = 1;
+	      } else if (h < 0) {
+	        h = 0;
+	      }
+	
+	      _this.__color2.h = h * 360;
+	
+	      _this.setValue2(_this.__color2.toOriginal());
+	
+	      return false;
+	    }
+	    function setH(e) {
+	      e.preventDefault();
+	
+	      var fieldRect = _this.__hue_field.getBoundingClientRect();
+	      var h = 1 - (e.clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
+	
+	      if (h > 1) {
+	        h = 1;
+	      } else if (h < 0) {
+	        h = 0;
+	      }
+	
+	      _this.__color.h = h * 360;
+	
+	      _this.setValue(_this.__color.toOriginal());
+	
+	      return false;
+	    }
+	    return _this2;
+	  }
+	
+	  BgColorController.prototype.updateDisplay = function updateDisplay() {
+	    var i = (0, _interpret2.default)(this.getValue());
+	
+	    if (i !== false) {
+	      var mismatch = false;
+	
+	      // Check for mismatch on the interpreted value.
+	
+	      _common2.default.each(_Color2.default.COMPONENTS, function (component) {
+	        if (!_common2.default.isUndefined(i[component]) && !_common2.default.isUndefined(this.__color.__state[component]) && i[component] !== this.__color.__state[component]) {
+	          mismatch = true;
+	          return {}; // break
+	        }
+	      }, this);
+	
+	      // If nothing diverges, we keep our previous values
+	      // for statefulness, otherwise we recalculate fresh
+	      if (mismatch) {
+	        _common2.default.extend(this.__color.__state, i);
+	      }
+	    }
+	
+	    _common2.default.extend(this.__temp.__state, this.__color.__state);
+	    _common2.default.extend(this.__temp2.__state, this.__color2.__state);
+	
+	    this.__temp.a = 1;
+	    this.__temp2.a = 1;
+	
+	    var flip = this.__color.v < 0.5 || this.__color.s > 0.5 ? 255 : 0;
+	    var _flip = 255 - flip;
+	    var flip2 = this.__color2.v < 0.5 || this.__color2.s > 0.5 ? 255 : 0;
+	    var _flip2 = 255 - flip2;
+	
+	    _common2.default.extend(this.__field_knob.style, {
+	      marginLeft: 100 * this.__color.s - 7 + 'px',
+	      marginTop: 100 * (1 - this.__color.v) - 7 + 'px',
+	      backgroundColor: this.__temp.toHexString(),
+	      border: this.__field_knob_border + 'rgb(' + flip + ',' + flip + ',' + flip + ')'
+	    });
+	    _common2.default.extend(this.__field_knob2.style, {
+	      marginLeft: 100 * this.__color2.s - 7 + 'px',
+	      marginTop: 100 * (1 - this.__color2.v) - 7 + 'px',
+	      backgroundColor: this.__temp2.toHexString(),
+	      border: this.__field_knob_border2 + 'rgb(' + flip2 + ',' + flip2 + ',' + flip2 + ')'
+	    });
+	
+	    this.__hue_knob.style.marginTop = (1 - this.__color.h / 360) * 100 + 'px';
+	    this.__hue_knob2.style.marginTop = (1 - this.__color2.h / 360) * 100 + 'px';
+	
+	    this.__temp.s = 1;
+	    this.__temp.v = 1;
+	    this.__temp2.s = 1;
+	    this.__temp2.v = 1;
+	
+	    linearGradient(this.__saturation_field, 'left', '#fff', this.__temp.toHexString());
+	    linearGradient(this.__saturation_field2, 'left', '#fff', this.__temp2.toHexString());
+	
+	    this.__input.value = this.__color.toString();
+	    this.__input2.value = this.__color2.toString();
+	
+	    _common2.default.extend(this.__input.style, {
+	      backgroundColor: this.__color.toHexString(),
+	      color: 'rgb(' + flip + ',' + flip + ',' + flip + ')',
+	      textShadow: this.__input_textShadow + 'rgba(' + _flip + ',' + _flip + ',' + _flip + ',.7)'
+	    });
+	    _common2.default.extend(this.__input2.style, {
+	      backgroundColor: this.__color2.toHexString(),
+	      color: 'rgb(' + flip2 + ',' + flip2 + ',' + flip2 + ')',
+	      textShadow: this.__input_textShadow + 'rgba(' + _flip2 + ',' + _flip2 + ',' + _flip2 + ',.7)'
+	    });
+	  };
+	
+	  return BgColorController;
+	}(_Controller3.default);
+	
+	var vendors = ['-moz-', '-o-', '-webkit-', '-ms-', ''];
+	
+	function linearGradient(elem, x, a, b) {
+	  elem.style.background = '';
+	  _common2.default.each(vendors, function (vendor) {
+	    elem.style.cssText += 'background: ' + vendor + 'linear-gradient(' + x + ', ' + a + ' 0%, ' + b + ' 100%); ';
+	  });
+	}
+	
+	function hueGradient(elem) {
+	  elem.style.background = '';
+	  elem.style.cssText += 'background: -moz-linear-gradient(top,  #ff0000 0%, #ff00ff 17%, #0000ff 34%, #00ffff 50%, #00ff00 67%, #ffff00 84%, #ff0000 100%);';
+	  elem.style.cssText += 'background: -webkit-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+	  elem.style.cssText += 'background: -o-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+	  elem.style.cssText += 'background: -ms-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+	  elem.style.cssText += 'background: linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+	}
+	
+	exports.default = BgColorController;
+	module.exports = exports['default'];
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	var _Controller2 = __webpack_require__(7);
+	
+	var _Controller3 = _interopRequireDefault(_Controller2);
+	
+	var _dom = __webpack_require__(9);
+	
+	var _dom2 = _interopRequireDefault(_dom);
+	
+	var _Color = __webpack_require__(2);
+	
+	var _Color2 = _interopRequireDefault(_Color);
+	
+	var _interpret = __webpack_require__(3);
+	
+	var _interpret2 = _interopRequireDefault(_interpret);
+	
+	var _common = __webpack_require__(5);
+	
+	var _common2 = _interopRequireDefault(_common);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * dat-gui JavaScript Controller Library
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * http://code.google.com/p/dat-gui
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright 2011 Data Arts Team, Google Creative Lab
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Licensed under the Apache License, Version 2.0 (the "License");
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * you may not use this file except in compliance with the License.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * You may obtain a copy of the License at
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * http://www.apache.org/licenses/LICENSE-2.0
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	
+	var NgColorController = function (_Controller) {
+	  _inherits(NgColorController, _Controller);
+	
+	  NgColorController.prototype.setValue = function setValue(newValue) {
+	    this.object[this.property] = newValue;
+	    if (this.__onChange) {
+	      this.__onChange.call(this, newValue);
+	    }
+	    this.updateDisplay();
+	    return this;
+	  };
+	
+	  NgColorController.prototype.getValue = function getValue() {
+	    return this.object[this.property];
+	  };
+	
+	  function NgColorController(object, property) {
+	    _classCallCheck(this, NgColorController);
+	
+	    var _this2 = _possibleConstructorReturn(this, _Controller.call(this, object, property));
+	
+	    _this2.__color = new _Color2.default(_this2.getValue());
+	    _this2.__temp = new _Color2.default(0);
+	
+	    var _this = _this2;
+	
+	    _this2.domElement = document.createElement('div');
+	
+	    _dom2.default.makeSelectable(_this2.domElement, false);
+	
+	    _this2.__selector = document.createElement('div');
+	    /* this.__selector.className = 'selector'; */
+	
+	    _this2.__saturation_field = document.createElement('div');
+	    _this2.__saturation_field.className = 'saturation-field';
+	
+	    _this2.__field_knob = document.createElement('div');
+	    _this2.__field_knob.className = 'field-knob';
+	    _this2.__field_knob_border = '2px solid ';
+	
+	    _this2.__hue_knob = document.createElement('div');
+	    _this2.__hue_knob.className = 'hue-knob';
+	
+	    _this2.__hue_field = document.createElement('div');
+	    _this2.__hue_field.className = 'hue-field';
+	
+	    _this2.__input = document.createElement('input');
+	    _this2.__input.type = 'text';
+	    _this2.__input_textShadow = '0 1px 1px ';
+	
+	    _dom2.default.bind(_this2.__input, 'keydown', function (e) {
+	      if (e.keyCode === 13) {
+	        // on enter
+	        onBlur.call(this);
+	      }
+	    });
+	
+	    _dom2.default.bind(_this2.__input, 'blur', onBlur);
+	
+	    _dom2.default.bind(_this2.__selector, 'mousedown', function () /* e */{
+	      _dom2.default.addClass(this, 'drag').bind(window, 'mouseup', function () /* e */{
+	        _dom2.default.removeClass(_this.__selector, 'drag');
+	      });
+	    });
+	
+	    var valueField = document.createElement('div');
+	
+	    _common2.default.extend(_this2.__selector.style, {
+	      width: '120px',
+	      height: '102px',
+	      marginTop: '22px',
+	      padding: '3px',
+	      backgroundColor: '#222',
+	      boxShadow: '0px 1px 3px rgba(0,0,0,0.3)'
+	    });
+	
+	    _common2.default.extend(_this2.__field_knob.style, {
+	      position: 'absolute',
+	      width: '12px',
+	      height: '12px',
+	      border: _this2.__field_knob_border + (_this2.__color.v < 0.5 ? '#fff' : '#000'),
+	      boxShadow: '0px 1px 3px rgba(0,0,0,0.5)',
+	      borderRadius: '12px',
+	      zIndex: 1
+	    });
+	
+	    _common2.default.extend(_this2.__hue_knob.style, {
+	      position: 'absolute',
+	      width: '15px',
+	      height: '2px',
+	      left: '9px',
+	      borderRight: '4px solid #fff',
+	      zIndex: 1
+	    });
+	
+	    _common2.default.extend(_this2.__saturation_field.style, {
+	      width: '100px',
+	      height: '100px',
+	      border: '1px solid #555',
+	      marginRight: '3px',
+	      display: 'inline-block',
+	      position: 'absolute',
+	      top: '22px',
+	      cursor: 'pointer'
+	    });
+	
+	    _common2.default.extend(valueField.style, {
+	      width: '100%',
+	      height: '100%',
+	      background: 'none'
+	    });
+	
+	    linearGradient(valueField, 'top', 'rgba(0,0,0,0)', '#000');
+	
+	    _common2.default.extend(_this2.__hue_field.style, {
+	      width: '20px',
+	      height: '100px',
+	      border: '1px solid #555',
+	      cursor: 'ns-resize',
+	      position: 'absolute',
+	      top: '3px',
+	      marginTop: '19px',
+	      left: '100px'
+	    });
+	
+	    hueGradient(_this2.__hue_field);
+	
+	    _common2.default.extend(_this2.__input.style, {
+	      outline: 'none',
+	      //      width: '120px',
+	      textAlign: 'center',
+	      //      padding: '4px',
+	      //      marginBottom: '6px',
+	
+	      color: '#fff',
+	      border: 0,
+	      left: '0',
+	      position: 'absolute',
+	      width: '120px',
+	      fontWeight: 'bold',
+	      textShadow: _this2.__input_textShadow + 'rgba(0,0,0,0.7)'
+	    });
+	
+	    _dom2.default.bind(_this2.__saturation_field, 'mousedown', fieldDown);
+	    _dom2.default.bind(_this2.__field_knob, 'mousedown', fieldDown);
+	
+	    _dom2.default.bind(_this2.__hue_field, 'mousedown', function (e) {
+	      setH(e);
+	      _dom2.default.bind(window, 'mousemove', setH);
+	      _dom2.default.bind(window, 'mouseup', fieldUpH);
+	    });
+	
+	    function fieldDown(e) {
+	      setSV(e);
+	      // document.body.style.cursor = 'none';
+	      _dom2.default.bind(window, 'mousemove', setSV);
+	      _dom2.default.bind(window, 'mouseup', fieldUpSV);
+	    }
+	
+	    function fieldUpSV() {
+	      _dom2.default.unbind(window, 'mousemove', setSV);
+	      _dom2.default.unbind(window, 'mouseup', fieldUpSV);
+	      // document.body.style.cursor = 'default';
+	      onFinish();
+	    }
+	
+	    function onBlur() {
+	      var i = (0, _interpret2.default)(this.value);
+	      if (i !== false) {
+	        _this.__color.__state = i;
+	        _this.setValue(_this.__color.toOriginal());
+	      } else {
+	        this.value = _this.__color.toString();
+	      }
+	    }
+	
+	    function fieldUpH() {
+	      _dom2.default.unbind(window, 'mousemove', setH);
+	      _dom2.default.unbind(window, 'mouseup', fieldUpH);
+	      onFinish();
+	    }
+	
+	    function onFinish() {
+	      if (_this.__onFinishChange) {
+	        _this.__onFinishChange.call(_this, _this.__color.toOriginal());
+	      }
+	    }
+	
+	    _this2.__saturation_field.appendChild(valueField);
+	    _this2.__selector.appendChild(_this2.__field_knob);
+	    _this2.__selector.appendChild(_this2.__saturation_field);
+	    _this2.__selector.appendChild(_this2.__hue_field);
+	    _this2.__hue_field.appendChild(_this2.__hue_knob);
+	
+	    _this2.domElement.appendChild(_this2.__input);
+	
+	    _this2.domElement.appendChild(_this2.__selector);
+	
+	    _this2.updateDisplay();
+	
+	    function setSV(e) {
+	      e.preventDefault();
+	
+	      var fieldRect = _this.__saturation_field.getBoundingClientRect();
+	      var s = (e.clientX - fieldRect.left) / (fieldRect.right - fieldRect.left);
+	      var v = 1 - (e.clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
+	
+	      if (v > 1) {
+	        v = 1;
+	      } else if (v < 0) {
+	        v = 0;
+	      }
+	
+	      if (s > 1) {
+	        s = 1;
+	      } else if (s < 0) {
+	        s = 0;
+	      }
+	
+	      _this.__color.v = v;
+	      _this.__color.s = s;
+	
+	      _this.setValue(_this.__color.toOriginal());
+	
+	      return false;
+	    }
+	
+	    function setH(e) {
+	      e.preventDefault();
+	
+	      var fieldRect = _this.__hue_field.getBoundingClientRect();
+	      var h = 1 - (e.clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
+	
+	      if (h > 1) {
+	        h = 1;
+	      } else if (h < 0) {
+	        h = 0;
+	      }
+	
+	      _this.__color.h = h * 360;
+	
+	      _this.setValue(_this.__color.toOriginal());
+	
+	      return false;
+	    }
+	    return _this2;
+	  }
+	
+	  NgColorController.prototype.updateDisplay = function updateDisplay() {
+	    var i = (0, _interpret2.default)(this.getValue());
+	
+	    if (i !== false) {
+	      var mismatch = false;
+	
+	      // Check for mismatch on the interpreted value.
+	
+	      _common2.default.each(_Color2.default.COMPONENTS, function (component) {
+	        if (!_common2.default.isUndefined(i[component]) && !_common2.default.isUndefined(this.__color.__state[component]) && i[component] !== this.__color.__state[component]) {
+	          mismatch = true;
+	          return {}; // break
+	        }
+	      }, this);
+	
+	      // If nothing diverges, we keep our previous values
+	      // for statefulness, otherwise we recalculate fresh
+	      if (mismatch) {
+	        _common2.default.extend(this.__color.__state, i);
+	      }
+	    }
+	
+	    _common2.default.extend(this.__temp.__state, this.__color.__state);
+	
+	    this.__temp.a = 1;
+	
+	    var flip = this.__color.v < 0.5 || this.__color.s > 0.5 ? 255 : 0;
+	    var _flip = 255 - flip;
+	
+	    _common2.default.extend(this.__field_knob.style, {
+	      marginLeft: 100 * this.__color.s - 7 + 'px',
+	      marginTop: 100 * (1 - this.__color.v) - 7 + 'px',
+	      backgroundColor: this.__temp.toHexString(),
+	      border: this.__field_knob_border + 'rgb(' + flip + ',' + flip + ',' + flip + ')'
+	    });
+	
+	    this.__hue_knob.style.marginTop = (1 - this.__color.h / 360) * 100 + 'px';
+	
+	    this.__temp.s = 1;
+	    this.__temp.v = 1;
+	
+	    linearGradient(this.__saturation_field, 'left', '#fff', this.__temp.toHexString());
+	
+	    this.__input.value = this.__color.toString();
+	
+	    _common2.default.extend(this.__input.style, {
+	      backgroundColor: this.__color.toHexString(),
+	      color: 'rgb(' + flip + ',' + flip + ',' + flip + ')',
+	      textShadow: this.__input_textShadow + 'rgba(' + _flip + ',' + _flip + ',' + _flip + ',.7)'
+	    });
+	  };
+	
+	  return NgColorController;
+	}(_Controller3.default);
+	
+	var vendors = ['-moz-', '-o-', '-webkit-', '-ms-', ''];
+	
+	function linearGradient(elem, x, a, b) {
+	  elem.style.background = '';
+	  _common2.default.each(vendors, function (vendor) {
+	    elem.style.cssText += 'background: ' + vendor + 'linear-gradient(' + x + ', ' + a + ' 0%, ' + b + ' 100%); ';
+	  });
+	}
+	
+	function hueGradient(elem) {
+	  elem.style.background = '';
+	  elem.style.cssText += 'background: -moz-linear-gradient(top,  #ff0000 0%, #ff00ff 17%, #0000ff 34%, #00ffff 50%, #00ff00 67%, #ffff00 84%, #ff0000 100%);';
+	  elem.style.cssText += 'background: -webkit-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+	  elem.style.cssText += 'background: -o-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+	  elem.style.cssText += 'background: -ms-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+	  elem.style.cssText += 'background: linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+	}
+	
+	exports.default = NgColorController;
+	module.exports = exports['default'];
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	var _Controller2 = __webpack_require__(7);
+	
+	var _Controller3 = _interopRequireDefault(_Controller2);
+	
+	var _dom = __webpack_require__(9);
+	
+	var _dom2 = _interopRequireDefault(_dom);
+	
+	var _Color = __webpack_require__(2);
+	
+	var _Color2 = _interopRequireDefault(_Color);
+	
+	var _interpret = __webpack_require__(3);
+	
+	var _interpret2 = _interopRequireDefault(_interpret);
+	
+	var _common = __webpack_require__(5);
+	
+	var _common2 = _interopRequireDefault(_common);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * dat-gui JavaScript Controller Library
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * http://code.google.com/p/dat-gui
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright 2011 Data Arts Team, Google Creative Lab
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Licensed under the Apache License, Version 2.0 (the "License");
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * you may not use this file except in compliance with the License.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * You may obtain a copy of the License at
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * http://www.apache.org/licenses/LICENSE-2.0
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	
+	var GtColorController = function (_Controller) {
+	  _inherits(GtColorController, _Controller);
+	
+	  GtColorController.prototype.setValue = function setValue(newValue) {
+	    this.object[this.property] = newValue;
+	    if (this.__onChange) {
+	      this.__onChange.call(this, newValue);
+	    }
+	    this.updateDisplay();
+	    return this;
+	  };
+	
+	  GtColorController.prototype.setValue2 = function setValue2(newValue) {
+	    this.value2 = newValue;
+	    if (this.object[this.property + 'bg']) {
+	      this.object[this.property + 'bg'] = this.value2;
+	    }
+	    if (this.__onChange) {
+	      this.__onChange.call(this, newValue);
+	    }
+	    this.updateDisplay();
+	    return this;
+	  };
+	
+	  GtColorController.prototype.getValue = function getValue() {
+	    return this.object[this.property];
+	  };
+	
+	  function GtColorController(object, property) {
+	    _classCallCheck(this, GtColorController);
+	
+	    var _this2 = _possibleConstructorReturn(this, _Controller.call(this, object, property));
+	
+	    _this2.__color = new _Color2.default(_this2.getValue());
+	    _this2.value2 = '#FFee00';
+	    if (_this2.object[_this2.property + 'bg']) {
+	      _this2.value2 = _this2.object[_this2.property + 'bg'];
+	    }
+	    _this2.__color2 = new _Color2.default(_this2.value2);
+	
+	    _this2.__temp = new _Color2.default(0);
+	    _this2.__temp2 = new _Color2.default(0);
+	
+	    var _this = _this2;
+	
+	    _this2.domElement = document.createElement('div');
+	
+	    _dom2.default.makeSelectable(_this2.domElement, false);
+	
+	    _this2.__selector = document.createElement('div');
+	    /* this.__selector.className = 'selector'; */
+	
+	    _this2.__saturation_field = document.createElement('div');
+	    _this2.__saturation_field.className = 'saturation-field';
+	    _this2.__saturation_field2 = document.createElement('div');
+	    _this2.__saturation_field2.className = 'saturation-field';
+	
+	    _this2.__field_knob = document.createElement('div');
+	    _this2.__field_knob.className = 'field-knob';
+	    _this2.__field_knob_border = '2px solid ';
+	    _this2.__field_knob2 = document.createElement('div');
+	    _this2.__field_knob2.className = 'field-knob';
+	    _this2.__field_knob_border2 = '2px solid ';
+	
+	    _this2.__hue_knob = document.createElement('div');
+	    _this2.__hue_knob.className = 'hue-knob';
+	    _this2.__hue_knob2 = document.createElement('div');
+	    _this2.__hue_knob2.className = 'hue-knob';
+	
+	    _this2.__hue_field = document.createElement('div');
+	    _this2.__hue_field.className = 'hue-field';
+	    _this2.__hue_field2 = document.createElement('div');
+	    _this2.__hue_field2.className = 'hue-field';
+	
+	    _this2.__input = document.createElement('input');
+	    _this2.__input.type = 'text';
+	    _this2.__input_textShadow = '0 1px 1px ';
+	    _this2.__input2 = document.createElement('input');
+	    _this2.__input2.type = 'text';
+	    _this2.__input_textShadow2 = '0 1px 1px ';
+	
+	    _dom2.default.bind(_this2.__input, 'keydown', function (e) {
+	      if (e.keyCode === 13) {
+	        // on enter
+	        onBlur.call(this);
+	      }
+	    });
+	    _dom2.default.bind(_this2.__input2, 'keydown', function (e) {
+	      if (e.keyCode === 13) {
+	        // on enter
+	        onBlur2.call(this);
+	      }
+	    });
+	
+	    _dom2.default.bind(_this2.__input, 'blur', onBlur);
+	    _dom2.default.bind(_this2.__input2, 'blur', onBlur2);
+	
+	    /*
+	    dom.bind(this.__selector, 'mousedown', function( ) {
+	      dom
+	        .addClass(this, 'drag')
+	        .bind(window, 'mouseup', function( ) {
+	          dom.removeClass(_this.__selector, 'drag');
+	        });
+	    });
+	    */
+	
+	    var valueField = document.createElement('div');
+	    var valueField2 = document.createElement('div');
+	
+	    _common2.default.extend(_this2.__selector.style, {
+	      width: '200px',
+	      height: '102px',
+	      marginTop: '22px',
+	      backgroundColor: '#222',
+	      boxShadow: '0px 1px 3px rgba(0,0,0,0.3)'
+	    });
+	
+	    _common2.default.extend(_this2.__field_knob.style, {
+	      position: 'absolute',
+	      width: '12px',
+	      height: '12px',
+	      border: _this2.__field_knob_border + (_this2.__color.v < 0.5 ? '#fff' : '#000'),
+	      boxShadow: '0px 1px 3px rgba(0,0,0,0.5)',
+	      borderRadius: '12px',
+	      zIndex: 1
+	    });
+	    _common2.default.extend(_this2.__field_knob2.style, {
+	      position: 'absolute',
+	      left: '100',
+	      width: '12px',
+	      height: '12px',
+	      border: _this2.__field_knob_border2 + (_this2.__color2.v < 0.5 ? '#fff' : '#000'),
+	      boxShadow: '0px 1px 3px rgba(0,0,0,0.5)',
+	      borderRadius: '12px',
+	      zIndex: 1
+	    });
+	
+	    _common2.default.extend(_this2.__hue_knob.style, {
+	      position: 'absolute',
+	      width: '15px',
+	      height: '2px',
+	      left: '-15px',
+	      borderRight: '4px solid #fff',
+	      zIndex: 1
+	    });
+	    _common2.default.extend(_this2.__hue_knob2.style, {
+	      position: 'absolute',
+	      width: '15px',
+	      height: '2px',
+	      left: '9px',
+	      borderRight: '4px solid #fff',
+	      zIndex: 1
+	    });
+	
+	    _common2.default.extend(_this2.__saturation_field.style, {
+	      width: '100px',
+	      height: '100px',
+	      border: '1px solid #555',
+	      marginRight: '3px',
+	      display: 'inline-block',
+	      cursor: 'pointer'
+	    });
+	    _common2.default.extend(_this2.__saturation_field2.style, {
+	      left: '100px',
+	      width: '100px',
+	      height: '100px',
+	      border: '1px solid #555',
+	      marginRight: '3px',
+	      display: 'inline-block',
+	      position: 'absolute',
+	      top: '22px',
+	      cursor: 'pointer'
+	    });
+	
+	    _common2.default.extend(valueField.style, {
+	      width: '100%',
+	      height: '100%',
+	      background: 'none'
+	    });
+	    _common2.default.extend(valueField2.style, {
+	      width: '100%',
+	      height: '100%',
+	      background: 'none'
+	    });
+	
+	    linearGradient(valueField, 'top', 'rgba(0,0,0,0)', '#000');
+	    linearGradient(valueField2, 'top', 'rgba(0,0,0,0)', '#000');
+	
+	    _common2.default.extend(_this2.__hue_field.style, {
+	      width: '20px',
+	      height: '100px',
+	      border: '1px solid #555',
+	      cursor: 'ns-resize',
+	      position: 'absolute',
+	      top: '3px',
+	      marginTop: '19px',
+	      left: '-20px'
+	    });
+	    _common2.default.extend(_this2.__hue_field2.style, {
+	      width: '20px',
+	      height: '100px',
+	      border: '1px solid #555',
+	      cursor: 'ns-resize',
+	      position: 'absolute',
+	      top: '3px',
+	      marginTop: '19px',
+	      left: '200px'
+	    });
+	
+	    hueGradient(_this2.__hue_field);
+	    hueGradient(_this2.__hue_field2);
+	
+	    _common2.default.extend(_this2.__input.style, {
+	      outline: 'none',
+	      //      width: '120px',
+	      textAlign: 'center',
+	      //      padding: '4px',
+	      //      marginBottom: '6px',
+	
+	      color: '#fff',
+	      border: 0,
+	      left: '-20px',
+	      position: 'absolute',
+	      fontWeight: 'bold',
+	      width: '120px',
+	      textShadow: _this2.__input_textShadow + 'rgba(0,0,0,0.7)'
+	    });
+	    _common2.default.extend(_this2.__input2.style, {
+	      outline: 'none',
+	      //      width: '120px',
+	      textAlign: 'center',
+	      //      padding: '4px',
+	      //      marginBottom: '6px',
+	
+	      color: '#fff',
+	      border: 0,
+	      left: '100px',
+	      position: 'absolute',
+	      fontWeight: 'bold',
+	      width: '120px',
+	      textShadow: _this2.__input_textShadow + 'rgba(0,0,0,0.7)'
+	    });
+	
+	    _dom2.default.bind(_this2.__saturation_field, 'mousedown', fieldDown);
+	    _dom2.default.bind(_this2.__saturation_field2, 'mousedown', fieldDown2);
+	    _dom2.default.bind(_this2.__field_knob, 'mousedown', fieldDown);
+	    _dom2.default.bind(_this2.__field_knob2, 'mousedown', fieldDown2);
+	
+	    _dom2.default.bind(_this2.__hue_field, 'mousedown', function (e) {
+	      setH(e);
+	      _dom2.default.bind(window, 'mousemove', setH);
+	      _dom2.default.bind(window, 'mouseup', fieldUpH);
+	    });
+	    _dom2.default.bind(_this2.__hue_field2, 'mousedown', function (e) {
+	      setH2(e);
+	      _dom2.default.bind(window, 'mousemove', setH2);
+	      _dom2.default.bind(window, 'mouseup', fieldUpH2);
+	    });
+	
+	    function fieldDown(e) {
+	      setSV(e);
+	      // document.body.style.cursor = 'none';
+	      _dom2.default.bind(window, 'mousemove', setSV);
+	      _dom2.default.bind(window, 'mouseup', fieldUpSV);
+	    }
+	    function fieldDown2(e) {
+	      setSV2(e);
+	      // document.body.style.cursor = 'none';
+	      _dom2.default.bind(window, 'mousemove', setSV2);
+	      _dom2.default.bind(window, 'mouseup', fieldUpSV2);
+	    }
+	
+	    function fieldUpSV() {
+	      _dom2.default.unbind(window, 'mousemove', setSV);
+	      _dom2.default.unbind(window, 'mouseup', fieldUpSV);
+	      // document.body.style.cursor = 'default';
+	      onFinish();
+	    }
+	    function fieldUpSV2() {
+	      _dom2.default.unbind(window, 'mousemove', setSV2);
+	      _dom2.default.unbind(window, 'mouseup', fieldUpSV2);
+	      // document.body.style.cursor = 'default';
+	      onFinish2();
+	    }
+	
+	    function onBlur() {
+	      var i = (0, _interpret2.default)(this.value);
+	      if (i !== false) {
+	        _this.__color.__state = i;
+	        _this.setValue(_this.__color.toOriginal());
+	      } else {
+	        this.value = _this.__color.toString();
+	      }
+	    }
+	    function onBlur2() {
+	      var i = (0, _interpret2.default)(this.value);
+	      if (i !== false) {
+	        _this.__color2.__state = i;
+	        _this.setValue2(_this.__color2.toOriginal());
+	      } else {
+	        this.value = _this.__color2.toString();
+	      }
+	    }
+	
+	    function fieldUpH() {
+	      _dom2.default.unbind(window, 'mousemove', setH);
+	      _dom2.default.unbind(window, 'mouseup', fieldUpH);
+	      onFinish();
+	    }
+	    function fieldUpH2() {
+	      _dom2.default.unbind(window, 'mousemove', setH2);
+	      _dom2.default.unbind(window, 'mouseup', fieldUpH2);
+	      onFinish2();
+	    }
+	
+	    function onFinish() {
+	      if (_this.__onFinishChange) {
+	        _this.__onFinishChange.call(_this, _this.__color2.toOriginal());
+	      }
+	    }
+	    function onFinish2() {
+	      if (_this.__onFinishChange) {
+	        _this.__onFinishChange.call(_this, _this.__color.toOriginal());
+	      }
+	    }
+	
+	    _this2.__saturation_field.appendChild(valueField);
+	    _this2.__selector.appendChild(_this2.__field_knob);
+	    _this2.__selector.appendChild(_this2.__field_knob2);
+	    _this2.__selector.appendChild(_this2.__saturation_field);
+	
+	    _this2.__saturation_field2.appendChild(valueField2);
+	    _this2.__selector.appendChild(_this2.__saturation_field2);
+	
+	    _this2.__selector.appendChild(_this2.__hue_field);
+	    _this2.__hue_field.appendChild(_this2.__hue_knob);
+	    _this2.__hue_field2.appendChild(_this2.__hue_knob2);
+	    _this2.__selector.appendChild(_this2.__hue_field2);
+	
+	    _this2.domElement.appendChild(_this2.__input2);
+	    _this2.domElement.appendChild(_this2.__input);
+	
+	    _this2.domElement.appendChild(_this2.__selector);
+	
+	    _this2.updateDisplay();
+	
+	    function setSV2(e) {
+	      e.preventDefault();
+	
+	      var fieldRect = _this.__saturation_field2.getBoundingClientRect();
+	      var s = (e.clientX - fieldRect.left) / (fieldRect.right - fieldRect.left);
+	      var v = 1 - (e.clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
+	
+	      if (v > 1) {
+	        v = 1;
+	      } else if (v < 0) {
+	        v = 0;
+	      }
+	
+	      if (s > 1) {
+	        s = 1;
+	      } else if (s < 0) {
+	        s = 0;
+	      }
+	
+	      _this.__color2.v = v;
+	      _this.__color2.s = s;
+	
+	      _this.setValue2(_this.__color2.toOriginal());
+	
+	      return false;
+	    }
+	    function setSV(e) {
+	      e.preventDefault();
+	
+	      var fieldRect = _this.__saturation_field.getBoundingClientRect();
+	      var s = (e.clientX - fieldRect.left) / (fieldRect.right - fieldRect.left);
+	      var v = 1 - (e.clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
+	
+	      if (v > 1) {
+	        v = 1;
+	      } else if (v < 0) {
+	        v = 0;
+	      }
+	
+	      if (s > 1) {
+	        s = 1;
+	      } else if (s < 0) {
+	        s = 0;
+	      }
+	
+	      _this.__color.v = v;
+	      _this.__color.s = s;
+	
+	      _this.setValue(_this.__color.toOriginal());
+	
+	      return false;
+	    }
+	
+	    function setH2(e) {
+	      e.preventDefault();
+	
+	      var fieldRect = _this.__hue_field2.getBoundingClientRect();
+	      var h = 1 - (e.clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
+	
+	      if (h > 1) {
+	        h = 1;
+	      } else if (h < 0) {
+	        h = 0;
+	      }
+	
+	      _this.__color2.h = h * 360;
+	
+	      _this.setValue2(_this.__color2.toOriginal());
+	
+	      return false;
+	    }
+	    function setH(e) {
+	      e.preventDefault();
+	
+	      var fieldRect = _this.__hue_field.getBoundingClientRect();
+	      var h = 1 - (e.clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
+	
+	      if (h > 1) {
+	        h = 1;
+	      } else if (h < 0) {
+	        h = 0;
+	      }
+	
+	      _this.__color.h = h * 360;
+	
+	      _this.setValue(_this.__color.toOriginal());
+	
+	      return false;
+	    }
+	    return _this2;
+	  }
+	
+	  GtColorController.prototype.updateDisplay = function updateDisplay() {
+	    var i = (0, _interpret2.default)(this.getValue());
+	
+	    if (i !== false) {
+	      var mismatch = false;
+	
+	      // Check for mismatch on the interpreted value.
+	
+	      _common2.default.each(_Color2.default.COMPONENTS, function (component) {
+	        if (!_common2.default.isUndefined(i[component]) && !_common2.default.isUndefined(this.__color.__state[component]) && i[component] !== this.__color.__state[component]) {
+	          mismatch = true;
+	          return {}; // break
+	        }
+	      }, this);
+	
+	      // If nothing diverges, we keep our previous values
+	      // for statefulness, otherwise we recalculate fresh
+	      if (mismatch) {
+	        _common2.default.extend(this.__color.__state, i);
+	      }
+	    }
+	
+	    _common2.default.extend(this.__temp.__state, this.__color.__state);
+	    _common2.default.extend(this.__temp2.__state, this.__color2.__state);
+	
+	    this.__temp.a = 1;
+	    this.__temp2.a = 1;
+	
+	    var flip = this.__color.v < 0.5 || this.__color.s > 0.5 ? 255 : 0;
+	    var _flip = 255 - flip;
+	    var flip2 = this.__color2.v < 0.5 || this.__color2.s > 0.5 ? 255 : 0;
+	    var _flip2 = 255 - flip2;
+	
+	    _common2.default.extend(this.__field_knob.style, {
+	      marginLeft: 100 * this.__color.s - 7 + 'px',
+	      marginTop: 100 * (1 - this.__color.v) - 7 + 'px',
+	      backgroundColor: this.__temp.toHexString(),
+	      border: this.__field_knob_border + 'rgb(' + flip + ',' + flip + ',' + flip + ')'
+	    });
+	    _common2.default.extend(this.__field_knob2.style, {
+	      marginLeft: 100 * this.__color2.s - 7 + 'px',
+	      marginTop: 100 * (1 - this.__color2.v) - 7 + 'px',
+	      backgroundColor: this.__temp2.toHexString(),
+	      border: this.__field_knob_border2 + 'rgb(' + flip2 + ',' + flip2 + ',' + flip2 + ')'
+	    });
+	
+	    this.__hue_knob.style.marginTop = (1 - this.__color.h / 360) * 100 + 'px';
+	    this.__hue_knob2.style.marginTop = (1 - this.__color2.h / 360) * 100 + 'px';
+	
+	    this.__temp.s = 1;
+	    this.__temp.v = 1;
+	    this.__temp2.s = 1;
+	    this.__temp2.v = 1;
+	
+	    linearGradient(this.__saturation_field, 'left', '#fff', this.__temp.toHexString());
+	    linearGradient(this.__saturation_field2, 'left', '#fff', this.__temp2.toHexString());
+	
+	    this.__input.value = this.__color.toString();
+	    this.__input2.value = this.__color2.toString();
+	
+	    _common2.default.extend(this.__input.style, {
+	      backgroundColor: this.__color.toHexString(),
+	      color: 'rgb(' + flip + ',' + flip + ',' + flip + ')',
+	      textShadow: this.__input_textShadow + 'rgba(' + _flip + ',' + _flip + ',' + _flip + ',.7)'
+	    });
+	    _common2.default.extend(this.__input2.style, {
+	      backgroundColor: this.__color2.toHexString(),
+	      color: 'rgb(' + flip2 + ',' + flip2 + ',' + flip2 + ')',
+	      textShadow: this.__input_textShadow + 'rgba(' + _flip2 + ',' + _flip2 + ',' + _flip2 + ',.7)'
+	    });
+	  };
+	
+	  return GtColorController;
+	}(_Controller3.default);
+	
+	var vendors = ['-moz-', '-o-', '-webkit-', '-ms-', ''];
+	
+	function linearGradient(elem, x, a, b) {
+	  elem.style.background = '';
+	  _common2.default.each(vendors, function (vendor) {
+	    elem.style.cssText += 'background: ' + vendor + 'linear-gradient(' + x + ', ' + a + ' 0%, ' + b + ' 100%); ';
+	  });
+	}
+	
+	function hueGradient(elem) {
+	  elem.style.background = '';
+	  elem.style.cssText += 'background: -moz-linear-gradient(top,  #ff0000 0%, #ff00ff 17%, #0000ff 34%, #00ffff 50%, #00ff00 67%, #ffff00 84%, #ff0000 100%);';
+	  elem.style.cssText += 'background: -webkit-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+	  elem.style.cssText += 'background: -o-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+	  elem.style.cssText += 'background: -ms-linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+	  elem.style.cssText += 'background: linear-gradient(top,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+	}
+	
+	exports.default = GtColorController;
+	module.exports = exports['default'];
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /**
 	                                                                                                                                                                                                                                                                               * dat-gui JavaScript Controller Library
 	                                                                                                                                                                                                                                                                               * http://code.google.com/p/dat-gui
@@ -2643,15 +4207,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                                                                                                                                                                                                                                                               * http://www.apache.org/licenses/LICENSE-2.0
 	                                                                                                                                                                                                                                                                               */
 	
-	var _css = __webpack_require__(18);
+	var _css = __webpack_require__(21);
 	
 	var _css2 = _interopRequireDefault(_css);
 	
-	var _saveDialogue = __webpack_require__(19);
+	var _saveDialogue = __webpack_require__(22);
 	
 	var _saveDialogue2 = _interopRequireDefault(_saveDialogue);
 	
-	var _ControllerFactory = __webpack_require__(20);
+	var _ControllerFactory = __webpack_require__(23);
 	
 	var _ControllerFactory2 = _interopRequireDefault(_ControllerFactory);
 	
@@ -2679,11 +4243,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _ColorController2 = _interopRequireDefault(_ColorController);
 	
-	var _requestAnimationFrame = __webpack_require__(21);
+	var _BgColorController = __webpack_require__(17);
+	
+	var _BgColorController2 = _interopRequireDefault(_BgColorController);
+	
+	var _NgColorController = __webpack_require__(18);
+	
+	var _NgColorController2 = _interopRequireDefault(_NgColorController);
+	
+	var _GtColorController = __webpack_require__(19);
+	
+	var _GtColorController2 = _interopRequireDefault(_GtColorController);
+	
+	var _requestAnimationFrame = __webpack_require__(24);
 	
 	var _requestAnimationFrame2 = _interopRequireDefault(_requestAnimationFrame);
 	
-	var _CenteredDiv = __webpack_require__(22);
+	var _CenteredDiv = __webpack_require__(25);
 	
 	var _CenteredDiv2 = _interopRequireDefault(_CenteredDiv);
 	
@@ -2695,7 +4271,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _common2 = _interopRequireDefault(_common);
 	
-	var _style = __webpack_require__(23);
+	var _style = __webpack_require__(26);
 	
 	var _style2 = _interopRequireDefault(_style);
 	
@@ -3175,6 +4751,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	      color: true
 	    });
 	  },
+	  addBgColor: function addBgColor(object, property) {
+	    return addbg(this, object, property, {
+	      color: true
+	    });
+	  },
+	  addNgColor: function addNgColor(object, property) {
+	    return addng(this, object, property, {
+	      color: true
+	    });
+	  },
+	  addGtColor: function addGtColor(object, property) {
+	    return addgt(this, object, property, {
+	      color: true
+	    });
+	  },
 	
 	  /**
 	   * @param controller
@@ -3577,6 +5168,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, controller.updateDisplay);
 	
 	    controller.updateDisplay();
+	  } else if (controller instanceof _BgColorController2.default) {
+	    _dom2.default.addClass(li, 'color');
+	    controller.updateDisplay = _common2.default.compose(function (val) {
+	      li.style.borderLeftColor = controller.__color.toString();
+	      return val;
+	    }, controller.updateDisplay);
+	
+	    controller.updateDisplay();
+	  } else if (controller instanceof _NgColorController2.default) {
+	    _dom2.default.addClass(li, 'color');
+	    controller.updateDisplay = _common2.default.compose(function (val) {
+	      li.style.borderLeftColor = controller.__color.toString();
+	      return val;
+	    }, controller.updateDisplay);
+	
+	    controller.updateDisplay();
+	  } else if (controller instanceof _GtColorController2.default) {
+	    _dom2.default.addClass(li, 'color');
+	    controller.updateDisplay = _common2.default.compose(function (val) {
+	      li.style.borderLeftColor = controller.__color.toString();
+	      return val;
+	    }, controller.updateDisplay);
+	
+	    controller.updateDisplay();
 	  }
 	
 	  controller.setValue = _common2.default.compose(function (val) {
@@ -3641,6 +5256,148 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	}
 	
+	function addbg(gui, object, property, params) {
+	  if (object[property] === undefined) {
+	    throw new Error('Object "' + object + '" has no property "' + property + '"');
+	  }
+	
+	  var controller = void 0;
+	
+	  if (params.color) {
+	    controller = new _BgColorController2.default(object, property);
+	  } else {
+	    var factoryArgs = [object, property].concat(params.factoryArgs);
+	    controller = _ControllerFactory2.default.apply(gui, factoryArgs);
+	  }
+	
+	  if (params.before instanceof _Controller2.default) {
+	    params.before = params.before.__li;
+	  }
+	
+	  recallSavedValue(gui, controller);
+	
+	  _dom2.default.addClass(controller.domElement, 'c');
+	
+	  var name = document.createElement('span');
+	  _dom2.default.addClass(name, 'property-name');
+	  name.innerHTML = controller.property;
+	
+	  var container = document.createElement('div');
+	  container.appendChild(name);
+	  container.appendChild(controller.domElement);
+	
+	  var li = addRow(gui, container, params.before);
+	
+	  _dom2.default.addClass(li, GUI.CLASS_CONTROLLER_ROW);
+	  if (controller instanceof _ColorController2.default) {
+	    _dom2.default.addClass(li, 'color');
+	  } else if (controller instanceof _BgColorController2.default) {
+	    _dom2.default.addClass(li, 'color');
+	  } else {
+	    _dom2.default.addClass(li, _typeof(controller.getValue()));
+	  }
+	
+	  augmentController(gui, li, controller);
+	
+	  gui.__controllers.push(controller);
+	
+	  return controller;
+	}
+	function addng(gui, object, property, params) {
+	  if (object[property] === undefined) {
+	    throw new Error('Object "' + object + '" has no property "' + property + '"');
+	  }
+	
+	  var controller = void 0;
+	
+	  if (params.color) {
+	    controller = new _NgColorController2.default(object, property);
+	  } else {
+	    var factoryArgs = [object, property].concat(params.factoryArgs);
+	    controller = _ControllerFactory2.default.apply(gui, factoryArgs);
+	  }
+	
+	  if (params.before instanceof _Controller2.default) {
+	    params.before = params.before.__li;
+	  }
+	
+	  recallSavedValue(gui, controller);
+	
+	  _dom2.default.addClass(controller.domElement, 'c');
+	
+	  var name = document.createElement('span');
+	  _dom2.default.addClass(name, 'property-name');
+	  name.innerHTML = controller.property;
+	
+	  var container = document.createElement('div');
+	  container.appendChild(name);
+	  container.appendChild(controller.domElement);
+	
+	  var li = addRow(gui, container, params.before);
+	
+	  _dom2.default.addClass(li, GUI.CLASS_CONTROLLER_ROW);
+	  if (controller instanceof _ColorController2.default) {
+	    _dom2.default.addClass(li, 'color');
+	  } else if (controller instanceof _NgColorController2.default) {
+	    _dom2.default.addClass(li, 'color');
+	  } else {
+	    _dom2.default.addClass(li, _typeof(controller.getValue()));
+	  }
+	
+	  augmentController(gui, li, controller);
+	
+	  gui.__controllers.push(controller);
+	
+	  return controller;
+	}
+	function addgt(gui, object, property, params) {
+	  if (object[property] === undefined) {
+	    throw new Error('Object "' + object + '" has no property "' + property + '"');
+	  }
+	
+	  var controller = void 0;
+	
+	  if (params.color) {
+	    controller = new _GtColorController2.default(object, property);
+	  } else {
+	    var factoryArgs = [object, property].concat(params.factoryArgs);
+	    controller = _ControllerFactory2.default.apply(gui, factoryArgs);
+	  }
+	
+	  if (params.before instanceof _Controller2.default) {
+	    params.before = params.before.__li;
+	  }
+	
+	  recallSavedValue(gui, controller);
+	
+	  _dom2.default.addClass(controller.domElement, 'c');
+	
+	  var name = document.createElement('span');
+	  _dom2.default.addClass(name, 'property-name');
+	  name.innerHTML = controller.property;
+	
+	  var container = document.createElement('div');
+	  container.appendChild(name);
+	  container.appendChild(controller.domElement);
+	
+	  var li = addRow(gui, container, params.before);
+	
+	  _dom2.default.addClass(li, GUI.CLASS_CONTROLLER_ROW);
+	  if (controller instanceof _ColorController2.default) {
+	    _dom2.default.addClass(li, 'color');
+	  } else if (controller instanceof _NgColorController2.default) {
+	    _dom2.default.addClass(li, 'color');
+	  } else {
+	    _dom2.default.addClass(li, _typeof(controller.getValue()));
+	  }
+	
+	  augmentController(gui, li, controller);
+	
+	  gui.__controllers.push(controller);
+	
+	  return controller;
+	}
+	
 	function _add(gui, object, property, params) {
 	  if (object[property] === undefined) {
 	    throw new Error('Object "' + object + '" has no property "' + property + '"');
@@ -3675,6 +5432,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  _dom2.default.addClass(li, GUI.CLASS_CONTROLLER_ROW);
 	  if (controller instanceof _ColorController2.default) {
+	    _dom2.default.addClass(li, 'color');
+	  } else if (controller instanceof _BgColorController2.default) {
 	    _dom2.default.addClass(li, 'color');
 	  } else {
 	    _dom2.default.addClass(li, _typeof(controller.getValue()));
@@ -3920,7 +5679,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 18 */
+/* 21 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -3962,13 +5721,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 19 */
+/* 22 */
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"dg-save\" class=\"dg dialogue\">\n\n  Here's the new load parameter for your <code>GUI</code>'s constructor:\n\n  <textarea id=\"dg-new-constructor\"></textarea>\n\n  <div id=\"dg-save-locally\">\n\n    <input id=\"dg-local-storage\" type=\"checkbox\"/> Automatically save\n    values to <code>localStorage</code> on exit.\n\n    <div id=\"dg-local-explain\">The values saved to <code>localStorage</code> will\n      override those passed to <code>dat.GUI</code>'s constructor. This makes it\n      easier to work incrementally, but <code>localStorage</code> is fragile,\n      and your friends may not see the same values you do.\n\n    </div>\n\n  </div>\n\n</div>";
 
 /***/ },
-/* 20 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4063,7 +5822,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 21 */
+/* 24 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -4090,7 +5849,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 22 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4216,21 +5975,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 23 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(24)();
+	exports = module.exports = __webpack_require__(27)();
 	// imports
 	
 	
 	// module
-	exports.push([module.id, ".dg {\n  /** Clear list styles */\n  /* Auto-place container */\n  /* Auto-placed GUI's */\n  /* Line items that don't contain folders. */\n  /** Folder names */\n  /** Hides closed items */\n  /** Controller row */\n  /** Name-half (left) */\n  /** Controller-half (right) */\n  /** Controller placement */\n  /** Shorter number boxes when slider is present. */\n  /** Ensure the entire boolean and function row shows a hand */\n  /** allow overflow for color selector */ }\n  .dg ul {\n    list-style: none;\n    margin: 0;\n    padding: 0;\n    width: 100%;\n    clear: both; }\n  .dg.ac {\n    position: fixed;\n    top: 0;\n    left: 0;\n    right: 0;\n    height: 0;\n    z-index: 0; }\n  .dg:not(.ac) .main {\n    /** Exclude mains in ac so that we don't hide close button */\n    overflow: hidden; }\n  .dg.main {\n    -webkit-transition: opacity 0.1s linear;\n    -o-transition: opacity 0.1s linear;\n    -moz-transition: opacity 0.1s linear;\n    transition: opacity 0.1s linear; }\n    .dg.main.taller-than-window {\n      overflow-y: auto; }\n      .dg.main.taller-than-window .close-button {\n        opacity: 1;\n        /* TODO, these are style notes */\n        margin-top: -1px;\n        border-top: 1px solid #2c2c2c; }\n    .dg.main ul.closed .close-button {\n      opacity: 1 !important; }\n    .dg.main:hover .close-button,\n    .dg.main .close-button.drag {\n      opacity: 1; }\n    .dg.main .close-button {\n      /*opacity: 0;*/\n      -webkit-transition: opacity 0.1s linear;\n      -o-transition: opacity 0.1s linear;\n      -moz-transition: opacity 0.1s linear;\n      transition: opacity 0.1s linear;\n      border: 0;\n      line-height: 19px;\n      height: 20px;\n      /* TODO, these are style notes */\n      cursor: pointer;\n      text-align: center;\n      background-color: #000; }\n      .dg.main .close-button.close-top {\n        position: relative; }\n      .dg.main .close-button.close-bottom {\n        position: absolute; }\n      .dg.main .close-button:hover {\n        background-color: #111; }\n  .dg.a {\n    float: right;\n    margin-right: 15px;\n    overflow-y: visible; }\n    .dg.a.has-save > ul.close-top {\n      margin-top: 0; }\n    .dg.a.has-save > ul.close-bottom {\n      margin-top: 27px; }\n    .dg.a.has-save > ul.closed {\n      margin-top: 0; }\n    .dg.a .save-row {\n      top: 0;\n      z-index: 1002; }\n      .dg.a .save-row.close-top {\n        position: relative; }\n      .dg.a .save-row.close-bottom {\n        position: fixed; }\n  .dg li {\n    -webkit-transition: height 0.1s ease-out;\n    -o-transition: height 0.1s ease-out;\n    -moz-transition: height 0.1s ease-out;\n    transition: height 0.1s ease-out;\n    -webkit-transition: overflow 0.1s linear;\n    -o-transition: overflow 0.1s linear;\n    -moz-transition: overflow 0.1s linear;\n    transition: overflow 0.1s linear; }\n  .dg li:not(.folder) {\n    cursor: auto;\n    height: 27px;\n    line-height: 27px;\n    padding: 0 4px 0 5px; }\n  .dg li.folder {\n    padding: 0;\n    border-left: 4px solid transparent; }\n  .dg li.title {\n    cursor: pointer;\n    margin-left: -4px; }\n  .dg .closed li:not(.title),\n  .dg .closed ul li,\n  .dg .closed ul li > * {\n    height: 0;\n    overflow: hidden;\n    border: 0; }\n  .dg .cr {\n    clear: both;\n    padding-left: 3px;\n    height: 27px;\n    overflow: hidden; }\n  .dg .property-name {\n    cursor: default;\n    float: left;\n    clear: left;\n    width: 40%;\n    overflow: hidden;\n    text-overflow: ellipsis; }\n  .dg .c {\n    float: left;\n    width: 60%;\n    position: relative; }\n  .dg .c input[type=text] {\n    border: 0;\n    margin-top: 4px;\n    padding: 3px;\n    width: 100%;\n    float: right; }\n  .dg .has-slider input[type=text] {\n    width: 30%;\n    /*display: none;*/\n    margin-left: 0; }\n  .dg .slider {\n    float: left;\n    width: 66%;\n    margin-left: -5px;\n    margin-right: 0;\n    height: 19px;\n    margin-top: 4px; }\n  .dg .slider-fg {\n    height: 100%; }\n  .dg .c input[type=checkbox] {\n    margin-top: 7px; }\n  .dg .c select {\n    margin-top: 5px; }\n  .dg .cr.function,\n  .dg .cr.function .property-name,\n  .dg .cr.function *,\n  .dg .cr.boolean,\n  .dg .cr.boolean * {\n    cursor: pointer; }\n  .dg .cr.color {\n    overflow: visible; }\n  .dg .selector {\n    display: none;\n    position: absolute;\n    margin-left: -9px;\n    margin-top: 23px;\n    z-index: 10; }\n  .dg .c:hover .selector,\n  .dg .selector.drag {\n    display: block; }\n  .dg li.save-row {\n    padding: 0; }\n    .dg li.save-row .button {\n      display: inline-block;\n      padding: 0px 6px; }\n  .dg.dialogue {\n    background-color: #222;\n    width: 460px;\n    padding: 15px;\n    font-size: 13px;\n    line-height: 15px; }\n\n/* TODO Separate style and structure */\n#dg-new-constructor {\n  padding: 10px;\n  color: #222;\n  font-family: Monaco, monospace;\n  font-size: 10px;\n  border: 0;\n  resize: none;\n  box-shadow: inset 1px 1px 1px #888;\n  word-wrap: break-word;\n  margin: 12px 0;\n  display: block;\n  width: 440px;\n  overflow-y: scroll;\n  height: 100px;\n  position: relative; }\n\n#dg-local-explain {\n  display: none;\n  font-size: 11px;\n  line-height: 17px;\n  border-radius: 3px;\n  background-color: #333;\n  padding: 8px;\n  margin-top: 10px; }\n  #dg-local-explain code {\n    font-size: 10px; }\n\n#dat-gui-save-locally {\n  display: none; }\n\n/** Main type */\n.dg {\n  color: #eee;\n  font: 11px 'Lucida Grande', sans-serif;\n  text-shadow: 0 -1px 0 #111;\n  /** Auto place */\n  /* Controller row, <li> */\n  /** Controllers */ }\n  .dg.main {\n    /** Scrollbar */ }\n    .dg.main::-webkit-scrollbar {\n      width: 5px;\n      background: #1a1a1a; }\n    .dg.main::-webkit-scrollbar-corner {\n      height: 0;\n      display: none; }\n    .dg.main::-webkit-scrollbar-thumb {\n      border-radius: 5px;\n      background: #676767; }\n  .dg li:not(.folder) {\n    background: #1a1a1a;\n    border-bottom: 1px solid #2c2c2c; }\n  .dg li.save-row {\n    line-height: 25px;\n    background: #dad5cb;\n    border: 0; }\n    .dg li.save-row select {\n      margin-left: 5px;\n      width: 108px; }\n    .dg li.save-row .button {\n      margin-left: 5px;\n      margin-top: 1px;\n      border-radius: 2px;\n      font-size: 9px;\n      line-height: 7px;\n      padding: 4px 4px 5px 4px;\n      background: #c5bdad;\n      color: #fff;\n      text-shadow: 0 1px 0 #b0a58f;\n      box-shadow: 0 -1px 0 #b0a58f;\n      cursor: pointer; }\n      .dg li.save-row .button.gears {\n        background: #c5bdad url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAANCAYAAAB/9ZQ7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQJJREFUeNpiYKAU/P//PwGIC/ApCABiBSAW+I8AClAcgKxQ4T9hoMAEUrxx2QSGN6+egDX+/vWT4e7N82AMYoPAx/evwWoYoSYbACX2s7KxCxzcsezDh3evFoDEBYTEEqycggWAzA9AuUSQQgeYPa9fPv6/YWm/Acx5IPb7ty/fw+QZblw67vDs8R0YHyQhgObx+yAJkBqmG5dPPDh1aPOGR/eugW0G4vlIoTIfyFcA+QekhhHJhPdQxbiAIguMBTQZrPD7108M6roWYDFQiIAAv6Aow/1bFwXgis+f2LUAynwoIaNcz8XNx3Dl7MEJUDGQpx9gtQ8YCueB+D26OECAAQDadt7e46D42QAAAABJRU5ErkJggg==) 2px 1px no-repeat;\n        height: 7px;\n        width: 8px; }\n      .dg li.save-row .button:hover {\n        background-color: #bab19e;\n        box-shadow: 0 -1px 0 #b0a58f; }\n  .dg li.folder {\n    border-bottom: 0; }\n  .dg li.title {\n    padding-left: 16px;\n    background: #000 url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlI+hKgFxoCgAOw==) 6px 10px no-repeat;\n    cursor: pointer;\n    border-bottom: 1px solid rgba(255, 255, 255, 0.2); }\n  .dg .closed li.title {\n    background-image: url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlGIWqMCbWAEAOw==); }\n  .dg .cr.boolean {\n    border-left: 3px solid #806787; }\n  .dg .cr.color {\n    border-left: 3px solid; }\n  .dg .cr.function {\n    border-left: 3px solid #e61d5f; }\n  .dg .cr.number {\n    border-left: 3px solid #2FA1D6; }\n    .dg .cr.number input[type=text] {\n      color: #2FA1D6; }\n  .dg .cr.string {\n    border-left: 3px solid #1ed36f; }\n    .dg .cr.string input[type=text] {\n      color: #1ed36f; }\n  .dg .cr.function:hover, .dg .cr.boolean:hover {\n    background: #111; }\n  .dg .c input[type=text] {\n    background: #303030;\n    outline: none; }\n    .dg .c input[type=text]:hover {\n      background: #3c3c3c; }\n    .dg .c input[type=text]:focus {\n      background: #494949;\n      color: #fff; }\n  .dg .c .slider {\n    background: #303030;\n    cursor: ew-resize; }\n  .dg .c .slider-fg {\n    background: #2FA1D6;\n    max-width: 100%; }\n  .dg .c .slider:hover {\n    background: #3c3c3c; }\n    .dg .c .slider:hover .slider-fg {\n      background: #44abda; }\n", ""]);
+	exports.push([module.id, ".dg {\n  /** Clear list styles */\n  /* Auto-place container */\n  /* Auto-placed GUI's */\n  /* Line items that don't contain folders. */\n  /** Folder names */\n  /** Hides closed items */\n  /** Controller row */\n  /** Name-half (left) */\n  /** Controller-half (right) */\n  /** Controller placement */\n  /** Shorter number boxes when slider is present. */\n  /** Ensure the entire boolean and function row shows a hand */\n  /** allow overflow for color selector */ }\n  .dg ul {\n    list-style: none;\n    margin: 0;\n    padding: 0;\n    width: 100%;\n    clear: both; }\n  .dg.ac {\n    position: fixed;\n    top: 0;\n    left: 0;\n    right: 0;\n    height: 0;\n    z-index: 0; }\n  .dg:not(.ac) .main {\n    /** Exclude mains in ac so that we don't hide close button */\n    overflow: hidden; }\n  .dg.main {\n    -webkit-transition: opacity 0.1s linear;\n    -o-transition: opacity 0.1s linear;\n    -moz-transition: opacity 0.1s linear;\n    transition: opacity 0.1s linear; }\n    .dg.main.taller-than-window {\n      overflow-y: auto; }\n      .dg.main.taller-than-window .close-button {\n        opacity: 1;\n        /* TODO, these are style notes */\n        margin-top: -1px;\n        border-top: 1px solid #2c2c2c; }\n    .dg.main ul.closed .close-button {\n      opacity: 1 !important; }\n    .dg.main:hover .close-button,\n    .dg.main .close-button.drag {\n      opacity: 1; }\n    .dg.main .close-button {\n      /*opacity: 0;*/\n      -webkit-transition: opacity 0.1s linear;\n      -o-transition: opacity 0.1s linear;\n      -moz-transition: opacity 0.1s linear;\n      transition: opacity 0.1s linear;\n      border: 0;\n      line-height: 19px;\n      height: 20px;\n      /* TODO, these are style notes */\n      cursor: pointer;\n      text-align: center;\n      background-color: #000; }\n      .dg.main .close-button.close-top {\n        position: relative; }\n      .dg.main .close-button.close-bottom {\n        position: absolute; }\n      .dg.main .close-button:hover {\n        background-color: #111; }\n  .dg.a {\n    float: right;\n    margin-right: 15px;\n    overflow-y: visible; }\n    .dg.a.has-save > ul.close-top {\n      margin-top: 0; }\n    .dg.a.has-save > ul.close-bottom {\n      margin-top: 27px; }\n    .dg.a.has-save > ul.closed {\n      margin-top: 0; }\n    .dg.a .save-row {\n      top: 0;\n      z-index: 1002; }\n      .dg.a .save-row.close-top {\n        position: relative; }\n      .dg.a .save-row.close-bottom {\n        position: fixed; }\n  .dg li {\n    -webkit-transition: height 0.1s ease-out;\n    -o-transition: height 0.1s ease-out;\n    -moz-transition: height 0.1s ease-out;\n    transition: height 0.1s ease-out;\n    -webkit-transition: overflow 0.1s linear;\n    -o-transition: overflow 0.1s linear;\n    -moz-transition: overflow 0.1s linear;\n    transition: overflow 0.1s linear; }\n  .dg li:not(.folder) {\n    cursor: auto;\n    height: 27px;\n    line-height: 27px;\n    padding: 0 4px 0 5px; }\n  .dg li.folder {\n    padding: 0;\n    border-left: 4px solid transparent; }\n  .dg li.title {\n    cursor: pointer;\n    margin-left: -4px; }\n  .dg .closed li:not(.title),\n  .dg .closed ul li,\n  .dg .closed ul li > * {\n    height: 0;\n    overflow: hidden;\n    border: 0; }\n  .dg .cr {\n    clear: both;\n    padding-left: 3px;\n    height: 27px;\n    overflow: hidden; }\n  .dg .property-name {\n    cursor: default;\n    float: left;\n    clear: left;\n    width: 40%;\n    overflow: hidden;\n    text-overflow: ellipsis; }\n  .dg .c {\n    float: left;\n    width: 60%;\n    height: 125px;\n    /*JLA*/\n    position: relative; }\n  .dg .c input[type=text] {\n    border: 0;\n    margin-top: 4px;\n    padding: 3px;\n    width: 100%;\n    float: right; }\n  .dg .has-slider input[type=text] {\n    width: 30%;\n    /*display: none;*/\n    margin-left: 0; }\n  .dg .slider {\n    float: left;\n    width: 66%;\n    margin-left: -5px;\n    margin-right: 0;\n    height: 19px;\n    margin-top: 4px; }\n  .dg .slider-fg {\n    height: 100%; }\n  .dg .c input[type=checkbox] {\n    margin-top: 7px; }\n  .dg .c select {\n    margin-top: 5px; }\n  .dg .cr.function,\n  .dg .cr.function .property-name,\n  .dg .cr.function *,\n  .dg .cr.boolean,\n  .dg .cr.boolean * {\n    cursor: pointer; }\n  .dg .cr.color {\n    overflow: visible; }\n  .dg .selector {\n    display: none;\n    position: absolute;\n    margin-left: -9px;\n    margin-top: 23px;\n    z-index: 10; }\n  .dg .c:hover .selector,\n  .dg .selector.drag {\n    display: block; }\n  .dg li.save-row {\n    padding: 0; }\n    .dg li.save-row .button {\n      display: inline-block;\n      padding: 0px 6px; }\n  .dg.dialogue {\n    background-color: #222;\n    width: 460px;\n    padding: 15px;\n    font-size: 13px;\n    line-height: 15px; }\n\n/* TODO Separate style and structure */\n#dg-new-constructor {\n  padding: 10px;\n  color: #222;\n  font-family: Monaco, monospace;\n  font-size: 10px;\n  border: 0;\n  resize: none;\n  box-shadow: inset 1px 1px 1px #888;\n  word-wrap: break-word;\n  margin: 12px 0;\n  display: block;\n  width: 440px;\n  overflow-y: scroll;\n  height: 100px;\n  position: relative; }\n\n#dg-local-explain {\n  display: none;\n  font-size: 11px;\n  line-height: 17px;\n  border-radius: 3px;\n  background-color: #333;\n  padding: 8px;\n  margin-top: 10px; }\n  #dg-local-explain code {\n    font-size: 10px; }\n\n#dat-gui-save-locally {\n  display: none; }\n\n/** Main type */\n.dg {\n  color: #eee;\n  font: 11px 'Lucida Grande', sans-serif;\n  text-shadow: 0 -1px 0 #111;\n  /** Auto place */\n  /* Controller row, <li> */\n  /** Controllers */ }\n  .dg.main {\n    /** Scrollbar */ }\n    .dg.main::-webkit-scrollbar {\n      width: 5px;\n      background: #1a1a1a; }\n    .dg.main::-webkit-scrollbar-corner {\n      height: 0;\n      display: none; }\n    .dg.main::-webkit-scrollbar-thumb {\n      border-radius: 5px;\n      background: #676767; }\n  .dg li:not(.folder) {\n    background: #1a1a1a;\n    border-bottom: 1px solid #2c2c2c; }\n  .dg li.save-row {\n    line-height: 25px;\n    background: #dad5cb;\n    border: 0; }\n    .dg li.save-row select {\n      margin-left: 5px;\n      width: 108px; }\n    .dg li.save-row .button {\n      margin-left: 5px;\n      margin-top: 1px;\n      border-radius: 2px;\n      font-size: 9px;\n      line-height: 7px;\n      padding: 4px 4px 5px 4px;\n      background: #c5bdad;\n      color: #fff;\n      text-shadow: 0 1px 0 #b0a58f;\n      box-shadow: 0 -1px 0 #b0a58f;\n      cursor: pointer; }\n      .dg li.save-row .button.gears {\n        background: #c5bdad url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAANCAYAAAB/9ZQ7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQJJREFUeNpiYKAU/P//PwGIC/ApCABiBSAW+I8AClAcgKxQ4T9hoMAEUrxx2QSGN6+egDX+/vWT4e7N82AMYoPAx/evwWoYoSYbACX2s7KxCxzcsezDh3evFoDEBYTEEqycggWAzA9AuUSQQgeYPa9fPv6/YWm/Acx5IPb7ty/fw+QZblw67vDs8R0YHyQhgObx+yAJkBqmG5dPPDh1aPOGR/eugW0G4vlIoTIfyFcA+QekhhHJhPdQxbiAIguMBTQZrPD7108M6roWYDFQiIAAv6Aow/1bFwXgis+f2LUAynwoIaNcz8XNx3Dl7MEJUDGQpx9gtQ8YCueB+D26OECAAQDadt7e46D42QAAAABJRU5ErkJggg==) 2px 1px no-repeat;\n        height: 7px;\n        width: 8px; }\n      .dg li.save-row .button:hover {\n        background-color: #bab19e;\n        box-shadow: 0 -1px 0 #b0a58f; }\n  .dg li.folder {\n    border-bottom: 0; }\n  .dg li.title {\n    padding-left: 16px;\n    background: #000 url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlI+hKgFxoCgAOw==) 6px 10px no-repeat;\n    cursor: pointer;\n    border-bottom: 1px solid rgba(255, 255, 255, 0.2); }\n  .dg .closed li.title {\n    background-image: url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlGIWqMCbWAEAOw==); }\n  .dg .cr.boolean {\n    border-left: 3px solid #806787; }\n  .dg .cr.color {\n    border-left: 3px solid; }\n  .dg .cr.function {\n    border-left: 3px solid #e61d5f; }\n  .dg .cr.number {\n    border-left: 3px solid #2FA1D6; }\n    .dg .cr.number input[type=text] {\n      color: #2FA1D6; }\n  .dg .cr.string {\n    border-left: 3px solid #1ed36f; }\n    .dg .cr.string input[type=text] {\n      color: #1ed36f; }\n  .dg .cr.function:hover, .dg .cr.boolean:hover {\n    background: #111; }\n  .dg .c input[type=text] {\n    background: #303030;\n    outline: none; }\n    .dg .c input[type=text]:hover {\n      background: #3c3c3c; }\n    .dg .c input[type=text]:focus {\n      background: #494949;\n      color: #fff; }\n  .dg .c .slider {\n    background: #303030;\n    cursor: ew-resize; }\n  .dg .c .slider-fg {\n    background: #2FA1D6;\n    max-width: 100%; }\n  .dg .c .slider:hover {\n    background: #3c3c3c; }\n    .dg .c .slider:hover .slider-fg {\n      background: #44abda; }\n", ""]);
 	
 	// exports
 
 
 /***/ },
-/* 24 */
+/* 27 */
 /***/ function(module, exports) {
 
 	/*
