@@ -147,15 +147,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _GtColorController2 = _interopRequireDefault(_GtColorController);
 	
+	var _HSVColorController = __webpack_require__(20);
+	
+	var _HSVColorController2 = _interopRequireDefault(_HSVColorController);
+	
 	var _dom = __webpack_require__(9);
 	
 	var _dom2 = _interopRequireDefault(_dom);
 	
-	var _GUI = __webpack_require__(20);
+	var _GUI = __webpack_require__(21);
 	
 	var _GUI2 = _interopRequireDefault(_GUI);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	/**
+	 * dat-gui JavaScript Controller Library
+	 * http://code.google.com/p/dat-gui
+	 *
+	 * Copyright 2011 Data Arts Team, Google Creative Lab
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 */
 	
 	exports.default = {
 	  color: {
@@ -176,6 +193,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    ColorController: _ColorController2.default,
 	    BgColorController: _BgColorController2.default,
 	    NgColorController: _NgColorController2.default,
+	    HSVColorController: _HSVColorController2.default,
 	    GtColorController: _GtColorController2.default
 	  },
 	
@@ -188,19 +206,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	
 	  GUI: _GUI2.default
-	}; /**
-	    * dat-gui JavaScript Controller Library
-	    * http://code.google.com/p/dat-gui
-	    *
-	    * Copyright 2011 Data Arts Team, Google Creative Lab
-	    *
-	    * Licensed under the Apache License, Version 2.0 (the "License");
-	    * you may not use this file except in compliance with the License.
-	    * You may obtain a copy of the License at
-	    *
-	    * http://www.apache.org/licenses/LICENSE-2.0
-	    */
-
+	};
 	module.exports = exports['default'];
 
 /***/ },
@@ -4194,6 +4200,410 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	exports.__esModule = true;
 	
+	var _Controller2 = __webpack_require__(7);
+	
+	var _Controller3 = _interopRequireDefault(_Controller2);
+	
+	var _dom = __webpack_require__(9);
+	
+	var _dom2 = _interopRequireDefault(_dom);
+	
+	var _Color = __webpack_require__(2);
+	
+	var _Color2 = _interopRequireDefault(_Color);
+	
+	var _interpret = __webpack_require__(3);
+	
+	var _interpret2 = _interopRequireDefault(_interpret);
+	
+	var _common = __webpack_require__(5);
+	
+	var _common2 = _interopRequireDefault(_common);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * dat-gui JavaScript Controller Library
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * http://code.google.com/p/dat-gui
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright 2011 Data Arts Team, Google Creative Lab
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Licensed under the Apache License, Version 2.0 (the "License");
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * you may not use this file except in compliance with the License.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * You may obtain a copy of the License at
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * http://www.apache.org/licenses/LICENSE-2.0
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	
+	var HSVColorController = function (_Controller) {
+	  _inherits(HSVColorController, _Controller);
+	
+	  function HSVColorController(object, property) {
+	    _classCallCheck(this, HSVColorController);
+	
+	    var _this2 = _possibleConstructorReturn(this, _Controller.call(this, object, property));
+	
+	    _this2.__color = new _Color2.default(_this2.getValue());
+	    _this2.__temp = new _Color2.default(0);
+	    _this2.__temp2 = new _Color2.default(0);
+	
+	    var _this = _this2;
+	    _this2.domElement = document.createElement('div');
+	    _dom2.default.makeSelectable(_this2.domElement, false);
+	    _this2.__selector = document.createElement('div');
+	    _this2.__field_knob = document.createElement('div');
+	    _this2.__field_knob.className = 'field-knob';
+	    _this2.__field_knob_border = '2px solid ';
+	    _this2.__field_knob2 = document.createElement('div');
+	    _this2.__field_knob2.className = 'field-knob';
+	    _this2.__field_knob_border2 = '2px solid ';
+	    _this2.__field_knob3 = document.createElement('div');
+	    _this2.__field_knob3.className = 'field-knob';
+	    _this2.__field_knob_border3 = '2px solid ';
+	    _this2.__hsv_field = document.createElement('div');
+	    _this2.__hsv_field.className = 'hue-field';
+	    _this2.__hsv_field2 = document.createElement('div');
+	    _this2.__hsv_field2.className = 'hue-field';
+	    _this2.__hsv_field3 = document.createElement('div');
+	    _this2.__hsv_field3.className = 'hue-field';
+	    _this2.__hsv_fieldLabel = document.createElement('Label');
+	    _this2.__hsv_fieldLabel.innerHTML = 'H:';
+	    _this2.__hsv_fieldLabel2 = document.createElement('Label');
+	    _this2.__hsv_fieldLabel2.innerHTML = 'S:';
+	    _this2.__hsv_fieldLabel3 = document.createElement('Label');
+	    _this2.__hsv_fieldLabel3.innerHTML = 'V:';
+	
+	    _this2.__input = document.createElement('input');
+	    _this2.__input.type = 'text';
+	    _this2.__input_textShadow = '0 1px 1px ';
+	
+	    _dom2.default.bind(_this2.__input, 'keydown', function (e) {
+	      if (e.keyCode === 13) {
+	        // on enter
+	        onBlur.call(this);
+	      }
+	    });
+	
+	    _dom2.default.bind(_this2.__input, 'blur', onBlur);
+	
+	    var valueField = document.createElement('div');
+	
+	    _common2.default.extend(_this2.__selector.style, {
+	      width: '256px',
+	      height: '10px',
+	      marginTop: '22px',
+	      backgroundColor: '#222',
+	      boxShadow: '0px 1px 3px rgba(0,0,0,0.3)'
+	    });
+	
+	    _common2.default.extend(_this2.__field_knob.style, {
+	      position: 'absolute',
+	      width: '12px',
+	      height: '12px',
+	      border: _this2.__field_knob_border + (_this2.__color.v < 0.5 ? '#fff' : '#000'),
+	      boxShadow: '0px 1px 3px rgba(0,0,0,0.5)',
+	      borderRadius: '12px',
+	      top: '-2',
+	      zIndex: 1
+	    });
+	    _common2.default.extend(_this2.__field_knob2.style, {
+	      position: 'absolute',
+	      width: '12px',
+	      height: '12px',
+	      border: _this2.__field_knob_border + (_this2.__color.v < 0.5 ? '#fff' : '#000'),
+	      boxShadow: '0px 1px 3px rgba(0,0,0,0.5)',
+	      borderRadius: '12px',
+	      top: '-2',
+	      zIndex: 1
+	    });
+	    _common2.default.extend(_this2.__field_knob3.style, {
+	      position: 'absolute',
+	      width: '12px',
+	      height: '12px',
+	      border: _this2.__field_knob_border + (_this2.__color.v < 0.5 ? '#fff' : '#000'),
+	      boxShadow: '0px 1px 3px rgba(0,0,0,0.5)',
+	      borderRadius: '12px',
+	      top: '-2',
+	      zIndex: 1
+	    });
+	
+	    _common2.default.extend(valueField.style, {
+	      width: '100%',
+	      height: '100%',
+	      background: 'none'
+	    });
+	
+	    _common2.default.extend(_this2.__hsv_field.style, {
+	      width: '256px',
+	      height: '20px',
+	      border: '1px solid #555',
+	      position: 'absolute',
+	      top: '30px',
+	      left: '0px'
+	    });
+	    _common2.default.extend(_this2.__hsv_field2.style, {
+	      width: '256px',
+	      height: '20px',
+	      border: '1px solid #555',
+	      position: 'absolute',
+	      top: '55px',
+	      left: '0px'
+	    });
+	    _common2.default.extend(_this2.__hsv_field3.style, {
+	      width: '256px',
+	      height: '20px',
+	      border: '1px solid #555',
+	      position: 'absolute',
+	      top: '80px',
+	      left: '0px'
+	    });
+	
+	    hueGradient(_this2.__hsv_field);
+	    hueGradient(_this2.__hsv_field2);
+	    hueGradient(_this2.__hsv_field3);
+	
+	    _common2.default.extend(_this2.__input.style, {
+	      outline: 'none',
+	      textAlign: 'center',
+	      color: '#fff',
+	      border: 0,
+	      left: '0px',
+	      position: 'absolute',
+	      fontWeight: 'bold',
+	      width: '256px',
+	      textShadow: _this2.__input_textShadow + 'rgba(0,0,0,0.7)'
+	    });
+	    _common2.default.extend(_this2.__hsv_fieldLabel.style, {
+	      outline: 'none',
+	      textAlign: 'left',
+	      color: '#fff',
+	      border: 0,
+	      left: '-70px',
+	      position: 'absolute',
+	      font: 'bold 12px Courier',
+	      width: '50px',
+	      textShadow: _this2.__input_textShadow + 'rgba(0,0,0,0.7)'
+	    });
+	    _common2.default.extend(_this2.__hsv_fieldLabel2.style, {
+	      outline: 'none',
+	      textAlign: 'left',
+	      color: '#fff',
+	      border: 0,
+	      left: '-70px',
+	      position: 'absolute',
+	      font: 'bold 12px Courier',
+	      width: '50px',
+	      textShadow: _this2.__input_textShadow + 'rgba(0,0,0,0.7)'
+	    });
+	    _common2.default.extend(_this2.__hsv_fieldLabel3.style, {
+	      outline: 'none',
+	      textAlign: 'left',
+	      color: '#fff',
+	      border: 0,
+	      left: '-70px',
+	      position: 'absolute',
+	      font: 'bold 12px Courier',
+	      width: '50px',
+	      textShadow: _this2.__input_textShadow + 'rgba(0,0,0,0.7)'
+	    });
+	
+	    _dom2.default.bind(_this2.__hsv_field, 'mousedown', function (e) {
+	      setH(e);
+	      _dom2.default.bind(window, 'mousemove', setH);
+	      _dom2.default.bind(window, 'mouseup', fieldUpH);
+	    });
+	    _dom2.default.bind(_this2.__hsv_field2, 'mousedown', function (e) {
+	      setS(e);
+	      _dom2.default.bind(window, 'mousemove', setS);
+	      _dom2.default.bind(window, 'mouseup', fieldUpS);
+	    });
+	    _dom2.default.bind(_this2.__hsv_field3, 'mousedown', function (e) {
+	      setV(e);
+	      _dom2.default.bind(window, 'mousemove', setV);
+	      _dom2.default.bind(window, 'mouseup', fieldUpV);
+	    });
+	
+	    function fieldUpH() {
+	      _dom2.default.unbind(window, 'mousemove', setH);
+	      _dom2.default.unbind(window, 'mouseup', fieldUpH);
+	      onFinish();
+	    }
+	    function fieldUpS() {
+	      _dom2.default.unbind(window, 'mousemove', setS);
+	      _dom2.default.unbind(window, 'mouseup', fieldUpS);
+	      onFinish();
+	    }
+	    function fieldUpV() {
+	      _dom2.default.unbind(window, 'mousemove', setV);
+	      _dom2.default.unbind(window, 'mouseup', fieldUpV);
+	      onFinish();
+	    }
+	
+	    function onBlur() {
+	      var i = (0, _interpret2.default)(this.value);
+	      if (i !== false) {
+	        _this.__color.__state = i;
+	        _this.setValue(_this.__color.toOriginal());
+	      } else {
+	        this.value = _this.__color.toString();
+	      }
+	    }
+	
+	    function onFinish() {
+	      if (_this.__onFinishChange) {
+	        _this.__onFinishChange.call(_this, _this.__color.toOriginal());
+	      }
+	    }
+	
+	    _common2.default.extend(_this2.domElement.style, { height: '100px' });
+	
+	    _this2.__hsv_field.appendChild(_this2.__field_knob);
+	    _this2.__hsv_field2.appendChild(_this2.__field_knob2);
+	    _this2.__hsv_field3.appendChild(_this2.__field_knob3);
+	
+	    _this2.__selector.appendChild(_this2.__hsv_field);
+	    _this2.__selector.appendChild(_this2.__hsv_field2);
+	    _this2.__selector.appendChild(_this2.__hsv_field3);
+	    _this2.__hsv_field.appendChild(_this2.__hsv_fieldLabel);
+	    _this2.__hsv_field2.appendChild(_this2.__hsv_fieldLabel2);
+	    _this2.__hsv_field3.appendChild(_this2.__hsv_fieldLabel3);
+	    _this2.domElement.appendChild(_this2.__input);
+	    _this2.domElement.appendChild(_this2.__selector);
+	
+	    _this2.updateDisplay();
+	
+	    function setS(e) {
+	      var fieldRect = _this.__hsv_field.getBoundingClientRect();
+	      var s = (e.clientX - fieldRect.left) / (fieldRect.right - fieldRect.left);
+	      e.preventDefault();
+	      _this.__color.s = Math.min(Math.max(s, 0), 1);
+	      _this.setValue(_this.__color.toOriginal());
+	      return false;
+	    }
+	    function setV(e) {
+	      var fieldRect = _this.__hsv_field.getBoundingClientRect();
+	      var v = (e.clientX - fieldRect.left) / (fieldRect.right - fieldRect.left);
+	      e.preventDefault();
+	      _this.__color.v = Math.min(Math.max(v, 0), 1);
+	      _this.setValue(_this.__color.toOriginal());
+	      return false;
+	    }
+	    function setH(e) {
+	      var fieldRect = _this.__hsv_field.getBoundingClientRect();
+	      var h = (e.clientX - fieldRect.left) / (fieldRect.right - fieldRect.left);
+	      e.preventDefault();
+	      _this.__color.h = Math.min(Math.max(h, 0), 1) * 360;
+	      _this.setValue(_this.__color.toOriginal());
+	      return false;
+	    }
+	    return _this2;
+	  }
+	
+	  HSVColorController.prototype.updateDisplay = function updateDisplay() {
+	    var i = (0, _interpret2.default)(this.getValue());
+	
+	    if (i !== false) {
+	      var mismatch = false;
+	
+	      // Check for mismatch on the interpreted value.
+	
+	      _common2.default.each(_Color2.default.COMPONENTS, function (component) {
+	        if (!_common2.default.isUndefined(i[component]) && !_common2.default.isUndefined(this.__color.__state[component]) && i[component] !== this.__color.__state[component]) {
+	          mismatch = true;
+	          return {}; // break
+	        }
+	      }, this);
+	
+	      // If nothing diverges, we keep our previous values
+	      // for statefulness, otherwise we recalculate fresh
+	      if (mismatch) {
+	        _common2.default.extend(this.__color.__state, i);
+	      }
+	    }
+	
+	    _common2.default.extend(this.__temp.__state, this.__color.__state);
+	
+	    this.__temp.a = 1;
+	    this.__temp2.a = 1;
+	
+	    var flip = this.__color.v < 0.5 || this.__color.s > 0.5 ? 255 : 0;
+	    var _flip = 255 - flip;
+	
+	    _common2.default.extend(this.__field_knob.style, {
+	      marginLeft: parseInt(this.__color.h / 360 * 256 - 7, 10) + 'px',
+	      marginTop: '5px',
+	      border: this.__field_knob_border + 'rgb(255,255,255)'
+	    });
+	    _common2.default.extend(this.__field_knob2.style, {
+	      marginLeft: 256 * this.__color.s - 7 + 'px',
+	      marginTop: '5px',
+	      border: this.__field_knob_border + 'rgb(' + flip + ',' + flip + ',' + flip + ')'
+	    });
+	    _common2.default.extend(this.__field_knob3.style, {
+	      marginLeft: 256 * this.__color.v - 7 + 'px',
+	      marginTop: '5px',
+	      border: this.__field_knob_border + 'rgb(' + flip + ',' + flip + ',' + flip + ')'
+	    });
+	
+	    this.__hsv_fieldLabel.innerHTML = 'H: ' + parseInt(this.__color.h, 10);
+	    this.__hsv_fieldLabel2.innerHTML = 'S: ' + parseInt(this.__color.s * 100, 10);
+	    this.__hsv_fieldLabel3.innerHTML = 'V: ' + parseInt(this.__color.v * 100, 10);
+	
+	    this.__temp.h = this.__color.h;
+	    this.__temp.v = this.__color.v;
+	    this.__temp.s = 1;
+	    this.__temp2.s = this.__color.s;
+	    this.__temp2.h = this.__color.h;
+	    this.__temp2.v = 1;
+	
+	    linearGradient(this.__hsv_field2, 'left', '#fff', this.__temp.toHexString());
+	    linearGradient(this.__hsv_field3, 'left', '#000', this.__temp2.toHexString());
+	
+	    this.__input.value = this.__color.toString();
+	
+	    _common2.default.extend(this.__input.style, {
+	      backgroundColor: this.__color.toHexString(),
+	      color: 'rgb(' + flip + ',' + flip + ',' + flip + ')',
+	      textShadow: this.__input_textShadow + 'rgba(' + _flip + ',' + _flip + ',' + _flip + ',.7)'
+	    });
+	  };
+	
+	  return HSVColorController;
+	}(_Controller3.default);
+	
+	var vendors = ['-moz-', '-o-', '-webkit-', '-ms-', ''];
+	
+	function linearGradient(elem, x, a, b) {
+	  elem.style.background = '';
+	  _common2.default.each(vendors, function (vendor) {
+	    elem.style.cssText += 'background: ' + vendor + 'linear-gradient(' + x + ', ' + a + ' 0%, ' + b + ' 100%); ';
+	  });
+	}
+	
+	function hueGradient(elem) {
+	  elem.style.background = '';
+	  elem.style.cssText += 'background: -moz-linear-gradient(right,  #ff0000 0%, #ff00ff 17%, #0000ff 34%, #00ffff 50%, #00ff00 67%, #ffff00 84%, #ff0000 100%);';
+	  elem.style.cssText += 'background: -webkit-linear-gradient(right,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+	  elem.style.cssText += 'background: -o-linear-gradient(right,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+	  elem.style.cssText += 'background: -ms-linear-gradient(right,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+	  elem.style.cssText += 'background: linear-gradient(right,  #ff0000 0%,#ff00ff 17%,#0000ff 34%,#00ffff 50%,#00ff00 67%,#ffff00 84%,#ff0000 100%);';
+	}
+	
+	exports.default = HSVColorController;
+	module.exports = exports['default'];
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /**
 	                                                                                                                                                                                                                                                                               * dat-gui JavaScript Controller Library
 	                                                                                                                                                                                                                                                                               * http://code.google.com/p/dat-gui
@@ -4207,15 +4617,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                                                                                                                                                                                                                                                               * http://www.apache.org/licenses/LICENSE-2.0
 	                                                                                                                                                                                                                                                                               */
 	
-	var _css = __webpack_require__(21);
+	var _css = __webpack_require__(22);
 	
 	var _css2 = _interopRequireDefault(_css);
 	
-	var _saveDialogue = __webpack_require__(22);
+	var _saveDialogue = __webpack_require__(23);
 	
 	var _saveDialogue2 = _interopRequireDefault(_saveDialogue);
 	
-	var _ControllerFactory = __webpack_require__(23);
+	var _ControllerFactory = __webpack_require__(24);
 	
 	var _ControllerFactory2 = _interopRequireDefault(_ControllerFactory);
 	
@@ -4251,15 +4661,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _NgColorController2 = _interopRequireDefault(_NgColorController);
 	
+	var _HSVColorController = __webpack_require__(20);
+	
+	var _HSVColorController2 = _interopRequireDefault(_HSVColorController);
+	
 	var _GtColorController = __webpack_require__(19);
 	
 	var _GtColorController2 = _interopRequireDefault(_GtColorController);
 	
-	var _requestAnimationFrame = __webpack_require__(24);
+	var _requestAnimationFrame = __webpack_require__(25);
 	
 	var _requestAnimationFrame2 = _interopRequireDefault(_requestAnimationFrame);
 	
-	var _CenteredDiv = __webpack_require__(25);
+	var _CenteredDiv = __webpack_require__(26);
 	
 	var _CenteredDiv2 = _interopRequireDefault(_CenteredDiv);
 	
@@ -4271,7 +4685,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _common2 = _interopRequireDefault(_common);
 	
-	var _style = __webpack_require__(26);
+	var _style = __webpack_require__(27);
 	
 	var _style2 = _interopRequireDefault(_style);
 	
@@ -4766,6 +5180,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      color: true
 	    });
 	  },
+	  addHSVColor: function addHSVColor(object, property) {
+	    return addhsv(this, object, property, {
+	      color: true
+	    });
+	  },
 	
 	  /**
 	   * @param controller
@@ -5184,6 +5603,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, controller.updateDisplay);
 	
 	    controller.updateDisplay();
+	  } else if (controller instanceof _HSVColorController2.default) {
+	    _dom2.default.addClass(li, 'color');
+	    controller.updateDisplay = _common2.default.compose(function (val) {
+	      li.style.borderLeftColor = controller.__color.toString();
+	      return val;
+	    }, controller.updateDisplay);
+	
+	    controller.updateDisplay();
 	  } else if (controller instanceof _GtColorController2.default) {
 	    _dom2.default.addClass(li, 'color');
 	    controller.updateDisplay = _common2.default.compose(function (val) {
@@ -5386,6 +5813,53 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (controller instanceof _ColorController2.default) {
 	    _dom2.default.addClass(li, 'color');
 	  } else if (controller instanceof _NgColorController2.default) {
+	    _dom2.default.addClass(li, 'color');
+	  } else {
+	    _dom2.default.addClass(li, _typeof(controller.getValue()));
+	  }
+	
+	  augmentController(gui, li, controller);
+	
+	  gui.__controllers.push(controller);
+	
+	  return controller;
+	}
+	function addhsv(gui, object, property, params) {
+	  if (object[property] === undefined) {
+	    throw new Error('Object "' + object + '" has no property "' + property + '"');
+	  }
+	
+	  var controller = void 0;
+	
+	  if (params.color) {
+	    controller = new _HSVColorController2.default(object, property);
+	  } else {
+	    var factoryArgs = [object, property].concat(params.factoryArgs);
+	    controller = _ControllerFactory2.default.apply(gui, factoryArgs);
+	  }
+	
+	  if (params.before instanceof _Controller2.default) {
+	    params.before = params.before.__li;
+	  }
+	
+	  recallSavedValue(gui, controller);
+	
+	  _dom2.default.addClass(controller.domElement, 'c');
+	
+	  var name = document.createElement('span');
+	  _dom2.default.addClass(name, 'property-name');
+	  name.innerHTML = controller.property;
+	
+	  var container = document.createElement('div');
+	  container.appendChild(name);
+	  container.appendChild(controller.domElement);
+	
+	  var li = addRow(gui, container, params.before);
+	
+	  _dom2.default.addClass(li, GUI.CLASS_CONTROLLER_ROW);
+	  if (controller instanceof _ColorController2.default) {
+	    _dom2.default.addClass(li, 'color');
+	  } else if (controller instanceof _HSVColorController2.default) {
 	    _dom2.default.addClass(li, 'color');
 	  } else {
 	    _dom2.default.addClass(li, _typeof(controller.getValue()));
@@ -5679,7 +6153,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -5721,13 +6195,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"dg-save\" class=\"dg dialogue\">\n\n  Here's the new load parameter for your <code>GUI</code>'s constructor:\n\n  <textarea id=\"dg-new-constructor\"></textarea>\n\n  <div id=\"dg-save-locally\">\n\n    <input id=\"dg-local-storage\" type=\"checkbox\"/> Automatically save\n    values to <code>localStorage</code> on exit.\n\n    <div id=\"dg-local-explain\">The values saved to <code>localStorage</code> will\n      override those passed to <code>dat.GUI</code>'s constructor. This makes it\n      easier to work incrementally, but <code>localStorage</code> is fragile,\n      and your friends may not see the same values you do.\n\n    </div>\n\n  </div>\n\n</div>";
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5822,7 +6296,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -5849,7 +6323,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5975,10 +6449,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(27)();
+	exports = module.exports = __webpack_require__(28)();
 	// imports
 	
 	
@@ -5989,7 +6463,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports) {
 
 	/*
