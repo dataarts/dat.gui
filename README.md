@@ -7,6 +7,12 @@
 ![BgColorController](screen1.jpg)
 ![NgColorController](screen2.jpg)
 
+## Usage
+* addNgColor(properties,property) for NgColorController
+* addBgColor(properties,property) for BgColorController
+
+Note: For using BgColorController displaying a <property> a second <property+bg> must be present. For Example: 
+`var myProps={color:#ffffff,colorbg:#000000};`
 
 # dat.GUI
 A lightweight graphical user interface for changing variables in JavaScript. 
