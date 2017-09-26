@@ -1,4 +1,4 @@
-# update
+# update HSVColorController, BgColorControler, NgColorController
 * new NgColorController , fixed style of color-controller (no popup, fixed height:125px, huebar width from 15px to 20px)
 * new BgColorController for handling two colors (i.e. foreground-background color)
 * new HSVColorController (toggle Mode: RGB <-> HSV)
