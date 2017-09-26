@@ -5,7 +5,7 @@
 ![BgColorController](screen1.jpg)
 ![NgColorController](screen2.jpg)
 
-## Usage
+### Usage
 * addNgColor(properties,property) for NgColorController
 * addBgColor(properties,property) for BgColorController
 
