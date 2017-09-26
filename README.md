@@ -5,7 +5,8 @@
 
 ![BgColorController](screen1.jpg)
 ![NgColorController](screen2.jpg)
-![HSVColorController](screen4.jpg)
+![HSVColorController-HSV](screen3.jpg)
+![HSVColorController-RGB](screen4.jpg)
 
 ### Usage
 * addNgColor(properties,property) for NgColorController
