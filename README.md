@@ -1,7 +1,5 @@
 # update
-* fixed style of color-property, no popup
-* fixed height of color-controller (.dg.c height:125px)
-* new NgColorController (fixed style, bigger Hue-bar)
+* new NgColorController , fixed style of color-controller (no popup, huebar width from 15px to 20px)
 * new BgColorController for handling two colors (i.e. foreground-background color)
 
 ![BgColorController](screen1.jpg)
