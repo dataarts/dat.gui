@@ -20,6 +20,8 @@ import FunctionController from '../controllers/FunctionController';
 import NumberControllerBox from '../controllers/NumberControllerBox';
 import NumberControllerSlider from '../controllers/NumberControllerSlider';
 import ColorController from '../controllers/ColorController';
+import BgColorController from '../controllers/BgColorController';
+import NgColorController from '../controllers/NgColorController';
 import requestAnimationFrame from '../utils/requestAnimationFrame';
 import CenteredDiv from '../dom/CenteredDiv';
 import dom from '../dom/dom';
@@ -514,6 +516,26 @@ common.extend(
         }
       );
     },
+    addBgColor: function(object, property) {
+      return addbg(
+        this,
+        object,
+        property,
+        {
+          color: true
+        }
+      );
+    },
+    addNgColor: function(object, property) {
+      return addng(
+        this,
+        object,
+        property,
+        {
+          color: true
+        }
+      );
+    },
 
     /**
      * @param controller
@@ -931,6 +953,22 @@ function augmentController(gui, li, controller) {
     }, controller.updateDisplay);
 
     controller.updateDisplay();
+  } else if (controller instanceof BgColorController) {
+    dom.addClass(li, 'color');
+    controller.updateDisplay = common.compose(function(val) {
+      li.style.borderLeftColor = controller.__color.toString();
+      return val;
+    }, controller.updateDisplay);
+
+    controller.updateDisplay();
+  } else if (controller instanceof NgColorController) {
+    dom.addClass(li, 'color');
+    controller.updateDisplay = common.compose(function(val) {
+      li.style.borderLeftColor = controller.__color.toString();
+      return val;
+    }, controller.updateDisplay);
+
+    controller.updateDisplay();
   }
 
   controller.setValue = common.compose(function(val) {
@@ -996,6 +1034,101 @@ function recallSavedValue(gui, controller) {
   }
 }
 
+function addbg(gui, object, property, params) {
+  if (object[property] === undefined) {
+    throw new Error(`Object "${object}" has no property "${property}"`);
+  }
+
+  let controller;
+
+  if (params.color) {
+    controller = new BgColorController(object, property);
+  } else {
+    const factoryArgs = [object, property].concat(params.factoryArgs);
+    controller = ControllerFactory.apply(gui, factoryArgs);
+  }
+
+  if (params.before instanceof Controller) {
+    params.before = params.before.__li;
+  }
+
+  recallSavedValue(gui, controller);
+
+  dom.addClass(controller.domElement, 'c');
+
+  const name = document.createElement('span');
+  dom.addClass(name, 'property-name');
+  name.innerHTML = controller.property;
+
+  const container = document.createElement('div');
+  container.appendChild(name);
+  container.appendChild(controller.domElement);
+
+  const li = addRow(gui, container, params.before);
+
+  dom.addClass(li, GUI.CLASS_CONTROLLER_ROW);
+  if (controller instanceof ColorController) {
+    dom.addClass(li, 'color');
+  } else if (controller instanceof BgColorController) {
+    dom.addClass(li, 'color');
+  } else {
+    dom.addClass(li, typeof controller.getValue());
+  }
+
+  augmentController(gui, li, controller);
+
+  gui.__controllers.push(controller);
+
+  return controller;
+}
+function addng(gui, object, property, params) {
+  if (object[property] === undefined) {
+    throw new Error(`Object "${object}" has no property "${property}"`);
+  }
+
+  let controller;
+
+  if (params.color) {
+    controller = new NgColorController(object, property);
+  } else {
+    const factoryArgs = [object, property].concat(params.factoryArgs);
+    controller = ControllerFactory.apply(gui, factoryArgs);
+  }
+
+  if (params.before instanceof Controller) {
+    params.before = params.before.__li;
+  }
+
+  recallSavedValue(gui, controller);
+
+  dom.addClass(controller.domElement, 'c');
+
+  const name = document.createElement('span');
+  dom.addClass(name, 'property-name');
+  name.innerHTML = controller.property;
+
+  const container = document.createElement('div');
+  container.appendChild(name);
+  container.appendChild(controller.domElement);
+
+  const li = addRow(gui, container, params.before);
+
+  dom.addClass(li, GUI.CLASS_CONTROLLER_ROW);
+  if (controller instanceof ColorController) {
+    dom.addClass(li, 'color');
+  } else if (controller instanceof NgColorController) {
+    dom.addClass(li, 'color');
+  } else {
+    dom.addClass(li, typeof controller.getValue());
+  }
+
+  augmentController(gui, li, controller);
+
+  gui.__controllers.push(controller);
+
+  return controller;
+}
+
 function add(gui, object, property, params) {
   if (object[property] === undefined) {
     throw new Error(`Object "${object}" has no property "${property}"`);
@@ -1030,6 +1163,8 @@ function add(gui, object, property, params) {
 
   dom.addClass(li, GUI.CLASS_CONTROLLER_ROW);
   if (controller instanceof ColorController) {
+    dom.addClass(li, 'color');
+  } else if (controller instanceof BgColorController) {
     dom.addClass(li, 'color');
   } else {
     dom.addClass(li, typeof controller.getValue());
