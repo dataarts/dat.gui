@@ -1056,6 +1056,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.property = property;
 	
 	    /**
+	     * The containing GUI
+	     * @type {GUI}
+	     */
+	    this.parent = undefined;
+	
+	    /**
 	     * The function to be called on change.
 	     * @type {Function}
 	     * @ignore
@@ -1102,6 +1108,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 	
 	  /**
+	   * Fires onFinishChange function if it exists and propagates message
+	   * to parent.
+	   *
+	   * @param {Object} newValue The new value of <code>object[property]</code>
+	   */
+	
+	
+	  Controller.prototype.__propagateFinishChange = function __propagateFinishChange(val) {
+	    if (this.__onFinishChange) {
+	      this.__onFinishChange.call(this, val);
+	    }
+	
+	    if (this.parent) {
+	      this.parent.__propagateFinishChange();
+	    }
+	  };
+	
+	  /**
+	   * Fires onChange function if it exists and propagates message to parent.
+	   *
+	   * @param {Object} newValue The new value of <code>object[property]</code>
+	   */
+	
+	
+	  Controller.prototype.__propagateChange = function __propagateChange(val) {
+	    if (this.__onChange) {
+	      this.__onChange.call(this, val);
+	    }
+	
+	    if (this.parent) {
+	      this.parent.__propagateChange();
+	    }
+	  };
+	
+	  /**
 	   * Change the value of <code>object[property]</code>
 	   *
 	   * @param {Object} newValue The new value of <code>object[property]</code>
@@ -1110,11 +1151,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  Controller.prototype.setValue = function setValue(newValue) {
 	    this.object[this.property] = newValue;
-	    if (this.__onChange) {
-	      this.__onChange.call(this, newValue);
-	    }
-	
+	    this.__propagateChange(newValue);
 	    this.updateDisplay();
+	
 	    return this;
 	  };
 	
@@ -1228,9 +1267,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  BooleanController.prototype.setValue = function setValue(v) {
 	    var toReturn = _Controller.prototype.setValue.call(this, v);
-	    if (this.__onFinishChange) {
-	      this.__onFinishChange.call(this, this.getValue());
-	    }
+	
+	    this.__propagateFinishChange(this.getValue());
+	
 	    this.__prev = this.getValue();
 	    return toReturn;
 	  };
@@ -1643,9 +1682,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  OptionController.prototype.setValue = function setValue(v) {
 	    var toReturn = _Controller.prototype.setValue.call(this, v);
 	
-	    if (this.__onFinishChange) {
-	      this.__onFinishChange.call(this, this.getValue());
-	    }
+	    this.__propagateFinishChange(this.getValue());
+	
 	    return toReturn;
 	  };
 	
@@ -1721,9 +1759,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    function onBlur() {
-	      if (_this.__onFinishChange) {
-	        _this.__onFinishChange.call(_this, _this.getValue());
-	      }
+	      _this.__propagateFinishChange(_this.getValue());
 	    }
 	
 	    _this2.__input = document.createElement('input');
@@ -2003,9 +2039,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    function onFinish() {
-	      if (_this.__onFinishChange) {
-	        _this.__onFinishChange.call(_this, _this.getValue());
-	      }
+	      _this.__propagateFinishChange(_this.getValue());
 	    }
 	
 	    function onBlur() {
@@ -2164,9 +2198,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function onMouseUp() {
 	      _dom2.default.unbind(window, 'mousemove', onMouseDrag);
 	      _dom2.default.unbind(window, 'mouseup', onMouseUp);
-	      if (_this.__onFinishChange) {
-	        _this.__onFinishChange.call(_this, _this.getValue());
-	      }
+	
+	      _this.__propagateFinishChange(_this.getValue());
 	    }
 	
 	    _this2.updateDisplay();
@@ -2259,13 +2292,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	
 	  FunctionController.prototype.fire = function fire() {
-	    if (this.__onChange) {
-	      this.__onChange.call(this);
-	    }
+	    this.__propagateChange(this.getValue());
+	
 	    this.getValue().call(this.object);
-	    if (this.__onFinishChange) {
-	      this.__onFinishChange.call(this, this.getValue());
-	    }
+	    this.__propagateFinishChange(this.getValue());
 	  };
 	
 	  return FunctionController;
@@ -2482,9 +2512,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    function onFinish() {
-	      if (_this.__onFinishChange) {
-	        _this.__onFinishChange.call(_this, _this.__color.toOriginal());
-	      }
+	      _this.__propagateFinishChange(_this.__color.toOriginal());
 	    }
 	
 	    _this2.__saturation_field.appendChild(valueField);
@@ -2801,6 +2829,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * ]
 	   */
 	  this.__rememberedObjectIndecesToControllers = [];
+	
+	  /*
+	   * Called on change of child elements.
+	   */
+	  this.__onChange = undefined;
+	
+	  /*
+	   * Called on finish change of child elements.
+	   */
+	  this.__onFinishChange = undefined;
 	
 	  this.__listening = [];
 	
@@ -3203,6 +3241,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  },
 	
+	  onChange: function onChange(f) {
+	    this.__onChange = f;
+	    return this;
+	  },
+	
+	  onFinishChange: function onFinishChange(f) {
+	    this.__onFinishChange = f;
+	    return this;
+	  },
+	
+	  __propagateChange: function __propagateChange() {
+	    if (this.__onChange) {
+	      this.__onChange.call(this);
+	    }
+	
+	    if (this.parent) {
+	      this.parent.__propagateChange();
+	    }
+	  },
+	
+	  __propagateFinishChange: function __propagateFinishChange() {
+	    if (this.__onFinishChange) {
+	      this.__onFinishChange.call(this);
+	    }
+	
+	    if (this.parent) {
+	      this.parent.__propagateFinishChange();
+	    }
+	  },
+	
 	  /**
 	   * @param name
 	   * @returns {dat.gui.GUI} The new folder.
@@ -3398,9 +3466,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	
 	      // fire onFinishChange callback
-	      if (controller.__onFinishChange) {
-	        controller.__onFinishChange.call(controller, controller.getValue());
-	      }
+	      controller.__propagateFinishChange(controller.getValue());
 	    }, this);
 	
 	    _common2.default.each(this.__folders, function (folder) {
@@ -3658,6 +3724,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (params.before instanceof _Controller2.default) {
 	    params.before = params.before.__li;
 	  }
+	
+	  controller.parent = gui;
 	
 	  recallSavedValue(gui, controller);
 	

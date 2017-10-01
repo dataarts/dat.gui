@@ -925,6 +925,39 @@ console.log(c2.__checkbox.getAttribute('checked'));
 
     });
 
+
+    test("GUIOnChange", function() {
+
+      var gui = new dat.GUI({ autoPlace: false });
+      var f = gui.addFolder('f1');
+
+      var c = f.add({ x: 5 }, 'x');
+
+
+      var changed = false;
+      var finishChanged = false;
+
+      gui.onChange(function() {
+
+        changed = true;
+
+      });
+
+      gui.onFinishChange(function() {
+
+        finishChanged = true;
+
+      });
+
+
+      c.setValue(123);
+      c.__propagateFinishChange(123);
+
+      ok(changed, "GUI onChange fires as it should.");
+      ok(finishChanged, "GUI onFinishChange fires as is should.");
+
+    });
+
     test("onFinishChange", function() {
 
       var object = initObject();

@@ -71,9 +71,8 @@ class OptionController extends Controller {
   setValue(v) {
     const toReturn = super.setValue(v);
 
-    if (this.__onFinishChange) {
-      this.__onFinishChange.call(this, this.getValue());
-    }
+    this.__propagateFinishChange(this.getValue());
+
     return toReturn;
   }
 
