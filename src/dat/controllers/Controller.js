@@ -16,8 +16,6 @@
  *
  * @param {Object} object The object to be manipulated
  * @param {string} property The name of the property to be manipulated
- *
- * @member dat.controllers
  */
 class Controller {
   constructor(object, property) {
