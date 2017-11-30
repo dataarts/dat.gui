@@ -25,8 +25,6 @@ import common from '../utils/common';
  * @param {string} property The name of the property to be manipulated
  * @param {Object|string[]} options A map of labels to acceptable values, or
  * a list of acceptable string values.
- *
- * @member dat.controllers
  */
 class OptionController extends Controller {
   constructor(object, property, opts) {

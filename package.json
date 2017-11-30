@@ -34,6 +34,7 @@
     "build": "npm run build-js && npm run build-css",
     "build-js": "webpack --config ./webpack/webpack.config.js --devtool sourcemap && webpack --config ./webpack/webpack.config.min.js",
     "build-css": "node-sass src/dat/gui/style.scss build/dat.gui.css",
+    "build-docs": "jsdoc2md -f src/dat/gui/GUI.js src/dat/controllers/Controller.js src/dat/controllers/NumberController.js | replace-between --target API.md --token API",
     "postversion": "git push && git push --tags && npm publish"
   },
   "repository": {
@@ -58,7 +59,9 @@
     "eslint-plugin-import": "^1.15.0",
     "extend": "^3.0.0",
     "html-loader": "^0.4.4",
+    "jsdoc-to-markdown": "^3.0.2",
     "node-sass": "^3.10.0",
+    "replace-between": "0.0.8",
     "sass-loader": "^4.0.2",
     "webpack": "1.14.x"
   },
