@@ -65,8 +65,6 @@ class NumberControllerSlider extends NumberController {
     function onMouseDown(e) {
       document.activeElement.blur();
 
-      window.console.log('delete this line');
-
       dom.bind(window, 'mousemove', onMouseDrag);
       dom.bind(window, 'mouseup', onMouseUp);
 

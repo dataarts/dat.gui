@@ -2157,8 +2157,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function onMouseDown(e) {
 	      document.activeElement.blur();
 	
-	      window.console.log('delete this line');
-	
 	      _dom2.default.bind(window, 'mousemove', onMouseDrag);
 	      _dom2.default.bind(window, 'mouseup', onMouseUp);
 	
