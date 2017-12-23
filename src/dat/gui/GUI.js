@@ -628,6 +628,11 @@ common.extend(
       return gui;
     },
 
+    /**
+     * Removes a subfolder GUI instance.
+     * {dat.gui.GUI} folder The folder to remove.
+     * @instance
+     */
     removeFolder: function(folder) {
       this.__ul.removeChild(folder.domElement.parentElement);
 
