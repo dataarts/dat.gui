@@ -630,7 +630,7 @@ common.extend(
 
     /**
      * Removes a subfolder GUI instance.
-     * {dat.gui.GUI} folder The folder to remove.
+     * @param {dat.gui.GUI} folder The folder to remove.
      * @instance
      */
     removeFolder: function(folder) {
