@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="qunit.css" type="text/css" media="screen"/>
   <script type="text/javascript" src="qunit.js"></script>
   <script type="text/javascript" src="jquery.js"></script>
-  
+
   <script type="text/javascript" src="../build/dat.gui.js"></script>
   <script type="text/javascript">
 
@@ -421,7 +421,7 @@
     });
 
 		function match(a, b, msg) {
-	
+
 			for (var i in b) {
 				if (b[i] !== b[i]) {
 					ok(a[i] !== a[i], msg)
@@ -429,15 +429,15 @@
 					equal(b[i], a[i], msg);
 				}
 			}
-	
+
 		}
-		
+
 		function equalish(a, b, tolerance, label) {
 			return ok(Math.abs(a - b) < tolerance, label);
 		}
 
 
-  
+
 
     function initObject() {
       return {
@@ -494,9 +494,9 @@
 
       equal(c1.__checkbox.checked,
           object.booleanProperty);
-          
+
 console.log(c2.__checkbox.getAttribute('checked'));
-          
+
       equal(c2.__checkbox.getAttribute('checked') === 'checked',
           object.anotherBooleanProperty);
 
@@ -518,7 +518,7 @@ console.log(c2.__checkbox.getAttribute('checked'));
       dom.fakeEvent(c1.__checkbox, 'click');
       equal(true, object.booleanProperty, 'changes back');
 
-      equal(true, c1.__checkbox.checked, 'checkbox valid');        
+      equal(true, c1.__checkbox.checked, 'checkbox valid');
 
 
 
@@ -756,7 +756,7 @@ console.log(c2.__checkbox.getAttribute('checked'));
     module("NumberControllerSlider");
 
     test("Acknowledges original value", function() {
-      
+
       var object = initObject();
 
       var min = 0, max = 50;
@@ -813,7 +813,7 @@ console.log(c2.__checkbox.getAttribute('checked'));
 
 
       dom.fakeEvent(window, 'mouseup');
-      
+
       dom.fakeEvent(window, 'mousemove', {
         x: o.left+w,
         y: o.top
@@ -902,7 +902,7 @@ console.log(c2.__checkbox.getAttribute('checked'));
       c4.onChange(function() {
         c4_changed = true;
       });
-      
+
       c5.onChange(function() {
         c5_changed = true;
       });
@@ -1006,7 +1006,7 @@ console.log(c2.__checkbox.getAttribute('checked'));
 			return ok(Math.abs(a - b) < tolerance, label);
 		}
 
-  
+
 
     module('GUI Appearance');
 
@@ -1052,7 +1052,7 @@ console.log(c2.__checkbox.getAttribute('checked'));
         gui.destroy();
       }, 0);
     });
-      
+
     test('close/open button position', function() {
 
       var gui = new GUI({closeOnTop:true});
@@ -1062,12 +1062,12 @@ console.log(c2.__checkbox.getAttribute('checked'));
       ok($(gui.domElement).find('ul').prev().hasClass(GUI.CLASS_CLOSE_BUTTON) && $(gui.domElement).find('ul').prev().hasClass(GUI.CLASS_CLOSE_TOP), 'GUI has close/open button on top');
       ok($(gui2.domElement).find('ul').next().hasClass(GUI.CLASS_CLOSE_BUTTON) && $(gui2.domElement).find('ul').next().hasClass(GUI.CLASS_CLOSE_BOTTOM), 'GUI has close/open button on bottom');
       ok($(gui3.domElement).find('ul').next().hasClass(GUI.CLASS_CLOSE_BUTTON) && $(gui3.domElement).find('ul').next().hasClass(GUI.CLASS_CLOSE_BOTTOM), 'GUI has close/open button on bottom by default');
-        
+
       gui.destroy();
       gui2.destroy();
       gui3.destroy();
 
-    });  
+    });
 
     test('Folders', function() {
 
@@ -1187,6 +1187,20 @@ console.log(c2.__checkbox.getAttribute('checked'));
 
     });
 
+    test('removeFolder', function() {
+
+      var gui = new GUI();
+
+      var f = gui.addFolder('Temporary folder');
+
+      ok($.contains(gui.domElement, f.domElement), "Now you see it");
+      gui.removeFolder(f);
+
+      ok(!$.contains(gui.domElement, f.domElement), "Now you don't.");
+
+      gui.destroy();
+
+    });
 
     test('min, max & step', function() {
 
@@ -1417,11 +1431,11 @@ console.log(c2.__checkbox.getAttribute('checked'));
       equal($(gui.__preset_select).children('option:selected')[0].value, gui.preset, "Dropdown display matches preset value");
 
     }
- 
-  
+
+
 });
 </script>
-  
+
 </head>
 <body>
 <h1 id="qunit-header"></h1>

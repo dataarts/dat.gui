@@ -640,9 +640,9 @@ common.extend(
 
       // Do we have saved appearance data for this folder?
       if (this.load && // Anything loaded?
-          this.load.folders && // Was my parent a dead-end?
-          this.load.folders[folder.name]) {
-          delete this.load.folders[folder.name];
+        this.load.folders && // Was my parent a dead-end?
+        this.load.folders[folder.name]) {
+        delete this.load.folders[folder.name];
       }
 
       const _this = this;
