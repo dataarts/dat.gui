@@ -45,6 +45,7 @@ manipulate variables and fire functions on the fly.
     * [.remove(controller)](#GUI+remove)
     * [.destroy()](#GUI+destroy)
     * [.addFolder(name)](#GUI+addFolder) ⇒ <code>dat.gui.GUI</code>
+    * [.removeFolder()](#GUI+removeFolder)
     * [.open()](#GUI+open)
     * [.close()](#GUI+close)
     * [.getRoot()](#GUI+getRoot) ⇒ <code>dat.gui.GUI</code>
@@ -227,6 +228,13 @@ name
 | --- |
 | name | 
 
+<a name="GUI+removeFolder"></a>
+
+### gui.removeFolder()
+Removes a subfolder GUI instance.
+{dat.gui.GUI} folder The folder to remove.
+
+**Kind**: instance method of [<code>GUI</code>](#GUI)  
 <a name="GUI+open"></a>
 
 ### gui.open()
