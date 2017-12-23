@@ -10,7 +10,8 @@
   /** Controller-half (right) */
   /** Controller placement */
   /** Shorter number boxes when slider is present. */
-  /** Ensure the entire boolean and function row shows a hand */ }
+  /** Ensure the entire boolean and function row shows a hand */
+  /** allow overflow for color selector */ }
   .dg ul {
     list-style: none;
     margin: 0;
@@ -66,7 +67,7 @@
   .dg.a {
     float: right;
     margin-right: 15px;
-    overflow-x: hidden; }
+    overflow-y: visible; }
     .dg.a.has-save > ul.close-top {
       margin-top: 0; }
     .dg.a.has-save > ul.close-bottom {
@@ -93,7 +94,6 @@
     cursor: auto;
     height: 27px;
     line-height: 27px;
-    overflow: visible;
     padding: 0 4px 0 5px; }
   .dg li.folder {
     padding: 0;
@@ -110,7 +110,8 @@
   .dg .cr {
     clear: both;
     padding-left: 3px;
-    height: 27px; }
+    height: 27px;
+    overflow: hidden; }
   .dg .property-name {
     cursor: default;
     float: left;
@@ -151,6 +152,8 @@
   .dg .cr.boolean,
   .dg .cr.boolean * {
     cursor: pointer; }
+  .dg .cr.color {
+    overflow: visible; }
   .dg .selector {
     display: none;
     position: absolute;

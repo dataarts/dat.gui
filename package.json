@@ -1,16 +1,41 @@
 {
   "name": "dat.gui",
-  "version": "0.6.3",
+  "version": "0.6.5",
   "description": "A lightweight graphical user interface for changing variables in JavaScript.",
   "main": "index.js",
   "directories": {
     "test": "tests"
   },
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "es2015"
+          ]
+        }
+      ],
+      [
+        "stringify",
+        {
+          "extensions": [
+            ".html"
+          ]
+        }
+      ],
+      [
+        "sassify"
+      ]
+    ]
+  },
   "scripts": {
     "dev": "webpack --progress --colors --watch --config webpack/webpack.config.js --devtool sourcemap",
     "build": "npm run build-js && npm run build-css",
     "build-js": "webpack --config ./webpack/webpack.config.js --devtool sourcemap && webpack --config ./webpack/webpack.config.min.js",
-    "build-css": "node-sass src/dat/gui/style.scss build/dat.gui.css"
+    "build-css": "node-sass src/dat/gui/style.scss build/dat.gui.css",
+    "build-docs": "jsdoc2md -f src/dat/gui/GUI.js src/dat/controllers/Controller.js src/dat/controllers/NumberController.js | replace-between --target API.md --token API",
+    "postversion": "git push && git push --tags && npm publish"
   },
   "repository": {
     "type": "git",
@@ -25,7 +50,7 @@
   "devDependencies": {
     "babel-core": "^6.14.0",
     "babel-loader": "^6.2.5",
-    "babel-preset-es2015": "^6.14.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-stage-0": "^6.5.0",
     "css-loader": "^0.25.0",
     "eslint": "^3.5.0",
@@ -34,17 +59,24 @@
     "eslint-plugin-import": "^1.15.0",
     "extend": "^3.0.0",
     "html-loader": "^0.4.4",
+    "jsdoc-to-markdown": "^3.0.2",
     "node-sass": "^3.10.0",
+    "replace-between": "0.0.8",
     "sass-loader": "^4.0.2",
-    "webpack": "^1.13.2"
+    "webpack": "1.14.x"
   },
-  "dependencies": {},
+  "dependencies": {
+    "babel-preset-es2015": "^6.14.0",
+    "babelify": "^7.3.0",
+    "sassify": "^2.0.0",
+    "stringify": "^5.1.0"
+  },
   "eslintConfig": {
     "extends": "airbnb-base",
     "rules": {
       "comma-dangle": 0,
       "func-names": 0,
-      "no-alert": 1,
+      "no-alert": 0,
       "no-console": 1,
       "no-use-before-define": 0,
       "prefer-rest-params": 0,
@@ -59,7 +91,7 @@
       "max-len": 0,
       "no-param-reassign": 0,
       "consistent-return": 0,
-      "no-restricted-syntax": 1,
+      "no-restricted-syntax": 0,
       "no-bitwise": 0,
       "no-plusplus": 0
     }

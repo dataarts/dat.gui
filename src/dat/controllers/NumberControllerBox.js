@@ -33,8 +33,6 @@ function roundToDecimal(value, decimals) {
  * @param {Number} [params.min] Minimum allowed value
  * @param {Number} [params.max] Maximum allowed value
  * @param {Number} [params.step] Increment by which to change value
- *
- * @member dat.controllers
  */
 class NumberControllerBox extends NumberController {
   constructor(object, property, params) {

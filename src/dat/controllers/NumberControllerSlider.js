@@ -33,8 +33,6 @@ function map(v, i1, i2, o1, o2) {
  * @param {Number} minValue Minimum allowed value
  * @param {Number} maxValue Maximum allowed value
  * @param {Number} stepValue Increment by which to change value
- *
- * @member dat.controllers
  */
 class NumberControllerSlider extends NumberController {
   constructor(object, property, min, max, step) {
