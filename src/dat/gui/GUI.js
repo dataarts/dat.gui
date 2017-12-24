@@ -883,7 +883,11 @@ function augmentController(gui, li, controller) {
   controller.__li = li;
   controller.__gui = gui;
 
-  common.extend(controller, {
+  common.extend(controller, /** @lends Controller.prototype */ {
+    /**
+     * @param  {Array|Object} options
+     * @return {Controller}
+     */
     options: function(options) {
       if (arguments.length > 1) {
         const nextSibling = controller.__li.nextElementSibling;
@@ -916,16 +920,29 @@ function augmentController(gui, li, controller) {
       }
     },
 
-    name: function(v) {
-      controller.__li.firstElementChild.firstElementChild.innerHTML = v;
+    /**
+     * Sets the name of the controller.
+     * @param  {string} name
+     * @return {Controller}
+     */
+    name: function(name) {
+      controller.__li.firstElementChild.firstElementChild.innerHTML = name;
       return controller;
     },
 
+    /**
+     * Sets controller to listen for changes on its underlying object.
+     * @return {Controller}
+     */
     listen: function() {
       controller.__gui.listen(controller);
       return controller;
     },
 
+    /**
+     * Removes the controller from its parent GUI.
+     * @return {Controller}
+     */
     remove: function() {
       controller.__gui.remove(controller);
       return controller;

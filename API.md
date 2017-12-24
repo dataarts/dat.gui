@@ -274,6 +274,10 @@ An "abstract" class that represents a given property of an object.
     * [.domElement](#Controller+domElement) : <code>DOMElement</code>
     * [.object](#Controller+object) : <code>Object</code>
     * [.property](#Controller+property) : <code>String</code>
+    * [.options(options)](#Controller+options) ⇒ [<code>Controller</code>](#Controller)
+    * [.name(name)](#Controller+name) ⇒ [<code>Controller</code>](#Controller)
+    * [.listen()](#Controller+listen) ⇒ [<code>Controller</code>](#Controller)
+    * [.remove()](#Controller+remove) ⇒ [<code>Controller</code>](#Controller)
     * [.onChange(fnc)](#Controller+onChange) ⇒ [<code>Controller</code>](#Controller)
     * [.onFinishChange(fnc)](#Controller+onFinishChange) ⇒ [<code>Controller</code>](#Controller)
     * [.setValue(newValue)](#Controller+setValue)
@@ -308,6 +312,38 @@ The object to manipulate
 The name of the property to manipulate
 
 **Kind**: instance property of [<code>Controller</code>](#Controller)  
+<a name="Controller+options"></a>
+
+### controller.options(options) ⇒ [<code>Controller</code>](#Controller)
+**Kind**: instance method of [<code>Controller</code>](#Controller)  
+
+| Param | Type |
+| --- | --- |
+| options | <code>Array</code> \| <code>Object</code> | 
+
+<a name="Controller+name"></a>
+
+### controller.name(name) ⇒ [<code>Controller</code>](#Controller)
+Sets the name of the controller.
+
+**Kind**: instance method of [<code>Controller</code>](#Controller)  
+
+| Param | Type |
+| --- | --- |
+| name | <code>string</code> | 
+
+<a name="Controller+listen"></a>
+
+### controller.listen() ⇒ [<code>Controller</code>](#Controller)
+Sets controller to listen for changes on its underlying object.
+
+**Kind**: instance method of [<code>Controller</code>](#Controller)  
+<a name="Controller+remove"></a>
+
+### controller.remove() ⇒ [<code>Controller</code>](#Controller)
+Removes the controller from its parent GUI.
+
+**Kind**: instance method of [<code>Controller</code>](#Controller)  
 <a name="Controller+onChange"></a>
 
 ### controller.onChange(fnc) ⇒ [<code>Controller</code>](#Controller)
