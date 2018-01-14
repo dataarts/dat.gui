@@ -14,6 +14,17 @@ In your `head` tag, include the following code:
 <script type="text/javascript" src="dat.gui.min.js"></script>
 ```
 
+## Installing from npm
+
+```
+$ npm install --save dat.gui
+```
+
+```js
+const dat = require('dat.gui').default;
+const gui = new dat.GUI();
+```
+
 ## Directory Contents
 
 ```
