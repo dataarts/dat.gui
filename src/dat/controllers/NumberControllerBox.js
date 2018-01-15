@@ -56,9 +56,7 @@ class NumberControllerBox extends NumberController {
     }
 
     function onFinish() {
-      if (_this.__onFinishChange) {
-        _this.__onFinishChange.call(_this, _this.getValue());
-      }
+      _this.__propagateFinishChange(_this.getValue());
     }
 
     function onBlur() {

@@ -40,6 +40,13 @@ class Controller {
     this.property = property;
 
     /**
+     * The containing GUI
+     * @type {GUI}
+     */
+    this.parent = undefined;
+
+
+    /**
      * The function to be called on change.
      * @type {Function}
      * @ignore
@@ -82,17 +89,48 @@ class Controller {
   }
 
   /**
+   * Fires onFinishChange function if it exists and propagates message
+   * to parent.
+   *
+   * @param {Object} newValue The new value of <code>object[property]</code>
+   */
+  __propagateFinishChange(val) {
+    if (this.__onFinishChange) {
+      this.__onFinishChange.call(this, val);
+    }
+
+    if (this.parent) {
+      this.parent.__propagateFinishChange();
+    }
+  }
+
+
+  /**
+   * Fires onChange function if it exists and propagates message to parent.
+   *
+   * @param {Object} newValue The new value of <code>object[property]</code>
+   */
+  __propagateChange(val) {
+    if (this.__onChange) {
+      this.__onChange.call(this, val);
+    }
+
+    if (this.parent) {
+      this.parent.__propagateChange();
+    }
+  }
+
+
+  /**
    * Change the value of <code>object[property]</code>
    *
    * @param {Object} newValue The new value of <code>object[property]</code>
    */
   setValue(newValue) {
     this.object[this.property] = newValue;
-    if (this.__onChange) {
-      this.__onChange.call(this, newValue);
-    }
-
+    this.__propagateChange(newValue);
     this.updateDisplay();
+
     return this;
   }
 

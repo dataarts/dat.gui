@@ -43,13 +43,10 @@ class FunctionController extends Controller {
   }
 
   fire() {
-    if (this.__onChange) {
-      this.__onChange.call(this);
-    }
+    this.__propagateChange(this.getValue());
+
     this.getValue().call(this.object);
-    if (this.__onFinishChange) {
-      this.__onFinishChange.call(this, this.getValue());
-    }
+    this.__propagateFinishChange(this.getValue());
   }
 }
 

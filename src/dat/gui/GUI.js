@@ -134,6 +134,18 @@ const GUI = function(pars) {
    */
   this.__rememberedObjectIndecesToControllers = [];
 
+
+  /*
+   * Called on change of child elements.
+   */
+  this.__onChange = undefined;
+
+  /*
+   * Called on finish change of child elements.
+   */
+  this.__onFinishChange = undefined;
+
+
   this.__listening = [];
 
   // Default parameters
@@ -586,6 +598,41 @@ common.extend(
       }
     },
 
+
+    onChange: function(f) {
+      this.__onChange = f;
+      return this;
+    },
+
+
+    onFinishChange: function(f) {
+      this.__onFinishChange = f;
+      return this;
+    },
+
+
+    __propagateChange: function() {
+      if (this.__onChange) {
+        this.__onChange.call(this);
+      }
+
+      if (this.parent) {
+        this.parent.__propagateChange();
+      }
+    },
+
+
+    __propagateFinishChange: function() {
+      if (this.__onFinishChange) {
+        this.__onFinishChange.call(this);
+      }
+
+      if (this.parent) {
+        this.parent.__propagateFinishChange();
+      }
+    },
+
+
     /**
      * Creates a new subfolder GUI instance.
      * @param name
@@ -811,9 +858,7 @@ common.extend(
         }
 
         // fire onFinishChange callback
-        if (controller.__onFinishChange) {
-          controller.__onFinishChange.call(controller, controller.getValue());
-        }
+        controller.__propagateFinishChange(controller.getValue());
       }, this);
 
       common.each(this.__folders, function(folder) {
@@ -1107,6 +1152,8 @@ function add(gui, object, property, params) {
   if (params.before instanceof Controller) {
     params.before = params.before.__li;
   }
+
+  controller.parent = gui;
 
   recallSavedValue(gui, controller);
 
