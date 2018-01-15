@@ -136,6 +136,8 @@ $input-color: lighten($background-color, 8.5%);
 
     &.color {
       border-left: 3px solid;
+      position: relative;
+      overflow: visible;
     }
 
     &.function {

@@ -266,7 +266,9 @@
   .dg .cr.boolean {
     border-left: 3px solid #806787; }
   .dg .cr.color {
-    border-left: 3px solid; }
+    border-left: 3px solid;
+    position: relative;
+    overflow: visible; }
   .dg .cr.function {
     border-left: 3px solid #e61d5f; }
   .dg .cr.number {
