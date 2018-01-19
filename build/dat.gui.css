@@ -122,6 +122,8 @@
   .dg .c {
     float: left;
     width: 60%;
+    height: 125px;
+    /*JLA*/
     position: relative; }
   .dg .c input[type=text] {
     border: 0;

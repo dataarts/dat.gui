@@ -1,3 +1,32 @@
+# HSVColorController, BgColorControler, NgColorController
+* new NgColorController , fixed style of color-controller (no popup, fixed height:125px, huebar width from 15px to 20px)
+* new BgColorController for handling two colors (i.e. foreground-background color)
+* new HSVColorController (toggle Mode: RGB <-> HSV)
+
+![BgColorController](screen5.jpg)
+![NgColorController](screen6.jpg)
+![HSVColorController-HSV](screen3.jpg)
+![HSVColorController-RGB](screen4.jpg)
+
+### Usage
+* addNgColor(properties,property) for NgColorController
+* addBgColor(properties,property) for BgColorController
+* addHSVColor(properties,property) for HSVColorController
+
+Note: 
+* For using BgColorController displaying a two colors, a second "property+bg" must be present. For Example: 
+`var myProps={color:#ffffff,colorbg:#000000};
+datgui.addBgColor(myProps,color);`
+* Changing the height for Ng/BgColorControllers can be done by adding the height field in the CSS .dg.c tag: `
+ .c {
+    float: left;
+    width: 60%;
+    height:125px; /*JLA*/
+    position: relative;
+  }
+`. The height of HSVColorController is fixed internaly to 125px.
+
+
 # dat.GUI
 A lightweight graphical user interface for changing variables in JavaScript. 
 
