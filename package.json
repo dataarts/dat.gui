@@ -59,6 +59,7 @@
     "eslint-plugin-import": "^1.15.0",
     "extend": "^3.0.0",
     "html-loader": "^0.4.4",
+    "jquery-mousewheel": "^3.1.13",
     "jsdoc-to-markdown": "^3.0.2",
     "node-sass": "^3.10.0",
     "replace-between": "0.0.8",

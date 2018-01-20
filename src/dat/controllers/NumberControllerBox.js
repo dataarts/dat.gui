@@ -48,6 +48,18 @@ class NumberControllerBox extends NumberController {
      */
     let prevY;
 
+    const mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? 'DOMMouseScroll' : 'mousewheel';
+
+    function onMouseWheel(e) {
+      let value = _this.getValue();
+      const delta = ((e.deltaY || -e.wheelDelta || e.detail) >> 10) || 1;
+      e.preventDefault();
+
+      if (delta < 0) value += _this.__impliedStep;
+      else value -= _this.__impliedStep;
+      _this.setValue(value);
+    }
+
     function onChange() {
       const attempted = parseFloat(_this.__input.value);
       if (!common.isNaN(attempted)) {
@@ -92,6 +104,7 @@ class NumberControllerBox extends NumberController {
     dom.bind(this.__input, 'change', onChange);
     dom.bind(this.__input, 'blur', onBlur);
     dom.bind(this.__input, 'mousedown', onMouseDown);
+    dom.bind(this.__input, mousewheelevt, onMouseWheel);
     dom.bind(this.__input, 'keydown', function(e) {
       // When pressing enter, you can be as precise as you want.
       if (e.keyCode === 13) {

@@ -45,8 +45,22 @@ class NumberControllerSlider extends NumberController {
 
     dom.bind(this.__background, 'mousedown', onMouseDown);
 
+    const mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? 'DOMMouseScroll' : 'mousewheel';
+    dom.bind(this.__background, mousewheelevt, onMouseWheel);
+
     dom.addClass(this.__background, 'slider');
     dom.addClass(this.__foreground, 'slider-fg');
+
+    function onMouseWheel(e) {
+      let value = _this.getValue();
+      const delta = ((e.deltaY || -e.wheelDelta || e.detail) >> 10) || 1;
+      e.preventDefault();
+      document.activeElement.blur();
+
+      if (delta < 0) value += _this.__impliedStep;
+      else value -= _this.__impliedStep;
+      _this.setValue(value);
+    }
 
     function onMouseDown(e) {
       document.activeElement.blur();
