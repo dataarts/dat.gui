@@ -11,7 +11,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-module.exports = {
+const css = {
   load: function(url, indoc) {
     const doc = indoc || document;
     const link = doc.createElement('link');
@@ -21,11 +21,11 @@ module.exports = {
     doc.getElementsByTagName('head')[0].appendChild(link);
   },
 
-  inject: function(css, indoc) {
+  inject: function(cssContent, indoc) {
     const doc = indoc || document;
     const injected = document.createElement('style');
     injected.type = 'text/css';
-    injected.innerHTML = css;
+    injected.innerHTML = cssContent;
     const head = doc.getElementsByTagName('head')[0];
     try {
       head.appendChild(injected);
@@ -33,3 +33,5 @@ module.exports = {
     }
   }
 };
+
+export default css;
