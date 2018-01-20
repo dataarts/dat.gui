@@ -3,6 +3,7 @@
   "version": "0.6.5",
   "description": "A lightweight graphical user interface for changing variables in JavaScript.",
   "main": "index.js",
+  "module": "index.js",
   "directories": {
     "test": "tests"
   },
