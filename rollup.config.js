@@ -37,7 +37,10 @@ export default {
   },
   plugins: [
     resolve(),
-    sass({options: {outputStyle: 'compressed'}}),
+    sass({
+      output: 'build/dat.gui.css',
+      options: {outputStyle: 'compressed'}
+    }),
     babel({
       plugins: ['external-helpers'],
       exclude: 'node_modules/**'
