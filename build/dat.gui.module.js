@@ -11,12 +11,6 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-	typeof define === 'function' && define.amd ? define(factory) :
-	(global.dat = factory());
-}(this, (function () { 'use strict';
-
 function ___$insertStyle(css) {
   if (!css) {
     return;
@@ -2502,7 +2496,5 @@ var index = {
   GUI: GUI
 };
 
-return index;
-
-})));
-//# sourceMappingURL=dat.gui.js.map
+export default index;
+//# sourceMappingURL=dat.gui.module.js.map
