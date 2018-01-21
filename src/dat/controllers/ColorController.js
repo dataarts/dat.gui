@@ -220,7 +220,7 @@ class ColorController extends Controller {
       if (e.type.indexOf('touch') === -1) { e.preventDefault(); }
 
       const fieldRect = _this.__saturation_field.getBoundingClientRect();
-      const {clientX, clientY} = (e.touches && e.touches[0]) || e;
+      const { clientX, clientY } = (e.touches && e.touches[0]) || e;
       let s = (clientX - fieldRect.left) / (fieldRect.right - fieldRect.left);
       let v = 1 - (clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
 
@@ -249,7 +249,7 @@ class ColorController extends Controller {
       if (e.type.indexOf('touch') === -1) { e.preventDefault(); }
 
       const fieldRect = _this.__hue_field.getBoundingClientRect();
-      const {clientY} = (e.touches && e.touches[0]) || e;
+      const { clientY } = (e.touches && e.touches[0]) || e;
       let h = 1 - (clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
 
       if (h > 1) {
