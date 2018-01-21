@@ -71,6 +71,14 @@ class ColorController extends Controller {
         });
     });
 
+    dom.bind(this.__selector, 'touchstart', function(/* e */) {
+      dom
+        .addClass(this, 'drag')
+        .bind(window, 'touchend', function(/* e */) {
+          dom.removeClass(_this.__selector, 'drag');
+        });
+    });
+
     const valueField = document.createElement('div');
 
     common.extend(this.__selector.style, {
@@ -141,25 +149,43 @@ class ColorController extends Controller {
     });
 
     dom.bind(this.__saturation_field, 'mousedown', fieldDown);
-    dom.bind(this.__field_knob, 'mousedown', fieldDown);
+    dom.bind(this.__saturation_field, 'touchstart', fieldDown);
 
-    dom.bind(this.__hue_field, 'mousedown', function(e) {
-      setH(e);
-      dom.bind(window, 'mousemove', setH);
-      dom.bind(window, 'mouseup', fieldUpH);
-    });
+    dom.bind(this.__field_knob, 'mousedown', fieldDown);
+    dom.bind(this.__field_knob, 'touchstart', fieldDown);
+
+    dom.bind(this.__hue_field, 'mousedown', fieldDownH);
+    dom.bind(this.__hue_field, 'touchstart', fieldDownH);
 
     function fieldDown(e) {
       setSV(e);
-      // document.body.style.cursor = 'none';
       dom.bind(window, 'mousemove', setSV);
+      dom.bind(window, 'touchmove', setSV);
       dom.bind(window, 'mouseup', fieldUpSV);
+      dom.bind(window, 'touchend', fieldUpSV);
+    }
+
+    function fieldDownH(e) {
+      setH(e);
+      dom.bind(window, 'mousemove', setH);
+      dom.bind(window, 'touchmove', setH);
+      dom.bind(window, 'mouseup', fieldUpH);
+      dom.bind(window, 'touchend', fieldUpH);
     }
 
     function fieldUpSV() {
       dom.unbind(window, 'mousemove', setSV);
+      dom.unbind(window, 'touchmove', setSV);
       dom.unbind(window, 'mouseup', fieldUpSV);
-      // document.body.style.cursor = 'default';
+      dom.unbind(window, 'touchend', fieldUpSV);
+      onFinish();
+    }
+
+    function fieldUpH() {
+      dom.unbind(window, 'mousemove', setH);
+      dom.unbind(window, 'touchmove', setH);
+      dom.unbind(window, 'mouseup', fieldUpH);
+      dom.unbind(window, 'touchend', fieldUpH);
       onFinish();
     }
 
@@ -171,12 +197,6 @@ class ColorController extends Controller {
       } else {
         this.value = _this.__color.toString();
       }
-    }
-
-    function fieldUpH() {
-      dom.unbind(window, 'mousemove', setH);
-      dom.unbind(window, 'mouseup', fieldUpH);
-      onFinish();
     }
 
     function onFinish() {
@@ -197,11 +217,12 @@ class ColorController extends Controller {
     this.updateDisplay();
 
     function setSV(e) {
-      e.preventDefault();
+      if (e.type.indexOf('touch') === -1) { e.preventDefault(); }
 
       const fieldRect = _this.__saturation_field.getBoundingClientRect();
-      let s = (e.clientX - fieldRect.left) / (fieldRect.right - fieldRect.left);
-      let v = 1 - (e.clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
+      const {clientX, clientY} = (e.touches && e.touches[0]) || e;
+      let s = (clientX - fieldRect.left) / (fieldRect.right - fieldRect.left);
+      let v = 1 - (clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
 
       if (v > 1) {
         v = 1;
@@ -225,10 +246,11 @@ class ColorController extends Controller {
     }
 
     function setH(e) {
-      e.preventDefault();
+      if (e.type.indexOf('touch') === -1) { e.preventDefault(); }
 
       const fieldRect = _this.__hue_field.getBoundingClientRect();
-      let h = 1 - (e.clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
+      const {clientY} = (e.touches && e.touches[0]) || e;
+      let h = 1 - (clientY - fieldRect.top) / (fieldRect.bottom - fieldRect.top);
 
       if (h > 1) {
         h = 1;
