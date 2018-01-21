@@ -26,10 +26,12 @@ export default {
     file: './build/dat.gui.js',
     format: 'umd',
     name: 'dat',
+    sourcemap: true,
     banner: banner
   }, {
     file: './build/dat.gui.module.js',
     format: 'es',
+    sourcemap: true,
     banner: banner
   }],
   watch: {
@@ -38,6 +40,7 @@ export default {
   plugins: [
     resolve(),
     sass({
+      insert: true,
       output: 'build/dat.gui.css',
       options: {outputStyle: 'compressed'}
     }),

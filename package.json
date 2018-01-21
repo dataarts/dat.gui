@@ -12,6 +12,7 @@
     "build": "rollup -c && rollup -c rollup.config.min.js",
     "build-docs": "jsdoc2md -f src/dat/gui/GUI.js src/dat/controllers/Controller.js src/dat/controllers/NumberController.js | replace-between --target API.md --token API",
     "lint": "eslint src",
+    "preversion": "npm run lint",
     "version": "npm run build && git add -A build",
     "postversion": "git push && git push --tags && npm publish"
   },
