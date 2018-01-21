@@ -1,5 +1,10 @@
 ## Changelog
 
+### 0.7.0
+ * Changed build system to Rollup, publishing ES6 and UMD modules. #172
+ * Added .removeFolder(). #113 #158 
+ * Added API documentation. #165
+
 ### 0.6.5
  * Add browserify support. #137
 
