@@ -21,7 +21,7 @@ $ npm install --save dat.gui
 ```
 
 ```js
-const dat = require('dat.gui').default;
+const dat = require('dat.gui');
 const gui = new dat.GUI();
 ```
 
