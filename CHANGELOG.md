@@ -4,6 +4,7 @@
  * Changed build system to Rollup, publishing ES6 and UMD modules. #172
  * Added .removeFolder(). #113 #158 
  * Added API documentation. #165
+ * Improved touch support. #173
 
 ### 0.6.5
  * Add browserify support. #137
