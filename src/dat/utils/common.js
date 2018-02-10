@@ -132,7 +132,7 @@ const Common = {
   //isArray: Array.isArray || function(obj) {
   isArray: function(obj) {
     //return obj.constructor === Array;
-    return obj && obj.length >= 0 && typeof obj === 'object';
+    return obj != void 0 && obj.length >= 0 && typeof obj === 'object';
   },
 
   isObject: function(obj) {
