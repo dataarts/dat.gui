@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.7.1
+ * Fix listener cleanup in .destroy() and .removeFolder(). #177
+
 ### 0.7.0
  * Changed build system to Rollup, publishing ES6 and UMD modules. #172
  * Added .removeFolder(). #113 #158 
