@@ -570,20 +570,30 @@ common.extend(
     },
 
     /**
-     * Removes the GUI from the document and unbinds all event listeners.
+     * Removes the root GUI from the document and unbinds all event listeners.
+     * For subfolders, use `gui.removeFolder(folder)` instead.
      * @instance
      */
     destroy: function() {
+      if (this.parent) {
+        throw new Error(
+          'Only the root GUI should be removed with .destroy(). ' +
+          'For subfolders, use gui.removeFolder(folder) instead.'
+        );
+      }
+
       if (this.autoPlace) {
         autoPlaceContainer.removeChild(this.domElement);
       }
 
-      dom.unbind(window, 'keydown', GUI._keydownHandler, false);
-      dom.unbind(window, 'resize', this.__resizeHandler);
+      const _this = this;
+      common.each(this.__folders, function(subfolder) {
+        _this.removeFolder(subfolder);
+      });
 
-      if (this.saveToLocalStorageIfPossible) {
-        dom.unbind(window, 'unload', this.saveToLocalStorageIfPossible);
-      }
+      dom.unbind(window, 'keydown', GUI._keydownHandler, false);
+
+      removeListeners(this);
     },
 
     /**
@@ -645,7 +655,14 @@ common.extend(
         delete this.load.folders[folder.name];
       }
 
+      removeListeners(folder);
+
       const _this = this;
+
+      common.each(folder.__folders, function(subfolder) {
+        folder.removeFolder(subfolder);
+      });
+
       common.defer(function() {
         _this.onResize();
       });
@@ -868,10 +885,17 @@ function addRow(gui, newDom, liBefore) {
   return li;
 }
 
+function removeListeners(gui) {
+  dom.unbind(window, 'resize', gui.__resizeHandler);
+
+  if (gui.saveToLocalStorageIfPossible) {
+    dom.unbind(window, 'unload', gui.saveToLocalStorageIfPossible);
+  }
+}
+
 function markPresetModified(gui, modified) {
   const opt = gui.__preset_select[gui.__preset_select.selectedIndex];
 
-  // console.log('mark', modified, opt);
   if (modified) {
     opt.innerHTML = opt.value + '*';
   } else {
