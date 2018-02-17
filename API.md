@@ -208,7 +208,8 @@ Removes the given controller from the GUI.
 <a name="GUI+destroy"></a>
 
 ### gui.destroy()
-Removes the GUI from the document and unbinds all event listeners.
+Removes the root GUI from the document and unbinds all event listeners.
+For subfolders, use `gui.removeFolder(folder)` instead.
 
 **Kind**: instance method of [<code>GUI</code>](#GUI)  
 <a name="GUI+addFolder"></a>
