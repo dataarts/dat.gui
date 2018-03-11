@@ -60,10 +60,11 @@ manipulate variables and fire functions on the fly.
 | [params] | <code>Object</code> |  |  |
 | [params.name] | <code>String</code> |  | The name of this GUI. |
 | [params.load] | <code>Object</code> |  | JSON object representing the saved state of this GUI. |
-| [params.auto] | <code>Boolean</code> | <code>true</code> |  |
 | [params.parent] | <code>dat.gui.GUI</code> |  | The GUI I'm nested in. |
-| [params.closed] | <code>Boolean</code> |  | If true, starts closed |
-| [params.closeOnTop] | <code>Boolean</code> |  | If true, close/open button shows on top of the GUI |
+| [params.autoPlace] | <code>Boolean</code> | <code>true</code> |  |
+| [params.hideable] | <code>Boolean</code> | <code>true</code> | If true, GUI is closed by the <kbd>h</kbd> keypress. |
+| [params.closed] | <code>Boolean</code> | <code>false</code> | If true, starts closed |
+| [params.closeOnTop] | <code>Boolean</code> | <code>false</code> | If true, close/open button shows on top of the GUI |
 
 **Example**  
 ```js

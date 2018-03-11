@@ -80,10 +80,11 @@ const hideableGuis = [];
  * @param {String} [params.name] The name of this GUI.
  * @param {Object} [params.load] JSON object representing the saved state of
  * this GUI.
- * @param {Boolean} [params.auto=true]
  * @param {dat.gui.GUI} [params.parent] The GUI I'm nested in.
- * @param {Boolean} [params.closed] If true, starts closed
- * @param {Boolean} [params.closeOnTop] If true, close/open button shows on top of the GUI
+ * @param {Boolean} [params.autoPlace=true]
+ * @param {Boolean} [params.hideable=true] If true, GUI is shown/hidden by <kbd>h</kbd> keypress.
+ * @param {Boolean} [params.closed=false] If true, starts closed
+ * @param {Boolean} [params.closeOnTop=false] If true, close/open button shows on top of the GUI
  */
 const GUI = function(pars) {
   const _this = this;
