@@ -2,3 +2,4 @@
 .sass-cache
 .idea/
 node_modules/
+tmp/
