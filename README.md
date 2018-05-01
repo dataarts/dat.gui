@@ -25,7 +25,7 @@ $ npm install --save dat.gui
 const dat = require('dat.gui');
 
 // ES6:
-import dat from 'dat.gui';
+import * as dat from 'dat.gui';
 
 const gui = new dat.GUI();
 ```
