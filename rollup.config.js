@@ -23,6 +23,7 @@ const banner = fs.readFileSync(path.join(__dirname, 'licenseBanner.txt'));
 export default {
   input: 'src/dat/index.js',
   output: [{
+    // TODO: Remove default exports, and this line, in v0.8.0.
     exports: 'named',
     file: './build/dat.gui.js',
     format: 'umd',
