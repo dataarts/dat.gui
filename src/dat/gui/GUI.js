@@ -683,6 +683,12 @@ common.extend(
       this.closed = true;
     },
 
+    /**
+     * Toggles the visibility of the GUI.
+     */
+    hide: function() {
+      GUI.toggleHide();
+    },
 
     onResize: function() {
       // we debounce this function to prevent performance issues when rotating on tablet/mobile
