@@ -688,7 +688,6 @@ common.extend(
       // we debounce this function to prevent performance issues when rotating on tablet/mobile
       const root = this.getRoot();
       if (root.scrollable) {
-        const top = dom.getOffset(root.__ul).top;
         let h = 0;
 
         common.each(root.__ul.childNodes, function(node) {
@@ -697,9 +696,9 @@ common.extend(
           }
         });
 
-        if (window.innerHeight - top - CLOSE_BUTTON_HEIGHT < h) {
+        if (root.domElement.clientHeight - CLOSE_BUTTON_HEIGHT < h) {
           dom.addClass(root.domElement, GUI.CLASS_TOO_TALL);
-          root.__ul.style.height = window.innerHeight - top - CLOSE_BUTTON_HEIGHT + 'px';
+          root.__ul.style.height = root.domElement.clientHeight - CLOSE_BUTTON_HEIGHT + 'px';
         } else {
           dom.removeClass(root.domElement, GUI.CLASS_TOO_TALL);
           root.__ul.style.height = 'auto';
