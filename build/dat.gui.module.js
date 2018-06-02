@@ -1169,6 +1169,9 @@ var NumberControllerBox = function (_NumberController) {
   createClass(NumberControllerBox, [{
     key: 'updateDisplay',
     value: function updateDisplay() {
+      if (this.__input === document.activeElement) {
+        return;
+      }
       this.__input.value = this.__truncationSuspended ? this.getValue() : roundToDecimal(this.getValue(), this.__precision);
       return get(NumberControllerBox.prototype.__proto__ || Object.getPrototypeOf(NumberControllerBox.prototype), 'updateDisplay', this).call(this);
     }
@@ -1238,6 +1241,9 @@ var NumberControllerSlider = function (_NumberController) {
   createClass(NumberControllerSlider, [{
     key: 'updateDisplay',
     value: function updateDisplay() {
+      if (this.__input === document.activeElement) {
+        return;
+      }
       var pct = (this.getValue() - this.__min) / (this.__max - this.__min);
       this.__foreground.style.width = pct * 100 + '%';
       return get(NumberControllerSlider.prototype.__proto__ || Object.getPrototypeOf(NumberControllerSlider.prototype), 'updateDisplay', this).call(this);
