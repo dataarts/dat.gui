@@ -109,6 +109,9 @@ class NumberControllerSlider extends NumberController {
   }
 
   updateDisplay() {
+    if(this.__input === document.activeElement) {
+        return;
+    }
     const pct = (this.getValue() - this.__min) / (this.__max - this.__min);
     this.__foreground.style.width = pct * 100 + '%';
     return super.updateDisplay();
