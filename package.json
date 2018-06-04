@@ -27,9 +27,9 @@
   },
   "homepage": "https://github.com/dataarts/dat.gui#readme",
   "devDependencies": {
-    "babel-core": "^6.26.0",
+    "babel-core": "^6.26.3",
     "babel-plugin-external-helpers": "^6.22.0",
-    "babel-preset-env": "^1.6.1",
+    "babel-preset-env": "^1.7.0",
     "concurrently": "^3.5.1",
     "eslint": "^3.5.0",
     "eslint-config-airbnb-base": "^7.1.0",
@@ -39,12 +39,12 @@
     "jsdoc-to-markdown": "^4.0.1",
     "replace-between": "0.0.8",
     "rollup": "^0.54.1",
-    "rollup-plugin-babel": "^3.0.3",
-    "rollup-plugin-cleanup": "^2.0.0",
-    "rollup-plugin-node-resolve": "^3.0.2",
+    "rollup-plugin-babel": "^3.0.4",
+    "rollup-plugin-cleanup": "^2.0.1",
+    "rollup-plugin-node-resolve": "^3.3.0",
     "rollup-plugin-sass": "^0.6.1",
     "rollup-plugin-uglify": "^2.0.1",
-    "serve": "^6.5.6"
+    "serve": "^6.5.8"
   },
   "eslintConfig": {
     "extends": "airbnb-base",
