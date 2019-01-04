@@ -980,7 +980,7 @@ function augmentController(gui, li, controller) {
     const box = new NumberControllerBox(controller.object, controller.property,
       { min: controller.__min, max: controller.__max, step: controller.__step });
 
-    common.each(['updateDisplay', 'onChange', 'onFinishChange', 'step'], function(method) {
+    common.each(['updateDisplay', 'onChange', 'onFinishChange', 'step', 'min', 'max'], function(method) {
       const pc = controller[method];
       const pb = box[method];
       controller[method] = box[method] = function() {
