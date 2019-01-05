@@ -2203,7 +2203,7 @@ function augmentController(gui, li, controller) {
   });
   if (controller instanceof NumberControllerSlider) {
     var box = new NumberControllerBox(controller.object, controller.property, { min: controller.__min, max: controller.__max, step: controller.__step });
-    Common.each(['updateDisplay', 'onChange', 'onFinishChange', 'step'], function (method) {
+    Common.each(['updateDisplay', 'onChange', 'onFinishChange', 'step', 'min', 'max'], function (method) {
       var pc = controller[method];
       var pb = box[method];
       controller[method] = box[method] = function () {
