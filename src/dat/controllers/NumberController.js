@@ -68,7 +68,7 @@ class NumberController extends Controller {
       _v = this.__max;
     }
 
-    if (this.__step !== undefined && _v % this.__step !== 0) {
+    if (this.__step !== undefined && this.__step !== 0 && _v % this.__step !== 0) {
       _v = Math.round(_v / this.__step) * this.__step;
     }
 
