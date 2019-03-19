@@ -706,6 +706,18 @@ var Controller = function () {
     this.__onFinishChange = undefined;
   }
   createClass(Controller, [{
+    key: 'hide',
+    value: function hide() {
+      this.domElement.parentNode.parentNode.style.display = 'none';
+      return this;
+    }
+  }, {
+    key: 'show',
+    value: function show() {
+      this.domElement.parentNode.parentNode.style.display = '';
+      return this;
+    }
+  }, {
     key: 'onChange',
     value: function onChange(fnc) {
       this.__onChange = fnc;
@@ -2012,6 +2024,12 @@ Common.extend(GUI.prototype,
   },
   close: function close() {
     this.closed = true;
+  },
+  hide: function hide() {
+    this.domElement.style.display = 'none';
+  },
+  show: function show() {
+    this.domElement.style.display = '';
   },
   onResize: function onResize() {
     var root = this.getRoot();

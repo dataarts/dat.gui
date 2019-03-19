@@ -1,9 +1,17 @@
 # dat.GUI
-A lightweight graphical user interface for changing variables in JavaScript. 
+@MacroMan's fork with extra features
+
+A lightweight graphical user interface for changing variables in JavaScript.
 
 Get started with dat.GUI by reading the [tutorial](http://workshop.chromeexperiments.com/examples/gui)
 or the [API documentation](API.md).
 
+
+## MacroMan's extra features
+* hide/show methods on GUI instances
+* hide/show methods on Controllers
+
+See API.md for usage
 
 
 ## Packaged Builds
