@@ -684,6 +684,20 @@ common.extend(
       this.closed = true;
     },
 
+    /**
+    * Hides the GUI.
+    */
+    hide: function() {
+      this.domElement.style.display = 'none';
+    },
+
+    /**
+    * Shows the GUI.
+    */
+    show: function() {
+      this.domElement.style.display = '';
+    },
+
 
     onResize: function() {
       // we debounce this function to prevent performance issues when rotating on tablet/mobile
