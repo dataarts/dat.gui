@@ -48,6 +48,8 @@ manipulate variables and fire functions on the fly.
     * [.removeFolder(folder)](#GUI+removeFolder)
     * [.open()](#GUI+open)
     * [.close()](#GUI+close)
+    * [.hide()](#GUI+hide)
+    * [.show()](#GUI+show)
     * [.getRoot()](#GUI+getRoot) ⇒ <code>dat.gui.GUI</code>
     * [.getSaveObject()](#GUI+getSaveObject) ⇒ <code>Object</code>
 
@@ -62,7 +64,7 @@ manipulate variables and fire functions on the fly.
 | [params.load] | <code>Object</code> |  | JSON object representing the saved state of this GUI. |
 | [params.parent] | <code>dat.gui.GUI</code> |  | The GUI I'm nested in. |
 | [params.autoPlace] | <code>Boolean</code> | <code>true</code> |  |
-| [params.hideable] | <code>Boolean</code> | <code>true</code> | If true, GUI is closed by the <kbd>h</kbd> keypress. |
+| [params.hideable] | <code>Boolean</code> | <code>true</code> | If true, GUI is shown/hidden by <kbd>h</kbd> keypress. |
 | [params.closed] | <code>Boolean</code> | <code>false</code> | If true, starts closed |
 | [params.closeOnTop] | <code>Boolean</code> | <code>false</code> | If true, close/open button shows on top of the GUI |
 
@@ -253,6 +255,18 @@ Opens the GUI.
 Closes the GUI.
 
 **Kind**: instance method of [<code>GUI</code>](#GUI)  
+<a name="GUI+hide"></a>
+
+### gui.hide()
+Hides the GUI.
+
+**Kind**: instance method of [<code>GUI</code>](#GUI)  
+<a name="GUI+show"></a>
+
+### gui.show()
+Shows the GUI.
+
+**Kind**: instance method of [<code>GUI</code>](#GUI)  
 <a name="GUI+getRoot"></a>
 
 ### gui.getRoot() ⇒ <code>dat.gui.GUI</code>
@@ -280,6 +294,8 @@ An "abstract" class that represents a given property of an object.
     * [.name(name)](#Controller+name) ⇒ [<code>Controller</code>](#Controller)
     * [.listen()](#Controller+listen) ⇒ [<code>Controller</code>](#Controller)
     * [.remove()](#Controller+remove) ⇒ [<code>Controller</code>](#Controller)
+    * [.hide()](#Controller+hide)
+    * [.show()](#Controller+show)
     * [.onChange(fnc)](#Controller+onChange) ⇒ [<code>Controller</code>](#Controller)
     * [.onFinishChange(fnc)](#Controller+onFinishChange) ⇒ [<code>Controller</code>](#Controller)
     * [.setValue(newValue)](#Controller+setValue)
@@ -344,6 +360,18 @@ Sets controller to listen for changes on its underlying object.
 
 ### controller.remove() ⇒ [<code>Controller</code>](#Controller)
 Removes the controller from its parent GUI.
+
+**Kind**: instance method of [<code>Controller</code>](#Controller)  
+<a name="Controller+hide"></a>
+
+### controller.hide()
+Hides the controller on it's parent GUI.
+
+**Kind**: instance method of [<code>Controller</code>](#Controller)  
+<a name="Controller+show"></a>
+
+### controller.show()
+Shows the controller on it's parent GUI.
 
 **Kind**: instance method of [<code>Controller</code>](#Controller)  
 <a name="Controller+onChange"></a>

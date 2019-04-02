@@ -55,6 +55,22 @@ class Controller {
   }
 
   /**
+  * Hides the controller on it's parent GUI.
+  */
+  hide() {
+    this.domElement.parentNode.parentNode.style.display = 'none';
+    return this;
+  }
+
+  /**
+  * Shows the controller on it's parent GUI.
+  */
+  show() {
+    this.domElement.parentNode.parentNode.style.display = '';
+    return this;
+  }
+
+  /**
    * Specify that a function fire every time someone changes the value with
    * this Controller.
    *
