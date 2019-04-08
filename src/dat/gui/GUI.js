@@ -974,7 +974,8 @@ function augmentController(gui, li, controller) {
      * Sets controller to listen for changes on its underlying object.
      * @return {Controller}
      */
-    listen: function() {
+    listen: function(forceUpdateDisplay) {
+      controller.forceUpdateDisplay = !!forceUpdateDisplay;
       controller.__gui.listen(controller);
       return controller;
     },
