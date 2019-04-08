@@ -79,8 +79,8 @@ class NumberControllerBox extends NumberController {
     }
 
     function onMouseDown(e) {
-      dom.bind(window, 'mousemove', onMouseDrag);
-      dom.bind(window, 'mouseup', onMouseUp);
+      dom.bind(window, 'mousemove', onMouseDrag, false, true);
+      dom.bind(window, 'mouseup', onMouseUp, false, true);
       prevY = e.clientY;
     }
 
@@ -89,9 +89,9 @@ class NumberControllerBox extends NumberController {
 
     // Makes it so manually specified values are not truncated.
 
-    dom.bind(this.__input, 'change', onChange);
-    dom.bind(this.__input, 'blur', onBlur);
-    dom.bind(this.__input, 'mousedown', onMouseDown);
+    dom.bind(this.__input, 'change', onChange, false, true);
+    dom.bind(this.__input, 'blur', onBlur, false, true);
+    dom.bind(this.__input, 'mousedown', onMouseDown, false, true);
     dom.bind(this.__input, 'keydown', function(e) {
       // When pressing enter, you can be as precise as you want.
       if (e.keyCode === 13) {
@@ -100,7 +100,7 @@ class NumberControllerBox extends NumberController {
         _this.__truncationSuspended = false;
         onFinish();
       }
-    });
+    }, false, true);
 
     this.updateDisplay();
 

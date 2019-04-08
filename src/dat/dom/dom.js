@@ -161,10 +161,12 @@ const dom = {
    * @param func
    * @param bool
    */
-  bind: function(elem, event, func, newBool) {
+  bind: function(elem, event, func, newBool, newPassive) {
     const bool = newBool || false;
+    const passive = newPassive || false;
     if (elem.addEventListener) {
-      elem.addEventListener(event, func, bool);
+      const listenerArg = (common.supportsPassive()) ? { capture: bool, passive: passive } : bool;
+      elem.addEventListener(event, func, listenerArg);
     } else if (elem.attachEvent) {
       elem.attachEvent('on' + event, func);
     }
