@@ -20,6 +20,7 @@ import FunctionController from '../controllers/FunctionController';
 import NumberControllerBox from '../controllers/NumberControllerBox';
 import NumberControllerSlider from '../controllers/NumberControllerSlider';
 import ColorController from '../controllers/ColorController';
+import PlotterController from '../controllers/PlotterController';
 import requestAnimationFrame from '../utils/requestAnimationFrame';
 import CenteredDiv from '../dom/CenteredDiv';
 import dom from '../dom/dom';
@@ -552,6 +553,17 @@ common.extend(
         property,
         {
           color: true
+        }
+      );
+    },
+
+    addPlotter: function(object, property) {
+      return add(
+        this,
+        object,
+        property,
+        {
+          plotter: true
         }
       );
     },
@@ -1139,6 +1151,9 @@ function add(gui, object, property, params) {
 
   if (params.color) {
     controller = new ColorController(object, property);
+  } else if (params.plotter) {
+    console.log(params.factoryArgs);
+    controller = new PlotterController(object, property);
   } else {
     const factoryArgs = [object, property].concat(params.factoryArgs);
     controller = ControllerFactory.apply(gui, factoryArgs);

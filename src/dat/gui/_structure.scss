@@ -180,7 +180,7 @@ $button-height: 20px;
   }
 
   /** Controller placement */
-  .c input[type=text] {
+  .c input[type=text], .c canvas {
     border: 0;
     margin-top: 4px;
     padding: 3px;
