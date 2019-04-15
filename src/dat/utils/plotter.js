@@ -1,6 +1,20 @@
 /**
+ * dat-gui JavaScript Controller Library
+ * http://code.google.com/p/dat-gui
+ *
+ * Copyright 2011 Data Arts Team, Google Creative Lab
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
+/**
  * @author mrdoob / http://mrdoob.com/
  * Code from stats.js r17: https://github.com/mrdoob/stats.js
+ * Modified by MacroMan
  * Licence from that project:
 
  The MIT License
@@ -31,10 +45,10 @@ const plotter = function ( fg, bg ) {
 	var min = Infinity, max = 0, round = Math.round;
 	var PR = round( window.devicePixelRatio || 1 );
 
-	var WIDTH = 160 * PR, HEIGHT = 48 * PR,
+	var WIDTH = 160 * PR, HEIGHT = 60 * PR,
 			TEXT_X = 3 * PR, TEXT_Y = 2 * PR,
 			GRAPH_X = 3 * PR, GRAPH_Y = 3 * PR,
-			GRAPH_WIDTH = 154 * PR, GRAPH_HEIGHT = 30 * PR;
+			GRAPH_WIDTH = 154 * PR, GRAPH_HEIGHT = 54 * PR;
 
 	var canvas = document.createElement( 'canvas' );
 	canvas.width = WIDTH;
@@ -64,20 +78,33 @@ const plotter = function ( fg, bg ) {
 			min = Math.min( min, value );
 			max = Math.max( max, value );
 
-			context.fillStyle = bg;
 			context.globalAlpha = 1;
-			context.fillRect( 0, 0, WIDTH, GRAPH_Y );
 			context.fillStyle = fg;
-			context.fillText( round( value ) + ' ' + name + ' (' + round( min ) + '-' + round( max ) + ')', TEXT_X, TEXT_Y );
 
+			// Move graph over 1px
 			context.drawImage( canvas, GRAPH_X + PR, GRAPH_Y, GRAPH_WIDTH - PR, GRAPH_HEIGHT, GRAPH_X, GRAPH_Y, GRAPH_WIDTH - PR, GRAPH_HEIGHT );
 
+			// Draw fg color
 			context.fillRect( GRAPH_X + GRAPH_WIDTH - PR, GRAPH_Y, PR, GRAPH_HEIGHT );
 
 			context.fillStyle = bg;
 			context.globalAlpha = 0.9;
-			context.fillRect( GRAPH_X + GRAPH_WIDTH - PR, GRAPH_Y, PR, round( ( 1 - ( value / maxValue ) ) * GRAPH_HEIGHT ) );
 
+			// Blank out above the value
+			context.fillRect(
+				GRAPH_X + GRAPH_WIDTH - PR,
+				GRAPH_Y,
+				PR,
+				round( ( 1 - ( value / maxValue ) ) * GRAPH_HEIGHT )
+			);
+
+			// Blank out below the value
+			context.fillRect(
+				GRAPH_X + GRAPH_WIDTH - PR,
+				round( ( 1 - ( value / maxValue ) ) * GRAPH_HEIGHT ) + PR + 3,
+				PR,
+				round( ( value / maxValue ) * GRAPH_HEIGHT )
+			);
 		}
 
 	};

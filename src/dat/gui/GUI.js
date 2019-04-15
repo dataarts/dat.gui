@@ -557,13 +557,32 @@ common.extend(
       );
     },
 
-    addPlotter: function(object, property) {
+    /**
+     * Adds a new plotter controller to the GUI.
+     *
+     * @param object
+     * @param property
+     * @param max The maximum value that the plotter will display (default 10)
+     * @param period The update interval in ms or use 0 to only update on value change (default 500)
+     * @returns {Controller} The controller that was added to the GUI.
+     * @instance
+     *
+     * @example
+     * var obj = {
+     *   value: 5
+     * };
+     * gui.addPlotter(obj, 'value', 10, 100);
+     * gui.addPlotter(obj, 'value', 10, 0);
+     */
+    addPlotter: function(object, property, max, period) {
       return add(
         this,
         object,
         property,
         {
-          plotter: true
+          plotter: true,
+          max: max || 10,
+          period: (typeof period === 'number') ? period : 500
         }
       );
     },
@@ -1152,8 +1171,8 @@ function add(gui, object, property, params) {
   if (params.color) {
     controller = new ColorController(object, property);
   } else if (params.plotter) {
-    console.log(params.factoryArgs);
-    controller = new PlotterController(object, property);
+    controller = new PlotterController(object, property, params);
+    gui.listen(controller);
   } else {
     const factoryArgs = [object, property].concat(params.factoryArgs);
     controller = ControllerFactory.apply(gui, factoryArgs);
@@ -1180,6 +1199,8 @@ function add(gui, object, property, params) {
   dom.addClass(li, GUI.CLASS_CONTROLLER_ROW);
   if (controller instanceof ColorController) {
     dom.addClass(li, 'color');
+  } else if (controller instanceof PlotterController) {
+    dom.addClass(li, 'plotter');
   } else {
     dom.addClass(li, typeof controller.getValue());
   }

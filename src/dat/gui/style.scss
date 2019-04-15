@@ -138,6 +138,10 @@ $input-color: lighten($background-color, 8.5%);
       border-left: 3px solid;
     }
 
+    &.plotter {
+      height: 58px;
+    }
+
     &.function {
       border-left: 3px solid $function-color;
     }

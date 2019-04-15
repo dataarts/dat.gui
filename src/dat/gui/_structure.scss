@@ -195,6 +195,12 @@ $button-height: 20px;
     margin-left: 0;
   }
 
+  /** Reduce margin and set height for plotter */
+  .c canvas {
+    padding: 0;
+    height: 53px;
+  }
+
   .slider {
     float: left;
     width: 66%;

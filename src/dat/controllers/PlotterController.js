@@ -12,27 +12,44 @@
  */
 
 import Controller from './Controller';
-import dom from '../dom/dom';
-import plotter from '../utils/plotter'
+import Plotter from '../utils/plotter';
 
 /**
- * @class Provides a GUI interface to fire a specified method, a property of an object.
+ * @class Provides a canvas that graphically displays the value of the object property at the specified interval
  *
  * @extends dat.controllers.Controller
  *
  * @param {Object} object The object to be manipulated
  * @param {string} property The name of the property to be manipulated
+ * @param {Object} params Contains the max and period properties
  */
 class PlotterController extends Controller {
   constructor(object, property, params) {
     super(object, property);
+    this.max = params.max;
+    this.period = params.period;
 
-    const _this = this;
-
-    this.__panel = new plotter('#0ff', '#002');
+    // TODO: Allow graph type to passed in via params: line or bar
+    // TODO: Allow fg and bg colours to be passed in via params
+    this.__panel = new Plotter('#fff', '#000');
     this.domElement.appendChild(this.__panel.dom);
+    this.prevValue = this.getValue();
+    this.lastUpdate = Date.now();
   }
 
+  updateDisplay() {
+    const value = this.getValue();
+    if (this.period < 1 && value !== this.prevValue) {
+      this.__panel.update(value, this.max);
+    } else if (Math.floor((Date.now() - this.lastUpdate) / this.period) * this.period) {
+      this.__panel.update(value, this.max);
+      this.lastUpdate = Date.now();
+    }
+
+    this.prevValue = value;
+
+    return super.updateDisplay();
+  }
 
 }
 
