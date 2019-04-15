@@ -564,6 +564,9 @@ common.extend(
      * @param property
      * @param max The maximum value that the plotter will display (default 10)
      * @param period The update interval in ms or use 0 to only update on value change (default 500)
+     * @param type Type of graph to render - line or bar (default line)
+     * @param fgColor Foreground color of the graph in hex (default #fff)
+     * @param bgColor Background color of the graph in hex (default #000)
      * @returns {Controller} The controller that was added to the GUI.
      * @instance
      *
@@ -574,7 +577,7 @@ common.extend(
      * gui.addPlotter(obj, 'value', 10, 100);
      * gui.addPlotter(obj, 'value', 10, 0);
      */
-    addPlotter: function(object, property, max, period) {
+    addPlotter: function(object, property, max, period, type, fgColor, bgColor) {
       return add(
         this,
         object,
@@ -582,7 +585,10 @@ common.extend(
         {
           plotter: true,
           max: max || 10,
-          period: (typeof period === 'number') ? period : 500
+          period: (typeof period === 'number') ? period : 500,
+          type: type || 'line',
+          fgColor: fgColor || '#fff',
+          bgColor: bgColor || '#000'
         }
       );
     },

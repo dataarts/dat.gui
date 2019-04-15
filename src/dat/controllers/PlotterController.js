@@ -26,24 +26,32 @@ import Plotter from '../utils/plotter';
 class PlotterController extends Controller {
   constructor(object, property, params) {
     super(object, property);
+
+    /** The graph will be these many units high */
     this.max = params.max;
+
+    /** Refresh rate. Value of 0 disables auto-refresh */
     this.period = params.period;
 
-    // TODO: Allow graph type to passed in via params: line or bar
-    // TODO: Allow fg and bg colours to be passed in via params
-    this.__panel = new Plotter('#fff', '#000');
-    this.domElement.appendChild(this.__panel.dom);
+    /** Stores the current value for comparison during animation frame */
     this.prevValue = this.getValue();
+
+    /** Allows acurate timing for the period to be checked during animation frame */
     this.lastUpdate = Date.now();
+
+    this.__panel = new Plotter(params.fgColor, params.bgColor, params.type);
+    this.domElement.appendChild(this.__panel.dom);
   }
 
   updateDisplay() {
     const value = this.getValue();
     if (this.period < 1 && value !== this.prevValue) {
+      /* Update only on value change when auto-refresh is off */
       this.__panel.update(value, this.max);
-    } else if (Math.floor((Date.now() - this.lastUpdate) / this.period) * this.period) {
+    } else if ((Date.now() - this.lastUpdate) > this.period) {
+      /* Update if elapsed time since last update is greater than the period */
       this.__panel.update(value, this.max);
-      this.lastUpdate = Date.now();
+      this.lastUpdate = Date.now() * 2 - this.lastUpdate - this.period;
     }
 
     this.prevValue = value;
