@@ -336,7 +336,7 @@ const GUI = function(pars) {
 
   // Are we a root level GUI?
   if (common.isUndefined(params.parent)) {
-    params.closed = false;
+    this.closed = params.closed || false;
 
     dom.addClass(this.domElement, GUI.CLASS_MAIN);
     dom.makeSelectable(this.domElement, false);
@@ -684,6 +684,20 @@ common.extend(
       this.closed = true;
     },
 
+    /**
+    * Hides the GUI.
+    */
+    hide: function() {
+      this.domElement.style.display = 'none';
+    },
+
+    /**
+    * Shows the GUI.
+    */
+    show: function() {
+      this.domElement.style.display = '';
+    },
+
 
     onResize: function() {
       // we debounce this function to prevent performance issues when rotating on tablet/mobile
@@ -980,7 +994,7 @@ function augmentController(gui, li, controller) {
     const box = new NumberControllerBox(controller.object, controller.property,
       { min: controller.__min, max: controller.__max, step: controller.__step });
 
-    common.each(['updateDisplay', 'onChange', 'onFinishChange', 'step'], function(method) {
+    common.each(['updateDisplay', 'onChange', 'onFinishChange', 'step', 'min', 'max'], function(method) {
       const pc = controller[method];
       const pb = box[method];
       controller[method] = box[method] = function() {

@@ -1819,7 +1819,7 @@ var GUI = function GUI(pars) {
     }
   });
   if (Common.isUndefined(params.parent)) {
-    params.closed = false;
+    this.closed = params.closed || false;
     dom.addClass(this.domElement, GUI.CLASS_MAIN);
     dom.makeSelectable(this.domElement, false);
     if (SUPPORTS_LOCAL_STORAGE) {
@@ -2006,6 +2006,12 @@ Common.extend(GUI.prototype,
   },
   close: function close() {
     this.closed = true;
+  },
+  hide: function hide() {
+    this.domElement.style.display = 'none';
+  },
+  show: function show() {
+    this.domElement.style.display = '';
   },
   onResize: function onResize() {
     var root = this.getRoot();
@@ -2197,7 +2203,7 @@ function augmentController(gui, li, controller) {
   });
   if (controller instanceof NumberControllerSlider) {
     var box = new NumberControllerBox(controller.object, controller.property, { min: controller.__min, max: controller.__max, step: controller.__step });
-    Common.each(['updateDisplay', 'onChange', 'onFinishChange', 'step'], function (method) {
+    Common.each(['updateDisplay', 'onChange', 'onFinishChange', 'step', 'min', 'max'], function (method) {
       var pc = controller[method];
       var pb = box[method];
       controller[method] = box[method] = function () {

@@ -1,6 +1,6 @@
 {
   "name": "dat.gui",
-  "version": "0.7.3",
+  "version": "0.7.6",
   "description": "A lightweight graphical user interface for changing variables in JavaScript.",
   "main": "build/dat.gui.js",
   "module": "build/dat.gui.module.js",

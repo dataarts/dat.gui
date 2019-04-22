@@ -48,6 +48,8 @@ manipulate variables and fire functions on the fly.
     * [.removeFolder(folder)](#GUI+removeFolder)
     * [.open()](#GUI+open)
     * [.close()](#GUI+close)
+    * [.hide()](#GUI+hide)
+    * [.show()](#GUI+show)
     * [.getRoot()](#GUI+getRoot) ⇒ <code>dat.gui.GUI</code>
     * [.getSaveObject()](#GUI+getSaveObject) ⇒ <code>Object</code>
 
@@ -62,7 +64,7 @@ manipulate variables and fire functions on the fly.
 | [params.load] | <code>Object</code> |  | JSON object representing the saved state of this GUI. |
 | [params.parent] | <code>dat.gui.GUI</code> |  | The GUI I'm nested in. |
 | [params.autoPlace] | <code>Boolean</code> | <code>true</code> |  |
-| [params.hideable] | <code>Boolean</code> | <code>true</code> | If true, GUI is closed by the <kbd>h</kbd> keypress. |
+| [params.hideable] | <code>Boolean</code> | <code>true</code> | If true, GUI is shown/hidden by <kbd>h</kbd> keypress. |
 | [params.closed] | <code>Boolean</code> | <code>false</code> | If true, starts closed |
 | [params.closeOnTop] | <code>Boolean</code> | <code>false</code> | If true, close/open button shows on top of the GUI |
 
@@ -251,6 +253,18 @@ Opens the GUI.
 
 ### gui.close()
 Closes the GUI.
+
+**Kind**: instance method of [<code>GUI</code>](#GUI)  
+<a name="GUI+hide"></a>
+
+### gui.hide()
+Hides the GUI.
+
+**Kind**: instance method of [<code>GUI</code>](#GUI)  
+<a name="GUI+show"></a>
+
+### gui.show()
+Shows the GUI.
 
 **Kind**: instance method of [<code>GUI</code>](#GUI)  
 <a name="GUI+getRoot"></a>
