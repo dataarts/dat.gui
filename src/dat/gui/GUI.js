@@ -20,6 +20,7 @@ import FunctionController from '../controllers/FunctionController';
 import NumberControllerBox from '../controllers/NumberControllerBox';
 import NumberControllerSlider from '../controllers/NumberControllerSlider';
 import ColorController from '../controllers/ColorController';
+import CustomController from '../controllers/CustomController';
 import requestAnimationFrame from '../utils/requestAnimationFrame';
 import CenteredDiv from '../dom/CenteredDiv';
 import dom from '../dom/dom';
@@ -557,6 +558,27 @@ common.extend(
     },
 
     /**
+     * Adds a new custom controller to the GUI.
+     *
+     * @param object
+     * @param property
+     * @returns {Controller} The controller that was added to the GUI.
+     * @instance
+     *
+     */
+    addCustomController: function(object, property) {
+    	return add(
+		  this,
+		  object,
+		  property,
+		  {
+		  	custom: true,
+		  	factoryArgs: Array.prototype.slice.call(arguments, 2)
+		  }
+		);
+    },
+
+  	/**
      * Removes the given controller from the GUI.
      * @param {Controller} controller
      * @instance
@@ -1131,7 +1153,7 @@ function recallSavedValue(gui, controller) {
 }
 
 function add(gui, object, property, params) {
-  if (object[property] === undefined) {
+  if (!params.custom && (object[property] === undefined)) {
     throw new Error(`Object "${object}" has no property "${property}"`);
   }
 
@@ -1139,6 +1161,8 @@ function add(gui, object, property, params) {
 
   if (params.color) {
     controller = new ColorController(object, property);
+  } else if (params.custom && (object[property] === undefined)) {
+  	controller = new CustomController(object, property);
   } else {
     const factoryArgs = [object, property].concat(params.factoryArgs);
     controller = ControllerFactory.apply(gui, factoryArgs);
@@ -1152,12 +1176,14 @@ function add(gui, object, property, params) {
 
   dom.addClass(controller.domElement, 'c');
 
-  const name = document.createElement('span');
-  dom.addClass(name, 'property-name');
-  name.innerHTML = controller.property;
-
   const container = document.createElement('div');
+
+  const name = params.custom && ( controller instanceof CustomController === false ) ? new CustomController(object).domElement : document.createElement('span');
+  if (!params.custom)
+  	name.innerHTML = controller.property;
+  dom.addClass(name, 'property-name');
   container.appendChild(name);
+
   container.appendChild(controller.domElement);
 
   const li = addRow(gui, container, params.before);
