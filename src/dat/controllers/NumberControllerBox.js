@@ -105,12 +105,12 @@ class NumberControllerBox extends NumberController {
         }
         case 'ArrowUp':
         {
-          _this.setValue(_this.getValue() + _this.__impliedStep)
+          _this.setValue(_this.getValue() + _this.__impliedStep);
           break;
         }
         case 'ArrowDown':
         {
-          _this.setValue(_this.getValue() - _this.__impliedStep)
+          _this.setValue(_this.getValue() - _this.__impliedStep);
           break;
         }
         default:
