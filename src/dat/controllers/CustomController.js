@@ -19,9 +19,9 @@ import Controller from './Controller';
  */
 class CustomController extends Controller{
   constructor(object, property) {
-  	super(object, property);
+    super(object, property);
 
-  	object.constructor( this );
+    object.constructor( this );
   }
 }
 
