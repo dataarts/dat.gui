@@ -456,8 +456,6 @@ const GUI = function(pars) {
   }
 };
 
-GUI.CustomController = CustomController;
-
 GUI.toggleHide = function() {
   hide = !hide;
   common.each(hideableGuis, function(gui) {
