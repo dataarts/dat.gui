@@ -22,6 +22,7 @@ class CustomController extends Controller{
     super(object, property);
 
     object.constructor( this );
+    this.custom = true;
   }
 }
 

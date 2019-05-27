@@ -521,7 +521,7 @@ common.extend(
         object,
         property,
         {
-          custom: object instanceof CustomController,
+          custom: object.custom,
           factoryArgs: Array.prototype.slice.call(arguments, 2)
         }
       );
@@ -1154,7 +1154,8 @@ function recallSavedValue(gui, controller) {
 }
 
 function add(gui, object, property, params) {
-  if (!object instanceof CustomController && !params.custom && (object[property] === undefined)) {
+  var customObject = object.custom;
+  if (!customObject && !params.custom && (object[property] === undefined)) {
     throw new Error(`Object "${object}" has no property "${property}"`);
   }
 
@@ -1162,12 +1163,12 @@ function add(gui, object, property, params) {
 
   if (params.color) {
     controller = new ColorController(object, property);
-  } else if(object instanceof CustomController && ( property === undefined )){
+  } else if(customObject && ( property === undefined )){
   	controller = object;
-  } else if (!(object instanceof CustomController) && params.custom && (object[property] === undefined)) {
+  } else if (!(customObject) && params.custom && (object[property] === undefined)) {
   	controller = new CustomController(object, property);
   }else {
-  	const factoryArgs = object instanceof CustomController ?
+  	const factoryArgs = customObject ?
       [property].concat(params.factoryArgs) : [object, property].concat(params.factoryArgs);
     controller = ControllerFactory.apply(gui, factoryArgs);
   }
@@ -1183,7 +1184,7 @@ function add(gui, object, property, params) {
   const container = document.createElement('div');
 
   const name = params.custom && ( controller instanceof CustomController === false ) ?
-    ( object instanceof CustomController ? object.domElement : new CustomController(object).domElement ) : document.createElement('span');
+    ( customObject ? object.domElement : new CustomController(object).domElement ) : document.createElement('span');
   if (!params.custom)
   	name.innerHTML = controller.property;
   dom.addClass(name, 'property-name');
