@@ -18,10 +18,10 @@ import Controller from './Controller';
  * @param {string} property
  */
 class CustomController extends Controller{
-  constructor(object, property) {
-    super(object, property);
+	constructor(init) {
+  	super({});
 
-    object.constructor( this );
+  	init( this );
     this.custom = true;
   }
 }
