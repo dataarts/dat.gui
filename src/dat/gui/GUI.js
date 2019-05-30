@@ -561,7 +561,7 @@ common.extend(
     /**
      * Adds a new custom controller to the GUI.
      *
-     * @param object
+     * @param init
      * @param property
      * @returns {Controller} The controller that was added to the GUI.
      * @instance

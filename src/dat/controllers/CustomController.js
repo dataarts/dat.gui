@@ -17,10 +17,10 @@ import Controller from './Controller';
  * @param {init} callback function for adding of elements into this.domElement
  */
 class CustomController extends Controller{
-	constructor(init) {
-  	super({});
+    constructor(init) {
+    super({});
 
-  	init( this );
+    init( this );
     this.custom = true;
   }
 }
