@@ -14,7 +14,7 @@ import Controller from './Controller';
 
 /**
  * @class Represents a custom controller.
- * @param {init} callback function for adding of elements into this.domElement
+ * @param {Function} init callback function for adding of elements into this.domElement
  */
 class CustomController extends Controller{
     constructor(init) {
