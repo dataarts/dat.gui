@@ -521,7 +521,6 @@ common.extend(
         object,
         property,
         {
-          custom: object.custom,
           factoryArgs: Array.prototype.slice.call(arguments, 2)
         }
       );
@@ -559,26 +558,6 @@ common.extend(
     },
 
     /**
-     * Adds a new custom controller to the GUI.
-     *
-     * @param init
-     * @param property
-     * @returns {Controller} The controller that was added to the GUI.
-     * @instance
-     *
-     */
-    addCustomController: function(init, property) {
-    	return add(
-		  this,
-		  new dat.controllers.CustomController( init ),
-		  property,
-		  {
-		  	factoryArgs: Array.prototype.slice.call(arguments, 2)
-		  }
-		);
-    },
-
-  	/**
      * Removes the given controller from the GUI.
      * @param {Controller} controller
      * @instance
@@ -1153,8 +1132,17 @@ function recallSavedValue(gui, controller) {
 }
 
 function add(gui, object, property, params) {
-  var customObject = object.custom;
-  if (!customObject && !params.custom && (object[property] === undefined)) {
+  var customObject;
+  if( object.arguments ){
+    //custom controller
+    customObject = object;
+    object = customObject.arguments.object;
+    property = customObject.arguments.property;
+    params = {
+      factoryArgs: customObject.arguments.opts
+    }
+  }
+  if ( ( customObject === undefined ) && ( object[property] === undefined ) ) {
     throw new Error(`Object "${object}" has no property "${property}"`);
   }
 
@@ -1162,13 +1150,14 @@ function add(gui, object, property, params) {
 
   if (params.color) {
     controller = new ColorController(object, property);
-  } else if(customObject && ( property === undefined )){
-  	controller = object;
+  } else if ( ( customObject !== undefined ) && ( typeof customObject.property === "string" ) ) {
+    controller = customObject;
   } else {
-  	const factoryArgs = customObject ?
-      [property].concat(params.factoryArgs) : [object, property].concat(params.factoryArgs);
+    const factoryArgs = [object, property].concat(params.factoryArgs);
     controller = ControllerFactory.apply(gui, factoryArgs);
   }
+  if ( controller === null )
+    controller = customObject;
 
   if (params.before instanceof Controller) {
     params.before = params.before.__li;
@@ -1178,14 +1167,16 @@ function add(gui, object, property, params) {
 
   dom.addClass(controller.domElement, 'c');
 
-  const container = document.createElement('div');
-
-  const name = customObject ? object.domElement : document.createElement('span');
-  if (!customObject)
-  	name.innerHTML = controller.property;
+  const name = document.createElement('span');
   dom.addClass(name, 'property-name');
-  container.appendChild(name);
+  if( ( customObject !== undefined ) && typeof customObject.property === "object" ){
+    for(var propertyName in customObject.property)
+      name.appendChild(customObject.property[propertyName]);
+  }
+  else name.innerHTML = controller.property;
 
+  const container = document.createElement('div');
+  container.appendChild(name);
   container.appendChild(controller.domElement);
 
   const li = addRow(gui, container, params.before);
