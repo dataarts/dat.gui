@@ -30,7 +30,7 @@
       color2: [ 0, 128, 255, 0.3 ], // RGB with alpha
       color3: { h: 350, s: 0.9, v: 0.3 }, // Hue, saturation, value
 
-      plotme: 0
+      plotter: 0
     };
 
     var gui = new dat.gui.GUI();
@@ -63,7 +63,7 @@
     f3.add(obj, 'growthSpeed');
 
     var f4 = gui.addFolder('Custom Controllers');
-    plotter = new dat.controllers.PlotterController(obj, 'plotme');
+    plotter = new dat.controllers.PlotterController(obj, 'plotter');
     f4.add(plotter);
     plotter.listen();
 
@@ -75,7 +75,7 @@
         angle = 0;
       }
 
-      obj.plotme = Math.sin(angle) + 1.5;
+      obj.plotter = Math.sin(angle) + 1.5;
     }, 10);
 
 

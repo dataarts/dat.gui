@@ -36,7 +36,7 @@ class PlotterController extends Controller {
     this.liClass = params.liClass || 'plotter';
 
     /** Refresh rate. Value of 0 disables auto-refresh */
-    this.period = params.period;
+    this.period = params.period || 0;
 
     /** Stores the current value for comparison during animation frame */
     this.prevValue = this.getValue();
@@ -44,11 +44,11 @@ class PlotterController extends Controller {
     /** Allows acurate timing for the period to be checked during animation frame */
     this.lastUpdate = Date.now();
 
-    this.__panel = new Plotter(params.fgColor, params.bgColor, params.type);
+    this.__panel = new Plotter(params.fgColor || '#fff', params.bgColor || '#000', params.type || 'line');
     this.domElement.appendChild(this.__panel.dom);
   }
 
-  updateDisplay() {
+  updateDisplay () {
     const value = this.getValue();
     if (this.period < 1 && value !== this.prevValue) {
       /* Update only on value change when auto-refresh is off */
