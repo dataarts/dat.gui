@@ -53,7 +53,7 @@ const ControllerFactory = function(object, property) {
   }
 
   if (common.isFunction(initialValue)) {
-    return new FunctionController(object, property, '');
+    return new FunctionController(object, property, arguments[2]);
   }
 
   if (common.isBoolean(initialValue)) {
@@ -64,3 +64,4 @@ const ControllerFactory = function(object, property) {
 };
 
 export default ControllerFactory;
+

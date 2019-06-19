@@ -58,6 +58,15 @@
     var f3 = f2.addFolder('Nested Folder');
     f3.add(obj, 'growthSpeed');
 
+    let functionObj = {
+      f: function() { console.log('f run'); },
+      a: async function a () { console.log('async a run'); }
+    };
+
+    f1 = gui.add(functionObj, 'f', 'f-button-text');
+    a1 = gui.add(functionObj, 'a', 'async-button-text');
+    a2 = gui.add(functionObj, 'a');
+
   </script>
 </body>
 </html>
