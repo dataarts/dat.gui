@@ -1131,17 +1131,23 @@ function recallSavedValue(gui, controller) {
 }
 
 function add(gui, object, property, params) {
-  if (object[property] === undefined) {
-    throw new Error(`Object "${object}" has no property "${property}"`);
-  }
-
   let controller;
 
-  if (params.color) {
-    controller = new ColorController(object, property);
+  if (object instanceof Controller) {
+    controller = object;
   } else {
-    const factoryArgs = [object, property].concat(params.factoryArgs);
-    controller = ControllerFactory.apply(gui, factoryArgs);
+
+    if (object[property] === undefined) {
+      throw new Error(`Object "${object}" has no property "${property}"`);
+    }
+
+    if (params.color) {
+      controller = new ColorController(object, property);
+    } else {
+      const factoryArgs = [object, property].concat(params.factoryArgs);
+      controller = ControllerFactory.apply(gui, factoryArgs);
+    }
+
   }
 
   if (params.before instanceof Controller) {
