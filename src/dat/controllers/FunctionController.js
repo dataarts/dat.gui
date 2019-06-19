@@ -33,8 +33,9 @@ class FunctionController extends Controller {
 
     dom.bind(this.__button, 'click', function(e) {
       e.preventDefault();
+      e.stopPropagation();
       _this.fire();
-      return false;
+      return true;
     });
 
     dom.addClass(this.__button, 'button');

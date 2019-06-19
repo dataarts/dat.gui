@@ -64,4 +64,3 @@ const ControllerFactory = function(object, property) {
 };
 
 export default ControllerFactory;
-
