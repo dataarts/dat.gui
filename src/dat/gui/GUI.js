@@ -20,6 +20,7 @@ import FunctionController from '../controllers/FunctionController';
 import NumberControllerBox from '../controllers/NumberControllerBox';
 import NumberControllerSlider from '../controllers/NumberControllerSlider';
 import ColorController from '../controllers/ColorController';
+import PlotterController from '../controllers/PlotterController';
 import requestAnimationFrame from '../utils/requestAnimationFrame';
 import CenteredDiv from '../dom/CenteredDiv';
 import dom from '../dom/dom';
@@ -125,12 +126,12 @@ const GUI = function(pars) {
    * @example
    * [
    *  {
-     *    propertyName: Controller,
-     *    anotherPropertyName: Controller
-     *  },
+   *    propertyName: Controller,
+   *    anotherPropertyName: Controller
+   *  },
    *  {
-     *    propertyName: Controller
-     *  }
+   *    propertyName: Controller
+   *  }
    * ]
    */
   this.__rememberedObjectIndecesToControllers = [];
@@ -168,7 +169,7 @@ const GUI = function(pars) {
   if (params.autoPlace && common.isUndefined(params.scrollable)) {
     params.scrollable = true;
   }
-//    params.scrollable = common.isUndefined(params.parent) && params.scrollable === true;
+  //    params.scrollable = common.isUndefined(params.parent) && params.scrollable === true;
 
   // Not part of params because I don't want people passing this in via
   // constructor. Should be a 'remembered' value.
@@ -1171,6 +1172,10 @@ function add(gui, object, property, params) {
   dom.addClass(li, GUI.CLASS_CONTROLLER_ROW);
   if (controller instanceof ColorController) {
     dom.addClass(li, 'color');
+  } else if (controller.liClass) {
+    dom.addClass(li, controller.liClass);
+  } else if (params.liClass) {
+    dom.addClass(li, params.liClass);
   } else {
     dom.addClass(li, typeof controller.getValue());
   }

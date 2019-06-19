@@ -63,10 +63,12 @@ $input-color: lighten($background-color, 8.5%);
       width: 5px;
       background: $background-color;
     }
+
     &::-webkit-scrollbar-corner {
       height: 0;
       display: none;
     }
+
     &::-webkit-scrollbar-thumb {
       border-radius: 5px;
       background: lighten($background-color, 30%);
@@ -138,12 +140,17 @@ $input-color: lighten($background-color, 8.5%);
       border-left: 3px solid;
     }
 
+    &.plotter {
+      height: 58px;
+    }
+
     &.function {
       border-left: 3px solid $function-color;
     }
 
     &.number {
       border-left: 3px solid $number-color;
+
       input[type=text] {
         color: $number-color;
       }
@@ -151,6 +158,7 @@ $input-color: lighten($background-color, 8.5%);
 
     &.string {
       border-left: 3px solid $string-color;
+
       input[type=text] {
         color: $string-color;
       }
@@ -170,9 +178,11 @@ $input-color: lighten($background-color, 8.5%);
 
       background: $input-color;
       outline: none;
+
       &:hover {
         background: lighten($input-color, $hover-lighten);
       }
+
       &:focus {
         background: lighten($input-color, $active-lighten);
         color: #fff;
@@ -192,6 +202,7 @@ $input-color: lighten($background-color, 8.5%);
 
     .slider:hover {
       background: lighten($input-color, $hover-lighten);
+
       .slider-fg {
         background: lighten($number-color, $hover-lighten);
       }

@@ -70,12 +70,15 @@ $button-height: 20px;
       cursor: pointer;
       text-align: center;
       background-color: #000;
+
       &.close-top {
         position: relative;
       }
+
       &.close-bottom {
         position: absolute;
       }
+
       &:hover {
         background-color: #111;
       }
@@ -89,13 +92,14 @@ $button-height: 20px;
 
     float: right;
     margin-right: 15px;
-    overflow-y:visible;
+    overflow-y: visible;
 
     &.has-save > ul {
 
       &.close-top {
         margin-top: 0;
       }
+
       &.close-bottom {
         margin-top: $row-height;
       }
@@ -112,6 +116,7 @@ $button-height: 20px;
       &.close-top {
         position: relative;
       }
+
       &.close-bottom {
         position: fixed;
       }
@@ -193,6 +198,12 @@ $button-height: 20px;
     width: 30%;
     /*display: none;*/
     margin-left: 0;
+  }
+
+  /** Reduce margin and set height for plotter */
+  .c canvas {
+    padding: 0;
+    height: 53px;
   }
 
   .slider {
@@ -290,6 +301,7 @@ $button-height: 20px;
   background-color: #333;
   padding: 8px;
   margin-top: 10px;
+
   code {
     font-size: 10px;
   }
