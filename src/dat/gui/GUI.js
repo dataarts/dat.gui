@@ -1134,8 +1134,10 @@ function recallSavedValue(gui, controller) {
 function add(gui, object, property, params) {
   let controller;
 
+  // add( new SomeCustomerController(a,b,c), params)
   if (object instanceof Controller) {
     controller = object;
+    params = property || { };
   } else {
 
     if (object[property] === undefined) {
@@ -1172,10 +1174,10 @@ function add(gui, object, property, params) {
   dom.addClass(li, GUI.CLASS_CONTROLLER_ROW);
   if (controller instanceof ColorController) {
     dom.addClass(li, 'color');
-  } else if (controller.liClass) {
-    dom.addClass(li, controller.liClass);
   } else if (params.liClass) {
     dom.addClass(li, params.liClass);
+  } else if (controller.liClass) {
+    dom.addClass(li, controller.liClass);
   } else {
     dom.addClass(li, typeof controller.getValue());
   }

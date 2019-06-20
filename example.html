@@ -38,23 +38,33 @@
     gui.remember(obj);
 
     gui.add(obj, 'message');
+    gui.add( new dat.controllers.StringController(obj,'message') );
+
     gui.add(obj, 'displayOutline');
+    gui.add( new dat.controllers.BooleanController(obj,'displayOutline') );
+
     gui.add(obj, 'explode');
 
     gui.add(obj, 'maxSize').min(-10).max(10).step(0.25);
+    gui.add( new dat.controllers.NumberControllerSlider(obj, 'maxSize', -10, 10, 0.25) );
+
     gui.add(obj, 'height').step(5); // Increment amount
+    gui.add( new dat.controllers.NumberControllerBox(obj,'height',{step: 5}) );
 
     // Choose from accepted values
     gui.add(obj, 'type', [ 'one', 'two', 'three' ]);
+    gui.add( new dat.controllers.OptionController(obj,'type',[ 'one', 'two', 'three' ]) );
 
     // Choose from named values
     gui.add(obj, 'speed', { Stopped: 0, Slow: 0.1, Fast: 5 });
+    gui.add( new dat.controllers.OptionController(obj, 'speed', { Stopped: 0, Slow: 0.1, Fast: 5 }) );
 
     var f1 = gui.addFolder('Colors');
     f1.addColor(obj, 'color0');
     f1.addColor(obj, 'color1');
     f1.addColor(obj, 'color2');
     f1.addColor(obj, 'color3');
+    f1.add( new dat.controllers.ColorController(obj, 'color0') ); 
 
     var f2 = gui.addFolder('Another Folder');
     f2.add(obj, 'noiseStrength');
@@ -64,7 +74,7 @@
 
     var f4 = gui.addFolder('Custom Controllers');
     plotter = new dat.controllers.PlotterController(obj, 'plotter');
-    f4.add(plotter);
+    f4.add(plotter, { liClass: 'plotter' });
     plotter.listen();
 
     var angle = 0,
