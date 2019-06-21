@@ -149,7 +149,7 @@ const Common = {
   },
 
   isFunction: function(obj) {
-    return Object.prototype.toString.call(obj) === '[object Function]';
+    return obj instanceof Function;
   }
 
 };
