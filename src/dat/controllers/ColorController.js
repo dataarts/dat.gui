@@ -59,9 +59,9 @@ class ColorController extends Controller {
       if (e.keyCode === 13) { // on enter
         onBlur.call(this);
       }
-    });
+    }, false, true);
 
-    dom.bind(this.__input, 'blur', onBlur);
+    dom.bind(this.__input, 'blur', onBlur, false, true);
 
     dom.bind(this.__selector, 'mousedown', function(/* e */) {
       dom
@@ -69,15 +69,15 @@ class ColorController extends Controller {
         .bind(window, 'mouseup', function(/* e */) {
           dom.removeClass(_this.__selector, 'drag');
         });
-    });
+    }, false, true);
 
     dom.bind(this.__selector, 'touchstart', function(/* e */) {
       dom
         .addClass(this, 'drag')
         .bind(window, 'touchend', function(/* e */) {
           dom.removeClass(_this.__selector, 'drag');
-        });
-    });
+        }, false, true);
+    }, false, true);
 
     const valueField = document.createElement('div');
 
@@ -161,16 +161,16 @@ class ColorController extends Controller {
       setSV(e);
       dom.bind(window, 'mousemove', setSV);
       dom.bind(window, 'touchmove', setSV);
-      dom.bind(window, 'mouseup', fieldUpSV);
-      dom.bind(window, 'touchend', fieldUpSV);
+      dom.bind(window, 'mouseup', fieldUpSV, false, true);
+      dom.bind(window, 'touchend', fieldUpSV, false, true);
     }
 
     function fieldDownH(e) {
       setH(e);
       dom.bind(window, 'mousemove', setH);
       dom.bind(window, 'touchmove', setH);
-      dom.bind(window, 'mouseup', fieldUpH);
-      dom.bind(window, 'touchend', fieldUpH);
+      dom.bind(window, 'mouseup', fieldUpH, false, true);
+      dom.bind(window, 'touchend', fieldUpH, false, true);
     }
 
     function fieldUpSV() {

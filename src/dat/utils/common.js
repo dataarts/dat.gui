@@ -150,6 +150,22 @@ const Common = {
 
   isFunction: function(obj) {
     return Object.prototype.toString.call(obj) === '[object Function]';
+  },
+
+  supportsPassive: function() {
+    let supportsPassive = false;
+    try {
+      const opts = Object.defineProperty({}, 'passive', {
+        get: function() {
+          supportsPassive = true;
+        }
+      });
+      window.addEventListener('testPassive', null, opts);
+      window.removeEventListener('testPassive', null, opts);
+    } catch (e) {
+      // Do nothing
+    }
+    return supportsPassive;
   }
 
 };
