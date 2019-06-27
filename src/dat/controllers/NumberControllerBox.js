@@ -94,11 +94,22 @@ class NumberControllerBox extends NumberController {
     dom.bind(this.__input, 'mousedown', onMouseDown);
     dom.bind(this.__input, 'keydown', function(e) {
       // When pressing enter, you can be as precise as you want.
-      if (e.keyCode === 13) {
-        _this.__truncationSuspended = true;
-        this.blur();
-        _this.__truncationSuspended = false;
-        onFinish();
+      const step = _this.__step || 1;
+      switch (e.keyCode) {
+        case 13:
+          _this.__truncationSuspended = true;
+          this.blur();
+          _this.__truncationSuspended = false;
+          onFinish();
+          break;
+        case 38:
+          var newVal = _this.getValue() + step;
+          _this.setValue(newVal);
+          break;
+        case 40: // down
+          var newVal = _this.getValue() - step;
+          _this.setValue(newVal);
+          break;
       }
     });
 
@@ -107,7 +118,8 @@ class NumberControllerBox extends NumberController {
     this.domElement.appendChild(this.__input);
   }
 
-  updateDisplay() {
+  updateDisplay(force) {
+    if (!force && dom.isActive(this.__input)) return this;
     this.__input.value = this.__truncationSuspended ? this.getValue() : roundToDecimal(this.getValue(), this.__precision);
     return super.updateDisplay();
   }

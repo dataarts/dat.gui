@@ -24,7 +24,7 @@ import common from '../utils/common';
  * @param {Object} object The object to be manipulated
  * @param {string} property The name of the property to be manipulated
  * @param {Object|string[]} options A map of labels to acceptable values, or
- * a list of acceptable string values.
+* a list of acceptable string values.
  */
 class OptionController extends Controller {
   constructor(object, property, opts) {
@@ -75,10 +75,10 @@ class OptionController extends Controller {
     return toReturn;
   }
 
-  updateDisplay() {
-    if (dom.isActive(this.__select)) return this; // prevent number from updating if user is trying to manually update
+  updateDisplay(force) {
+    if (!force && dom.isActive(this.__select)) return this; // prevent number from updating if user is trying to manually update
     this.__select.value = this.getValue();
-    return super.updateDisplay();
+    return super.updateDisplay(force);
   }
 }
 
