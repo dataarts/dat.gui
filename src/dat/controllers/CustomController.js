@@ -20,20 +20,29 @@ import ControllerFactory from './ControllerFactory';
  *
  * @extends dat.controllers.Controller
  *
- * @param {Object} object The object to be manipulated
- * @param {Function} [object.property] Returns an object with elements for adding into "property-name" class element.
- * @param {string} property The name of the property to be manipulated
- * @param {Object} [params] Optional parameters
  */
 class CustomController extends Controller{
-	constructor(object, property) {
+    /**
+     * Represents a custom controller.
+     * @param {Object} object The object to be manipulated
+     * @param {Function} [object.property] Returns an object with elements for adding into "property-name" class element.
+     * @param {string} property The name of the property to be manipulated
+     * @param {Object} [params] Optional parameters
+     */
+    constructor(object, property) {
     super(object, property);
 
     this.arguments = {
       object: object, property: property, opts: Array.prototype.slice.call(arguments, 2)
     }
     if(object.property)
-      this.property = object.property();
+      this.property = object.property( this );
+  }
+  set controller( newController ){
+    this._controller = newController;
+  }
+  get controller(){
+    return this._controller;
   }
 }
 

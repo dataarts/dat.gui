@@ -1157,7 +1157,9 @@ function add(gui, object, property, params) {
     controller = ControllerFactory.apply(gui, factoryArgs);
   }
   if ( controller === null )
-    controller = customObject;
+  	controller = customObject;
+  else if( customObject  !== undefined )
+    customObject.controller = controller;
 
   if (params.before instanceof Controller) {
     params.before = params.before.__li;
