@@ -1163,6 +1163,11 @@ function add(gui, object, property, params) {
   const li = addRow(gui, container, params.before);
 
   dom.addClass(li, GUI.CLASS_CONTROLLER_ROW);
+
+  if (object.className) {
+    dom.addClass(li, object.className);
+  }
+
   if (controller instanceof ColorController) {
     dom.addClass(li, 'color');
   } else {
