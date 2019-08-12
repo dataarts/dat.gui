@@ -22,14 +22,14 @@ import ControllerFactory from './ControllerFactory';
  *
  */
 class CustomController extends Controller{
-    /**
-     * Represents a custom controller.
-     * @param {Object} object The object to be manipulated
-     * @param {Function} [object.property] Returns an object with elements for adding into "property-name" class element.
-     * @param {string} property The name of the property to be manipulated
-     * @param {Object} [params] Optional parameters
-     */
-    constructor(object, property) {
+  /**
+  * Represents a custom controller.
+  * @param {Object} object The object to be manipulated
+  * @param {Function} [object.property] Returns an object with elements for adding into "property-name" class element.
+  * @param {string} property The name of the property to be manipulated
+  * @param {Object} [params] Optional parameters
+  */
+  constructor(object, property) {
     super(object, property);
 
     this.arguments = {

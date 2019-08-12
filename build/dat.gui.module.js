@@ -11,12 +11,6 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-	typeof define === 'function' && define.amd ? define(['exports'], factory) :
-	(factory((global.dat = {})));
-}(this, (function (exports) { 'use strict';
-
 function ___$insertStyle(css) {
   if (!css) {
     return;
@@ -2564,14 +2558,6 @@ var index = {
   GUI: GUI$1
 };
 
-exports.color = color;
-exports.controllers = controllers;
-exports.dom = dom$1;
-exports.gui = gui;
-exports.GUI = GUI$1;
-exports['default'] = index;
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-})));
-//# sourceMappingURL=dat.gui.js.map
+export { color, controllers, dom$1 as dom, gui, GUI$1 as GUI };
+export default index;
+//# sourceMappingURL=dat.gui.module.js.map
