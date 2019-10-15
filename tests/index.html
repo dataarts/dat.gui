@@ -25,6 +25,7 @@
     var NumberControllerSlider = dat.controllers.NumberControllerSlider;
     var FunctionController = dat.controllers.FunctionController;
     var ColorController = dat.controllers.ColorController;
+    var CustomController = dat.controllers.CustomController;
     var GUI = dat.gui.GUI;
 
 
@@ -863,6 +864,22 @@ console.log(c2.__checkbox.getAttribute('checked'));
       document.body.removeChild(c1.domElement);
     });
 */
+    module("CustomController");
+    test("Get Custom", function () {
+        var value = 'value',
+            c1 = new CustomController({
+            constructor: function (controller) {
+                var input = document.createElement('input');
+                input.value = value;
+                controller.domElement.appendChild(input);
+            }
+        });
+        document.body.appendChild(c1.domElement);
+        var input = c1.domElement.getElementsByTagName("input")[0];
+        equal(input.value, value , "Input value is the same as the " + value);
+        document.body.removeChild(c1.domElement);
+    });
+
     module("Controller Events");
 
     test("onChange", function() {

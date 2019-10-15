@@ -65,3 +65,7 @@ The following libraries / open-source projects were used in the development of d
  * [Sass](http://sass-lang.com/)
  * [Node.js](http://nodejs.org/)
  * [QUnit](https://github.com/jquery/qunit) / [jquery](http://jquery.com/)
+
+## Have a job for me?
+Please read [About Me](https://anhr.github.io/AboutMe/).
+

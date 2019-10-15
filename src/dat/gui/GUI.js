@@ -20,6 +20,7 @@ import FunctionController from '../controllers/FunctionController';
 import NumberControllerBox from '../controllers/NumberControllerBox';
 import NumberControllerSlider from '../controllers/NumberControllerSlider';
 import ColorController from '../controllers/ColorController';
+import CustomController from '../controllers/CustomController';
 import requestAnimationFrame from '../utils/requestAnimationFrame';
 import CenteredDiv from '../dom/CenteredDiv';
 import dom from '../dom/dom';
@@ -1131,7 +1132,17 @@ function recallSavedValue(gui, controller) {
 }
 
 function add(gui, object, property, params) {
-  if (object[property] === undefined) {
+  var customObject;
+  if( object.arguments ){
+    //custom controller
+    customObject = object;
+    object = customObject.arguments.object;
+    property = customObject.arguments.property;
+    params = {
+      factoryArgs: customObject.arguments.opts
+    }
+  }
+  if ( ( customObject === undefined ) && ( object[property] === undefined ) ) {
     throw new Error(`Object "${object}" has no property "${property}"`);
   }
 
@@ -1139,10 +1150,16 @@ function add(gui, object, property, params) {
 
   if (params.color) {
     controller = new ColorController(object, property);
+  } else if ( ( customObject !== undefined ) && ( typeof customObject.property === "string" ) ) {
+    controller = customObject;
   } else {
     const factoryArgs = [object, property].concat(params.factoryArgs);
     controller = ControllerFactory.apply(gui, factoryArgs);
   }
+  if ( controller === null )
+  	controller = customObject;
+  else if( customObject  !== undefined )
+    customObject.controller = controller;
 
   if (params.before instanceof Controller) {
     params.before = params.before.__li;
@@ -1154,7 +1171,11 @@ function add(gui, object, property, params) {
 
   const name = document.createElement('span');
   dom.addClass(name, 'property-name');
-  name.innerHTML = controller.property;
+  if( ( customObject !== undefined ) && typeof customObject.property === "object" ){
+    for(var propertyName in customObject.property)
+      name.appendChild(customObject.property[propertyName]);
+  }
+  else name.innerHTML = controller.property;
 
   const container = document.createElement('div');
   container.appendChild(name);
