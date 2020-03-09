@@ -115,7 +115,7 @@ class Controller {
   }
 
   /**
-   * @returns {Boolean} true if the value has deviated from initialValue
+   * @returns {boolean} true if the value has deviated from initialValue
    */
   isModified() {
     return this.initialValue !== this.getValue();
