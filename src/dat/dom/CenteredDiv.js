@@ -11,7 +11,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-import dom from '../dom/dom';
+import dom from './dom';
 import common from '../utils/common';
 
 class CenteredDiv {
@@ -58,7 +58,7 @@ class CenteredDiv {
 
     this.domElement.style.display = 'block';
     this.domElement.style.opacity = 0;
-//    this.domElement.style.top = '52%';
+    //    this.domElement.style.top = '52%';
     this.domElement.style.webkitTransform = 'scale(1.1)';
 
     this.layout();
@@ -90,7 +90,7 @@ class CenteredDiv {
     dom.bind(this.domElement, 'oTransitionEnd', hide);
 
     this.backgroundElement.style.opacity = 0;
-//    this.domElement.style.top = '48%';
+    //    this.domElement.style.top = '48%';
     this.domElement.style.opacity = 0;
     this.domElement.style.webkitTransform = 'scale(1.1)';
   }

@@ -32,7 +32,8 @@ const INTERPRETATIONS = [
               '0x' +
               test[1].toString() + test[1].toString() +
               test[2].toString() + test[2].toString() +
-              test[3].toString() + test[3].toString(), 0)
+              test[3].toString() + test[3].toString(), 0
+            )
           };
         },
 

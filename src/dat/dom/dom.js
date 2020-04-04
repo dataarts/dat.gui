@@ -113,42 +113,42 @@ const dom = {
     const evt = document.createEvent(className);
     switch (className) {
       case 'MouseEvents':
-        {
-          const clientX = params.x || params.clientX || 0;
-          const clientY = params.y || params.clientY || 0;
-          evt.initMouseEvent(eventType, params.bubbles || false,
-            params.cancelable || true, window, params.clickCount || 1,
-            0, // screen X
-            0, // screen Y
-            clientX, // client X
-            clientY, // client Y
-            false, false, false, false, 0, null);
-          break;
-        }
+      {
+        const clientX = params.x || params.clientX || 0;
+        const clientY = params.y || params.clientY || 0;
+        evt.initMouseEvent(eventType, params.bubbles || false,
+          params.cancelable || true, window, params.clickCount || 1,
+          0, // screen X
+          0, // screen Y
+          clientX, // client X
+          clientY, // client Y
+          false, false, false, false, 0, null);
+        break;
+      }
       case 'KeyboardEvents':
-        {
-          const init = evt.initKeyboardEvent || evt.initKeyEvent; // webkit || moz
-          common.defaults(params, {
-            cancelable: true,
-            ctrlKey: false,
-            altKey: false,
-            shiftKey: false,
-            metaKey: false,
-            keyCode: undefined,
-            charCode: undefined
-          });
-          init(eventType, params.bubbles || false,
-            params.cancelable, window,
-            params.ctrlKey, params.altKey,
-            params.shiftKey, params.metaKey,
-            params.keyCode, params.charCode);
-          break;
-        }
+      {
+        const init = evt.initKeyboardEvent || evt.initKeyEvent; // webkit || moz
+        common.defaults(params, {
+          cancelable: true,
+          ctrlKey: false,
+          altKey: false,
+          shiftKey: false,
+          metaKey: false,
+          keyCode: undefined,
+          charCode: undefined
+        });
+        init(eventType, params.bubbles || false,
+          params.cancelable, window,
+          params.ctrlKey, params.altKey,
+          params.shiftKey, params.metaKey,
+          params.keyCode, params.charCode);
+        break;
+      }
       default:
-        {
-          evt.initEvent(eventType, params.bubbles || false, params.cancelable || true);
-          break;
-        }
+      {
+        evt.initEvent(eventType, params.bubbles || false, params.cancelable || true);
+        break;
+      }
     }
     common.defaults(evt, aux);
     elem.dispatchEvent(evt);

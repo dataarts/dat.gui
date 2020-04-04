@@ -168,7 +168,7 @@ const GUI = function(pars) {
   if (params.autoPlace && common.isUndefined(params.scrollable)) {
     params.scrollable = true;
   }
-//    params.scrollable = common.isUndefined(params.parent) && params.scrollable === true;
+  //    params.scrollable = common.isUndefined(params.parent) && params.scrollable === true;
 
   // Not part of params because I don't want people passing this in via
   // constructor. Should be a 'remembered' value.
@@ -1024,7 +1024,8 @@ function augmentController(gui, li, controller) {
           {
             before: controller.__li.nextElementSibling,
             factoryArgs: [controller.__min, controller.__max, controller.__step]
-          });
+          }
+        );
 
         newController.name(oldName);
         if (wasListening) newController.listen();

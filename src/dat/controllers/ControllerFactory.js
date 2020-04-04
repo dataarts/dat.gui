@@ -34,7 +34,7 @@ const ControllerFactory = function(object, property) {
       // has step?
       if (common.isNumber(arguments[4])) {
         return new NumberControllerSlider(object, property,
-                        arguments[2], arguments[3], arguments[4]);
+          arguments[2], arguments[3], arguments[4]);
       }
 
       return new NumberControllerSlider(object, property, arguments[2], arguments[3]);
@@ -43,7 +43,7 @@ const ControllerFactory = function(object, property) {
     // number box
     if (common.isNumber(arguments[4])) { // has step
       return new NumberControllerBox(object, property,
-                        { min: arguments[2], max: arguments[3], step: arguments[4] });
+        { min: arguments[2], max: arguments[3], step: arguments[4] });
     }
     return new NumberControllerBox(object, property, { min: arguments[2], max: arguments[3] });
   }

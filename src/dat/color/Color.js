@@ -104,8 +104,7 @@ Color.recalculateHSV = function(color) {
     {
       s: result.s,
       v: result.v
-    }
-  );
+    });
 
   if (!common.isNaN(result.h)) {
     color.__state.h = result.h;
