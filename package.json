@@ -68,7 +68,14 @@
       "consistent-return": 0,
       "no-restricted-syntax": 0,
       "no-bitwise": 0,
-      "no-plusplus": 0
+      "no-plusplus": 0,
+      "operator-linebreak": 0,
+      "no-else-return": 0,
+      "prefer-destructuring": 0,
+      "no-multi-assign": 0,
+      "no-restricted-properties": 0,
+      "no-return-assign": 0,
+      "no-restricted-globals": 0
     }
   }
 }
