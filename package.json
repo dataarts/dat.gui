@@ -8,7 +8,7 @@
     "test": "tests"
   },
   "scripts": {
-    "dev": "concurrently --names \"ROLLUP,HTTP\" -c \"bgBlue.bold,bgGreen.bold\" \"rollup -c -w -m inline\" \"serve --port 8080\"",
+    "dev": "concurrently --names \"ROLLUP,HTTP\" -c \"bgBlue.bold,bgGreen.bold\" \"rollup -c -w -m inline\" \"serve --listen 8080\"",
     "build": "rollup -c && rollup -c rollup.config.min.js",
     "build-docs": "jsdoc2md -f src/dat/gui/GUI.js src/dat/controllers/Controller.js src/dat/controllers/NumberController.js | replace-between --target API.md --token API",
     "lint": "eslint src",
@@ -35,8 +35,8 @@
     "eslint-config-airbnb-base": "^7.1.0",
     "eslint-loader": "^1.5.0",
     "eslint-plugin-import": "^1.15.0",
-    "extend": "^3.0.0",
-    "jsdoc-to-markdown": "^4.0.1",
+    "extend": "^3.0.2",
+    "jsdoc-to-markdown": "^5.0.3",
     "replace-between": "0.0.8",
     "rollup": "^0.54.1",
     "rollup-plugin-babel": "^3.0.4",
@@ -44,7 +44,7 @@
     "rollup-plugin-node-resolve": "^3.3.0",
     "rollup-plugin-sass": "^0.6.1",
     "rollup-plugin-uglify": "^2.0.1",
-    "serve": "^6.5.8"
+    "serve": "^11.3.0"
   },
   "eslintConfig": {
     "extends": "airbnb-base",
