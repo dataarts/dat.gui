@@ -26,7 +26,9 @@
         color0: "#ffae23", // CSS string
         color1: [ 0, 128, 255 ], // RGB array
         color2: [ 0, 128, 255, 0.3 ], // RGB with alpha
-        color3: { h: 350, s: 0.9, v: 0.3 } // Hue, saturation, value
+        color3: { h: 350, s: 0.9, v: 0.3 }, // Hue, saturation, value
+
+        imagePath1: 'https://images.unsplash.com/photo-1516222338250-863216ce01ea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=467&q=50'
     };
 
     var gui = new dat.gui.GUI();
@@ -58,6 +60,8 @@
     var f3 = f2.addFolder('Nested Folder');
     f3.add(obj, 'growthSpeed');
 
+    var f4 = gui.addFolder('Image');
+    f4.addImage(obj, 'imagePath1');
   </script>
 </body>
 </html>
