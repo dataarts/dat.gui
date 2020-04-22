@@ -185,13 +185,14 @@ is a `<select>` dropdown.
 | --- | --- | --- |
 | object | <code>Object</code> | The object to be manipulated |
 | property | <code>String</code> | The name of the property to be manipulated |
-| values | <code>Array</code> | Array of possible options' values |
+| values | <code>Array|Object</code> | Array or Dictionary of possible options' values |
 
 **Example**  
 ```js
 // Add a dropdown controller.
 var person = {name: 'Sam'};
-gui.add(person, 'name', ['Sam', 'Alex', 'Riley']);
+gui.add(person, 'name', ['Sam', 'Alex', 'Ray']);
+gui.add(person, 'name', {'Sam': 'Sammy', 'Alex': 'Alexis', 'Ray': 'Riley']);
 ```
 <a name="GUI+addColor"></a>
 
