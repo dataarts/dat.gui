@@ -192,7 +192,7 @@ is a `<select>` dropdown.
 // Add a dropdown controller.
 var person = {name: 'Sam'};
 gui.add(person, 'name', ['Sam', 'Alex', 'Ray']);
-gui.add(person, 'name', {'Sam': 'Sammy', 'Alex': 'Alexis', 'Ray': 'Riley']);
+gui.add(person, 'name', {'Sam': 'Sammy', 'Alex': 'Alexis', 'Ray': 'Riley'});
 ```
 <a name="GUI+addColor"></a>
 
