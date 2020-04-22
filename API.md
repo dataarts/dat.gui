@@ -41,6 +41,7 @@ manipulate variables and fire functions on the fly.
     * [.load](#GUI+load) : <code>Object</code>
     * [.useLocalStorage](#GUI+useLocalStorage) : <code>Boolean</code>
     * [.add(object, property, [min], [max], [step])](#GUI+add) ⇒ [<code>Controller</code>](#Controller)
+    * [.add(object, property, values)](#GUI+add2) ⇒ [<code>Controller</code>](#Controller)
     * [.addColor(object, property)](#GUI+addColor) ⇒ [<code>Controller</code>](#Controller)
     * [.remove(controller)](#GUI+remove)
     * [.destroy()](#GUI+destroy)
@@ -170,6 +171,27 @@ gui.add(person, 'name');
 // Add a number controller slider.
 var person = {age: 45};
 gui.add(person, 'age', 0, 100);
+```
+<a name="GUI+addColor2"></a>
+
+### gui.add(object, property, values) ⇒ [<code>Controller</code>](#Controller)
+Adds a new [Controller](#Controller) to the GUI. The type of controller created
+is a `<select>` dropdown.
+
+**Kind**: instance method of [<code>GUI</code>](#GUI)  
+**Returns**: [<code>Controller</code>](#Controller) - The controller that was added to the GUI.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| object | <code>Object</code> | The object to be manipulated |
+| property | <code>String</code> | The name of the property to be manipulated |
+| values | <code>Array</code> | Array of possible options' values |
+
+**Example**  
+```js
+// Add a dropdown controller.
+var person = {name: 'Sam'};
+gui.add(person, 'name', ['Sam', 'Alex', 'Riley']);
 ```
 <a name="GUI+addColor"></a>
 
