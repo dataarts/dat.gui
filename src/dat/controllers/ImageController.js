@@ -29,6 +29,8 @@ class ImageController extends Controller {
   constructor(object, property) {
     super(object, property);
 
+    this.__onChangeFirstTime = true;
+
     this.__fileReader = new FileReader();
 
     const _this = this;
@@ -62,7 +64,8 @@ class ImageController extends Controller {
       _this.__imagePreview.src = _this.__image.src;
 
       if (_this.__onChange) {
-        _this.__onChange.call(_this, _this.__image);
+        _this.__onChange.call(_this, _this.__image, _this.__onChangeFirstTime);
+        _this.__onChangeFirstTime = false;
       }
     }
 
@@ -71,6 +74,7 @@ class ImageController extends Controller {
       if (!file) {
         return;
       }
+      _this.__input.value = '';
       _this.__fileReader.readAsDataURL(file);
     }
 
