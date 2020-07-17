@@ -1,17 +1,8 @@
-test page
-http://localhost/threejs/nodejs/colorpicker/Example/index.html
-http://localhost/threejs/nodejs/colorpicker/Example/modular.html
-https://raw.githack.com/anhr/ColorPicker/master/Example/index.html
-https://raw.githack.com/anhr/ColorPicker/master/Example/modular.html
--------------------------------------------
-JSDoc 3 is an API documentation generator for JavaScript
-https://jsdoc.app/
---------------------------------
-Building colorpicker
+Building dat.gui\CustomController
 
 Open "Node.js command prompt"
 
 d:
-cd "D:\My documents\MyProjects\webgl\three.js\GitHub\nodejs\colorpicker"
+cd "D:\My documents\MyProjects\webgl\three.js\GitHub\dat.gui\CustomController"
 npm install
 npm run build
