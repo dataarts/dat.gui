@@ -1,6 +1,6 @@
 {
-  "name": "dat.gui",
-  "version": "0.7.7",
+  "name": "dat.gui.midi",
+  "version": "0.7.8",
   "description": "A lightweight graphical user interface for changing variables in JavaScript.",
   "main": "build/dat.gui.js",
   "module": "build/dat.gui.module.js",
@@ -20,7 +20,7 @@
     "type": "git",
     "url": "git+https://github.com/dataarts/dat.gui.git"
   },
-  "author": "Data Arts Team, Google",
+  "author": "Data Arts Team, Google / Azad Ratzki",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/dataarts/dat.gui/issues"
