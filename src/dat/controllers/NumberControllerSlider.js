@@ -35,14 +35,23 @@ function map(v, i1, i2, o1, o2) {
  * @param {Number} stepValue Increment by which to change value
  */
 class NumberControllerSlider extends NumberController {
-  constructor(object, property, min, max, step) {
+  constructor(object, property, min, max, step, disableMidi) {
     super(object, property, { min: min, max: max, step: step });
 
     const _this = this;
 
     this.__background = document.createElement('div');
     this.__foreground = document.createElement('div');
-
+    if (!disableMidi) {
+      this.__midiButton = document.createElement('div');
+      this.__midiButton.style.display = 'none';
+      dom.bind(this.__midiButton, 'mousedown', onMidiButtonClick);
+      dom.bind(this.__midiButton, 'touchstart', onMidiButtonClick);
+      this.__midiButton.innerText = '🎵';
+      dom.addClass(this.__midiButton, 'slider-midi');
+      setMidiDomState();
+      detectMidi();
+    }
     dom.bind(this.__background, 'mousedown', onMouseDown);
     dom.bind(this.__background, 'touchstart', onTouchStart);
 
@@ -102,11 +111,112 @@ class NumberControllerSlider extends NumberController {
       }
     }
 
+    function onMidiButtonClick() {
+      if (_this.__activeMidiInput || _this.__midiBindState === 'binding') {
+        unbindMidi();
+      } else {
+        bindMidi();
+      }
+    }
+
+
+    function onMidiMessage(e) {
+      if (!_this.__activeMidiInput) {
+        clearTimeout(_this.__cancelMidiTimer);
+        _this.__activeMidiInput = e.currentTarget;
+        _this.__midiControlId = e.data[1];
+        _this.__midiInputs.forEach(function (input) {
+          if (input.id !== e.currentTarget.id) {
+            input.removeEventListener('midimessage', onMidiMessage);
+          }
+        });
+        setMidiDomState('bound');
+      }
+      if (e.data[1] === _this.__midiControlId) {
+        _this.setValue(
+          map(e.data[2], 0, 127, _this.__min, _this.__max)
+        );
+      }
+    }
+
+    function setMidiDomState(state) {
+      dom.removeClass(_this.__midiButton, 'bound');
+      dom.removeClass(_this.__midiButton, 'binding');
+      if (state) {
+        _this.__midiBindState = state;
+        dom.addClass(_this.__midiButton, state);
+        if (state === 'binding') {
+          _this.__midiButton.setAttribute('title', 'Cancel Midi Control: Click to cancel midi binding.');
+        } else {
+          _this.__midiButton.setAttribute('title', 'Disable Midi Control: Click to unbind.');
+        }
+      } else {
+        _this.__midiBindState = 'unbound';
+        _this.__midiButton.setAttribute('title', 'Enable Midi Control: Click then manipulate your device to bind.');
+      }
+    }
+
+    function detectMidi() {
+      hasMidiDevices().then(function (hasMidi) {
+        if (hasMidi) {
+          _this.__midiButton.style.display = 'block';
+        }
+      });
+    }
+
+    function hasMidiDevices() {
+      return new Promise(function (resolve) {
+        if (navigator && navigator.requestMIDIAccess) {
+          const promise = navigator.requestMIDIAccess();
+          if (promise) {
+            promise
+              .then(function (access) {
+                resolve(access && access.inputs && access.inputs.size);
+              })
+              .catch(function () {
+                resolve(false);
+              });
+          }
+        } else {
+          resolve(false);
+        }
+      });
+    }
+
+    function bindMidi() {
+      setMidiDomState('binding');
+      navigator.requestMIDIAccess()
+        .then(function (access) {
+          const inputs = Array.from(access.inputs.values());
+          _this.__midiInputs = inputs;
+          for (let i = 0; i < inputs.length; i++) {
+            const input = inputs[i];
+            input.addEventListener('midimessage', onMidiMessage);
+          }
+        });
+      _this.__cancelMidiTimer = setTimeout(function () {
+        unbindMidi();
+      }, 15000);
+    }
+
+    function unbindMidi() {
+      _this.__activeMidiInput = undefined;
+      clearTimeout(_this.__cancelMidiTimer);
+      setMidiDomState();
+      if (_this.__midiInputs) {
+        _this.__midiInputs.forEach(function (input) {
+          input.removeEventListener('midimessage', onMidiMessage);
+        });
+      }
+    }
+
     this.updateDisplay();
 
     this.__background.appendChild(this.__foreground);
+    this.domElement.appendChild(this.__midiButton);
     this.domElement.appendChild(this.__background);
   }
+
 
   updateDisplay() {
     const pct = (this.getValue() - this.__min) / (this.__max - this.__min);
