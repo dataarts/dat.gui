@@ -1,9 +1,18 @@
-# dat.GUI
+# dat.GUI.midi
 A lightweight graphical user interface for changing variables in JavaScript. 
 
 Get started with dat.GUI by reading the [tutorial](http://workshop.chromeexperiments.com/examples/gui)
 or the [API documentation](API.md).
 
+# Specific to dat.GUI.midi vs dat.GUI
+- Adds support midi controllers to number sliders/ranges.
+- Detects whether midi inputs are available/present.
+- If present, adds a 🎵 icon button next to the slider that, when clicked, will allow you to bind the slider to their midi device by simply manipulating a control on the device.
+- Multiple sliders can be bound to the same device & control.
+- Slider can be unbound from midi device by clicking 🎵 icon button again.
+
+# Why does dat.GUI.midi exist?
+Initially this was simply fork of dat.GUI intended to contribute this functionality. After looking at dat.GUI's backlog of pull requests it seemed that these changes may never get reviewed or approved. This library serves as means to expose that functionality until then.
 
 
 ## Packaged Builds
