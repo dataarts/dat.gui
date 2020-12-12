@@ -18,14 +18,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dataarts/dat.gui.git"
+    "url": "git+https://github.com/taicho/dat.gui.midi.git"
   },
   "author": "Data Arts Team, Google / Azad Ratzki",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/dataarts/dat.gui/issues"
+    "url": "https://github.com/taicho/dat.gui.midi/issues"
   },
-  "homepage": "https://github.com/dataarts/dat.gui#readme",
+  "homepage": "https://github.com/taicho/dat.gui.midi#readme",
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-plugin-external-helpers": "^6.22.0",
