@@ -688,6 +688,7 @@ common.extend(
     * Hides the GUI.
     */
     hide: function() {
+      hide = true;
       this.domElement.style.display = 'none';
     },
 
@@ -695,6 +696,7 @@ common.extend(
     * Shows the GUI.
     */
     show: function() {
+      hide = false;
       this.domElement.style.display = '';
     },
 
