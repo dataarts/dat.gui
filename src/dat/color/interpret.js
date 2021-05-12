@@ -58,7 +58,7 @@ const INTERPRETATIONS = [
 
       CSS_RGB: {
         read: function(original) {
-          const test = original.match(/^rgb\(\s*(.+)\s*,\s*(.+)\s*,\s*(.+)\s*\)/);
+          const test = original.match(/^rgb\(\s*(\S+)\s*,\s*(\S+)\s*,\s*(\S+)\s*\)/);
           if (test === null) {
             return false;
           }
@@ -76,7 +76,7 @@ const INTERPRETATIONS = [
 
       CSS_RGBA: {
         read: function(original) {
-          const test = original.match(/^rgba\(\s*(.+)\s*,\s*(.+)\s*,\s*(.+)\s*,\s*(.+)\s*\)/);
+          const test = original.match(/^rgba\(\s*(\S+)\s*,\s*(\S+)\s*,\s*(\S+)\s*,\s*(\S+)\s*\)/);
           if (test === null) {
             return false;
           }
