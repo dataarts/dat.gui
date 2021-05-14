@@ -42,6 +42,7 @@ manipulate variables and fire functions on the fly.
     * [.useLocalStorage](#GUI+useLocalStorage) : <code>Boolean</code>
     * [.add(object, property, [min], [max], [step])](#GUI+add) ⇒ [<code>Controller</code>](#Controller)
     * [.addColor(object, property)](#GUI+addColor) ⇒ [<code>Controller</code>](#Controller)
+    * [.addImage(object, property)](#GUI+addImage) ⇒ [<code>Controller</code>](#Controller)
     * [.remove(controller)](#GUI+remove)
     * [.destroy()](#GUI+destroy)
     * [.addFolder(name)](#GUI+addFolder) ⇒ <code>dat.gui.GUI</code>
@@ -197,6 +198,24 @@ gui.addColor(palette, 'color2');
 gui.addColor(palette, 'color3');
 gui.addColor(palette, 'color4');
 ```
+<a name="GUI+addImage"></a>
+
+### gui.addImage(object, property) ⇒ [<code>Controller</code>](#Controller)
+Adds an image controller to the GUI.
+
+**Kind**: instance method of [<code>GUI</code>](#GUI)  
+**Returns**: [<code>Controller</code>](#Controller) - The controller that was added to the GUI.  
+
+| Param |
+| --- |
+| object | 
+| property | 
+
+**Example**  
+```js
+var images = { path1: 'myImage.png'};
+gui.addImage(images, 'path1');
+```
 <a name="GUI+remove"></a>
 
 ### gui.remove(controller)
@@ -299,7 +318,7 @@ An "abstract" class that represents a given property of an object.
     * [.setValue(newValue)](#Controller+setValue)
     * [.getValue()](#Controller+getValue) ⇒ <code>Object</code>
     * [.updateDisplay()](#Controller+updateDisplay) ⇒ [<code>Controller</code>](#Controller)
-    * [.isModified()](#Controller+isModified) ⇒ <code>Boolean</code>
+    * [.isModified()](#Controller+isModified) ⇒ <code>boolean</code>
 
 <a name="new_Controller_new"></a>
 
@@ -415,9 +434,9 @@ with the object's current value.
 **Returns**: [<code>Controller</code>](#Controller) - this  
 <a name="Controller+isModified"></a>
 
-### controller.isModified() ⇒ <code>Boolean</code>
+### controller.isModified() ⇒ <code>boolean</code>
 **Kind**: instance method of [<code>Controller</code>](#Controller)  
-**Returns**: <code>Boolean</code> - true if the value has deviated from initialValue  
+**Returns**: <code>boolean</code> - true if the value has deviated from initialValue  
 <a name="NumberController"></a>
 
 ## NumberController ⇐ <code>dat.controllers.Controller</code>
