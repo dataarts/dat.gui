@@ -58,6 +58,11 @@
     var f3 = f2.addFolder('Nested Folder');
     f3.add(obj, 'growthSpeed');
 
+    obj['Button with a long description'] = function () {
+      console.log('Button with a long description pressed');
+    };
+    gui.add(obj, 'Button with a long description');
+
   </script>
 </body>
 </html>
