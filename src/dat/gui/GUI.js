@@ -1132,23 +1132,30 @@ function recallSavedValue(gui, controller) {
 }
 
 function add(gui, object, property, params) {
-  if (object[property] === undefined) {
-    throw new Error(`Object "${object}" has no property "${property}"`);
-  }
-
   let controller;
+  
+  if (object instanceof Controller) {
+    controller = object;
+    params = property || { };
+  }  else {
 
-  if (params.color) {
-    controller = new ColorController(object, property);
-  } else {
-    const factoryArgs = [object, property].concat(params.factoryArgs);
-    controller = ControllerFactory.apply(gui, factoryArgs);
+    if (object[property] === undefined) {
+      throw new Error(`Object "${object}" has no property "${property}"`);
+    }
+
+    if (params.color) {
+      controller = new ColorController(object, property);
+    } else {
+      const factoryArgs = [object, property].concat(params.factoryArgs);
+      controller = ControllerFactory.apply(gui, factoryArgs);
+    }
+
   }
 
   if (params.before instanceof Controller) {
     params.before = params.before.__li;
   }
-
+  
   recallSavedValue(gui, controller);
 
   dom.addClass(controller.domElement, 'c');
@@ -1166,6 +1173,10 @@ function add(gui, object, property, params) {
   dom.addClass(li, GUI.CLASS_CONTROLLER_ROW);
   if (controller instanceof ColorController) {
     dom.addClass(li, 'color');
+  } else if ( params.liClass ) {
+    dom.addClass(li, params.liClass);
+  } else if ( controller.liClass ) {
+    dom.addClass(li, controller.liClass);
   } else {
     dom.addClass(li, typeof controller.getValue());
   }
