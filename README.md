@@ -1,5 +1,5 @@
 # dat.GUI
-A lightweight graphical user interface for changing variables in JavaScript. 
+A lightweight graphical user interface for changing variables in JavaScript.
 
 Get started with dat.GUI by reading the [API documentation](API.md).
 
@@ -56,7 +56,7 @@ $ npm run build
 If you're using a server with a Content Security Policy in place that blocks 'unsafe-inline', you will have problems when dat.gui.js tries to inject style information. To get around this, load 'build/dat.gui.css' as an external style sheet.
 
 ## Changes
-View the [Change Log](CHANGELOG.md)
+View the [Change Log](https://github.com/dataarts/dat.gui)
 
 ## Thanks
 The following libraries / open-source projects were used in the development of dat.GUI:
