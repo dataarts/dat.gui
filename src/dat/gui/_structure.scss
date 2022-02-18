@@ -172,6 +172,11 @@ $button-height: 20px;
     text-overflow: ellipsis;
   }
 
+  /** Function controllers can use the entire width */
+  .cr.function .property-name {
+    width: 100%;
+  }
+
   /** Controller-half (right) */
   .c {
     float: left;
