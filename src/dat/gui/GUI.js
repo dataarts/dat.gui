@@ -766,7 +766,8 @@ common.extend(
       });
 
       if (this.autoPlace) {
-        // Set save row width
+        // Set save row width and increase to accomodate buttons
+        this.width += 40;
         setWidth(this, this.width);
       }
     },
@@ -856,6 +857,17 @@ common.extend(
       if (!gui) {
         markPresetModified(this.getRoot(), false);
       }
+    },
+
+    deleteSave: function() {
+      // Not allowed to remove Default preset
+      if (this.preset === DEFAULT_DEFAULT_PRESET_NAME || !confirm(`Delete preset "${this.preset}". Are you sure?`)) {
+        return;
+      }
+
+      delete this.load.remembered[this.preset];
+      this.preset = removeCurrentPresetOption(this);
+      this.saveToLocalStorageIfPossible();
     },
 
     listen: function(controller) {
@@ -1192,6 +1204,11 @@ function addPresetOption(gui, name, setSelected) {
   }
 }
 
+function removeCurrentPresetOption(gui) {
+  gui.__preset_select.removeChild(gui.__preset_select.options[gui.__preset_select.selectedIndex]);
+  return gui.__preset_select.options[gui.__preset_select.selectedIndex].value;
+}
+
 function showHideExplain(gui, explain) {
   explain.style.display = gui.useLocalStorage ? 'block' : 'none';
 }
@@ -1225,6 +1242,11 @@ function addSaveMenu(gui) {
   dom.addClass(button3, 'button');
   dom.addClass(button3, 'revert');
 
+  const button4 = document.createElement('span');
+  button4.innerHTML = 'Delete';
+  dom.addClass(button4, 'button');
+  dom.addClass(button4, 'delete');
+
   const select = gui.__preset_select = document.createElement('select');
 
   if (gui.load && gui.load.remembered) {
@@ -1248,6 +1270,7 @@ function addSaveMenu(gui) {
   div.appendChild(button);
   div.appendChild(button2);
   div.appendChild(button3);
+  div.appendChild(button4);
 
   if (SUPPORTS_LOCAL_STORAGE) {
     const explain = document.getElementById('dg-local-explain');
@@ -1297,6 +1320,10 @@ function addSaveMenu(gui) {
 
   dom.bind(button3, 'click', function() {
     gui.revert();
+  });
+
+  dom.bind(button4, 'click', function() {
+    gui.deleteSave();
   });
 
   // div.appendChild(button2);
