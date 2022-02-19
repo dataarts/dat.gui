@@ -65,7 +65,8 @@ const Common = {
       return;
     }
 
-    if (ARR_EACH && obj.forEach && obj.forEach === ARR_EACH) {
+    //if (ARR_EACH && obj.forEach && obj.forEach === ARR_EACH) {
+    if (obj.forEach) {
       obj.forEach(itr, scope);
     } else if (obj.length === obj.length + 0) { // Is number but not NaN
       let key;
@@ -128,8 +129,10 @@ const Common = {
     return isNaN(obj);
   },
 
-  isArray: Array.isArray || function(obj) {
-    return obj.constructor === Array;
+  //isArray: Array.isArray || function(obj) {
+  isArray: function(obj) {
+    //return obj.constructor === Array;
+    return obj != void 0 && obj.length >= 0 && typeof obj === 'object';
   },
 
   isObject: function(obj) {
