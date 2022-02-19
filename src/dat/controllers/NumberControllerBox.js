@@ -108,7 +108,7 @@ class NumberControllerBox extends NumberController {
   }
 
   updateDisplay() {
-    this.__input.value = this.__truncationSuspended ? this.getValue() : roundToDecimal(this.getValue(), this.__precision);
+    this.__input.value = this.__truncationSuspended || this.__step === 0 ? this.getValue() : roundToDecimal(this.getValue(), this.__precision);
     return super.updateDisplay();
   }
 }
