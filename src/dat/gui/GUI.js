@@ -1061,7 +1061,7 @@ function augmentController(gui, li, controller) {
   } else if (controller instanceof ColorController) {
     dom.addClass(li, 'color');
     controller.updateDisplay = common.compose(function(val) {
-      li.style.borderLeftColor = controller.__color.toString();
+      li.style.borderLeftColor = controller.__color.toHexString();
       return val;
     }, controller.updateDisplay);
 
