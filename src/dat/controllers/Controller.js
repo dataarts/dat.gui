@@ -17,6 +17,7 @@
  * @param {Object} object The object to be manipulated
  * @param {string} property The name of the property to be manipulated
  */
+
 class Controller {
   constructor(object, property) {
     this.initialValue = object[property];
@@ -92,7 +93,7 @@ class Controller {
       this.__onChange.call(this, newValue);
     }
 
-    this.updateDisplay();
+    this.updateDisplay(true);
     return this;
   }
 
@@ -110,7 +111,7 @@ class Controller {
    * with the object's current value.
    * @returns {Controller} this
    */
-  updateDisplay() {
+  updateDisplay(force) {
     return this;
   }
 
