@@ -185,7 +185,7 @@ $button-height: 20px;
   }
 
   /** Controller placement */
-  .c input[type=text] {
+  .c input[type=text], .c canvas {
     border: 0;
     margin-top: 4px;
     padding: 3px;
@@ -198,6 +198,12 @@ $button-height: 20px;
     width: 30%;
     /*display: none;*/
     margin-left: 0;
+  }
+
+  /** Reduce margin and set height for plotter */
+  .c canvas {
+    padding: 0;
+    height: 53px;
   }
 
   .slider {
