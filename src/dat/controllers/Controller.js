@@ -52,6 +52,12 @@ class Controller {
      * @ignore
      */
     this.__onFinishChange = undefined;
+
+    /**
+    * Whether to force update a display, even when input is active.
+    * @type boolean
+    */
+    this.forceUpdateDisplay = false;
   }
 
   /**
