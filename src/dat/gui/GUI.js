@@ -1133,7 +1133,7 @@ function recallSavedValue(gui, controller) {
 
 function add(gui, object, property, params) {
   if (object[property] === undefined) {
-    throw new Error(`Object "${object}" has no property "${property}"`);
+    throw new Error(`Object "${JSON.stringify(object)}" has no property "${property}"`);
   }
 
   let controller;
