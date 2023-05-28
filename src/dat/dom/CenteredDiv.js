@@ -41,7 +41,6 @@ class CenteredDiv {
       transition: 'transform 0.2s ease-out, opacity 0.2s linear'
     });
 
-
     document.body.appendChild(this.backgroundElement);
     document.body.appendChild(this.domElement);
 

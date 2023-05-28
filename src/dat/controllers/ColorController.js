@@ -241,7 +241,6 @@ class ColorController extends Controller {
 
       _this.setValue(_this.__color.toOriginal());
 
-
       return false;
     }
 

@@ -179,7 +179,8 @@ const GUI = function(pars) {
   let saveToLocalStorage;
   let titleRow;
 
-  Object.defineProperties(this,
+  Object.defineProperties(
+    this,
     /** @lends GUI.prototype */
     {
       /**
@@ -332,7 +333,8 @@ const GUI = function(pars) {
           }
         }
       }
-    });
+    }
+  );
 
   // Are we a root level GUI?
   if (common.isUndefined(params.parent)) {
@@ -411,7 +413,6 @@ const GUI = function(pars) {
       // Apply the auto styles
       dom.addClass(this.domElement, GUI.CLASS_AUTO_PLACE);
     }
-
 
     // Make it not elastic.
     if (!this.parent) {
@@ -697,7 +698,6 @@ common.extend(
     show: function() {
       this.domElement.style.display = '';
     },
-
 
     onResize: function() {
       // we debounce this function to prevent performance issues when rotating on tablet/mobile
@@ -991,8 +991,11 @@ function augmentController(gui, li, controller) {
 
   // All sliders should be accompanied by a box.
   if (controller instanceof NumberControllerSlider) {
-    const box = new NumberControllerBox(controller.object, controller.property,
-      { min: controller.__min, max: controller.__max, step: controller.__step });
+    const box = new NumberControllerBox(
+      controller.object,
+      controller.property,
+      { min: controller.__min, max: controller.__max, step: controller.__step }
+    );
 
     common.each(['updateDisplay', 'onChange', 'onFinishChange', 'step', 'min', 'max'], function(method) {
       const pc = controller[method];

@@ -13,8 +13,12 @@
 
 import fs from 'fs';
 import path from 'path';
-import defaultConfig from './rollup.config';
-import uglify from 'rollup-plugin-uglify';
+import defaultConfig from './rollup.config.mjs';
+import terser from '@rollup/plugin-terser';
+import {fileURLToPath} from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const banner = fs.readFileSync(path.join(__dirname, 'licenseBanner.txt'));
 
@@ -27,12 +31,12 @@ export default Object.assign({}, defaultConfig, {
     name: 'dat',
     banner: banner
   },
-  plugins: [...defaultConfig.plugins, uglify({
+  plugins: [...defaultConfig.plugins, terser({
     output: {
       // Preserve license commenting in minified build.
       comments: function(node, comment) {
         return comment.type === 'comment2';
       }
-    }
+    }  
   })]
 });
