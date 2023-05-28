@@ -16,7 +16,7 @@ import dom from '../dom/dom';
 import common from '../utils/common';
 
 function roundToDecimal(value, decimals) {
-  const tenTo = Math.pow(10, decimals);
+  const tenTo = 10 ** decimals;
   return Math.round(value * tenTo) / tenTo;
 }
 

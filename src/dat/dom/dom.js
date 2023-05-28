@@ -116,13 +116,23 @@ const dom = {
       {
         const clientX = params.x || params.clientX || 0;
         const clientY = params.y || params.clientY || 0;
-        evt.initMouseEvent(eventType, params.bubbles || false,
-          params.cancelable || true, window, params.clickCount || 1,
+        evt.initMouseEvent(
+          eventType,
+          params.bubbles || false,
+          params.cancelable || true,
+          window,
+          params.clickCount || 1,
           0, // screen X
           0, // screen Y
           clientX, // client X
           clientY, // client Y
-          false, false, false, false, 0, null);
+          false,
+          false,
+          false,
+          false,
+          0,
+          null
+        );
         break;
       }
       case 'KeyboardEvents':
@@ -137,11 +147,18 @@ const dom = {
           keyCode: undefined,
           charCode: undefined
         });
-        init(eventType, params.bubbles || false,
-          params.cancelable, window,
-          params.ctrlKey, params.altKey,
-          params.shiftKey, params.metaKey,
-          params.keyCode, params.charCode);
+        init(
+          eventType,
+          params.bubbles || false,
+          params.cancelable,
+          window,
+          params.ctrlKey,
+          params.altKey,
+          params.shiftKey,
+          params.metaKey,
+          params.keyCode,
+          params.charCode
+        );
         break;
       }
       default:

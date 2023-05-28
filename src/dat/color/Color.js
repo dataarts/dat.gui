@@ -86,7 +86,6 @@ function defineHSVComponent(target, component) {
   });
 }
 
-
 Color.recalculateRGB = function(color, component, componentHexIndex) {
   if (color.__state.space === 'HEX') {
     color.__state[component] = math.component_from_hex(color.__state.hex, componentHexIndex);
@@ -100,11 +99,13 @@ Color.recalculateRGB = function(color, component, componentHexIndex) {
 Color.recalculateHSV = function(color) {
   const result = math.rgb_to_hsv(color.r, color.g, color.b);
 
-  common.extend(color.__state,
+  common.extend(
+    color.__state,
     {
       s: result.s,
       v: result.v
-    });
+    }
+  );
 
   if (!common.isNaN(result.h)) {
     color.__state.h = result.h;
