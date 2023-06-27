@@ -27,7 +27,7 @@ import common from '../utils/common';
 
 import styleSheet from './style.scss'; // CSS to embed in build
 
-css.inject(styleSheet);
+// css.inject(styleSheet);
 
 /** @ignore Outer-most className for GUI's */
 const CSS_NAMESPACE = 'dg';
