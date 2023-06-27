@@ -44,7 +44,7 @@ export default {
     sass({
       insert: true,
       output: 'build/dat.gui.css',
-      options: {outputStyle: 'compressed'}
+      options: { outputStyle: 'compressed' }
     }),
     babel({
       plugins: ['external-helpers'],
