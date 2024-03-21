@@ -19,6 +19,10 @@ In your `head` tag, include the following code:
 $ npm install --save dat.gui
 ```
 
+```bash
+$ npm install --save-dev @types/dat.gui
+```
+
 ```js
 // CommonJS:
 const dat = require('dat.gui');
