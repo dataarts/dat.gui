@@ -38,7 +38,7 @@
     "extend": "^3.0.2",
     "jsdoc-to-markdown": "^5.0.3",
     "replace-between": "0.0.8",
-    "rollup": "^0.54.1",
+    "rollup": "^4.24.0",
     "rollup-plugin-babel": "^3.0.4",
     "rollup-plugin-cleanup": "^3.1.1",
     "rollup-plugin-node-resolve": "^3.3.0",
