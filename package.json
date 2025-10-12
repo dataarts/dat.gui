@@ -1,11 +1,14 @@
 {
   "name": "dat.gui",
-  "version": "0.7.9",
+  "version": "0.8.0",
   "description": "A lightweight graphical user interface for changing variables in JavaScript.",
   "main": "build/dat.gui.js",
   "module": "build/dat.gui.module.js",
   "directories": {
     "test": "tests"
+  },
+  "engines": {
+    "node": ">=15"
   },
   "scripts": {
     "dev": "concurrently --names \"ROLLUP,HTTP\" -c \"bgBlue.bold,bgGreen.bold\" \"rollup -c -w -m inline\" \"serve --listen 8080\"",

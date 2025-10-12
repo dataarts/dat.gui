@@ -1,9 +1,9 @@
+⚠️ dat.GUI is no longer maintained. For new projects, consider [lil-gui](https://github.com/georgealways/lil-gui).
+
 # dat.GUI
 A lightweight graphical user interface for changing variables in JavaScript.
 
 Get started with dat.GUI by reading the [API documentation](API.md).
-
-
 
 ## Packaged Builds
 The easiest way to use dat.GUI in your code is by using the built source at `build/dat.gui.min.js`. These built JavaScript files bundle all the necessary dependencies to run dat.GUI.
