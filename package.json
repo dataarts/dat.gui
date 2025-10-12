@@ -7,6 +7,9 @@
   "directories": {
     "test": "tests"
   },
+  "engines": {
+    "node": ">=15"
+  },
   "scripts": {
     "dev": "concurrently --names \"ROLLUP,HTTP\" -c \"bgBlue.bold,bgGreen.bold\" \"rollup -c -w -m inline\" \"serve --listen 8080\"",
     "build": "rollup -c && rollup -c rollup.config.min.js",
