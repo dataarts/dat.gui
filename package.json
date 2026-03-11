@@ -42,9 +42,9 @@
     "rollup-plugin-babel": "^3.0.4",
     "rollup-plugin-cleanup": "^3.1.1",
     "rollup-plugin-node-resolve": "^3.3.0",
-    "rollup-plugin-sass": "^0.6.1",
+    "rollup-plugin-sass": "^1.15.3",
     "rollup-plugin-uglify": "^2.0.1",
-    "serve": "^11.3.0"
+    "serve": "^14.2.6"
   },
   "eslintConfig": {
     "extends": "airbnb-base",
