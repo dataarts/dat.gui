@@ -73,6 +73,14 @@ class NumberControllerSlider extends NumberController {
     function onMouseUp() {
       dom.unbind(window, 'mousemove', onMouseDrag);
       dom.unbind(window, 'mouseup', onMouseUp);
+      finishChange();
+    }
+
+    function finishChange() {
+      const value = _this.getValue();
+      if (value < _this.__min || value > _this.__max) {
+        _this.setValue(value);
+      }
       if (_this.__onFinishChange) {
         _this.__onFinishChange.call(_this, _this.getValue());
       }
@@ -97,9 +105,7 @@ class NumberControllerSlider extends NumberController {
     function onTouchEnd() {
       dom.unbind(window, 'touchmove', onTouchMove);
       dom.unbind(window, 'touchend', onTouchEnd);
-      if (_this.__onFinishChange) {
-        _this.__onFinishChange.call(_this, _this.getValue());
-      }
+      finishChange();
     }
 
     this.updateDisplay();

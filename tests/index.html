@@ -1433,6 +1433,40 @@ console.log(c2.__checkbox.getAttribute('checked'));
     }
 
 
+    module("NumberControllerSlider changing bounds");
+
+    ["mouse", "touch"].forEach(function(type) {
+      [
+        { name: "maximum", point: 80, min: 0, max: 60, step: 1, expected: 60 },
+        { name: "minimum", point: 20, min: 40, max: 100, step: 1, expected: 40 },
+        { name: "step endpoint", point: 84, min: 0, max: 60, step: 7, expected: 60 },
+        { name: "valid value", point: 80, min: 40, max: 100, step: 1, expected: 80 }
+      ].forEach(function(scenario) {
+        test(type + " release uses changed " + scenario.name, function() {
+          var object = { value: 50 };
+          var controller = new NumberControllerSlider(object, "value", 0, 100, scenario.step);
+          var calls = [];
+          controller.onFinishChange(function(value) { calls.push(value); });
+          document.getElementById("qunit-fixture").appendChild(controller.domElement);
+          controller.__background.getBoundingClientRect = function() {
+            return { left: 0, right: 100, top: 0, bottom: 20, width: 100, height: 20 };
+          };
+          function dispatch(target, name) {
+            var event = document.createEvent("Event");
+            event.initEvent(name, true, true);
+            event.clientX = scenario.point;
+            event.touches = [{ clientX: scenario.point }];
+            target.dispatchEvent(event);
+          }
+          dispatch(controller.__background, type === "mouse" ? "mousedown" : "touchstart");
+          controller.min(scenario.min).max(scenario.max).updateDisplay();
+          dispatch(window, type === "mouse" ? "mouseup" : "touchend");
+          deepEqual(calls, [scenario.expected], "finish callback respects current bounds");
+          strictEqual(object.value, scenario.expected, "model agrees with the callback");
+        });
+      });
+    });
+
 });
 </script>
 
